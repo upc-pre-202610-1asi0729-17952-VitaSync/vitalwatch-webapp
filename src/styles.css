@@ -1,1 +1,43 @@
-/* You can add global styles to this file, and also import other style files */
+@import './material-theme.scss';
+
+:root {
+  --vw-primary: #506CF8;
+  --vw-primary-light: #65A8FB;
+  --vw-primary-medium: #3D93FF;
+  --vw-primary-dark: #1678F2;
+
+  --vw-black: #000000;
+  --vw-gray-light: #D9D9D9;
+  --vw-gray: #8A8585;
+  --vw-gray-dark: #4F555A;
+
+  --vw-background: #F3F3FD;
+  --vw-white: #FFFFFF;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: var(--vw-background);
+  color: var(--vw-black);
+}
+
+.container-with-spacing {
+  margin: 16px;
+}
+
+.page-container {
+  padding: 24px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.mat-spacer {
+  flex: 1 1 auto;
+}
