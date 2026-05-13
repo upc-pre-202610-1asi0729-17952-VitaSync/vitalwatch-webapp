@@ -1,0 +1,1 @@
+import"./chunk-2NFLSA4Y.js";var o=()=>import("./chunk-QTKZESHW.js").then(t=>t.Auth),a=[{path:"auth",loadComponent:o,title:"VitalWatch - IAM"},{path:"",redirectTo:"auth",pathMatch:"full"}];export{a as iamRoutes};

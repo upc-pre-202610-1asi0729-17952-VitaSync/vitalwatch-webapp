@@ -1,0 +1,286 @@
+{
+  "medicalStaff": {
+    "nav": {
+      "myStatus": "My status",
+      "myAlerts": "My alerts",
+      "myHistory": "My history",
+      "recovery": "Recovery",
+      "settings": "Settings"
+    },
+    "status": {
+      "title": "My current status",
+      "lastUpdate": "Last update: {{ minutes }} minutes ago",
+      "fatigueScore": "Fatigue score",
+      "sleepHours": "Sleep hours",
+      "heartRate": "Heart rate",
+      "physicalActivity": "Physical activity",
+      "shiftDuration": "Shift duration",
+      "recommendedSleep": "Recommended: 7-8h",
+      "normalRange": "Normal range: 60-100 bpm",
+      "stepsToday": "{{ steps }} steps today",
+      "dailyGoal": "Daily goal: 4000 steps",
+      "currentShift": "Current shift: 7:00 - 19:00",
+      "criticalLevel": "Critical level",
+      "urgentRest": "Urgent rest is recommended",
+      "myAlerts": "My alerts",
+      "extremeFatigue": "Extreme fatigue detected",
+      "extremeFatigueDescription": "Your fatigue score has exceeded the allowed threshold. It is recommended to take a break or request a shift rescheduling from the shift supervisor.",
+      "insufficientSleep": "Insufficient sleep recorded",
+      "insufficientSleepDescription": "3 hours of sleep have been recorded. The recommended amount is 7 to 8 hours. It is recommended to rest before continuing the shift to avoid negligence."
+    },
+    "alerts": {
+      "title": "My personal alerts",
+      "description": "These alerts are related to your health and fatigue status recorded by your wearable, as well as possible anomalies not directly related to fatigue.",
+      "total": "Total: {{ total }} alerts",
+      "unread": "Unread: {{ total }}",
+      "read": "Read: {{ total }}",
+      "all": "All",
+      "unreadFilter": "Unread",
+      "readFilter": "Read",
+      "markAllAsRead": "Mark all as read",
+      "requestRelief": "Request relief",
+      "veryCritical": "Very critical",
+      "critical": "Critical",
+      "informative": "Informative",
+      "extremeFatigueTitle": "Extreme fatigue detected",
+      "extremeFatigueDescription": "Your fatigue score has exceeded the allowed threshold. It is recommended to take a break or request a shift rescheduling from the shift supervisor.",
+      "insufficientSleepTitle": "Insufficient sleep recorded",
+      "insufficientSleepDescription": "3 hours of sleep have been recorded in the last 24 hours. The recommended amount is between 7 and 8 hours. Consider taking a break before continuing your shift.",
+      "highHeartRateTitle": "High heart rate",
+      "highHeartRateDescription": "105 bpm were recorded during your last shift. The normal range is between 60 and 100 bpm. This could be related to stress or elevated physical effort."
+    },
+    "history": {
+      "title": "My fatigue assessment history",
+      "description": "Monitor your fatigue level and review preventive recommendations based on your recorded assessments.",
+      "totalEvaluations": "Recorded assessments",
+      "averageFatigue": "Average fatigue",
+      "currentRiskLabel": "Current risk",
+      "dateRange": "Date range",
+      "to": "to",
+      "apply": "Apply",
+      "date": "Date",
+      "fatigueScore": "Fatigue score",
+      "risk": "Risk",
+      "high": "High",
+      "medium": "Medium",
+      "low": "Low",
+      "noRecords": "No assessments were found for that date range.",
+      "currentRiskTitle": "Current risk level",
+      "recommendationsTitle": "Recommendations",
+      "highRiskRecommendationTitle": "Preventive rest required",
+      "highRiskRecommendation": "A 45-minute break is recommended. Your fatigue level may affect motor precision and decision-making. Consider requesting relief if symptoms persist.",
+      "mediumRiskRecommendationTitle": "Monitoring recommended",
+      "mediumRiskRecommendation": "It is recommended to reduce physical workload and keep monitoring your indicators during the current shift.",
+      "lowRiskRecommendationTitle": "Stable condition",
+      "lowRiskRecommendation": "Your current condition is stable. Maintain proper hydration, active breaks and regular monitoring."
+    },
+    "recovery": {
+      "title": "Recovery and relief requests",
+      "description": "Request preventive relief if you feel your clinical capacity is compromised.",
+      "activeRecommendations": "Active recommendations",
+      "activeRecommendationsHint": "Preventive actions suggested according to your recent assessments.",
+      "highPriority": "High priority",
+      "recommendationTitle": "Preventive rest required",
+      "recommendationDescription": "A 45-minute break is recommended. Your fatigue level may affect motor precision and decision-making. Consider requesting relief if symptoms persist.",
+      "requestRelief": "Request relief",
+      "reason": "Reason",
+      "reasonPlaceholder": "Briefly describe the reason for your request",
+      "send": "Send",
+      "recentRequests": "Recent requests",
+      "pendingRequests": "Pending: {{ total }}",
+      "status": {
+        "pending": "Pending",
+        "accepted": "Accepted",
+        "rejected": "Rejected"
+      }
+    },
+    "settings": {
+      "title": "Settings",
+      "myProfile": "My profile",
+      "name": "Name",
+      "role": "Role",
+      "position": "Position",
+      "hospitalUnit": "Hospital unit",
+      "email": "Email",
+      "lastAccess": "Last access",
+      "language": "Language",
+      "spanish": "Spanish",
+      "english": "English",
+      "languageHelp": "The selected language will be applied to the fixed texts of the application.",
+      "changePassword": "Change password",
+      "logout": "Log out",
+      "passwordFeatureMessage": "The password change feature will be implemented soon."
+    }
+  },
+  "supervisor": {
+    "nav": {
+      "dashboard": "Main menu",
+      "riskStaff": "Staff at risk",
+      "alerts": "Alerts",
+      "anomalies": "Anomalies",
+      "settings": "Settings"
+    },
+    "dashboard": {
+      "title": "Hospital Main Dashboard",
+      "description": "Comprehensive supervision of clinical risk, operational metrics and administration.",
+      "averageFatigue": "Average staff fatigue level",
+      "activeAlerts": "Active alerts",
+      "staffAtRisk": "Staff at risk",
+      "veryCriticalAlerts": "Very critical: 2",
+      "criticalAlerts": "Critical: 1",
+      "infoAlerts": "Info: 3",
+      "fatigueCases": "Fatigue: 4",
+      "otherCases": "Others: 2",
+      "dailySummary": "Daily general summary",
+      "activeMonitoredStaff": "Active monitored staff: 37",
+      "highestLoadArea": "Highest load area: ICU",
+      "attendedAlerts": "Attended alerts: 3 of 8",
+      "recentAlerts": "Recent alerts",
+      "recentAlertA": "Person A. Elevated fatigue 2 min ago",
+      "recentAlertB": "Person B. Anomaly 12 min ago",
+      "recentAlertC": "Person C. Rest assigned 23 min ago",
+      "recentAlertD": "Person D. Elevated fatigue 1 hour ago"
+    },
+    "table": {
+      "name": "Name",
+      "area": "Area",
+      "riskType": "Risk type",
+      "fatigueLevel": "Fatigue level",
+      "status": "Status"
+    },
+    "common": {
+      "fatigue": "Fatigue",
+      "anomaly": "Anomaly",
+      "high": "High",
+      "regular": "Regular",
+      "pending": "Pending",
+      "inFollowUp": "In follow-up",
+      "lowLevel": "Low level",
+      "active": "Active",
+      "veryHigh": "Very high",
+      "moderate": "Moderate",
+      "low": "Low"
+    },
+    "riskStaff": {
+      "title": "Staff at risk",
+      "description": "View the staff with the highest clinical risk level and review their recent history.",
+      "staffList": "Staff list",
+      "search": "Search",
+      "searchPlaceholder": "Search by name, area or role",
+      "status": "Status",
+      "riskLevel": "Risk level",
+      "shiftTime": "Shift time",
+      "recentHistory": "Recent fatigue evaluation history",
+      "registerAction": "Register action",
+      "highRisk": "High risk",
+      "veryHighRisk": "Very high risk",
+      "moderateRisk": "Moderate risk",
+      "table": {
+        "date": "Date",
+        "fatigueScore": "Fatigue score",
+        "riskLevel": "Risk level"
+      }
+    },
+    "alerts": {
+      "title": "Alert center",
+      "total": "Total: {{ total }} alerts",
+      "veryCriticalTotal": "Very critical: {{ total }}",
+      "criticalTotal": "Critical: {{ total }}",
+      "informativeTotal": "Informative: {{ total }}",
+      "searchPlaceholder": "Search by name or area",
+      "export": "Export",
+      "today": "Today",
+      "registerAction": "Register action",
+      "filters": {
+        "all": "All",
+        "veryCritical": "Very critical",
+        "critical": "Critical",
+        "informative": "Informative"
+      },
+      "table": {
+        "alert": "Alerts",
+        "area": "Area",
+        "alertType": "Alert type",
+        "severity": "Severity",
+        "time": "Time",
+        "status": "Status",
+        "actions": "Actions"
+      },
+      "types": {
+        "highFatigue": "High fatigue",
+        "anomaly": "Anomaly",
+        "restRequired": "Assign rest"
+      },
+      "severity": {
+        "veryCritical": "Very critical",
+        "critical": "Critical",
+        "informative": "Informative"
+      },
+      "status": {
+        "pending": "Pending",
+        "inFollowUp": "In follow-up"
+      }
+    },
+    "action": {
+      "title": "Register action",
+      "alert": "Alert",
+      "staff": "Staff",
+      "recommendation": "Recommendation",
+      "recommendationText": "Evaluate a relief assignment within the next 30 minutes",
+      "suggestedReplacement": "It is suggested to reassign the shift to Person B (ICU doctor)",
+      "anomalyRecommendation": "Review the biometric anomaly and keep clinical follow-up",
+      "monitoringSuggested": "It is suggested to register an observation and monitor the evolution during the shift",
+      "restRecommendation": "Apply preventive rest during the current shift",
+      "restSuggested": "It is suggested to assign a break and verify replacement availability",
+      "registerIntervention": "Register intervention",
+      "confirm": "Confirm"
+    },
+    "anomalies": {
+      "title": "Anomalies",
+      "description": "Review biometric anomalies recorded in the monitored medical staff.",
+      "registeredList": "Registered anomalies list",
+      "anomalyType": "Anomaly type:",
+      "detailTitle": "Detected anomalies detail",
+      "affectedStaff": "Affected staff",
+      "records": "Records",
+      "filters": {
+        "cardiac": "Cardiac",
+        "temperature": "Temperature",
+        "all": "All"
+      },
+      "table": {
+        "staff": "Staff",
+        "anomaly": "Anomaly",
+        "date": "Date"
+      },
+      "types": {
+        "mildArrhythmia": "Mild arrhythmia",
+        "constantArrhythmia": "Constant arrhythmia",
+        "lowFever": "Low-grade fever"
+      },
+      "descriptions": {
+        "cardiacVariation": "An unusual variation in heart rhythm has been detected in the biometric sensor parameters, independent of the recorded fatigue levels.",
+        "temperatureVariation": "An unusual variation in body temperature has been detected according to the biometric sensor parameters, independent of the recorded fatigue levels."
+      }
+    },
+    "settings": {
+      "title": "Settings",
+      "myProfile": "My profile",
+      "name": "Name",
+      "role": "Role",
+      "position": "Position",
+      "hospitalUnit": "Hospital unit",
+      "email": "Email",
+      "lastAccess": "Last access",
+      "language": "Language",
+      "spanish": "Spanish",
+      "english": "English",
+      "languageHelp": "The selected language will be applied to the fixed texts of the application.",
+      "changePassword": "Change password",
+      "logout": "Log out",
+      "supervisorRole": "Clinical supervisor",
+      "supervisorPosition": "Shift supervisor",
+      "passwordFeatureMessage": "The password change feature will be implemented soon."
+    }
+  }
+}

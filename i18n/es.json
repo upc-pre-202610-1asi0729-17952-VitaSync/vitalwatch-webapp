@@ -1,0 +1,286 @@
+{
+  "medicalStaff": {
+    "nav": {
+      "myStatus": "Mi estado",
+      "myAlerts": "Mis alertas",
+      "myHistory": "Mi historial",
+      "recovery": "Recuperación",
+      "settings": "Configuración"
+    },
+    "status": {
+      "title": "Mi estado actual",
+      "lastUpdate": "Última actualización: hace {{ minutes }} minutos",
+      "fatigueScore": "Fatigue score",
+      "sleepHours": "Horas de sueño",
+      "heartRate": "Frecuencia cardiaca",
+      "physicalActivity": "Actividad física",
+      "shiftDuration": "Duración del turno",
+      "recommendedSleep": "Recomendado: 7-8h",
+      "normalRange": "Rango normal: 60-100 bpm",
+      "stepsToday": "{{ steps }} pasos hoy",
+      "dailyGoal": "Meta diaria: 4000 pasos",
+      "currentShift": "Turno actual: 7:00 - 19:00",
+      "criticalLevel": "Nivel crítico",
+      "urgentRest": "Se recomienda descanso urgente",
+      "myAlerts": "Mis alertas",
+      "extremeFatigue": "Fatiga extrema detectada",
+      "extremeFatigueDescription": "Tu score de fatiga ha superado el umbral permitido. Se recomienda tomar un descanso o pedir una reprogramación de turno al jefe de guardia.",
+      "insufficientSleep": "Sueño insuficiente registrado",
+      "insufficientSleepDescription": "Se han registrado 3 horas de sueño. Lo recomendado es 7 a 8 horas. Se recomienda tomar un descanso antes de seguir con el turno para evitar negligencias."
+    },
+    "alerts": {
+      "title": "Mis alertas personales",
+      "description": "Estas alertas corresponden a tu estado de salud y fatiga registrado por tu wearable, así como posibles anomalías no relacionadas a la fatiga.",
+      "total": "Total: {{ total }} alertas",
+      "unread": "Sin leer: {{ total }}",
+      "read": "Leídas: {{ total }}",
+      "all": "Todas",
+      "unreadFilter": "Sin leer",
+      "readFilter": "Leídas",
+      "markAllAsRead": "Marcar todo como leído",
+      "requestRelief": "Solicitar relevo",
+      "veryCritical": "Muy crítica",
+      "critical": "Crítica",
+      "informative": "Informativa",
+      "extremeFatigueTitle": "Fatiga extrema detectada",
+      "extremeFatigueDescription": "Tu score de fatiga ha superado el umbral permitido. Se recomienda tomar un descanso o pedir una reprogramación de turno al jefe de guardia.",
+      "insufficientSleepTitle": "Sueño insuficiente registrado",
+      "insufficientSleepDescription": "Se han registrado 3 horas de sueño en las últimas 24 horas. Lo recomendado es entre 7 y 8 horas. Considera tomar un descanso antes de continuar con tu turno.",
+      "highHeartRateTitle": "Frecuencia cardiaca elevada",
+      "highHeartRateDescription": "Se registraron 105 bpm durante tu último turno. El rango normal es entre 60 y 100 bpm. Esto podría estar relacionado con el estrés o esfuerzo físico elevado."
+    },
+    "history": {
+      "title": "Mi historial de evaluaciones de fatiga",
+      "description": "Monitorea tu nivel de fatiga y revisa recomendaciones preventivas según tus evaluaciones registradas.",
+      "totalEvaluations": "Evaluaciones registradas",
+      "averageFatigue": "Promedio de fatiga",
+      "currentRiskLabel": "Riesgo actual",
+      "dateRange": "Rango de fechas",
+      "to": "hasta",
+      "apply": "Aplicar",
+      "date": "Fecha",
+      "fatigueScore": "Puntaje de fatiga",
+      "risk": "Riesgo",
+      "high": "Alto",
+      "medium": "Medio",
+      "low": "Bajo",
+      "noRecords": "No se encontraron evaluaciones en ese rango de fechas.",
+      "currentRiskTitle": "Nivel de riesgo actual",
+      "recommendationsTitle": "Recomendaciones",
+      "highRiskRecommendationTitle": "Requiere descanso preventivo",
+      "highRiskRecommendation": "Se recomienda una pausa de 45 minutos. Tu nivel de fatiga puede afectar la precisión motora y la toma de decisiones. Considera solicitar relevo si los síntomas persisten.",
+      "mediumRiskRecommendationTitle": "Monitoreo recomendado",
+      "mediumRiskRecommendation": "Se sugiere reducir la carga física y mantener seguimiento de tus indicadores durante el turno actual.",
+      "lowRiskRecommendationTitle": "Estado estable",
+      "lowRiskRecommendation": "Tu estado actual es estable. Mantén una hidratación adecuada, pausas activas y monitoreo regular."
+    },
+    "recovery": {
+      "title": "Recuperación y solicitudes de relevo",
+      "description": "Solicita un relevo preventivo si sientes que tu capacidad clínica está comprometida.",
+      "activeRecommendations": "Recomendaciones activas",
+      "activeRecommendationsHint": "Acciones preventivas sugeridas según tus evaluaciones recientes.",
+      "highPriority": "Prioridad alta",
+      "recommendationTitle": "Requiere descanso preventivo",
+      "recommendationDescription": "Se recomienda una pausa de 45 minutos. Tu nivel de fatiga puede afectar la precisión motora y la toma de decisiones. Considera solicitar relevo si los síntomas persisten.",
+      "requestRelief": "Solicitar relevo",
+      "reason": "Motivo",
+      "reasonPlaceholder": "Describe brevemente el motivo de tu solicitud",
+      "send": "Enviar",
+      "recentRequests": "Solicitudes recientes",
+      "pendingRequests": "Pendientes: {{ total }}",
+      "status": {
+        "pending": "Pendiente",
+        "accepted": "Aceptada",
+        "rejected": "Rechazada"
+      }
+    },
+    "settings": {
+      "title": "Configuración",
+      "myProfile": "Mi perfil",
+      "name": "Nombre",
+      "role": "Rol",
+      "position": "Cargo",
+      "hospitalUnit": "Unidad hospitalaria",
+      "email": "Correo",
+      "lastAccess": "Último acceso",
+      "language": "Idioma",
+      "spanish": "Español",
+      "english": "Inglés",
+      "languageHelp": "El idioma seleccionado se aplicará a los textos fijos de la aplicación.",
+      "changePassword": "Cambiar contraseña",
+      "logout": "Cerrar sesión",
+      "passwordFeatureMessage": "La funcionalidad de cambio de contraseña se implementará próximamente."
+    }
+  },
+  "supervisor": {
+    "nav": {
+      "dashboard": "Menú principal",
+      "riskStaff": "Personal en riesgo",
+      "alerts": "Alertas",
+      "anomalies": "Anomalías",
+      "settings": "Configuración"
+    },
+    "dashboard": {
+      "title": "Panel Principal del Hospital",
+      "description": "Supervisión integral de riesgo clínico, métricas operativas y administración.",
+      "averageFatigue": "Nivel de fatiga promedio del personal",
+      "activeAlerts": "Alertas activas",
+      "staffAtRisk": "Personal en riesgo",
+      "veryCriticalAlerts": "Muy críticas: 2",
+      "criticalAlerts": "Críticas: 1",
+      "infoAlerts": "Info: 3",
+      "fatigueCases": "Fatiga: 4",
+      "otherCases": "Otros: 2",
+      "dailySummary": "Resumen general diario",
+      "activeMonitoredStaff": "Personal monitoreado activo: 37",
+      "highestLoadArea": "Área con más carga: UCI",
+      "attendedAlerts": "Alertas atendidas: 3 de 8",
+      "recentAlerts": "Alertas recientes",
+      "recentAlertA": "Persona A. Fatiga elevada hace 2 min",
+      "recentAlertB": "Persona B. Anomalía hace 12 min",
+      "recentAlertC": "Persona C. Dar descanso hace 23 min",
+      "recentAlertD": "Persona D. Fatiga elevada hace 1 hora"
+    },
+    "table": {
+      "name": "Nombre",
+      "area": "Área",
+      "riskType": "Tipo de riesgo",
+      "fatigueLevel": "Nivel de fatiga",
+      "status": "Estado"
+    },
+    "common": {
+      "fatigue": "Fatiga",
+      "anomaly": "Anomalía",
+      "high": "Alto",
+      "regular": "Regular",
+      "pending": "Pendiente",
+      "inFollowUp": "En seguimiento",
+      "lowLevel": "Nivel bajo",
+      "active": "Activo",
+      "veryHigh": "Muy alto",
+      "moderate": "Moderado",
+      "low": "Bajo"
+    },
+    "riskStaff": {
+      "title": "Personal en riesgo",
+      "description": "Visualice el personal con mayor nivel de riesgo clínico y consulte su historial reciente.",
+      "staffList": "Lista del personal",
+      "search": "Buscar",
+      "searchPlaceholder": "Buscar por nombre, área o cargo",
+      "status": "Estado",
+      "riskLevel": "Nivel de riesgo",
+      "shiftTime": "Tiempo de turno",
+      "recentHistory": "Historial reciente de evaluaciones de fatiga",
+      "registerAction": "Registrar acción",
+      "highRisk": "Riesgo alto",
+      "veryHighRisk": "Riesgo muy alto",
+      "moderateRisk": "Riesgo moderado",
+      "table": {
+        "date": "Fecha",
+        "fatigueScore": "Puntaje de fatiga",
+        "riskLevel": "Nivel de riesgo"
+      }
+    },
+    "alerts": {
+      "title": "Central de alertas",
+      "total": "Total: {{ total }} alertas",
+      "veryCriticalTotal": "Muy críticas: {{ total }}",
+      "criticalTotal": "Críticas: {{ total }}",
+      "informativeTotal": "Informativas: {{ total }}",
+      "searchPlaceholder": "Buscar por nombre o área",
+      "export": "Exportar",
+      "today": "Hoy",
+      "registerAction": "Registrar acción",
+      "filters": {
+        "all": "Todas",
+        "veryCritical": "Muy críticas",
+        "critical": "Críticas",
+        "informative": "Informativas"
+      },
+      "table": {
+        "alert": "Alertas",
+        "area": "Área",
+        "alertType": "Tipo de alerta",
+        "severity": "Severidad",
+        "time": "Hora",
+        "status": "Estado",
+        "actions": "Acciones"
+      },
+      "types": {
+        "highFatigue": "Fatiga elevada",
+        "anomaly": "Anomalía",
+        "restRequired": "Dar descanso"
+      },
+      "severity": {
+        "veryCritical": "Muy críticas",
+        "critical": "Críticas",
+        "informative": "Informativas"
+      },
+      "status": {
+        "pending": "Pendiente",
+        "inFollowUp": "En seguimiento"
+      }
+    },
+    "action": {
+      "title": "Registrar acción",
+      "alert": "Alerta",
+      "staff": "Personal",
+      "recommendation": "Recomendación",
+      "recommendationText": "Evaluar un relevo en los próximos 30 minutos",
+      "suggestedReplacement": "Se sugiere relevar el turno a Persona B (Médico UCI)",
+      "anomalyRecommendation": "Revisar la anomalía biométrica y mantener seguimiento clínico",
+      "monitoringSuggested": "Se sugiere registrar observación y monitorear la evolución durante el turno",
+      "restRecommendation": "Aplicar descanso preventivo durante el turno actual",
+      "restSuggested": "Se sugiere asignar una pausa y verificar disponibilidad de reemplazo",
+      "registerIntervention": "Registrar intervención",
+      "confirm": "Confirmar"
+    },
+    "anomalies": {
+      "title": "Anomalías",
+      "description": "Consulta anomalías biométricas registradas en el personal médico monitoreado.",
+      "registeredList": "Lista de anomalías registradas",
+      "anomalyType": "Tipo de anomalía:",
+      "detailTitle": "Detalle de anomalías detectadas",
+      "affectedStaff": "Personal afectado",
+      "records": "Registros",
+      "filters": {
+        "cardiac": "Cardiaca",
+        "temperature": "Temperatura",
+        "all": "Todas"
+      },
+      "table": {
+        "staff": "Personal",
+        "anomaly": "Anomalía",
+        "date": "Fecha"
+      },
+      "types": {
+        "mildArrhythmia": "Arritmia leve",
+        "constantArrhythmia": "Arritmia constante",
+        "lowFever": "Febrícula"
+      },
+      "descriptions": {
+        "cardiacVariation": "Se ha detectado una variación inusual en el ritmo cardíaco en los parámetros biométricos del sensor, independiente de los niveles de fatiga registrados.",
+        "temperatureVariation": "Se ha detectado una variación inusual en la temperatura corporal según los parámetros biométricos del sensor, independiente de los niveles de fatiga registrados."
+      }
+    },
+    "settings": {
+      "title": "Configuración",
+      "myProfile": "Mi perfil",
+      "name": "Nombre",
+      "role": "Rol",
+      "position": "Cargo",
+      "hospitalUnit": "Unidad hospitalaria",
+      "email": "Correo",
+      "lastAccess": "Último acceso",
+      "language": "Idioma",
+      "spanish": "Español",
+      "english": "Inglés",
+      "languageHelp": "El idioma seleccionado se aplicará a los textos fijos de la aplicación.",
+      "changePassword": "Cambiar contraseña",
+      "logout": "Cerrar sesión",
+      "supervisorRole": "Supervisor clínico",
+      "supervisorPosition": "Supervisor de guardia",
+      "passwordFeatureMessage": "La funcionalidad de cambio de contraseña se implementará próximamente."
+    }
+  }
+}
