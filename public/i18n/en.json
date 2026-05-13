@@ -93,6 +93,23 @@
         "accepted": "Accepted",
         "rejected": "Rejected"
       }
+    },
+    "settings": {
+      "title": "Settings",
+      "myProfile": "My profile",
+      "name": "Name",
+      "role": "Role",
+      "position": "Position",
+      "hospitalUnit": "Hospital unit",
+      "email": "Email",
+      "lastAccess": "Last access",
+      "language": "Language",
+      "spanish": "Spanish",
+      "english": "English",
+      "languageHelp": "The selected language will be applied to the fixed texts of the application.",
+      "changePassword": "Change password",
+      "logout": "Log out",
+      "passwordFeatureMessage": "The password change feature will be implemented soon."
     }
   }
 }

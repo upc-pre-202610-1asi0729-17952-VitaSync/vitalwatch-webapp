@@ -93,6 +93,23 @@
         "accepted": "Aceptada",
         "rejected": "Rechazada"
       }
+    },
+    "settings": {
+      "title": "Configuración",
+      "myProfile": "Mi perfil",
+      "name": "Nombre",
+      "role": "Rol",
+      "position": "Cargo",
+      "hospitalUnit": "Unidad hospitalaria",
+      "email": "Correo",
+      "lastAccess": "Último acceso",
+      "language": "Idioma",
+      "spanish": "Español",
+      "english": "Inglés",
+      "languageHelp": "El idioma seleccionado se aplicará a los textos fijos de la aplicación.",
+      "changePassword": "Cambiar contraseña",
+      "logout": "Cerrar sesión",
+      "passwordFeatureMessage": "La funcionalidad de cambio de contraseña se implementará próximamente."
     }
   }
 }
