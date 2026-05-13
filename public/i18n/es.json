@@ -180,6 +180,60 @@
         "fatigueScore": "Puntaje de fatiga",
         "riskLevel": "Nivel de riesgo"
       }
+    },
+    "alerts": {
+      "title": "Central de alertas",
+      "total": "Total: {{ total }} alertas",
+      "veryCriticalTotal": "Muy críticas: {{ total }}",
+      "criticalTotal": "Críticas: {{ total }}",
+      "informativeTotal": "Informativas: {{ total }}",
+      "searchPlaceholder": "Buscar por nombre o área",
+      "export": "Exportar",
+      "today": "Hoy",
+      "registerAction": "Registrar acción",
+      "filters": {
+        "all": "Todas",
+        "veryCritical": "Muy críticas",
+        "critical": "Críticas",
+        "informative": "Informativas"
+      },
+      "table": {
+        "alert": "Alertas",
+        "area": "Área",
+        "alertType": "Tipo de alerta",
+        "severity": "Severidad",
+        "time": "Hora",
+        "status": "Estado",
+        "actions": "Acciones"
+      },
+      "types": {
+        "highFatigue": "Fatiga elevada",
+        "anomaly": "Anomalía",
+        "restRequired": "Dar descanso"
+      },
+      "severity": {
+        "veryCritical": "Muy críticas",
+        "critical": "Críticas",
+        "informative": "Informativas"
+      },
+      "status": {
+        "pending": "Pendiente",
+        "inFollowUp": "En seguimiento"
+      }
+    },
+    "action": {
+      "title": "Registrar acción",
+      "alert": "Alerta",
+      "staff": "Personal",
+      "recommendation": "Recomendación",
+      "recommendationText": "Evaluar un relevo en los próximos 30 minutos",
+      "suggestedReplacement": "Se sugiere relevar el turno a Persona B (Médico UCI)",
+      "anomalyRecommendation": "Revisar la anomalía biométrica y mantener seguimiento clínico",
+      "monitoringSuggested": "Se sugiere registrar observación y monitorear la evolución durante el turno",
+      "restRecommendation": "Aplicar descanso preventivo durante el turno actual",
+      "restSuggested": "Se sugiere asignar una pausa y verificar disponibilidad de reemplazo",
+      "registerIntervention": "Registrar intervención",
+      "confirm": "Confirmar"
     }
   }
 }

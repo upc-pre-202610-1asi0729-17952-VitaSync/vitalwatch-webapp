@@ -10,6 +10,9 @@ const riskStaff = () =>
 const alerts = () =>
   import('./views/alerts/alerts').then(m => m.Alerts);
 
+const registerAction = () =>
+  import('./views/register-action/register-action').then(m => m.RegisterAction);
+
 const anomalies = () =>
   import('./views/anomalies/anomalies').then(m => m.Anomalies);
 
@@ -21,11 +24,12 @@ export const supervisorRoutes: Routes = [
     path: '',
     component: SupervisorLayout,
     children: [
-      { path: 'dashboard', loadComponent: dashboard, title: 'VitalWatch - Supervisor Dashboard' },
-      { path: 'risk-staff', loadComponent: riskStaff, title: 'VitalWatch - Personal en riesgo' },
-      { path: 'alerts', loadComponent: alerts, title: 'VitalWatch - Alertas' },
-      { path: 'anomalies', loadComponent: anomalies, title: 'VitalWatch - Anomalías' },
-      { path: 'settings', loadComponent: settings, title: 'VitalWatch - Configuración' },
+      { path: 'dashboard', loadComponent: dashboard },
+      { path: 'risk-staff', loadComponent: riskStaff },
+      { path: 'alerts', loadComponent: alerts },
+      { path: 'alerts/:id/action', loadComponent: registerAction },
+      { path: 'anomalies', loadComponent: anomalies },
+      { path: 'settings', loadComponent: settings },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   }

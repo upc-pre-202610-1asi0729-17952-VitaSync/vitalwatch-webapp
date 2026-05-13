@@ -180,6 +180,60 @@
         "fatigueScore": "Fatigue score",
         "riskLevel": "Risk level"
       }
+    },
+    "alerts": {
+      "title": "Alert center",
+      "total": "Total: {{ total }} alerts",
+      "veryCriticalTotal": "Very critical: {{ total }}",
+      "criticalTotal": "Critical: {{ total }}",
+      "informativeTotal": "Informative: {{ total }}",
+      "searchPlaceholder": "Search by name or area",
+      "export": "Export",
+      "today": "Today",
+      "registerAction": "Register action",
+      "filters": {
+        "all": "All",
+        "veryCritical": "Very critical",
+        "critical": "Critical",
+        "informative": "Informative"
+      },
+      "table": {
+        "alert": "Alerts",
+        "area": "Area",
+        "alertType": "Alert type",
+        "severity": "Severity",
+        "time": "Time",
+        "status": "Status",
+        "actions": "Actions"
+      },
+      "types": {
+        "highFatigue": "High fatigue",
+        "anomaly": "Anomaly",
+        "restRequired": "Assign rest"
+      },
+      "severity": {
+        "veryCritical": "Very critical",
+        "critical": "Critical",
+        "informative": "Informative"
+      },
+      "status": {
+        "pending": "Pending",
+        "inFollowUp": "In follow-up"
+      }
+    },
+    "action": {
+      "title": "Register action",
+      "alert": "Alert",
+      "staff": "Staff",
+      "recommendation": "Recommendation",
+      "recommendationText": "Evaluate a relief assignment within the next 30 minutes",
+      "suggestedReplacement": "It is suggested to reassign the shift to Person B (ICU doctor)",
+      "anomalyRecommendation": "Review the biometric anomaly and keep clinical follow-up",
+      "monitoringSuggested": "It is suggested to register an observation and monitor the evolution during the shift",
+      "restRecommendation": "Apply preventive rest during the current shift",
+      "restSuggested": "It is suggested to assign a break and verify replacement availability",
+      "registerIntervention": "Register intervention",
+      "confirm": "Confirm"
     }
   }
 }

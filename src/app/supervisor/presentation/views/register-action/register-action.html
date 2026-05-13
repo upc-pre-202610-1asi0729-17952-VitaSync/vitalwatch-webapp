@@ -1,0 +1,33 @@
+<section class="register-action-page">
+  <header class="page-header">
+    <h1>{{ 'supervisor.action.title' | translate }}</h1>
+  </header>
+
+  <section class="action-card">
+    <h2>{{ 'supervisor.action.alert' | translate }}</h2>
+
+    <p>
+      <strong>{{ 'supervisor.action.staff' | translate }}:</strong>
+      {{ selectedAlert().staffName }} ({{ selectedAlert().staffRole }})
+    </p>
+
+    <p>{{ selectedAlert().alertTypeKey | translate }}</p>
+
+    <h2>{{ 'supervisor.action.recommendation' | translate }}</h2>
+
+    <p>{{ selectedAlert().recommendationKey | translate }}</p>
+    <p>{{ selectedAlert().suggestedReplacementKey | translate }}</p>
+
+    <h2>{{ 'supervisor.action.registerIntervention' | translate }}</h2>
+
+    <textarea
+      rows="5"
+      [ngModel]="intervention()"
+      (ngModelChange)="intervention.set($event)">
+    </textarea>
+
+    <button type="button" (click)="confirmAction()">
+      {{ 'supervisor.action.confirm' | translate }}
+    </button>
+  </section>
+</section>

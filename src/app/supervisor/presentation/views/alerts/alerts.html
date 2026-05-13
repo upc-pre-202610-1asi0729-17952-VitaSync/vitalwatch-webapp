@@ -1,1 +1,122 @@
-<p>alerts works!</p>
+<section class="alerts-page">
+  <header class="page-header">
+    <h1>{{ 'supervisor.alerts.title' | translate }}</h1>
+  </header>
+
+  <section class="summary-row">
+    <span class="summary-pill total">
+      {{ 'supervisor.alerts.total' | translate:{ total: totalAlerts() } }}
+    </span>
+
+    <span class="summary-pill very-critical">
+      {{ 'supervisor.alerts.veryCriticalTotal' | translate:{ total: veryCriticalTotal() } }}
+    </span>
+
+    <span class="summary-pill critical">
+      {{ 'supervisor.alerts.criticalTotal' | translate:{ total: criticalTotal() } }}
+    </span>
+
+    <span class="summary-pill informative">
+      {{ 'supervisor.alerts.informativeTotal' | translate:{ total: informativeTotal() } }}
+    </span>
+  </section>
+
+  <section class="toolbar">
+    <input
+      type="text"
+      [ngModel]="searchText()"
+      (ngModelChange)="searchText.set($event)"
+      [placeholder]="'supervisor.alerts.searchPlaceholder' | translate"
+    />
+
+    <button
+      type="button"
+      [class.active]="selectedFilter() === 'all'"
+      (click)="selectFilter('all')">
+      {{ 'supervisor.alerts.filters.all' | translate }}
+    </button>
+
+    <button
+      type="button"
+      [class.very-critical-filter]="true"
+      [class.active]="selectedFilter() === 'veryCritical'"
+      (click)="selectFilter('veryCritical')">
+      {{ 'supervisor.alerts.filters.veryCritical' | translate }}
+    </button>
+
+    <button
+      type="button"
+      [class.critical-filter]="true"
+      [class.active]="selectedFilter() === 'critical'"
+      (click)="selectFilter('critical')">
+      {{ 'supervisor.alerts.filters.critical' | translate }}
+    </button>
+
+    <button
+      type="button"
+      [class.informative-filter]="true"
+      [class.active]="selectedFilter() === 'informative'"
+      (click)="selectFilter('informative')">
+      {{ 'supervisor.alerts.filters.informative' | translate }}
+    </button>
+
+    <button type="button" class="export-button">
+      {{ 'supervisor.alerts.export' | translate }}
+    </button>
+  </section>
+
+  <section class="alerts-table">
+    <div class="table-header">
+      <span>{{ 'supervisor.alerts.table.alert' | translate }}</span>
+      <span>{{ 'supervisor.alerts.table.area' | translate }}</span>
+      <span>{{ 'supervisor.alerts.table.alertType' | translate }}</span>
+      <span>{{ 'supervisor.alerts.table.severity' | translate }}</span>
+      <span>{{ 'supervisor.alerts.table.time' | translate }}</span>
+      <span>{{ 'supervisor.alerts.table.status' | translate }}</span>
+      <span>{{ 'supervisor.alerts.table.actions' | translate }}</span>
+    </div>
+
+    @for (alert of filteredAlerts(); track alert.id) {
+      <article class="table-row">
+        <div class="staff-cell">
+          <strong>{{ alert.staffName }}</strong>
+          <small>{{ alert.staffRole }}</small>
+        </div>
+
+        <div>
+          <span class="area-badge" [class]="alert.area.toLowerCase()">
+            {{ alert.area }}
+          </span>
+        </div>
+
+        <div class="alert-type">
+          {{ alert.alertTypeKey | translate }}
+        </div>
+
+        <div>
+          <span class="severity-badge" [class]="alert.severity">
+            {{ getSeverityKey(alert.severity) | translate }}
+          </span>
+        </div>
+
+        <div class="time-cell">
+          <strong>{{ alert.time }}</strong>
+          <small>{{ 'supervisor.alerts.today' | translate }}</small>
+        </div>
+
+        <div>
+          <span class="status-badge" [class]="alert.status">
+            {{ getStatusKey(alert.status) | translate }}
+          </span>
+        </div>
+
+        <button
+          type="button"
+          class="action-link"
+          (click)="registerAction(alert.id)">
+          {{ 'supervisor.alerts.registerAction' | translate }}
+        </button>
+      </article>
+    }
+  </section>
+</section>

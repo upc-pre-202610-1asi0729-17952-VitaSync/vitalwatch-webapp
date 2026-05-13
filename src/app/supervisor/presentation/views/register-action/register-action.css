@@ -1,0 +1,62 @@
+.register-action-page {
+  color: #0f172a;
+}
+
+.page-header h1 {
+  margin: 0 0 40px;
+  font-size: 32px;
+  font-weight: 500;
+}
+
+.action-card {
+  max-width: 780px;
+  margin: 0 auto;
+  background: #f4f5ff;
+  border: 1px solid #c8cedd;
+  border-radius: 8px;
+  padding: 28px;
+}
+
+.action-card h2 {
+  margin: 0 0 14px;
+  font-size: 24px;
+  font-weight: 500;
+  color: #333;
+}
+
+.action-card p {
+  margin: 8px 0;
+  color: #333;
+  font-size: 18px;
+  line-height: 1.4;
+}
+
+.action-card textarea {
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 8px;
+  border: 1px solid #b8beca;
+  border-radius: 8px;
+  padding: 20px;
+  resize: none;
+  font-size: 18px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #333;
+}
+
+.action-card button {
+  display: block;
+  width: 250px;
+  height: 60px;
+  margin: 20px auto 0;
+  border: 1px solid #a36b6b;
+  border-radius: 8px;
+  background: #ffc9c9;
+  color: #333;
+  font-size: 23px;
+  cursor: pointer;
+}
+
+.action-card button:hover {
+  background: #f8b6b6;
+}

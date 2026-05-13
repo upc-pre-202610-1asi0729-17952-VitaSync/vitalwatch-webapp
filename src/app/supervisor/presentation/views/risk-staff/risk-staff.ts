@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 
 interface FatigueEvaluation {
@@ -31,6 +32,8 @@ interface RiskStaffMember {
   styleUrl: './risk-staff.css'
 })
 export class RiskStaffComponent {
+  private readonly router = inject(Router);
+
   searchText = '';
 
   staffMembers: RiskStaffMember[] = [
@@ -92,7 +95,9 @@ export class RiskStaffComponent {
   get filteredStaff(): RiskStaffMember[] {
     const term = this.searchText.toLowerCase().trim();
 
-    if (!term) return this.staffMembers;
+    if (!term) {
+      return this.staffMembers;
+    }
 
     return this.staffMembers.filter(person =>
       person.name.toLowerCase().includes(term) ||
@@ -106,6 +111,10 @@ export class RiskStaffComponent {
   }
 
   registerAction(): void {
-    console.log('Registrar acción para:', this.selectedStaff.name);
+    this.router.navigate([
+      '/supervisor/alerts',
+      this.selectedStaff.id,
+      'action'
+    ]).then();
   }
 }
