@@ -73,6 +73,26 @@
       "mediumRiskRecommendation": "Se sugiere reducir la carga física y mantener seguimiento de tus indicadores durante el turno actual.",
       "lowRiskRecommendationTitle": "Estado estable",
       "lowRiskRecommendation": "Tu estado actual es estable. Mantén una hidratación adecuada, pausas activas y monitoreo regular."
+    },
+    "recovery": {
+      "title": "Recuperación y solicitudes de relevo",
+      "description": "Solicita un relevo preventivo si sientes que tu capacidad clínica está comprometida.",
+      "activeRecommendations": "Recomendaciones activas",
+      "activeRecommendationsHint": "Acciones preventivas sugeridas según tus evaluaciones recientes.",
+      "highPriority": "Prioridad alta",
+      "recommendationTitle": "Requiere descanso preventivo",
+      "recommendationDescription": "Se recomienda una pausa de 45 minutos. Tu nivel de fatiga puede afectar la precisión motora y la toma de decisiones. Considera solicitar relevo si los síntomas persisten.",
+      "requestRelief": "Solicitar relevo",
+      "reason": "Motivo",
+      "reasonPlaceholder": "Describe brevemente el motivo de tu solicitud",
+      "send": "Enviar",
+      "recentRequests": "Solicitudes recientes",
+      "pendingRequests": "Pendientes: {{ total }}",
+      "status": {
+        "pending": "Pendiente",
+        "accepted": "Aceptada",
+        "rejected": "Rechazada"
+      }
     }
   }
 }

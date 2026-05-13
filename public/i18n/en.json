@@ -73,6 +73,26 @@
       "mediumRiskRecommendation": "It is recommended to reduce physical workload and keep monitoring your indicators during the current shift.",
       "lowRiskRecommendationTitle": "Stable condition",
       "lowRiskRecommendation": "Your current condition is stable. Maintain proper hydration, active breaks and regular monitoring."
+    },
+    "recovery": {
+      "title": "Recovery and relief requests",
+      "description": "Request preventive relief if you feel your clinical capacity is compromised.",
+      "activeRecommendations": "Active recommendations",
+      "activeRecommendationsHint": "Preventive actions suggested according to your recent assessments.",
+      "highPriority": "High priority",
+      "recommendationTitle": "Preventive rest required",
+      "recommendationDescription": "A 45-minute break is recommended. Your fatigue level may affect motor precision and decision-making. Consider requesting relief if symptoms persist.",
+      "requestRelief": "Request relief",
+      "reason": "Reason",
+      "reasonPlaceholder": "Briefly describe the reason for your request",
+      "send": "Send",
+      "recentRequests": "Recent requests",
+      "pendingRequests": "Pending: {{ total }}",
+      "status": {
+        "pending": "Pending",
+        "accepted": "Accepted",
+        "rejected": "Rejected"
+      }
     }
   }
 }

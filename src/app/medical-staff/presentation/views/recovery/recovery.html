@@ -1,1 +1,71 @@
-<p>recovery works!</p>
+<section class="recovery-page">
+  <header class="page-header">
+    <h1>{{ 'medicalStaff.recovery.title' | translate }}</h1>
+    <p>{{ 'medicalStaff.recovery.description' | translate }}</p>
+  </header>
+
+  <section class="recovery-grid">
+    <article class="panel recommendation-panel">
+      <div class="panel-header">
+        <div>
+          <h2>{{ 'medicalStaff.recovery.activeRecommendations' | translate }}</h2>
+          <p>{{ 'medicalStaff.recovery.activeRecommendationsHint' | translate }}</p>
+        </div>
+
+        <span class="risk-chip">
+          {{ 'medicalStaff.recovery.highPriority' | translate }}
+        </span>
+      </div>
+
+      <div class="recommendation-card">
+        <h3>{{ activeRecommendation.titleKey | translate }}</h3>
+        <p>{{ activeRecommendation.descriptionKey | translate }}</p>
+      </div>
+    </article>
+
+    <aside class="side-column">
+      <article class="panel request-panel">
+        <h2>{{ 'medicalStaff.recovery.requestRelief' | translate }}</h2>
+
+        <label>
+          {{ 'medicalStaff.recovery.reason' | translate }}
+          <textarea
+            [(ngModel)]="reliefReason"
+            rows="4"
+            [placeholder]="'medicalStaff.recovery.reasonPlaceholder' | translate">
+          </textarea>
+        </label>
+
+        <button type="button" (click)="sendReliefRequest()">
+          {{ 'medicalStaff.recovery.send' | translate }}
+        </button>
+      </article>
+
+      <article class="panel recent-panel">
+        <div class="panel-header compact">
+          <div>
+            <h2>{{ 'medicalStaff.recovery.recentRequests' | translate }}</h2>
+            <p>
+              {{ 'medicalStaff.recovery.pendingRequests' | translate:{ total: pendingRequests() } }}
+            </p>
+          </div>
+        </div>
+
+        <div class="requests-list">
+          @for (request of reliefRequests(); track request.id) {
+            <article class="request-card">
+              <div>
+                <strong>{{ request.date }}</strong>
+                <p>{{ request.reason }}</p>
+              </div>
+
+              <span class="status-badge" [class]="request.status">
+                {{ getStatusKey(request.status) | translate }}
+              </span>
+            </article>
+          }
+        </div>
+      </article>
+    </aside>
+  </section>
+</section>
