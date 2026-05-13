@@ -5,7 +5,7 @@ const dashboard = () =>
   import('./views/dashboard/dashboard').then(m => m.Dashboard);
 
 const riskStaff = () =>
-  import('./views/risk-staff/risk-staff').then(m => m.RiskStaff);
+  import('./views/risk-staff/risk-staff').then(m => m.RiskStaffComponent);
 
 const alerts = () =>
   import('./views/alerts/alerts').then(m => m.Alerts);

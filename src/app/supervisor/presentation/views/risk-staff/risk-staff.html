@@ -1,1 +1,91 @@
-<p>risk-staff works!</p>
+<section class="risk-staff-page">
+  <header class="page-header">
+    <h1>{{ 'supervisor.riskStaff.title' | translate }}</h1>
+    <p>{{ 'supervisor.riskStaff.description' | translate }}</p>
+  </header>
+
+  <section class="risk-layout">
+    <!-- Panel izquierdo -->
+    <aside class="staff-list-card">
+      <h2>{{ 'supervisor.riskStaff.staffList' | translate }}</h2>
+
+      <div class="search-box">
+        <label for="staffSearch">{{ 'supervisor.riskStaff.search' | translate }}</label>
+        <input
+          id="staffSearch"
+          type="text"
+          [(ngModel)]="searchText"
+          [placeholder]="'supervisor.riskStaff.searchPlaceholder' | translate"
+        />
+      </div>
+
+      <div class="staff-list">
+        <article
+          class="staff-item"
+          *ngFor="let person of filteredStaff"
+          [class.selected]="selectedStaff.id === person.id"
+          (click)="selectStaff(person)"
+        >
+          <div class="staff-info">
+            <strong>{{ person.name }}</strong>
+            <span>{{ person.role }}</span>
+          </div>
+
+          <span class="risk-badge" [ngClass]="person.riskBadgeClass">
+            {{ person.riskBadgeKey | translate }}
+          </span>
+        </article>
+      </div>
+    </aside>
+
+    <!-- Panel central -->
+    <section class="staff-detail-card">
+      <div class="detail-header">
+        <div>
+          <h2>{{ selectedStaff.name }}</h2>
+          <p>{{ selectedStaff.role }}</p>
+        </div>
+
+        <div class="status-box">
+          <span>{{ 'supervisor.riskStaff.status' | translate }}:</span>
+          <strong>{{ selectedStaff.statusKey | translate }}</strong>
+        </div>
+      </div>
+
+      <div class="metrics-grid">
+        <article class="metric-card risk-card">
+          <h3>{{ 'supervisor.riskStaff.riskLevel' | translate }}</h3>
+          <strong>{{ selectedStaff.riskLevelKey | translate }}</strong>
+        </article>
+
+        <article class="metric-card shift-card">
+          <h3>{{ 'supervisor.riskStaff.shiftTime' | translate }}</h3>
+          <strong>{{ selectedStaff.shiftTime }}</strong>
+        </article>
+      </div>
+
+      <div class="history-section">
+        <h3>{{ 'supervisor.riskStaff.recentHistory' | translate }}</h3>
+
+        <div class="history-header">
+          <span>{{ 'supervisor.riskStaff.table.date' | translate }}</span>
+          <span>{{ 'supervisor.riskStaff.table.fatigueScore' | translate }}</span>
+          <span>{{ 'supervisor.riskStaff.table.riskLevel' | translate }}</span>
+        </div>
+
+        <div class="history-row" *ngFor="let evaluation of selectedStaff.evaluations">
+          <span>{{ evaluation.date }}</span>
+          <span>{{ evaluation.fatigueScore }}</span>
+          <span>{{ evaluation.riskLevelKey | translate }}</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Panel derecho -->
+    <aside class="action-panel">
+      <button class="action-button" (click)="registerAction()">
+        {{ 'supervisor.riskStaff.registerAction' | translate }}
+      </button>
+    </aside>
+  </section>
+</section>

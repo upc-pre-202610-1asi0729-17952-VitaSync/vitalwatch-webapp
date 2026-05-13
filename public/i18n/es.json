@@ -155,7 +155,31 @@
       "regular": "Regular",
       "pending": "Pendiente",
       "inFollowUp": "En seguimiento",
-      "lowLevel": "Nivel bajo"
+      "lowLevel": "Nivel bajo",
+      "active": "Activo",
+      "veryHigh": "Muy alto",
+      "moderate": "Moderado",
+      "low": "Bajo"
+    },
+    "riskStaff": {
+      "title": "Personal en riesgo",
+      "description": "Visualice el personal con mayor nivel de riesgo clínico y consulte su historial reciente.",
+      "staffList": "Lista del personal",
+      "search": "Buscar",
+      "searchPlaceholder": "Buscar por nombre, área o cargo",
+      "status": "Estado",
+      "riskLevel": "Nivel de riesgo",
+      "shiftTime": "Tiempo de turno",
+      "recentHistory": "Historial reciente de evaluaciones de fatiga",
+      "registerAction": "Registrar acción",
+      "highRisk": "Riesgo alto",
+      "veryHighRisk": "Riesgo muy alto",
+      "moderateRisk": "Riesgo moderado",
+      "table": {
+        "date": "Fecha",
+        "fatigueScore": "Puntaje de fatiga",
+        "riskLevel": "Nivel de riesgo"
+      }
     }
   }
 }

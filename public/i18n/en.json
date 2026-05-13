@@ -155,7 +155,31 @@
       "regular": "Regular",
       "pending": "Pending",
       "inFollowUp": "In follow-up",
-      "lowLevel": "Low level"
+      "lowLevel": "Low level",
+      "active": "Active",
+      "veryHigh": "Very high",
+      "moderate": "Moderate",
+      "low": "Low"
+    },
+    "riskStaff": {
+      "title": "Staff at risk",
+      "description": "View the staff with the highest clinical risk level and review their recent history.",
+      "staffList": "Staff list",
+      "search": "Search",
+      "searchPlaceholder": "Search by name, area or role",
+      "status": "Status",
+      "riskLevel": "Risk level",
+      "shiftTime": "Shift time",
+      "recentHistory": "Recent fatigue evaluation history",
+      "registerAction": "Register action",
+      "highRisk": "High risk",
+      "veryHighRisk": "Very high risk",
+      "moderateRisk": "Moderate risk",
+      "table": {
+        "date": "Date",
+        "fatigueScore": "Fatigue score",
+        "riskLevel": "Risk level"
+      }
     }
   }
 }
