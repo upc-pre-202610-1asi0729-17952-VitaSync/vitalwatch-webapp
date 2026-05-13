@@ -27,6 +27,27 @@
       "extremeFatigueDescription": "Tu score de fatiga ha superado el umbral permitido. Se recomienda tomar un descanso o pedir una reprogramación de turno al jefe de guardia.",
       "insufficientSleep": "Sueño insuficiente registrado",
       "insufficientSleepDescription": "Se han registrado 3 horas de sueño. Lo recomendado es 7 a 8 horas. Se recomienda tomar un descanso antes de seguir con el turno para evitar negligencias."
+    },
+    "alerts": {
+      "title": "Mis alertas personales",
+      "description": "Estas alertas corresponden a tu estado de salud y fatiga registrado por tu wearable, así como posibles anomalías no relacionadas a la fatiga.",
+      "total": "Total: {{ total }} alertas",
+      "unread": "Sin leer: {{ total }}",
+      "read": "Leídas: {{ total }}",
+      "all": "Todas",
+      "unreadFilter": "Sin leer",
+      "readFilter": "Leídas",
+      "markAllAsRead": "Marcar todo como leído",
+      "requestRelief": "Solicitar relevo",
+      "veryCritical": "Muy crítica",
+      "critical": "Crítica",
+      "informative": "Informativa",
+      "extremeFatigueTitle": "Fatiga extrema detectada",
+      "extremeFatigueDescription": "Tu score de fatiga ha superado el umbral permitido. Se recomienda tomar un descanso o pedir una reprogramación de turno al jefe de guardia.",
+      "insufficientSleepTitle": "Sueño insuficiente registrado",
+      "insufficientSleepDescription": "Se han registrado 3 horas de sueño en las últimas 24 horas. Lo recomendado es entre 7 y 8 horas. Considera tomar un descanso antes de continuar con tu turno.",
+      "highHeartRateTitle": "Frecuencia cardiaca elevada",
+      "highHeartRateDescription": "Se registraron 105 bpm durante tu último turno. El rango normal es entre 60 y 100 bpm. Esto podría estar relacionado con el estrés o esfuerzo físico elevado."
     }
   }
 }

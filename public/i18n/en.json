@@ -27,6 +27,27 @@
       "extremeFatigueDescription": "Your fatigue score has exceeded the allowed threshold. It is recommended to take a break or request a shift rescheduling from the shift supervisor.",
       "insufficientSleep": "Insufficient sleep recorded",
       "insufficientSleepDescription": "3 hours of sleep have been recorded. The recommended amount is 7 to 8 hours. It is recommended to rest before continuing the shift to avoid negligence."
+    },
+    "alerts": {
+      "title": "My personal alerts",
+      "description": "These alerts are related to your health and fatigue status recorded by your wearable, as well as possible anomalies not directly related to fatigue.",
+      "total": "Total: {{ total }} alerts",
+      "unread": "Unread: {{ total }}",
+      "read": "Read: {{ total }}",
+      "all": "All",
+      "unreadFilter": "Unread",
+      "readFilter": "Read",
+      "markAllAsRead": "Mark all as read",
+      "requestRelief": "Request relief",
+      "veryCritical": "Very critical",
+      "critical": "Critical",
+      "informative": "Informative",
+      "extremeFatigueTitle": "Extreme fatigue detected",
+      "extremeFatigueDescription": "Your fatigue score has exceeded the allowed threshold. It is recommended to take a break or request a shift rescheduling from the shift supervisor.",
+      "insufficientSleepTitle": "Insufficient sleep recorded",
+      "insufficientSleepDescription": "3 hours of sleep have been recorded in the last 24 hours. The recommended amount is between 7 and 8 hours. Consider taking a break before continuing your shift.",
+      "highHeartRateTitle": "High heart rate",
+      "highHeartRateDescription": "105 bpm were recorded during your last shift. The normal range is between 60 and 100 bpm. This could be related to stress or elevated physical effort."
     }
   }
 }

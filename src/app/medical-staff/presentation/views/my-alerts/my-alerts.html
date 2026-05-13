@@ -1,1 +1,81 @@
-<p>my-alerts works!</p>
+<section class="alerts-page">
+  <header class="page-header">
+    <div>
+      <h1>{{ 'medicalStaff.alerts.title' | translate }}</h1>
+      <p>{{ 'medicalStaff.alerts.description' | translate }}</p>
+    </div>
+  </header>
+
+  <section class="summary-row">
+    <article class="summary-pill total">
+      {{ 'medicalStaff.alerts.total' | translate:{ total: totalAlerts() } }}
+    </article>
+
+    <article class="summary-pill unread">
+      {{ 'medicalStaff.alerts.unread' | translate:{ total: unreadAlerts() } }}
+    </article>
+
+    <article class="summary-pill read">
+      {{ 'medicalStaff.alerts.read' | translate:{ total: readAlerts() } }}
+    </article>
+  </section>
+
+  <section class="toolbar">
+    <div class="filters">
+      <button
+        type="button"
+        [class.active]="selectedFilter() === 'all'"
+        (click)="selectFilter('all')">
+        {{ 'medicalStaff.alerts.all' | translate }}
+      </button>
+
+      <button
+        type="button"
+        [class.active]="selectedFilter() === 'unread'"
+        (click)="selectFilter('unread')">
+        {{ 'medicalStaff.alerts.unreadFilter' | translate }}
+      </button>
+
+      <button
+        type="button"
+        [class.active]="selectedFilter() === 'read'"
+        (click)="selectFilter('read')">
+        {{ 'medicalStaff.alerts.readFilter' | translate }}
+      </button>
+    </div>
+
+    <button type="button" class="mark-button" (click)="markAllAsRead()">
+      {{ 'medicalStaff.alerts.markAllAsRead' | translate }}
+    </button>
+  </section>
+
+  <section class="alerts-list">
+    @for (alert of filteredAlerts(); track alert.id) {
+      <article class="alert-card">
+        <div class="alert-main">
+          <span class="alert-dot" [class]="alert.dotClass"></span>
+
+          <div class="alert-content">
+            <div class="alert-title-row">
+              <h2>{{ alert.titleKey | translate }}</h2>
+
+              <span class="severity-badge" [ngClass]="alert.severity">
+                {{ alert.severityKey | translate }}
+              </span>
+            </div>
+
+            <p>{{ alert.descriptionKey | translate }}</p>
+          </div>
+        </div>
+
+        <div class="alert-actions">
+          <span class="alert-time">{{ alert.time }}</span>
+
+          <button type="button" (click)="requestRelief(alert)">
+            {{ 'medicalStaff.alerts.requestRelief' | translate }}
+          </button>
+        </div>
+      </article>
+    }
+  </section>
+</section>
