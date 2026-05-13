@@ -48,6 +48,31 @@
       "insufficientSleepDescription": "Se han registrado 3 horas de sueño en las últimas 24 horas. Lo recomendado es entre 7 y 8 horas. Considera tomar un descanso antes de continuar con tu turno.",
       "highHeartRateTitle": "Frecuencia cardiaca elevada",
       "highHeartRateDescription": "Se registraron 105 bpm durante tu último turno. El rango normal es entre 60 y 100 bpm. Esto podría estar relacionado con el estrés o esfuerzo físico elevado."
+    },
+    "history": {
+      "title": "Mi historial de evaluaciones de fatiga",
+      "description": "Monitorea tu nivel de fatiga y revisa recomendaciones preventivas según tus evaluaciones registradas.",
+      "totalEvaluations": "Evaluaciones registradas",
+      "averageFatigue": "Promedio de fatiga",
+      "currentRiskLabel": "Riesgo actual",
+      "dateRange": "Rango de fechas",
+      "to": "hasta",
+      "apply": "Aplicar",
+      "date": "Fecha",
+      "fatigueScore": "Puntaje de fatiga",
+      "risk": "Riesgo",
+      "high": "Alto",
+      "medium": "Medio",
+      "low": "Bajo",
+      "noRecords": "No se encontraron evaluaciones en ese rango de fechas.",
+      "currentRiskTitle": "Nivel de riesgo actual",
+      "recommendationsTitle": "Recomendaciones",
+      "highRiskRecommendationTitle": "Requiere descanso preventivo",
+      "highRiskRecommendation": "Se recomienda una pausa de 45 minutos. Tu nivel de fatiga puede afectar la precisión motora y la toma de decisiones. Considera solicitar relevo si los síntomas persisten.",
+      "mediumRiskRecommendationTitle": "Monitoreo recomendado",
+      "mediumRiskRecommendation": "Se sugiere reducir la carga física y mantener seguimiento de tus indicadores durante el turno actual.",
+      "lowRiskRecommendationTitle": "Estado estable",
+      "lowRiskRecommendation": "Tu estado actual es estable. Mantén una hidratación adecuada, pausas activas y monitoreo regular."
     }
   }
 }

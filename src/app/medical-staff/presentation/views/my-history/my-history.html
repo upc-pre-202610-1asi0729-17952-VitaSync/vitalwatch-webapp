@@ -1,1 +1,92 @@
-<p>my-history works!</p>
+<section class="history-page">
+  <header class="page-header">
+    <h1>{{ 'medicalStaff.history.title' | translate }}</h1>
+    <p>{{ 'medicalStaff.history.description' | translate }}</p>
+  </header>
+
+  <section class="history-summary">
+    <article class="summary-card">
+      <span class="summary-label">{{ 'medicalStaff.history.totalEvaluations' | translate }}</span>
+      <strong>{{ totalEvaluations() }}</strong>
+    </article>
+
+    <article class="summary-card">
+      <span class="summary-label">{{ 'medicalStaff.history.averageFatigue' | translate }}</span>
+      <strong>{{ averageScore() }}%</strong>
+    </article>
+
+    <article class="summary-card">
+      <span class="summary-label">{{ 'medicalStaff.history.currentRiskLabel' | translate }}</span>
+      <strong>{{ getRiskTranslationKey(currentRisk()) | translate }}</strong>
+    </article>
+  </section>
+
+  <section class="history-grid">
+    <article class="history-card">
+      <div class="filter-row">
+        <h2>{{ 'medicalStaff.history.dateRange' | translate }}</h2>
+
+        <div class="filter-controls">
+          <input type="date" [ngModel]="startDate()" (ngModelChange)="startDate.set($event)" />
+          <span>{{ 'medicalStaff.history.to' | translate }}</span>
+          <input type="date" [ngModel]="endDate()" (ngModelChange)="endDate.set($event)" />
+
+          <button type="button" (click)="applyFilter()">
+            {{ 'medicalStaff.history.apply' | translate }}
+          </button>
+        </div>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+          <tr>
+            <th>{{ 'medicalStaff.history.date' | translate }}</th>
+            <th>{{ 'medicalStaff.history.fatigueScore' | translate }}</th>
+            <th>{{ 'medicalStaff.history.risk' | translate }}</th>
+          </tr>
+          </thead>
+
+          <tbody>
+            @for (record of filteredRecords(); track record.id) {
+              <tr>
+                <td>{{ record.displayDate }}</td>
+                <td>{{ record.fatigueScore }}%</td>
+                <td>
+                  <span class="risk-badge" [class]="record.riskLevel">
+                    {{ getRiskTranslationKey(record.riskLevel) | translate }}
+                  </span>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="3" class="empty-state">
+                  {{ 'medicalStaff.history.noRecords' | translate }}
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </article>
+
+    <aside class="side-panel">
+      <article class="side-card">
+        <h2>{{ 'medicalStaff.history.currentRiskTitle' | translate }}</h2>
+
+        <span class="current-risk-badge" [class]="currentRisk()">
+          {{ getRiskTranslationKey(currentRisk()) | translate }}
+        </span>
+      </article>
+
+      <article class="side-card">
+        <h2>{{ 'medicalStaff.history.recommendationsTitle' | translate }}</h2>
+
+        <div class="recommendation-box">
+          <h3>{{ currentRecommendationTitleKey() | translate }}</h3>
+          <p>{{ currentRecommendationKey() | translate }}</p>
+        </div>
+      </article>
+    </aside>
+  </section>
+</section>
