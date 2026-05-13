@@ -1,0 +1,7 @@
+.supervisor-content {
+  min-height: calc(100vh - 134px);
+  background: #ffffff;
+  padding: 34px 40px 52px;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}

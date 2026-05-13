@@ -1,1 +1,34 @@
-<p>supervisor-header works!</p>
+<header class="supervisor-header">
+  <div class="brand">
+    <div class="logo-box">
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <path d="M32 54S10 41 10 24c0-8 6-14 14-14 4.8 0 7.8 2.2 8 2.4.2-.2 3.2-2.4 8-2.4 8 0 14 6 14 14 0 17-22 30-22 30z"></path>
+        <path d="M16 31h10l3-8 6 17 4-9h9" class="line"></path>
+      </svg>
+    </div>
+
+    <span>VitalWatch</span>
+  </div>
+
+  <nav>
+    <a routerLink="/supervisor/dashboard" routerLinkActive="active">
+      {{ 'supervisor.nav.dashboard' | translate }}
+    </a>
+
+    <a routerLink="/supervisor/risk-staff" routerLinkActive="active">
+      {{ 'supervisor.nav.riskStaff' | translate }}
+    </a>
+
+    <a routerLink="/supervisor/alerts" routerLinkActive="active">
+      {{ 'supervisor.nav.alerts' | translate }}
+    </a>
+
+    <a routerLink="/supervisor/anomalies" routerLinkActive="active">
+      {{ 'supervisor.nav.anomalies' | translate }}
+    </a>
+
+    <a routerLink="/supervisor/settings" routerLinkActive="active">
+      {{ 'supervisor.nav.settings' | translate }}
+    </a>
+  </nav>
+</header>

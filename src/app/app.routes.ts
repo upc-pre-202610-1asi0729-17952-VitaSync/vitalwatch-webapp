@@ -6,13 +6,14 @@ const iamRoutes = () =>
 const medicalStaffRoutes = () =>
   import('./medical-staff/presentation/medical-staff.routes').then(m => m.medicalStaffRoutes);
 
+const supervisorRoutes = () =>
+  import('./supervisor/presentation/supervisor.routes').then(m => m.supervisorRoutes);
+
 export const routes: Routes = [
   { path: 'iam', loadChildren: iamRoutes },
   { path: 'medical-staff', loadChildren: medicalStaffRoutes },
+  { path: 'supervisor', loadChildren: supervisorRoutes },
 
-  // Primero debe aparecer el login
   { path: '', redirectTo: 'iam/auth', pathMatch: 'full' },
-
-  // Si la ruta no existe, vuelve al login
   { path: '**', redirectTo: 'iam/auth' }
 ];

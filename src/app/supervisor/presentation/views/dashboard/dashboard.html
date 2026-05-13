@@ -1,1 +1,77 @@
-<p>dashboard works!</p>
+<section class="dashboard-page">
+  <header class="page-header">
+    <h1>{{ 'supervisor.dashboard.title' | translate }}</h1>
+    <p>{{ 'supervisor.dashboard.description' | translate }}</p>
+  </header>
+
+  <section class="top-grid">
+    <article class="metrics-panel">
+      <div class="metric-card">
+        <h2>{{ 'supervisor.dashboard.averageFatigue' | translate }}</h2>
+        <strong>38%</strong>
+        <span class="chip low">{{ 'supervisor.common.lowLevel' | translate }}</span>
+      </div>
+
+      <div class="metric-card">
+        <h2>{{ 'supervisor.dashboard.activeAlerts' | translate }}</h2>
+        <strong>6</strong>
+        <span class="chip red">{{ 'supervisor.dashboard.veryCriticalAlerts' | translate }}</span>
+        <span class="chip orange">{{ 'supervisor.dashboard.criticalAlerts' | translate }}</span>
+        <span class="chip blue">{{ 'supervisor.dashboard.infoAlerts' | translate }}</span>
+      </div>
+
+      <div class="metric-card">
+        <h2>{{ 'supervisor.dashboard.staffAtRisk' | translate }}</h2>
+        <strong>6</strong>
+        <span class="chip red">{{ 'supervisor.dashboard.fatigueCases' | translate }}</span>
+        <span class="chip orange">{{ 'supervisor.dashboard.otherCases' | translate }}</span>
+      </div>
+    </article>
+
+    <article class="summary-panel">
+      <div class="summary-card">
+        <h2>{{ 'supervisor.dashboard.dailySummary' | translate }}</h2>
+        <p>{{ 'supervisor.dashboard.activeMonitoredStaff' | translate }}</p>
+        <p>{{ 'supervisor.dashboard.highestLoadArea' | translate }}</p>
+        <p>{{ 'supervisor.dashboard.attendedAlerts' | translate }}</p>
+      </div>
+
+      <div class="summary-card">
+        <h2>{{ 'supervisor.dashboard.recentAlerts' | translate }}</h2>
+        <ul>
+          @for (alert of recentAlerts; track alert) {
+            <li>{{ alert | translate }}</li>
+          }
+        </ul>
+      </div>
+    </article>
+  </section>
+
+  <section class="risk-table-card">
+    <h2>{{ 'supervisor.dashboard.staffAtRisk' | translate }}</h2>
+
+    <table>
+      <thead>
+      <tr>
+        <th>{{ 'supervisor.table.name' | translate }}</th>
+        <th>{{ 'supervisor.table.area' | translate }}</th>
+        <th>{{ 'supervisor.table.riskType' | translate }}</th>
+        <th>{{ 'supervisor.table.fatigueLevel' | translate }}</th>
+        <th>{{ 'supervisor.table.status' | translate }}</th>
+      </tr>
+      </thead>
+
+      <tbody>
+        @for (person of riskStaff; track person.name) {
+          <tr>
+            <td>{{ person.name }}</td>
+            <td>{{ person.area }}</td>
+            <td>{{ person.riskTypeKey | translate }}</td>
+            <td>{{ person.fatigueLevelKey | translate }}</td>
+            <td>{{ person.statusKey | translate }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </section>
+</section>

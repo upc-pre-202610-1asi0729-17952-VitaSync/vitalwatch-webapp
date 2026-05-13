@@ -111,5 +111,51 @@
       "logout": "Log out",
       "passwordFeatureMessage": "The password change feature will be implemented soon."
     }
+  },
+  "supervisor": {
+    "nav": {
+      "dashboard": "Main menu",
+      "riskStaff": "Staff at risk",
+      "alerts": "Alerts",
+      "anomalies": "Anomalies",
+      "settings": "Settings"
+    },
+    "dashboard": {
+      "title": "Hospital Main Dashboard",
+      "description": "Comprehensive supervision of clinical risk, operational metrics and administration.",
+      "averageFatigue": "Average staff fatigue level",
+      "activeAlerts": "Active alerts",
+      "staffAtRisk": "Staff at risk",
+      "veryCriticalAlerts": "Very critical: 2",
+      "criticalAlerts": "Critical: 1",
+      "infoAlerts": "Info: 3",
+      "fatigueCases": "Fatigue: 4",
+      "otherCases": "Others: 2",
+      "dailySummary": "Daily general summary",
+      "activeMonitoredStaff": "Active monitored staff: 37",
+      "highestLoadArea": "Highest load area: ICU",
+      "attendedAlerts": "Attended alerts: 3 of 8",
+      "recentAlerts": "Recent alerts",
+      "recentAlertA": "Person A. Elevated fatigue 2 min ago",
+      "recentAlertB": "Person B. Anomaly 12 min ago",
+      "recentAlertC": "Person C. Rest assigned 23 min ago",
+      "recentAlertD": "Person D. Elevated fatigue 1 hour ago"
+    },
+    "table": {
+      "name": "Name",
+      "area": "Area",
+      "riskType": "Risk type",
+      "fatigueLevel": "Fatigue level",
+      "status": "Status"
+    },
+    "common": {
+      "fatigue": "Fatigue",
+      "anomaly": "Anomaly",
+      "high": "High",
+      "regular": "Regular",
+      "pending": "Pending",
+      "inFollowUp": "In follow-up",
+      "lowLevel": "Low level"
+    }
   }
 }

@@ -111,5 +111,51 @@
       "logout": "Cerrar sesión",
       "passwordFeatureMessage": "La funcionalidad de cambio de contraseña se implementará próximamente."
     }
+  },
+  "supervisor": {
+    "nav": {
+      "dashboard": "Menú principal",
+      "riskStaff": "Personal en riesgo",
+      "alerts": "Alertas",
+      "anomalies": "Anomalías",
+      "settings": "Configuración"
+    },
+    "dashboard": {
+      "title": "Panel Principal del Hospital",
+      "description": "Supervisión integral de riesgo clínico, métricas operativas y administración.",
+      "averageFatigue": "Nivel de fatiga promedio del personal",
+      "activeAlerts": "Alertas activas",
+      "staffAtRisk": "Personal en riesgo",
+      "veryCriticalAlerts": "Muy críticas: 2",
+      "criticalAlerts": "Críticas: 1",
+      "infoAlerts": "Info: 3",
+      "fatigueCases": "Fatiga: 4",
+      "otherCases": "Otros: 2",
+      "dailySummary": "Resumen general diario",
+      "activeMonitoredStaff": "Personal monitoreado activo: 37",
+      "highestLoadArea": "Área con más carga: UCI",
+      "attendedAlerts": "Alertas atendidas: 3 de 8",
+      "recentAlerts": "Alertas recientes",
+      "recentAlertA": "Persona A. Fatiga elevada hace 2 min",
+      "recentAlertB": "Persona B. Anomalía hace 12 min",
+      "recentAlertC": "Persona C. Dar descanso hace 23 min",
+      "recentAlertD": "Persona D. Fatiga elevada hace 1 hora"
+    },
+    "table": {
+      "name": "Nombre",
+      "area": "Área",
+      "riskType": "Tipo de riesgo",
+      "fatigueLevel": "Nivel de fatiga",
+      "status": "Estado"
+    },
+    "common": {
+      "fatigue": "Fatiga",
+      "anomaly": "Anomalía",
+      "high": "Alto",
+      "regular": "Regular",
+      "pending": "Pendiente",
+      "inFollowUp": "En seguimiento",
+      "lowLevel": "Nivel bajo"
+    }
   }
 }

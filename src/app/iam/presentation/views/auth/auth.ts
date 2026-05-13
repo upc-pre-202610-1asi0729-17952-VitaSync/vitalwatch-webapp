@@ -49,10 +49,14 @@ export class Auth {
       return;
     }
 
+    if (this.role === 'Supervisor Clínico') {
+      this.router.navigate(['/supervisor/dashboard']).then();
+      return;
+    }
+
     if (this.role === 'Personal Administrativo') {
-      // Más adelante irá al dashboard del administrador
-      //this.router.navigate(['/admin/dashboard']).then();
-      this.router.navigate(['/medical-staff/my-status']).then();
+      // Luego lo cambiaremos a /admin/dashboard cuando implementemos Admin xd
+      this.router.navigate(['/supervisor/dashboard']).then();
       return;
     }
   }

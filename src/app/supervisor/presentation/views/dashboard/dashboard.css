@@ -1,0 +1,174 @@
+.dashboard-page {
+  color: #101828;
+}
+
+.page-header {
+  margin-bottom: 38px;
+}
+
+.page-header h1 {
+  margin: 0 0 26px;
+  font-size: 35px;
+  font-weight: 800;
+}
+
+.page-header p {
+  max-width: 600px;
+  margin: 0;
+  color: #5268aa;
+  font-size: 22px;
+  line-height: 1.2;
+}
+
+.top-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 32px;
+  margin-bottom: 26px;
+}
+
+.metrics-panel,
+.summary-panel {
+  background: #add3ff;
+  border-radius: 8px;
+  padding: 20px 26px;
+}
+
+.metrics-panel {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.metric-card,
+.summary-card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 18px;
+  text-align: center;
+}
+
+.metric-card h2 {
+  min-height: 52px;
+  margin: 0 0 14px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.metric-card strong {
+  display: block;
+  margin-bottom: 18px;
+  font-size: 28px;
+}
+
+.chip {
+  display: block;
+  width: fit-content;
+  min-width: 100px;
+  margin: 6px auto 0;
+  border-radius: 999px;
+  padding: 3px 10px;
+  font-size: 14px;
+}
+
+.chip.low {
+  color: #e36b1d;
+  border: 1px solid #ff7a2f;
+  background: #ffe9dd;
+}
+
+.chip.red {
+  color: #d90000;
+  border: 1px solid #ff4d57;
+  background: #ffe1e1;
+}
+
+.chip.orange {
+  color: #d85f00;
+  border: 1px solid #ff7a2f;
+  background: #ffe6d5;
+}
+
+.chip.blue {
+  color: #004ee6;
+  border: 1px solid #2b77ff;
+  background: #dfeeff;
+}
+
+.summary-panel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+}
+
+.summary-card h2 {
+  margin: 0 0 10px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.summary-card p {
+  margin: 6px 0;
+  border: 1px solid #2b77ff;
+  border-radius: 6px;
+  background: #d9ebff;
+  font-size: 14px;
+}
+
+.summary-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.summary-card li {
+  margin: 8px 0;
+  font-size: 14px;
+  text-align: left;
+}
+
+.risk-table-card {
+  max-width: 100%;
+  border: 1px solid #d0d5dd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.risk-table-card h2 {
+  margin: 0;
+  background: #3d82f6;
+  color: #ffffff;
+  text-align: center;
+  padding: 12px;
+  font-size: 25px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+}
+
+th,
+td {
+  padding: 15px;
+  border-bottom: 1px solid #b6b6b6;
+  text-align: center;
+  font-size: 16px;
+}
+
+th {
+  font-weight: 700;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+@media (max-width: 1050px) {
+  .top-grid,
+  .summary-panel,
+  .metrics-panel {
+    grid-template-columns: 1fr;
+  }
+}
