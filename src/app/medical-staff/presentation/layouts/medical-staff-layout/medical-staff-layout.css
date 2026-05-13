@@ -1,0 +1,7 @@
+.medical-content {
+  min-height: calc(100vh - 126px);
+  background: #f3f4ff;
+  padding: 30px 40px;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}

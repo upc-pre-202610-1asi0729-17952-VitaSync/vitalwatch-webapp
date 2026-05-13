@@ -1,6 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { IamStore } from '../../../application/iam.store';
 import { UserRole, userRoles } from '../../../domain/model/user-role';
 
@@ -12,6 +13,7 @@ import { UserRole, userRoles } from '../../../domain/model/user-role';
 })
 export class Auth {
   protected readonly iamStore = inject(IamStore);
+  private readonly router = inject(Router);
 
   protected readonly activeTab = signal<'login' | 'register'>('login');
   protected readonly roles = userRoles;
@@ -26,10 +28,32 @@ export class Auth {
   }
 
   protected signIn(): void {
-    this.iamStore.signIn(this.email, this.password, this.role);
+    const success = this.iamStore.signIn(this.email, this.password, this.role);
+
+    if (success) {
+      this.redirectByRole();
+    }
   }
 
   protected register(): void {
-    this.iamStore.register(this.fullName, this.email, this.password, this.role);
+    const success = this.iamStore.register(this.fullName, this.email, this.password, this.role);
+
+    if (success) {
+      this.redirectByRole();
+    }
+  }
+
+  private redirectByRole(): void {
+    if (this.role === 'Personal Médico') {
+      this.router.navigate(['/medical-staff/my-status']).then();
+      return;
+    }
+
+    if (this.role === 'Personal Administrativo') {
+      // Más adelante irá al dashboard del administrador
+      //this.router.navigate(['/admin/dashboard']).then();
+      this.router.navigate(['/medical-staff/my-status']).then();
+      return;
+    }
   }
 }

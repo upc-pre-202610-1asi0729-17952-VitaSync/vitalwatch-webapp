@@ -1,0 +1,32 @@
+{
+  "medicalStaff": {
+    "nav": {
+      "myStatus": "My status",
+      "myAlerts": "My alerts",
+      "myHistory": "My history",
+      "recovery": "Recovery",
+      "settings": "Settings"
+    },
+    "status": {
+      "title": "My current status",
+      "lastUpdate": "Last update: {{ minutes }} minutes ago",
+      "fatigueScore": "Fatigue score",
+      "sleepHours": "Sleep hours",
+      "heartRate": "Heart rate",
+      "physicalActivity": "Physical activity",
+      "shiftDuration": "Shift duration",
+      "recommendedSleep": "Recommended: 7-8h",
+      "normalRange": "Normal range: 60-100 bpm",
+      "stepsToday": "{{ steps }} steps today",
+      "dailyGoal": "Daily goal: 4000 steps",
+      "currentShift": "Current shift: 7:00 - 19:00",
+      "criticalLevel": "Critical level",
+      "urgentRest": "Urgent rest is recommended",
+      "myAlerts": "My alerts",
+      "extremeFatigue": "Extreme fatigue detected",
+      "extremeFatigueDescription": "Your fatigue score has exceeded the allowed threshold. It is recommended to take a break or request a shift rescheduling from the shift supervisor.",
+      "insufficientSleep": "Insufficient sleep recorded",
+      "insufficientSleepDescription": "3 hours of sleep have been recorded. The recommended amount is 7 to 8 hours. It is recommended to rest before continuing the shift to avoid negligence."
+    }
+  }
+}

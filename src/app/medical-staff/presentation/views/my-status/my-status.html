@@ -1,0 +1,79 @@
+<section class="status-page">
+  <header class="page-title">
+    <h1>{{ 'medicalStaff.status.title' | translate }}</h1>
+    <p>{{ 'medicalStaff.status.lastUpdate' | translate:{ minutes: lastUpdateMinutes } }}</p>
+  </header>
+
+  <section class="status-grid">
+    <article class="fatigue-card">
+      <h2>{{ 'medicalStaff.status.fatigueScore' | translate }}</h2>
+
+      <div class="score-ring">
+        <strong>100</strong>
+        <span>de 100</span>
+      </div>
+
+      <div class="critical-badge">
+        {{ 'medicalStaff.status.criticalLevel' | translate }}
+      </div>
+
+      <p>{{ 'medicalStaff.status.urgentRest' | translate }}</p>
+    </article>
+
+    <article class="metric-card">
+      <div class="metric-icon sleep">💤</div>
+      <div>
+        <h3>{{ 'medicalStaff.status.sleepHours' | translate }}</h3>
+        <strong>3 horas</strong>
+        <p class="danger">{{ 'medicalStaff.status.recommendedSleep' | translate }}</p>
+      </div>
+    </article>
+
+    <article class="metric-card">
+      <div class="metric-icon heart">❤️</div>
+      <div>
+        <h3>{{ 'medicalStaff.status.heartRate' | translate }}</h3>
+        <strong>105 bpm</strong>
+        <p class="danger">{{ 'medicalStaff.status.normalRange' | translate }}</p>
+      </div>
+    </article>
+
+    <article class="metric-card">
+      <div class="metric-icon activity">🚶</div>
+      <div>
+        <h3>{{ 'medicalStaff.status.physicalActivity' | translate }}</h3>
+        <strong>{{ 'medicalStaff.status.stepsToday' | translate:{ steps: stepsToday } }}</strong>
+        <p>{{ 'medicalStaff.status.dailyGoal' | translate }}</p>
+      </div>
+    </article>
+
+    <article class="metric-card">
+      <div class="metric-icon shift">🕘</div>
+      <div>
+        <h3>{{ 'medicalStaff.status.shiftDuration' | translate }}</h3>
+        <strong>9h 20min</strong>
+        <p>{{ 'medicalStaff.status.currentShift' | translate }}</p>
+      </div>
+    </article>
+  </section>
+
+  <section class="alerts-section">
+    <h2>{{ 'medicalStaff.status.myAlerts' | translate }}</h2>
+
+    <article class="alert-card">
+      <span class="dot red"></span>
+      <div>
+        <h3>{{ 'medicalStaff.status.extremeFatigue' | translate }}</h3>
+        <p>{{ 'medicalStaff.status.extremeFatigueDescription' | translate }}</p>
+      </div>
+    </article>
+
+    <article class="alert-card">
+      <span class="dot yellow"></span>
+      <div>
+        <h3>{{ 'medicalStaff.status.insufficientSleep' | translate }}</h3>
+        <p>{{ 'medicalStaff.status.insufficientSleepDescription' | translate }}</p>
+      </div>
+    </article>
+  </section>
+</section>

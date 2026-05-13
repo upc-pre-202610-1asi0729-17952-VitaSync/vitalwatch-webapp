@@ -1,0 +1,180 @@
+.status-page {
+  color: #080d1f;
+}
+
+.page-title h1 {
+  font-size: 31px;
+  margin: 0;
+}
+
+.page-title p {
+  color: #8a8a8a;
+  font-size: 19px;
+  margin: 4px 0 16px;
+}
+
+.status-grid {
+  display: grid;
+  grid-template-columns: 290px 1fr 1fr;
+  gap: 36px 56px;
+  align-items: stretch;
+}
+
+.fatigue-card,
+.metric-card,
+.alert-card {
+  background: #ffffff;
+  border: 1px solid #111827;
+  border-radius: 14px;
+}
+
+.fatigue-card {
+  grid-row: span 2;
+  padding: 12px 14px;
+  text-align: center;
+}
+
+.fatigue-card h2 {
+  color: #3c3c3c;
+  font-size: 24px;
+  font-weight: 400;
+  margin: 0 0 8px;
+}
+
+.score-ring {
+  width: 150px;
+  height: 150px;
+  border: 14px solid #ff4d57;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 auto 18px;
+}
+
+.score-ring strong {
+  color: #ff4d57;
+  font-size: 34px;
+  line-height: 1;
+}
+
+.score-ring span {
+  color: #5f5f5f;
+  font-size: 24px;
+}
+
+.critical-badge {
+  background: #ff4d57;
+  color: #ffffff;
+  border-radius: 12px;
+  padding: 9px 16px;
+  font-size: 24px;
+  font-weight: 800;
+  margin: 0 auto 10px;
+  max-width: 190px;
+}
+
+.fatigue-card p {
+  color: #727272;
+  font-size: 17px;
+  margin: 0;
+}
+
+.metric-card {
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 0 28px;
+}
+
+.metric-icon {
+  width: 49px;
+  height: 49px;
+  border: 1px solid #555;
+  display: grid;
+  place-items: center;
+  font-size: 31px;
+}
+
+.metric-card h3 {
+  color: #737373;
+  font-size: 23px;
+  font-weight: 400;
+  margin: 0;
+}
+
+.metric-card strong {
+  color: #000000;
+  display: block;
+  font-size: 31px;
+  font-weight: 400;
+  margin: 2px 0 4px;
+}
+
+.metric-card p {
+  color: #8a8a8a;
+  font-size: 20px;
+  margin: 0;
+}
+
+.metric-card .danger {
+  color: #ff6666;
+  font-weight: 700;
+}
+
+.alerts-section {
+  margin-top: 28px;
+}
+
+.alerts-section h2 {
+  font-size: 31px;
+  font-weight: 400;
+  margin: 0 0 18px;
+}
+
+.alert-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 10px 20px;
+  margin-bottom: 28px;
+}
+
+.alert-card h3 {
+  font-size: 21px;
+  font-weight: 400;
+  margin: 0 0 4px;
+}
+
+.alert-card p {
+  color: #737373;
+  font-size: 18px;
+  margin: 0;
+}
+
+.dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  margin-top: 4px;
+  flex: 0 0 auto;
+}
+
+.dot.red {
+  background: #ff4d57;
+}
+
+.dot.yellow {
+  background: #ffbd59;
+}
+
+@media (max-width: 1050px) {
+  .status-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .fatigue-card {
+    grid-row: auto;
+  }
+}

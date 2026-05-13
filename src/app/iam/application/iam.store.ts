@@ -21,12 +21,12 @@ export class IamStore {
   private readonly successSignal = signal<string | null>(null);
   readonly success = this.successSignal.asReadonly();
 
-  signIn(email: string, password: string, role: UserRole): void {
+  signIn(email: string, password: string, role: UserRole): boolean {
     this.clearMessages();
 
     if (!email || !password) {
       this.errorSignal.set('Ingrese correo electrónico y contraseña.');
-      return;
+      return false;
     }
 
     this.currentUserSignal.set({
@@ -37,17 +37,26 @@ export class IamStore {
     });
 
     this.successSignal.set('Inicio de sesión exitoso.');
+    return true;
   }
 
-  register(fullName: string, email: string, password: string, role: UserRole): void {
+  register(fullName: string, email: string, password: string, role: UserRole): boolean {
     this.clearMessages();
 
     if (!fullName || !email || !password) {
       this.errorSignal.set('Complete todos los campos requeridos.');
-      return;
+      return false;
     }
 
-    this.successSignal.set('Solicitud de registro enviada correctamente.');
+    this.currentUserSignal.set({
+      id: 1,
+      fullName,
+      email,
+      role
+    });
+
+    this.successSignal.set('Registro exitoso.');
+    return true;
   }
 
   signOut(): void {

@@ -1,0 +1,32 @@
+{
+  "medicalStaff": {
+    "nav": {
+      "myStatus": "Mi estado",
+      "myAlerts": "Mis alertas",
+      "myHistory": "Mi historial",
+      "recovery": "Recuperación",
+      "settings": "Configuración"
+    },
+    "status": {
+      "title": "Mi estado actual",
+      "lastUpdate": "Última actualización: hace {{ minutes }} minutos",
+      "fatigueScore": "Fatigue score",
+      "sleepHours": "Horas de sueño",
+      "heartRate": "Frecuencia cardiaca",
+      "physicalActivity": "Actividad física",
+      "shiftDuration": "Duración del turno",
+      "recommendedSleep": "Recomendado: 7-8h",
+      "normalRange": "Rango normal: 60-100 bpm",
+      "stepsToday": "{{ steps }} pasos hoy",
+      "dailyGoal": "Meta diaria: 4000 pasos",
+      "currentShift": "Turno actual: 7:00 - 19:00",
+      "criticalLevel": "Nivel crítico",
+      "urgentRest": "Se recomienda descanso urgente",
+      "myAlerts": "Mis alertas",
+      "extremeFatigue": "Fatiga extrema detectada",
+      "extremeFatigueDescription": "Tu score de fatiga ha superado el umbral permitido. Se recomienda tomar un descanso o pedir una reprogramación de turno al jefe de guardia.",
+      "insufficientSleep": "Sueño insuficiente registrado",
+      "insufficientSleepDescription": "Se han registrado 3 horas de sueño. Lo recomendado es 7 a 8 horas. Se recomienda tomar un descanso antes de seguir con el turno para evitar negligencias."
+    }
+  }
+}
