@@ -1,0 +1,140 @@
+<section class="auth-page">
+  <main class="auth-card">
+    <header class="auth-header">
+      <div class="logo-box">
+        <svg viewBox="0 0 64 64" aria-hidden="true">
+          <path d="M32 54S10 41 10 24c0-8 6-14 14-14 4.8 0 7.8 2.2 8 2.4.2-.2 3.2-2.4 8-2.4 8 0 14 6 14 14 0 17-22 30-22 30z"/>
+          <path d="M16 31h10l3-8 6 17 4-9h9" class="line"/>
+        </svg>
+      </div>
+
+      <h1>VitalWatch</h1>
+    </header>
+
+    <section class="auth-body">
+      <div class="tabs">
+        <button
+          type="button"
+          [class.active]="activeTab() === 'login'"
+          (click)="selectTab('login')">
+          Iniciar Sesión
+        </button>
+
+        <button
+          type="button"
+          [class.active]="activeTab() === 'register'"
+          (click)="selectTab('register')">
+          Registro
+        </button>
+      </div>
+
+      <form class="auth-form" *ngIf="activeTab() === 'login'" (ngSubmit)="signIn()">
+        <label>
+          Correo Electrónico
+          <div class="input-wrapper">
+            <span>✉</span>
+            <input
+              type="email"
+              name="loginEmail"
+              [(ngModel)]="email"
+              placeholder="correo@hospital.com">
+          </div>
+        </label>
+
+        <label>
+          Contraseña
+          <div class="input-wrapper">
+            <span>🔒</span>
+            <input
+              type="password"
+              name="loginPassword"
+              [(ngModel)]="password"
+              placeholder="contraseña">
+          </div>
+        </label>
+
+        <label>
+          Rol
+          <div class="input-wrapper">
+            <span>🛡</span>
+            <select name="loginRole" [(ngModel)]="role">
+              <option *ngFor="let item of roles" [value]="item">
+                {{ item }}
+              </option>
+            </select>
+          </div>
+        </label>
+
+        <button class="submit-button" type="submit">
+          Ingresar al Sistema
+        </button>
+      </form>
+
+      <form class="auth-form" *ngIf="activeTab() === 'register'" (ngSubmit)="register()">
+        <label>
+          Nombre Completo
+          <div class="input-wrapper">
+            <span>👤</span>
+            <input
+              type="text"
+              name="fullName"
+              [(ngModel)]="fullName"
+              placeholder="Nombre completo">
+          </div>
+        </label>
+
+        <label>
+          Correo Electrónico
+          <div class="input-wrapper">
+            <span>✉</span>
+            <input
+              type="email"
+              name="registerEmail"
+              [(ngModel)]="email"
+              placeholder="correo@hospital.com">
+          </div>
+        </label>
+
+        <label>
+          Contraseña
+          <div class="input-wrapper">
+            <span>🔒</span>
+            <input
+              type="password"
+              name="registerPassword"
+              [(ngModel)]="password"
+              placeholder="contraseña">
+          </div>
+        </label>
+
+        <label>
+          Rol
+          <div class="input-wrapper">
+            <span>🛡</span>
+            <select name="registerRole" [(ngModel)]="role">
+              <option *ngFor="let item of roles" [value]="item">
+                {{ item }}
+              </option>
+            </select>
+          </div>
+        </label>
+
+        <button class="submit-button" type="submit">
+          Enviar solicitud
+        </button>
+      </form>
+
+      <p class="success-message" *ngIf="iamStore.success()">
+        {{ iamStore.success() }}
+      </p>
+
+      <p class="error-message" *ngIf="iamStore.error()">
+        {{ iamStore.error() }}
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    © 2026 VitalWatch - Todos los derechos reservados
+  </footer>
+</section>
