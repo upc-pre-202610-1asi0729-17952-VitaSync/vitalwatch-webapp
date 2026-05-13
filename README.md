@@ -161,7 +161,7 @@ El diagrama de clases se encuentra en `docs/class-diagram.puml`
 
 ## Autores
 
-Open Source Applications Development Team:
+VitaSync Development Team:
 
 + Montes Zamora, Edgar Alexander Mauricio - `u20241e126`
 + Güere Calero, Fernando Julio - `u202413169`
