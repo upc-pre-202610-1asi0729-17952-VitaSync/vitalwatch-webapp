@@ -1,1 +1,90 @@
-<p>anomalies works!</p>
+<section class="anomalies-page">
+  <header class="page-header">
+    <h1>{{ 'supervisor.anomalies.title' | translate }}</h1>
+    <p>{{ 'supervisor.anomalies.description' | translate }}</p>
+  </header>
+
+  <section class="anomalies-grid">
+    <article class="panel anomalies-list-panel">
+      <h2>{{ 'supervisor.anomalies.registeredList' | translate }}</h2>
+
+      <div class="filter-row">
+        <label>{{ 'supervisor.anomalies.anomalyType' | translate }}</label>
+
+        <div class="filter-buttons">
+          <button
+            type="button"
+            [class.active]="selectedType() === 'cardiac'"
+            (click)="changeType('cardiac')">
+            {{ 'supervisor.anomalies.filters.cardiac' | translate }}
+          </button>
+
+          <button
+            type="button"
+            [class.active]="selectedType() === 'temperature'"
+            (click)="changeType('temperature')">
+            {{ 'supervisor.anomalies.filters.temperature' | translate }}
+          </button>
+
+          <button
+            type="button"
+            [class.active]="selectedType() === 'all'"
+            (click)="changeType('all')">
+            {{ 'supervisor.anomalies.filters.all' | translate }}
+          </button>
+        </div>
+      </div>
+
+      <div class="table-header">
+        <span>{{ 'supervisor.anomalies.table.staff' | translate }}</span>
+        <span>{{ 'supervisor.anomalies.table.anomaly' | translate }}</span>
+        <span>{{ 'supervisor.anomalies.table.date' | translate }}</span>
+      </div>
+
+      <div class="anomaly-list">
+        @for (anomaly of filteredAnomalies(); track anomaly.id) {
+          <article
+            class="anomaly-row"
+            [class.selected]="selectedAnomaly().id === anomaly.id"
+            (click)="selectAnomaly(anomaly)">
+            <div class="staff-cell">
+              <strong>{{ anomaly.staffName }}</strong>
+              <span>{{ anomaly.staffRole }}</span>
+            </div>
+
+            <span>{{ anomaly.anomalyKey | translate }}</span>
+            <span>{{ anomaly.date }}</span>
+          </article>
+        }
+      </div>
+    </article>
+
+    <article class="panel detail-panel">
+      <h2>{{ 'supervisor.anomalies.detailTitle' | translate }}</h2>
+
+      <section class="affected-staff">
+        <h3>{{ 'supervisor.anomalies.affectedStaff' | translate }}</h3>
+
+        <p>
+          <strong>{{ selectedAnomaly().staffName }}</strong>
+          <span>{{ selectedAnomaly().staffRole }}</span>
+        </p>
+      </section>
+
+      <section class="records-section">
+        <h3>{{ 'supervisor.anomalies.records' | translate }}</h3>
+
+        @for (record of selectedStaffAnomalies(); track record.id) {
+          <article class="record-card">
+            <div class="record-header">
+              <h4>{{ record.anomalyKey | translate }}</h4>
+              <span>{{ record.timestamp }}</span>
+            </div>
+
+            <p>{{ record.descriptionKey | translate }}</p>
+          </article>
+        }
+      </section>
+    </article>
+  </section>
+</section>

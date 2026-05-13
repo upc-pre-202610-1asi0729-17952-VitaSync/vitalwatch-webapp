@@ -234,6 +234,53 @@
       "restSuggested": "Se sugiere asignar una pausa y verificar disponibilidad de reemplazo",
       "registerIntervention": "Registrar intervención",
       "confirm": "Confirmar"
+    },
+    "anomalies": {
+      "title": "Anomalías",
+      "description": "Consulta anomalías biométricas registradas en el personal médico monitoreado.",
+      "registeredList": "Lista de anomalías registradas",
+      "anomalyType": "Tipo de anomalía:",
+      "detailTitle": "Detalle de anomalías detectadas",
+      "affectedStaff": "Personal afectado",
+      "records": "Registros",
+      "filters": {
+        "cardiac": "Cardiaca",
+        "temperature": "Temperatura",
+        "all": "Todas"
+      },
+      "table": {
+        "staff": "Personal",
+        "anomaly": "Anomalía",
+        "date": "Fecha"
+      },
+      "types": {
+        "mildArrhythmia": "Arritmia leve",
+        "constantArrhythmia": "Arritmia constante",
+        "lowFever": "Febrícula"
+      },
+      "descriptions": {
+        "cardiacVariation": "Se ha detectado una variación inusual en el ritmo cardíaco en los parámetros biométricos del sensor, independiente de los niveles de fatiga registrados.",
+        "temperatureVariation": "Se ha detectado una variación inusual en la temperatura corporal según los parámetros biométricos del sensor, independiente de los niveles de fatiga registrados."
+      }
+    },
+    "settings": {
+      "title": "Configuración",
+      "myProfile": "Mi perfil",
+      "name": "Nombre",
+      "role": "Rol",
+      "position": "Cargo",
+      "hospitalUnit": "Unidad hospitalaria",
+      "email": "Correo",
+      "lastAccess": "Último acceso",
+      "language": "Idioma",
+      "spanish": "Español",
+      "english": "Inglés",
+      "languageHelp": "El idioma seleccionado se aplicará a los textos fijos de la aplicación.",
+      "changePassword": "Cambiar contraseña",
+      "logout": "Cerrar sesión",
+      "supervisorRole": "Supervisor clínico",
+      "supervisorPosition": "Supervisor de guardia",
+      "passwordFeatureMessage": "La funcionalidad de cambio de contraseña se implementará próximamente."
     }
   }
 }

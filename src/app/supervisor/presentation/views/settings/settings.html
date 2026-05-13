@@ -1,1 +1,83 @@
-<p>settings works!</p>
+<section class="settings-page">
+  <header class="page-header">
+    <h1>{{ 'supervisor.settings.title' | translate }}</h1>
+  </header>
+
+  <section class="settings-card">
+    <article class="profile-section">
+      <h2>{{ 'supervisor.settings.myProfile' | translate }}</h2>
+
+      <div class="profile-card">
+        <div class="profile-field">
+          <span>{{ 'supervisor.settings.name' | translate }}</span>
+          <strong>{{ profile.name }}</strong>
+        </div>
+
+        <div class="profile-field">
+          <span>{{ 'supervisor.settings.role' | translate }}</span>
+          <strong>{{ profile.roleKey | translate }}</strong>
+        </div>
+
+        <div class="profile-field">
+          <span>{{ 'supervisor.settings.position' | translate }}</span>
+          <strong>{{ profile.positionKey | translate }}</strong>
+        </div>
+
+        <div class="profile-field">
+          <span>{{ 'supervisor.settings.hospitalUnit' | translate }}</span>
+          <strong>{{ profile.hospitalUnit }}</strong>
+        </div>
+
+        <div class="profile-field">
+          <span>{{ 'supervisor.settings.email' | translate }}</span>
+          <strong>{{ profile.email }}</strong>
+        </div>
+
+        <div class="profile-field">
+          <span>{{ 'supervisor.settings.lastAccess' | translate }}</span>
+          <strong>{{ profile.lastAccess }}</strong>
+        </div>
+      </div>
+
+      <div class="profile-actions">
+        <button type="button" class="secondary-button" (click)="changePassword()">
+          {{ 'supervisor.settings.changePassword' | translate }}
+        </button>
+
+        <button type="button" class="logout-button" (click)="logout()">
+          {{ 'supervisor.settings.logout' | translate }}
+        </button>
+      </div>
+
+      @if (feedbackMessage()) {
+        <p class="feedback-message">
+          {{ feedbackMessage() }}
+        </p>
+      }
+    </article>
+
+    <article class="language-section">
+      <h2>{{ 'supervisor.settings.language' | translate }}</h2>
+
+      <div class="language-options">
+        <button
+          type="button"
+          [class.active]="selectedLanguage() === 'es'"
+          (click)="changeLanguage('es')">
+          {{ 'supervisor.settings.spanish' | translate }}
+        </button>
+
+        <button
+          type="button"
+          [class.active]="selectedLanguage() === 'en'"
+          (click)="changeLanguage('en')">
+          {{ 'supervisor.settings.english' | translate }}
+        </button>
+      </div>
+
+      <p class="language-help">
+        {{ 'supervisor.settings.languageHelp' | translate }}
+      </p>
+    </article>
+  </section>
+</section>

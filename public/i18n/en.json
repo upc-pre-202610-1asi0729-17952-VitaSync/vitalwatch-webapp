@@ -234,6 +234,53 @@
       "restSuggested": "It is suggested to assign a break and verify replacement availability",
       "registerIntervention": "Register intervention",
       "confirm": "Confirm"
+    },
+    "anomalies": {
+      "title": "Anomalies",
+      "description": "Review biometric anomalies recorded in the monitored medical staff.",
+      "registeredList": "Registered anomalies list",
+      "anomalyType": "Anomaly type:",
+      "detailTitle": "Detected anomalies detail",
+      "affectedStaff": "Affected staff",
+      "records": "Records",
+      "filters": {
+        "cardiac": "Cardiac",
+        "temperature": "Temperature",
+        "all": "All"
+      },
+      "table": {
+        "staff": "Staff",
+        "anomaly": "Anomaly",
+        "date": "Date"
+      },
+      "types": {
+        "mildArrhythmia": "Mild arrhythmia",
+        "constantArrhythmia": "Constant arrhythmia",
+        "lowFever": "Low-grade fever"
+      },
+      "descriptions": {
+        "cardiacVariation": "An unusual variation in heart rhythm has been detected in the biometric sensor parameters, independent of the recorded fatigue levels.",
+        "temperatureVariation": "An unusual variation in body temperature has been detected according to the biometric sensor parameters, independent of the recorded fatigue levels."
+      }
+    },
+    "settings": {
+      "title": "Settings",
+      "myProfile": "My profile",
+      "name": "Name",
+      "role": "Role",
+      "position": "Position",
+      "hospitalUnit": "Hospital unit",
+      "email": "Email",
+      "lastAccess": "Last access",
+      "language": "Language",
+      "spanish": "Spanish",
+      "english": "English",
+      "languageHelp": "The selected language will be applied to the fixed texts of the application.",
+      "changePassword": "Change password",
+      "logout": "Log out",
+      "supervisorRole": "Clinical supervisor",
+      "supervisorPosition": "Shift supervisor",
+      "passwordFeatureMessage": "The password change feature will be implemented soon."
     }
   }
 }
