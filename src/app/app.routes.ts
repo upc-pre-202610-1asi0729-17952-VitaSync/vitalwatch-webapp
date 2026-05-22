@@ -1,3 +1,9 @@
-import { Routes } from '@angular/router';
+import {Routes} from '@angular/router';
 
-export const routes: Routes = [];
+const iamRoutes = () => import('./iam/presentation/iam.routes').then(m => m.iamRoutes);
+
+export const routes: Routes = [
+  { path: '', redirectTo: 'sign-in', pathMatch: 'full' },
+  { path: '', loadChildren: iamRoutes },
+  { path: '**', redirectTo: 'sign-in' }
+];
