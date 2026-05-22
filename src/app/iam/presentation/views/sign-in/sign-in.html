@@ -1,1 +1,83 @@
-<p>sign-in works!</p>
+<app-auth-layout>
+  <main class="sign-in-container">
+    <section class="auth-card">
+      <div class="card-header">
+        <h2>{{ 'auth.welcome' | translate }}</h2>
+        <p>
+          {{ 'auth.subtitle' | translate }}
+          <strong>{{ 'app.name' | translate }}</strong>.
+        </p>
+      </div>
+
+      <div class="auth-tabs">
+        <button type="button" class="tab active">
+          {{ 'auth.sign-in-tab' | translate }}
+        </button>
+
+        <a routerLink="/accept-invitation" class="tab">
+          {{ 'auth.register-tab' | translate }}
+        </a>
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="submit()" class="auth-form">
+        <div class="field">
+          <label for="email">{{ 'auth.email' | translate }}</label>
+
+          <div class="input-control"
+               [class.invalid]="form.controls.email.touched && form.controls.email.invalid">
+            <ng-icon name="heroEnvelope"/>
+            <input
+              id="email"
+              type="email"
+              formControlName="email"
+              [placeholder]="'auth.email-placeholder' | translate">
+          </div>
+
+          @if (form.controls.email.touched && form.controls.email.hasError('required')) {
+            <small class="field-error">{{ 'auth.error.email-required' | translate }}</small>
+          }
+
+          @if (form.controls.email.touched && form.controls.email.hasError('email')) {
+            <small class="field-error">{{ 'auth.error.email-invalid' | translate }}</small>
+          }
+        </div>
+
+        <div class="field">
+          <label for="password">{{ 'auth.password' | translate }}</label>
+
+          <div class="input-control"
+               [class.invalid]="form.controls.password.touched && form.controls.password.invalid">
+            <ng-icon name="heroLockClosed"/>
+
+            <input
+              id="password"
+              [type]="passwordVisible() ? 'text' : 'password'"
+              formControlName="password"
+              [placeholder]="'auth.password-placeholder' | translate">
+
+            <button
+              type="button"
+              class="password-toggle"
+              aria-label="Toggle password visibility"
+              (click)="togglePasswordVisibility()">
+              <ng-icon [name]="passwordVisible() ? 'heroEyeSlash' : 'heroEye'"/>
+            </button>
+          </div>
+
+          @if (form.controls.password.touched && form.controls.password.hasError('required')) {
+            <small class="field-error">{{ 'auth.error.password-required' | translate }}</small>
+          }
+        </div>
+
+        <button type="submit" class="submit-button">
+          {{ 'auth.sign-in' | translate }}
+        </button>
+      </form>
+
+      <p class="register-message">
+        {{ 'auth.register-question' | translate }}
+        <a routerLink="/accept-invitation">{{ 'auth.register-link' | translate }}</a>
+      </p>
+    </section>
+  </main>
+</app-auth-layout>

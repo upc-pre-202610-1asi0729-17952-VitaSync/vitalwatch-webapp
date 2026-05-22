@@ -14,8 +14,13 @@
     "password-placeholder": "Contraseña",
     "sign-in": "Iniciar sesión",
     "register-question": "¿No tienes una cuenta?",
-    "register-link": "Regístrate",
+    "register-link": "Regístrate con una invitación",
     "sign-in-tab": "Iniciar sesión",
-    "register-tab": "Registro"
+    "register-tab": "Registro",
+    "error": {
+      "email-required": "El correo electrónico es obligatorio.",
+      "email-invalid": "Ingresa un correo electrónico válido.",
+      "password-required": "La contraseña es obligatoria."
+    }
   }
 }

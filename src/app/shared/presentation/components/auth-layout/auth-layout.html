@@ -1,1 +1,41 @@
-<p>auth-layout works!</p>
+<div class="auth-shell">
+  <section class="brand-panel">
+    <div class="brand-content">
+      <div class="brand">
+        <img src="/logo.ico" alt="VitalWatch logo">
+        <span>{{ 'app.name' | translate }}</span>
+      </div>
+
+      <div class="brand-copy">
+        <h1>{{ 'auth.brand-title' | translate }}</h1>
+        <p>{{ 'auth.brand-description' | translate }}</p>
+      </div>
+
+      <div class="demo-card">
+        <p class="demo-title">{{ 'auth.demo-title' | translate }}</p>
+
+        <div class="demo-row">
+          <span>admin&#64;vitalwatch.com</span>
+          <strong>admin123</strong>
+        </div>
+
+        <div class="demo-row">
+          <span>supervisor&#64;vitalwatch.com</span>
+          <strong>supervisor123</strong>
+        </div>
+
+        <div class="demo-row">
+          <span>doctor&#64;vitalwatch.com</span>
+          <strong>doctor123</strong>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <section class="form-panel">
+    <app-language-switcher class="language-switcher"/>
+
+    <ng-content/>
+  </section>
+</div>

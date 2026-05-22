@@ -1,9 +1,42 @@
-import { Component } from '@angular/core';
+import {Component, inject, signal} from '@angular/core';
+import {RouterLink} from '@angular/router';
+import {NonNullableFormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
+import {TranslatePipe} from '@ngx-translate/core';
+import {NgIcon} from '@ng-icons/core';
+import {AuthLayout} from '../../../../shared/presentation/components/auth-layout/auth-layout';
 
 @Component({
   selector: 'app-sign-in',
-  imports: [],
+  imports: [
+    AuthLayout,
+    ReactiveFormsModule,
+    TranslatePipe,
+    NgIcon,
+    RouterLink
+  ],
   templateUrl: './sign-in.html',
-  styleUrl: './sign-in.css',
+  styleUrl: './sign-in.css'
 })
-export class SignIn {}
+export class SignIn {
+  private formBuilder = inject(NonNullableFormBuilder);
+
+  protected passwordVisible = signal(false);
+
+  protected form = this.formBuilder.group({
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required]]
+  });
+
+  protected togglePasswordVisibility(): void {
+    this.passwordVisible.update(value => !value);
+  }
+
+  protected submit(): void {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+
+    console.log(this.form.getRawValue());
+  }
+}

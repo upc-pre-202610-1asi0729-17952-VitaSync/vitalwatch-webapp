@@ -14,8 +14,13 @@
     "password-placeholder": "Password",
     "sign-in": "Sign in",
     "register-question": "Don’t have an account?",
-    "register-link": "Register",
+    "register-link": "Register with an invitation",
     "sign-in-tab": "Sign in",
-    "register-tab": "Register"
+    "register-tab": "Register",
+    "error": {
+      "email-required": "Email address is required.",
+      "email-invalid": "Enter a valid email address.",
+      "password-required": "Password is required."
+    }
   }
 }

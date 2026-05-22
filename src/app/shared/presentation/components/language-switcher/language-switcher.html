@@ -1,1 +1,11 @@
-<p>language-switcher works!</p>
+<div class="language-tabs" aria-label="Preferred language">
+  @for (language of languages; track language) {
+    <button
+      type="button"
+      class="language-tab"
+      [class.active]="currentLang === language"
+      (click)="useLanguage(language)">
+      {{ language.toUpperCase() }}
+    </button>
+  }
+</div>
