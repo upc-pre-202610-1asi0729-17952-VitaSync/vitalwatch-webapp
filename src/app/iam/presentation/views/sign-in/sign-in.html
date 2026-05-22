@@ -1,4 +1,4 @@
-<app-auth-layout>
+<app-auth-layout variant="sign-in">
   <main class="sign-in-container">
     <section class="auth-card">
       <div class="card-header">
@@ -23,8 +23,7 @@
         <div class="field">
           <label for="email">{{ 'auth.email' | translate }}</label>
 
-          <div class="input-control"
-               [class.invalid]="form.controls.email.touched && form.controls.email.invalid">
+          <div class="input-control" [class.invalid]="form.controls.email.touched && form.controls.email.invalid">
             <ng-icon name="heroEnvelope"/>
             <input
               id="email"
@@ -45,8 +44,7 @@
         <div class="field">
           <label for="password">{{ 'auth.password' | translate }}</label>
 
-          <div class="input-control"
-               [class.invalid]="form.controls.password.touched && form.controls.password.invalid">
+          <div class="input-control" [class.invalid]="form.controls.password.touched && form.controls.password.invalid">
             <ng-icon name="heroLockClosed"/>
 
             <input

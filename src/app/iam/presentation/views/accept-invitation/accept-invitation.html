@@ -1,1 +1,158 @@
-<p>accept-invitation works!</p>
+<app-auth-layout variant="register">
+    <main class="register-container">
+        <section class="auth-card">
+            <div class="card-header">
+                <h2>{{ 'auth.register-title' | translate }}</h2>
+                <p>{{ 'auth.register-subtitle' | translate }}</p>
+            </div>
+
+            <div class="auth-tabs">
+                <a routerLink="/sign-in" class="tab">
+                    {{ 'auth.sign-in-tab' | translate }}
+                </a>
+
+                <button type="button" class="tab active">
+                    {{ 'auth.register-tab' | translate }}
+                </button>
+            </div>
+
+            <form [formGroup]="form" (ngSubmit)="submit()" class="auth-form">
+                <div class="form-row">
+                    <div class="field">
+                        <label for="firstName">{{ 'auth.first-name' | translate }}</label>
+
+                        <div class="input-control"
+                            [class.invalid]="form.controls.firstName.touched && form.controls.firstName.invalid">
+                            <ng-icon name="heroUser" />
+                            <input id="firstName" type="text" formControlName="firstName"
+                                [placeholder]="'auth.first-name-placeholder' | translate">
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label for="lastName">{{ 'auth.last-name' | translate }}</label>
+
+                        <div class="input-control"
+                            [class.invalid]="form.controls.lastName.touched && form.controls.lastName.invalid">
+                            <ng-icon name="heroUser" />
+                            <input id="lastName" type="text" formControlName="lastName"
+                                [placeholder]="'auth.last-name-placeholder' | translate">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="email">{{ 'auth.email' | translate }}</label>
+
+                    <div class="input-control"
+                        [class.invalid]="form.controls.email.touched && form.controls.email.invalid">
+                        <ng-icon name="heroEnvelope" />
+                        <input id="email" type="email" formControlName="email"
+                            [placeholder]="'auth.email-placeholder' | translate">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="field">
+                        <label for="phone">{{ 'auth.phone' | translate }}</label>
+
+                        <div class="input-control"
+                            [class.invalid]="form.controls.phone.touched && form.controls.phone.invalid">
+                            <ng-icon name="heroPhone" />
+                            <input id="phone" type="tel" formControlName="phone"
+                                [placeholder]="'auth.phone-placeholder' | translate">
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label for="specialty">{{ 'auth.specialty' | translate }}</label>
+
+                        <div class="input-control"
+                            [class.invalid]="form.controls.specialty.touched && form.controls.specialty.invalid">
+                            <ng-icon name="heroHeart" />
+
+                            <mat-select id="specialty" formControlName="specialty" panelClass="auth-select-panel"
+                                [placeholder]="'auth.specialty-placeholder' | translate">
+
+                                @for (specialty of specialties; track specialty) {
+                                <mat-option [value]="specialty">{{ specialty }}</mat-option>
+                                }
+                            </mat-select>
+                        </div>
+
+                        @if (form.controls.specialty.touched && form.controls.specialty.hasError('required')) {
+                        <small class="field-error">{{ 'auth.error.specialty-required' | translate }}</small>
+                        }
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="specialty">{{ 'auth.specialty' | translate }}</label>
+
+                    <div class="input-control"
+                        [class.invalid]="form.controls.specialty.touched && form.controls.specialty.invalid">
+                        <ng-icon name="heroHeart" />
+
+                        <mat-select id="specialty" formControlName="specialty" panelClass="auth-select-panel"
+                            [placeholder]="'auth.specialty-placeholder' | translate">
+
+                            @for (specialty of specialties; track specialty) {
+                            <mat-option [value]="specialty">{{ specialty }}</mat-option>
+                            }
+                        </mat-select>
+                    </div>
+
+                    @if (form.controls.specialty.touched && form.controls.specialty.hasError('required')) {
+                    <small class="field-error">{{ 'auth.error.specialty-required' | translate }}</small>
+                    }
+                </div>
+
+                <div class="field">
+                    <label for="password">{{ 'auth.password' | translate }}</label>
+
+                    <div class="input-control"
+                        [class.invalid]="form.controls.password.touched && form.controls.password.invalid">
+                        <ng-icon name="heroLockClosed" />
+
+                        <input id="password" [type]="passwordVisible() ? 'text' : 'password'" formControlName="password"
+                            [placeholder]="'auth.password-placeholder' | translate">
+
+                        <button type="button" class="password-toggle" (click)="togglePasswordVisibility()">
+                            <ng-icon [name]="passwordVisible() ? 'heroEyeSlash' : 'heroEye'" />
+                        </button>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="confirmPassword">{{ 'auth.confirm-password' | translate }}</label>
+
+                    <div class="input-control"
+                        [class.invalid]="passwordsDoNotMatch() || (form.controls.confirmPassword.touched && form.controls.confirmPassword.invalid)">
+                        <ng-icon name="heroLockClosed" />
+
+                        <input id="confirmPassword" [type]="confirmPasswordVisible() ? 'text' : 'password'"
+                            formControlName="confirmPassword"
+                            [placeholder]="'auth.confirm-password-placeholder' | translate">
+
+                        <button type="button" class="password-toggle" (click)="toggleConfirmPasswordVisibility()">
+                            <ng-icon [name]="confirmPasswordVisible() ? 'heroEyeSlash' : 'heroEye'" />
+                        </button>
+                    </div>
+
+                    @if (passwordsDoNotMatch()) {
+                    <small class="field-error">{{ 'auth.error.passwords-do-not-match' | translate }}</small>
+                    }
+                </div>
+
+                <button type="submit" class="submit-button">
+                    {{ 'auth.register-submit' | translate }}
+                </button>
+            </form>
+
+            <p class="register-message">
+                {{ 'auth.already-have-account' | translate }}
+                <a routerLink="/sign-in">{{ 'auth.sign-in-link' | translate }}</a>
+            </p>
+        </section>
+    </main>
+</app-auth-layout>

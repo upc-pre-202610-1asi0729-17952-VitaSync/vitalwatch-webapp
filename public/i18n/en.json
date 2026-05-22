@@ -20,7 +20,30 @@
     "error": {
       "email-required": "Email address is required.",
       "email-invalid": "Enter a valid email address.",
-      "password-required": "Password is required."
-    }
+      "password-required": "Password is required.",
+      "passwords-do-not-match": "Passwords do not match.",
+      "work-area-required": "Work area is required.",
+      "specialty-required": "Specialty is required."
+    },
+    "register-brand-title": "Join the intelligent healthcare platform.",
+    "register-brand-description": "Complete your registration to access biometric monitoring and shift management.",
+    "invited-emails-title": "Invited emails",
+    "register-title": "Create account",
+    "register-subtitle": "Complete your registration to access monitoring and shift management.",
+    "first-name": "First name",
+    "first-name-placeholder": "First name",
+    "last-name": "Last name",
+    "last-name-placeholder": "Last name",
+    "phone": "Phone",
+    "phone-placeholder": "Phone",
+    "work-area": "Work area",
+    "work-area-placeholder": "E.g. ICU, Emergency",
+    "specialty": "Specialty",
+    "specialty-placeholder": "E.g. Cardiology, Pediatrics",
+    "confirm-password": "Confirm password",
+    "confirm-password-placeholder": "Confirm password",
+    "register-submit": "Register",
+    "already-have-account": "Already have an account?",
+    "sign-in-link": "Sign in"
   }
 }

@@ -8,7 +8,11 @@ import {
   heroEnvelope,
   heroLockClosed,
   heroEye,
-  heroEyeSlash
+  heroEyeSlash,
+  heroUser,
+  heroPhone,
+  heroBriefcase,
+  heroHeart
 } from '@ng-icons/heroicons/outline';
 
 import {routes} from './app.routes';
@@ -28,7 +32,11 @@ export const appConfig: ApplicationConfig = {
       heroEnvelope,
       heroLockClosed,
       heroEye,
-      heroEyeSlash
+      heroEyeSlash,
+      heroUser,
+      heroPhone,
+      heroBriefcase,
+      heroHeart
     }),
     provideRouter(routes)
   ]

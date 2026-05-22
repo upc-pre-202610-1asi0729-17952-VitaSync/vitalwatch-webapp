@@ -1,7 +1,8 @@
 @import './material-theme.scss';
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
   font-family: 'Plus Jakarta Sans', sans-serif;
@@ -20,4 +21,33 @@ input,
 textarea,
 select {
   font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.auth-select-panel.mat-mdc-select-panel {
+  padding: 8px !important;
+  border-radius: 16px !important;
+  background: #ffffff !important;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.16) !important;
+}
+
+.auth-select-panel .mat-mdc-option {
+  min-height: 44px !important;
+  margin: 2px 0 !important;
+  border-radius: 12px !important;
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-size: 0.95rem !important;
+}
+
+.auth-select-panel .mat-mdc-option:hover {
+  background: #eef2ff !important;
+}
+
+.auth-select-panel .mat-mdc-option.mdc-list-item--selected {
+  background: #2563eb !important;
+  color: #ffffff !important;
+}
+
+.auth-select-panel .mat-mdc-option.mdc-list-item--selected .mdc-list-item__primary-text {
+  color: #ffffff !important;
+  font-weight: 800 !important;
 }

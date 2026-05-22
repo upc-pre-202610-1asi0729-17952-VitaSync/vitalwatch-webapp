@@ -20,7 +20,30 @@
     "error": {
       "email-required": "El correo electrónico es obligatorio.",
       "email-invalid": "Ingresa un correo electrónico válido.",
-      "password-required": "La contraseña es obligatoria."
-    }
+      "password-required": "La contraseña es obligatoria.",
+      "passwords-do-not-match": "Las contraseñas no coinciden.",
+      "work-area-required": "El área de trabajo es obligatoria.",
+      "specialty-required": "La especialidad es obligatoria."
+    },
+    "register-brand-title": "Únete a la plataforma de salud inteligente.",
+    "register-brand-description": "Completa tu registro para acceder al monitoreo biométrico y gestión de turnos.",
+    "invited-emails-title": "Correos invitados",
+    "register-title": "Crear cuenta",
+    "register-subtitle": "Completa tu registro para acceder al monitoreo y gestión de turnos.",
+    "first-name": "Nombre",
+    "first-name-placeholder": "Nombre",
+    "last-name": "Apellido",
+    "last-name-placeholder": "Apellido",
+    "phone": "Teléfono",
+    "phone-placeholder": "Teléfono",
+    "work-area": "Área de trabajo",
+    "work-area-placeholder": "Ej: UCI, Emergencias",
+    "specialty": "Especialidad",
+    "specialty-placeholder": "Ej: Cardiología, Pediatría",
+    "confirm-password": "Confirmar contraseña",
+    "confirm-password-placeholder": "Confirmar contraseña",
+    "register-submit": "Registrarse",
+    "already-have-account": "¿Ya tienes una cuenta?",
+    "sign-in-link": "Iniciar sesión"
   }
 }
