@@ -1,0 +1,151 @@
+.sidebar {
+    width: 268px;
+    height: 100vh;
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    background: #0A296B;
+    color: #ffffff;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.brand-section {
+    min-height: 86px;
+    padding: 22px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.brand-logo {
+    width: 45px;
+    height: 45px;
+}
+
+.brand-section h1 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-style: italic;
+    line-height: 1.1;
+    font-weight: 800;
+}
+
+.profile-section {
+    min-height: 78px;
+    padding: 18px 22px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.avatar {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    color: #ffffff;
+    font-weight: 900;
+    font-size: 0.95rem;
+}
+
+.profile-info {
+    min-width: 0;
+}
+
+.profile-info h2 {
+    margin: 0;
+    color: #ffffff;
+    font-size: 0.92rem;
+    line-height: 1.2;
+    font-weight: 800;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.profile-info p {
+    margin: 4px 0 0;
+    color: #b8c7dc;
+    font-size: 0.78rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.navigation {
+    padding: 18px 12px;
+    overflow-y: auto;
+}
+
+.menu-title {
+    margin: 0 10px 12px;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 0.72rem;
+    font-weight: 900;
+}
+
+.nav-item {
+    min-height: 46px;
+    margin-bottom: 6px;
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-radius: 10px;
+    color: #a7bcdb;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 800;
+    transition: background 180ms ease, color 180ms ease;
+}
+
+.nav-item ng-icon {
+    font-size: 1.2rem;
+    color: #8fa2bb;
+}
+
+.nav-item:hover {
+    background: rgba(17, 199, 199, 0.08);
+    color: #ffffff;
+}
+
+.nav-item.active {
+    background: rgba(17, 114, 199, 0.2);
+    color: #ffffff;
+}
+
+.nav-item.active ng-icon {
+    color: #ffffff;
+}
+
+.sign-out-button {
+    min-height: 55px;
+    margin: 12px;
+    padding: 0 12px;
+    border: 0;
+    border-radius: 10px;
+    border-top: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: transparent;
+    color: #c7d8f2;
+    font: inherit;
+    font-weight: 800;
+    cursor: pointer;
+    transition: background 180ms ease, color 180ms ease;
+}
+
+.sign-out-button ng-icon {
+    font-size: 1.2rem;
+    color: inherit;
+}
+
+.sign-out-button:hover {
+    color: #ff4d4f;
+    background: rgba(255, 77, 79, 0.12);
+}

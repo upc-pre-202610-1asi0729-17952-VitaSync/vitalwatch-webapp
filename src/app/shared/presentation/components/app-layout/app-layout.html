@@ -1,0 +1,12 @@
+<div class="app-shell">
+    <app-sidebar [profile]="config.profile" [menuTitle]="config.menuTitle" [menuItems]="config.menuItems"
+        (signOut)="signOut()" />
+
+    <main class="main-shell">
+        <app-topbar [title]="config.title" [subtitle]="config.subtitle" />
+
+        <section class="page-content">
+            <router-outlet />
+        </section>
+    </main>
+</div>

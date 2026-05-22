@@ -1,0 +1,23 @@
+.topbar {
+    min-height: 72px;
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #ffffff;
+    border-bottom: 1px solid #dbe3ef;
+}
+
+.topbar h2 {
+    margin: 0;
+    color: #0b1b2b;
+    font-size: 1.35rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+}
+
+.topbar p {
+    margin: 4px 0 0;
+    color: #8b9abb;
+    font-size: 0.92rem;
+}

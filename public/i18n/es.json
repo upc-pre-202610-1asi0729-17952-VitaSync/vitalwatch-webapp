@@ -45,5 +45,34 @@
     "register-submit": "Registrarse",
     "already-have-account": "¿Ya tienes una cuenta?",
     "sign-in-link": "Iniciar sesión"
+  },
+  "layout": {
+    "admin-title": "Bienvenido, Marcelo",
+    "supervisor-title": "Bienvenida, Claudia",
+    "doctor-title": "Bienvenido, Carlos",
+    "subtitle": "Monitoreo preventivo y gestión operativa del personal médico.",
+    "content-pending": "El contenido de este módulo se implementará en el siguiente avance."
+  },
+  "navigation": {
+    "admin-menu": "Menú administrativo",
+    "supervisor-menu": "Menú supervisor",
+    "clinical-menu": "Menú clínico",
+    "general-summary": "Resumen General",
+    "staff": "Personal",
+    "invitations": "Invitaciones",
+    "subscription": "Suscripción",
+    "reports": "Reportes",
+    "audit": "Auditoría",
+    "settings": "Configuración",
+    "shift-summary": "Resumen de Turno",
+    "risk-staff": "Personal en Riesgo",
+    "clinical-alerts": "Alertas Clínicas",
+    "anomalies": "Anomalías",
+    "preventive-actions": "Acciones Preventivas",
+    "my-health-status": "Mi Estado de Salud",
+    "my-vital-signs": "Mis Signos Vitales",
+    "my-shifts": "Mis Turnos",
+    "my-recovery": "Mi Recuperación",
+    "sign-out": "Cerrar sesión"
   }
 }

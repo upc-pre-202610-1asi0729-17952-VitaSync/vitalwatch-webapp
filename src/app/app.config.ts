@@ -1,9 +1,9 @@
-import {ApplicationConfig, provideBrowserGlobalErrorListeners} from '@angular/core';
-import {provideRouter} from '@angular/router';
-import {provideHttpClient, withFetch} from '@angular/common/http';
-import {provideTranslateService} from '@ngx-translate/core';
-import {provideTranslateHttpLoader} from '@ngx-translate/http-loader';
-import {provideIcons} from '@ng-icons/core';
+import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
+import { provideRouter } from '@angular/router';
+import { provideHttpClient, withFetch } from '@angular/common/http';
+import { provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
+import { provideIcons } from '@ng-icons/core';
 import {
   heroEnvelope,
   heroLockClosed,
@@ -12,10 +12,22 @@ import {
   heroUser,
   heroPhone,
   heroBriefcase,
-  heroHeart
+  heroHeart,
+  heroSquares2x2,
+  heroUsers,
+  heroCreditCard,
+  heroDocumentText,
+  heroShieldCheck,
+  heroCog6Tooth,
+  heroArrowLeftOnRectangle,
+  heroExclamationTriangle,
+  heroBell,
+  heroBolt,
+  heroClipboardDocumentCheck,
+  heroCalendarDays
 } from '@ng-icons/heroicons/outline';
 
-import {routes} from './app.routes';
+import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -36,7 +48,19 @@ export const appConfig: ApplicationConfig = {
       heroUser,
       heroPhone,
       heroBriefcase,
-      heroHeart
+      heroHeart,
+      heroSquares2x2,
+      heroUsers,
+      heroCreditCard,
+      heroDocumentText,
+      heroShieldCheck,
+      heroCog6Tooth,
+      heroArrowLeftOnRectangle,
+      heroExclamationTriangle,
+      heroBell,
+      heroBolt,
+      heroClipboardDocumentCheck,
+      heroCalendarDays
     }),
     provideRouter(routes)
   ]

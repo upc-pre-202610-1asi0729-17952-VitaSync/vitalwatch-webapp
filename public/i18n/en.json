@@ -45,5 +45,34 @@
     "register-submit": "Register",
     "already-have-account": "Already have an account?",
     "sign-in-link": "Sign in"
+  },
+  "layout": {
+    "admin-title": "Welcome, Marcelo",
+    "supervisor-title": "Welcome, Claudia",
+    "doctor-title": "Welcome, Carlos",
+    "subtitle": "Preventive monitoring and operational management of medical staff.",
+    "content-pending": "This module content will be implemented in the next iteration."
+  },
+  "navigation": {
+    "admin-menu": "Administrative menu",
+    "supervisor-menu": "Supervisor menu",
+    "clinical-menu": "Clinical menu",
+    "general-summary": "General Summary",
+    "staff": "Staff",
+    "invitations": "Invitations",
+    "subscription": "Subscription",
+    "reports": "Reports",
+    "audit": "Audit",
+    "settings": "Settings",
+    "shift-summary": "Shift Summary",
+    "risk-staff": "Staff at Risk",
+    "clinical-alerts": "Clinical Alerts",
+    "anomalies": "Anomalies",
+    "preventive-actions": "Preventive Actions",
+    "my-health-status": "My Health Status",
+    "my-vital-signs": "My Vital Signs",
+    "my-shifts": "My Shifts",
+    "my-recovery": "My Recovery",
+    "sign-out": "Sign out"
   }
 }
