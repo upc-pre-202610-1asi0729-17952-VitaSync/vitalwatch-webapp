@@ -1,0 +1,21 @@
+{
+  "app": {
+    "name": "VitalWatch"
+  },
+  "auth": {
+    "brand-title": "Cuidamos a quienes cuidan.",
+    "brand-description": "Monitoreo biométrico inteligente y gestión de turnos para prevenir el agotamiento médico.",
+    "demo-title": "Credenciales demo",
+    "welcome": "Bienvenido de nuevo",
+    "subtitle": "Inicia sesión para acceder a la plataforma",
+    "email": "Correo electrónico",
+    "email-placeholder": "correo@hospital.com",
+    "password": "Contraseña",
+    "password-placeholder": "Contraseña",
+    "sign-in": "Iniciar sesión",
+    "register-question": "¿No tienes una cuenta?",
+    "register-link": "Regístrate",
+    "sign-in-tab": "Iniciar sesión",
+    "register-tab": "Registro"
+  }
+}

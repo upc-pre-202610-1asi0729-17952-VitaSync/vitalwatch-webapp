@@ -1,0 +1,21 @@
+{
+  "app": {
+    "name": "VitalWatch"
+  },
+  "auth": {
+    "brand-title": "We care for those who care.",
+    "brand-description": "Smart biometric monitoring and shift management to prevent medical burnout.",
+    "demo-title": "Demo credentials",
+    "welcome": "Welcome back",
+    "subtitle": "Sign in to access the platform",
+    "email": "Email address",
+    "email-placeholder": "email@hospital.com",
+    "password": "Password",
+    "password-placeholder": "Password",
+    "sign-in": "Sign in",
+    "register-question": "Don’t have an account?",
+    "register-link": "Register",
+    "sign-in-tab": "Sign in",
+    "register-tab": "Register"
+  }
+}
