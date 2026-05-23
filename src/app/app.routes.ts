@@ -3,10 +3,14 @@ import { Routes } from '@angular/router';
 const iamRoutes = () => import('./iam/presentation/iam.routes').then(m => m.iamRoutes);
 const appLayout = () => import('./shared/presentation/components/app-layout/app-layout').then(m => m.AppLayout);
 const pagePlaceholder = () => import('./shared/presentation/views/page-placeholder/page-placeholder').then(m => m.PagePlaceholder);
+const subscriptionRoutes = () =>
+  import('./subscription/presentation/subscription.routes')
+    .then(m => m.subscriptionRoutes);
 
 export const routes: Routes = [
   { path: '', redirectTo: 'sign-in', pathMatch: 'full' },
   { path: '', loadChildren: iamRoutes },
+  { path: 'onboarding', loadChildren: subscriptionRoutes },
 
   {
     path: 'admin',

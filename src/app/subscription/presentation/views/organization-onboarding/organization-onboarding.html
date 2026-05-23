@@ -1,0 +1,91 @@
+<app-auth-layout variant="register">
+    <main class="onboarding-container">
+        <section class="onboarding-card">
+            <div class="card-header">
+                <h2>{{ 'onboarding.title' | translate }}</h2>
+                <p>{{ 'onboarding.subtitle' | translate }}</p>
+            </div>
+
+            <div class="selected-plan">
+                <span>{{ 'onboarding.selected-plan' | translate }}</span>
+                <strong>{{ selectedPlan }}</strong>
+            </div>
+
+            <form [formGroup]="form" (ngSubmit)="submit()" class="onboarding-form">
+                <h3>{{ 'onboarding.organization-section' | translate }}</h3>
+
+                <div class="field">
+                    <label>{{ 'onboarding.organization-name' | translate }}</label>
+                    <input formControlName="organizationName"
+                        [placeholder]="'onboarding.organization-name-placeholder' | translate">
+                </div>
+
+                <div class="form-row">
+                    <div class="field">
+                        <label>{{ 'onboarding.ruc' | translate }}</label>
+                        <input formControlName="ruc" [placeholder]="'onboarding.ruc-placeholder' | translate">
+                    </div>
+
+                    <div class="field">
+                        <label>{{ 'onboarding.phone' | translate }}</label>
+                        <input formControlName="phone" [placeholder]="'onboarding.phone-placeholder' | translate">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>{{ 'onboarding.address' | translate }}</label>
+                    <input formControlName="address" [placeholder]="'onboarding.address-placeholder' | translate">
+                </div>
+
+                <h3>{{ 'onboarding.admin-section' | translate }}</h3>
+
+                <div class="form-row">
+                    <div class="field">
+                        <label>{{ 'onboarding.admin-first-name' | translate }}</label>
+                        <input formControlName="adminFirstName"
+                            [placeholder]="'onboarding.admin-first-name-placeholder' | translate">
+                    </div>
+
+                    <div class="field">
+                        <label>{{ 'onboarding.admin-last-name' | translate }}</label>
+                        <input formControlName="adminLastName"
+                            [placeholder]="'onboarding.admin-last-name-placeholder' | translate">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>{{ 'onboarding.admin-email' | translate }}</label>
+                    <input type="email" formControlName="adminEmail"
+                        [placeholder]="'onboarding.admin-email-placeholder' | translate">
+                </div>
+
+                <div class="form-row">
+                    <div class="field">
+                        <label>{{ 'onboarding.password' | translate }}</label>
+                        <input type="password" formControlName="password"
+                            [placeholder]="'onboarding.password-placeholder' | translate">
+                    </div>
+
+                    <div class="field">
+                        <label>{{ 'onboarding.confirm-password' | translate }}</label>
+                        <input type="password" formControlName="confirmPassword"
+                            [placeholder]="'onboarding.confirm-password-placeholder' | translate">
+
+                        @if (passwordsDoNotMatch()) {
+                        <small class="field-error">{{ 'onboarding.error.passwords-do-not-match' | translate }}</small>
+                        }
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-button">
+                    {{ 'onboarding.submit' | translate }}
+                </button>
+            </form>
+
+            <p class="login-message">
+                {{ 'onboarding.already-have-account' | translate }}
+                <a routerLink="/sign-in">{{ 'onboarding.sign-in' | translate }}</a>
+            </p>
+        </section>
+    </main>
+</app-auth-layout>

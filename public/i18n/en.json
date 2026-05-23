@@ -74,5 +74,36 @@
     "my-shifts": "My Shifts",
     "my-recovery": "My Recovery",
     "sign-out": "Sign out"
+  },
+  "onboarding": {
+    "title": "Activate VitalWatch",
+    "subtitle": "Create the medical center, configure the administrator account and activate the selected plan.",
+    "selected-plan": "Selected plan",
+    "organization-section": "Medical center information",
+    "organization-name": "Medical center name",
+    "organization-name-placeholder": "E.g. San Gabriel Clinic",
+    "ruc": "Tax ID",
+    "ruc-placeholder": "E.g. 20600000000",
+    "phone": "Institutional phone",
+    "phone-placeholder": "E.g. +51 999 999 999",
+    "address": "Address",
+    "address-placeholder": "E.g. Health Ave. 123, Lima",
+    "admin-section": "Administrator account",
+    "admin-first-name": "First name",
+    "admin-first-name-placeholder": "First name",
+    "admin-last-name": "Last name",
+    "admin-last-name-placeholder": "Last name",
+    "admin-email": "Institutional email",
+    "admin-email-placeholder": "admin@hospital.com",
+    "password": "Password",
+    "password-placeholder": "Password",
+    "confirm-password": "Confirm password",
+    "confirm-password-placeholder": "Confirm password",
+    "submit": "Continue to payment",
+    "already-have-account": "Already have an account?",
+    "sign-in": "Sign in",
+    "error": {
+      "passwords-do-not-match": "Passwords do not match."
+    }
   }
 }

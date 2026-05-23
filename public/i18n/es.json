@@ -74,5 +74,36 @@
     "my-shifts": "Mis Turnos",
     "my-recovery": "Mi Recuperación",
     "sign-out": "Cerrar sesión"
+  },
+  "onboarding": {
+    "title": "Activa VitalWatch",
+    "subtitle": "Crea el centro médico, configura la cuenta administradora y activa el plan seleccionado.",
+    "selected-plan": "Plan seleccionado",
+    "organization-section": "Datos del centro médico",
+    "organization-name": "Nombre del centro médico",
+    "organization-name-placeholder": "Ej: Clínica San Gabriel",
+    "ruc": "RUC",
+    "ruc-placeholder": "Ej: 20600000000",
+    "phone": "Teléfono institucional",
+    "phone-placeholder": "Ej: +51 999 999 999",
+    "address": "Dirección",
+    "address-placeholder": "Ej: Av. Salud 123, Lima",
+    "admin-section": "Cuenta administradora",
+    "admin-first-name": "Nombre",
+    "admin-first-name-placeholder": "Nombre",
+    "admin-last-name": "Apellido",
+    "admin-last-name-placeholder": "Apellido",
+    "admin-email": "Correo institucional",
+    "admin-email-placeholder": "admin@hospital.com",
+    "password": "Contraseña",
+    "password-placeholder": "Contraseña",
+    "confirm-password": "Confirmar contraseña",
+    "confirm-password-placeholder": "Confirmar contraseña",
+    "submit": "Continuar al pago",
+    "already-have-account": "¿Ya tienes una cuenta?",
+    "sign-in": "Iniciar sesión",
+    "error": {
+      "passwords-do-not-match": "Las contraseñas no coinciden."
+    }
   }
 }
