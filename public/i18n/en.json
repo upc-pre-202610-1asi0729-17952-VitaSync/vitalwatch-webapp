@@ -23,7 +23,8 @@
       "password-required": "Password is required.",
       "passwords-do-not-match": "Passwords do not match.",
       "work-area-required": "Work area is required.",
-      "specialty-required": "Specialty is required."
+      "specialty-required": "Specialty is required.",
+      "invalid-credentials": "Invalid credentials or inactive account."
     },
     "register-brand-title": "Join the intelligent healthcare platform.",
     "register-brand-description": "Complete your registration to access biometric monitoring and shift management.",
@@ -44,7 +45,8 @@
     "confirm-password-placeholder": "Confirm password",
     "register-submit": "Register",
     "already-have-account": "Already have an account?",
-    "sign-in-link": "Sign in"
+    "sign-in-link": "Sign in",
+    "signing-in": "Signing in..."
   },
   "layout": {
     "admin-title": "Welcome, Marcelo",

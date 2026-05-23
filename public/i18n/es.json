@@ -23,7 +23,8 @@
       "password-required": "La contraseña es obligatoria.",
       "passwords-do-not-match": "Las contraseñas no coinciden.",
       "work-area-required": "El área de trabajo es obligatoria.",
-      "specialty-required": "La especialidad es obligatoria."
+      "specialty-required": "La especialidad es obligatoria.",
+      "invalid-credentials": "Credenciales inválidas o cuenta inactiva."
     },
     "register-brand-title": "Únete a la plataforma de salud inteligente.",
     "register-brand-description": "Completa tu registro para acceder al monitoreo biométrico y gestión de turnos.",
@@ -44,7 +45,8 @@
     "confirm-password-placeholder": "Confirmar contraseña",
     "register-submit": "Registrarse",
     "already-have-account": "¿Ya tienes una cuenta?",
-    "sign-in-link": "Iniciar sesión"
+    "sign-in-link": "Iniciar sesión",
+    "signing-in": "Ingresando..."
   },
   "layout": {
     "admin-title": "Bienvenido, Marcelo",

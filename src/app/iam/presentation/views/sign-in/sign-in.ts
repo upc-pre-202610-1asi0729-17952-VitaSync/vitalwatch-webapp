@@ -1,9 +1,10 @@
-import {Component, inject, signal} from '@angular/core';
-import {RouterLink} from '@angular/router';
-import {NonNullableFormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
-import {TranslatePipe} from '@ngx-translate/core';
-import {NgIcon} from '@ng-icons/core';
-import {AuthLayout} from '../../../../shared/presentation/components/auth-layout/auth-layout';
+import { Component, inject, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { TranslatePipe } from '@ngx-translate/core';
+import { NgIcon } from '@ng-icons/core';
+import { AuthLayout } from '../../../../shared/presentation/components/auth-layout/auth-layout';
+import { AuthenticationStore } from '../../../application/authentication.store';
 
 @Component({
   selector: 'app-sign-in',
@@ -27,6 +28,8 @@ export class SignIn {
     password: ['', [Validators.required]]
   });
 
+  protected store = inject(AuthenticationStore);
+
   protected togglePasswordVisibility(): void {
     this.passwordVisible.update(value => !value);
   }
@@ -37,6 +40,9 @@ export class SignIn {
       return;
     }
 
-    console.log(this.form.getRawValue());
+    this.store.signIn({
+      email: this.form.controls.email.value,
+      password: this.form.controls.password.value
+    });
   }
 }

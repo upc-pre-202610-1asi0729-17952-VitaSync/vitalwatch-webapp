@@ -24,20 +24,16 @@
           <label for="email">{{ 'auth.email' | translate }}</label>
 
           <div class="input-control" [class.invalid]="form.controls.email.touched && form.controls.email.invalid">
-            <ng-icon name="heroEnvelope"/>
-            <input
-              id="email"
-              type="email"
-              formControlName="email"
-              [placeholder]="'auth.email-placeholder' | translate">
+            <ng-icon name="heroEnvelope" />
+            <input id="email" type="email" formControlName="email" [placeholder]="'auth.email-placeholder' | translate">
           </div>
 
           @if (form.controls.email.touched && form.controls.email.hasError('required')) {
-            <small class="field-error">{{ 'auth.error.email-required' | translate }}</small>
+          <small class="field-error">{{ 'auth.error.email-required' | translate }}</small>
           }
 
           @if (form.controls.email.touched && form.controls.email.hasError('email')) {
-            <small class="field-error">{{ 'auth.error.email-invalid' | translate }}</small>
+          <small class="field-error">{{ 'auth.error.email-invalid' | translate }}</small>
           }
         </div>
 
@@ -45,30 +41,28 @@
           <label for="password">{{ 'auth.password' | translate }}</label>
 
           <div class="input-control" [class.invalid]="form.controls.password.touched && form.controls.password.invalid">
-            <ng-icon name="heroLockClosed"/>
+            <ng-icon name="heroLockClosed" />
 
-            <input
-              id="password"
-              [type]="passwordVisible() ? 'text' : 'password'"
-              formControlName="password"
+            <input id="password" [type]="passwordVisible() ? 'text' : 'password'" formControlName="password"
               [placeholder]="'auth.password-placeholder' | translate">
 
-            <button
-              type="button"
-              class="password-toggle"
-              aria-label="Toggle password visibility"
+            <button type="button" class="password-toggle" aria-label="Toggle password visibility"
               (click)="togglePasswordVisibility()">
-              <ng-icon [name]="passwordVisible() ? 'heroEyeSlash' : 'heroEye'"/>
+              <ng-icon [name]="passwordVisible() ? 'heroEyeSlash' : 'heroEye'" />
             </button>
           </div>
 
           @if (form.controls.password.touched && form.controls.password.hasError('required')) {
-            <small class="field-error">{{ 'auth.error.password-required' | translate }}</small>
+          <small class="field-error">{{ 'auth.error.password-required' | translate }}</small>
           }
         </div>
 
-        <button type="submit" class="submit-button">
-          {{ 'auth.sign-in' | translate }}
+        @if (store.error()) {
+        <small class="field-error">{{ store.error()! | translate }}</small>
+        }
+
+        <button type="submit" class="submit-button" [disabled]="store.loading()">
+          {{ store.loading() ? ('auth.signing-in' | translate) : ('auth.sign-in' | translate) }}
         </button>
       </form>
 
