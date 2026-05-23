@@ -208,6 +208,23 @@
     text-decoration: none;
 }
 
+.input-control.disabled {
+    background: #f4f7fb;
+    color: #94a3b8;
+}
+
+.input-control.disabled input {
+    color: #64748b;
+    cursor: not-allowed;
+}
+
+.global-error {
+    display: block;
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: rgba(239, 68, 68, 0.1);
+}
+
 @media (max-width: 720px) {
     .auth-card {
         padding: 28px 20px;

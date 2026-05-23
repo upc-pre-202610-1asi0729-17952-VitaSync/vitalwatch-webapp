@@ -85,6 +85,19 @@
             "role": "HOSPITAL_ADMIN",
             "status": "ACTIVE",
             "id": 4
+        },
+        {
+            "organizationId": 1,
+            "firstName": "Mauricio",
+            "lastName": "Montes",
+            "email": "nuevo.medico@vitalwatch.com",
+            "password": "waza123",
+            "phone": "999 999 999",
+            "workAreaId": 5,
+            "specialtyId": 4,
+            "role": "DOCTOR",
+            "status": "ACTIVE",
+            "id": 5
         }
     ],
     "subscriptions": [
@@ -109,7 +122,7 @@
             "organizationId": 1,
             "email": "nuevo.medico@vitalwatch.com",
             "role": "DOCTOR",
-            "status": "PENDING",
+            "status": "ACCEPTED",
             "token": "inv-demo-doctor"
         },
         {

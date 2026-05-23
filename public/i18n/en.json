@@ -24,7 +24,11 @@
       "passwords-do-not-match": "Passwords do not match.",
       "work-area-required": "Work area is required.",
       "specialty-required": "Specialty is required.",
-      "invalid-credentials": "Invalid credentials or inactive account."
+      "invalid-credentials": "Invalid credentials or inactive account.",
+      "invitation-token-required": "A valid invitation is required to create an account.",
+      "invitation-not-found": "The invitation does not exist or the link is invalid.",
+      "invitation-not-available": "This invitation was already used or expired.",
+      "invitation-accept-failed": "The registration could not be completed. Please try again."
     },
     "register-brand-title": "Join the intelligent healthcare platform.",
     "register-brand-description": "Complete your registration to access biometric monitoring and shift management.",
@@ -46,7 +50,8 @@
     "register-submit": "Register",
     "already-have-account": "Already have an account?",
     "sign-in-link": "Sign in",
-    "signing-in": "Signing in..."
+    "signing-in": "Signing in...",
+    "creating-account": "Creating account..."
   },
   "layout": {
     "admin-title": "Welcome, Marcelo",
