@@ -65,23 +65,23 @@
                     </div>
 
                     <div class="field">
-                        <label for="specialty">{{ 'auth.specialty' | translate }}</label>
+                        <label for="workArea">{{ 'auth.work-area' | translate }}</label>
 
                         <div class="input-control"
-                            [class.invalid]="form.controls.specialty.touched && form.controls.specialty.invalid">
-                            <ng-icon name="heroHeart" />
+                            [class.invalid]="form.controls.workArea.touched && form.controls.workArea.invalid">
+                            <ng-icon name="heroBriefcase" />
 
-                            <mat-select id="specialty" formControlName="specialty" panelClass="auth-select-panel"
-                                [placeholder]="'auth.specialty-placeholder' | translate">
+                            <mat-select id="workArea" formControlName="workArea" panelClass="auth-select-panel"
+                                [placeholder]="'auth.work-area-placeholder' | translate">
 
-                                @for (specialty of specialties; track specialty) {
-                                <mat-option [value]="specialty">{{ specialty }}</mat-option>
+                                @for (workArea of workAreas; track workArea) {
+                                <mat-option [value]="workArea">{{ workArea }}</mat-option>
                                 }
                             </mat-select>
                         </div>
 
-                        @if (form.controls.specialty.touched && form.controls.specialty.hasError('required')) {
-                        <small class="field-error">{{ 'auth.error.specialty-required' | translate }}</small>
+                        @if (form.controls.workArea.touched && form.controls.workArea.hasError('required')) {
+                        <small class="field-error">{{ 'auth.error.work-area-required' | translate }}</small>
                         }
                     </div>
                 </div>
