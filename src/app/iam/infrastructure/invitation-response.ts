@@ -8,4 +8,5 @@ export interface InvitationResource {
     role: UserRole;
     status: InvitationStatus;
     token: string;
+    createdAt: string;
 }

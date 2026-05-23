@@ -1,5 +1,4 @@
 import { Component, inject, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
 import { NgIcon } from '@ng-icons/core';
@@ -13,7 +12,6 @@ import { AuthenticationStore } from '../../../application/authentication.store';
     ReactiveFormsModule,
     TranslatePipe,
     NgIcon,
-    RouterLink
   ],
   templateUrl: './sign-in.html',
   styleUrl: './sign-in.css'

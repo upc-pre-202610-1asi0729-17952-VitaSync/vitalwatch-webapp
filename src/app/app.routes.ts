@@ -69,10 +69,9 @@ export const routes: Routes = [
       },
       {
         path: 'invitations',
-        loadComponent: pagePlaceholder,
-        data: {
-          title: 'navigation.invitations'
-        }
+        loadComponent: () =>
+          import('./iam/presentation/views/invitation-management/invitation-management')
+            .then(m => m.InvitationManagement)
       },
       {
         path: 'subscription',

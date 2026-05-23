@@ -128,5 +128,64 @@
     "success-title": "Plan activado correctamente",
     "success-subtitle": "Tu centro médico y cuenta administradora ya están activos.",
     "go-dashboard": "Ir al dashboard"
+  },
+  "iam": {
+    "roles": {
+      "admin": "Administrador",
+      "supervisor": "Supervisor clínico",
+      "doctor": "Personal médico"
+    },
+    "invitations": {
+      "title": "Gestión de Invitaciones",
+      "subtitle-before": "Crea y administra",
+      "subtitle-highlight": "invitaciones",
+      "subtitle-after": "para nuevos usuarios de VitalWatch.",
+      "new-title": "Nueva invitación",
+      "new-subtitle": "El usuario podrá completar su registro con el correo invitado.",
+      "email": "Correo electrónico",
+      "email-placeholder": "usuario@vitalwatch.com",
+      "role": "Rol",
+      "send": "Enviar invitación",
+      "sending": "Enviando...",
+      "link-copied": "Link de invitación copiado al portapapeles.",
+      "search-placeholder": "Buscar por correo o rol...",
+      "copy-link": "Copiar link",
+      "cancel": "Cancelar",
+      "delete": "Eliminar",
+      "empty": "No hay invitaciones para mostrar.",
+      "metrics": {
+        "total": "Total de invitaciones",
+        "pending": "Pendientes",
+        "accepted": "Aceptadas",
+        "cancelled": "Canceladas"
+      },
+      "filters": {
+        "all": "Todas",
+        "pending": "Pendientes",
+        "accepted": "Aceptadas",
+        "cancelled": "Canceladas"
+      },
+      "status": {
+        "pending": "Pendiente",
+        "accepted": "Aceptada",
+        "cancelled": "Cancelada",
+        "expired": "Expirada"
+      },
+      "table": {
+        "email": "Correo",
+        "role": "Rol",
+        "status": "Estado",
+        "date": "Fecha",
+        "actions": "Acciones",
+        "link": "Link"
+      },
+      "error": {
+        "no-session": "No se encontró una sesión activa.",
+        "load-failed": "No se pudieron cargar las invitaciones.",
+        "create-failed": "No se pudo crear la invitación.",
+        "email-required": "El correo electrónico es obligatorio.",
+        "email-invalid": "Ingresa un correo electrónico válido."
+      }
+    }
   }
 }

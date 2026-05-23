@@ -125,5 +125,64 @@
     "success-title": "Plan activated successfully",
     "success-subtitle": "Your medical center and administrator account are now active.",
     "go-dashboard": "Go to dashboard"
+  },
+  "iam": {
+    "roles": {
+      "admin": "Administrator",
+      "supervisor": "Clinical supervisor",
+      "doctor": "Medical staff"
+    },
+    "invitations": {
+      "title": "Invitation Management",
+      "subtitle-before": "Create and manage",
+      "subtitle-highlight": "invitations",
+      "subtitle-after": "for new VitalWatch users.",
+      "new-title": "New invitation",
+      "new-subtitle": "The user will complete registration with the invited email.",
+      "email": "Email address",
+      "email-placeholder": "user@vitalwatch.com",
+      "role": "Role",
+      "send": "Send invitation",
+      "sending": "Sending...",
+      "link-copied": "Invitation link copied to clipboard.",
+      "search-placeholder": "Search by email or role...",
+      "copy-link": "Copy link",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "empty": "There are no invitations to display.",
+      "metrics": {
+        "total": "Total invitations",
+        "pending": "Pending",
+        "accepted": "Accepted",
+        "cancelled": "Cancelled"
+      },
+      "filters": {
+        "all": "All",
+        "pending": "Pending",
+        "accepted": "Accepted",
+        "cancelled": "Cancelled"
+      },
+      "status": {
+        "pending": "Pending",
+        "accepted": "Accepted",
+        "cancelled": "Cancelled",
+        "expired": "Expired"
+      },
+      "table": {
+        "email": "Email",
+        "role": "Role",
+        "status": "Status",
+        "date": "Date",
+        "actions": "Actions",
+        "link": "Link"
+      },
+      "error": {
+        "no-session": "No active session was found.",
+        "load-failed": "Invitations could not be loaded.",
+        "create-failed": "Invitation could not be created.",
+        "email-required": "Email address is required.",
+        "email-invalid": "Enter a valid email address."
+      }
+    }
   }
 }

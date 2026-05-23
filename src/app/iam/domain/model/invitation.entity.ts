@@ -1,6 +1,6 @@
 import { UserRole } from './user.entity';
 
-export type InvitationStatus = 'PENDING' | 'ACCEPTED' | 'EXPIRED';
+export type InvitationStatus = 'PENDING' | 'ACCEPTED' | 'CANCELLED' | 'EXPIRED';
 
 export class Invitation {
     private _id: number;
@@ -9,6 +9,7 @@ export class Invitation {
     private _role: UserRole;
     private _status: InvitationStatus;
     private _token: string;
+    private _createdAt: string;
 
     constructor(props: {
         id: number;
@@ -17,6 +18,7 @@ export class Invitation {
         role: UserRole;
         status: InvitationStatus;
         token: string;
+        createdAt: string;
     }) {
         this._id = props.id;
         this._organizationId = props.organizationId;
@@ -24,14 +26,36 @@ export class Invitation {
         this._role = props.role;
         this._status = props.status;
         this._token = props.token;
+        this._createdAt = props.createdAt;
     }
 
-    get id(): number { return this._id; }
-    get organizationId(): number { return this._organizationId; }
-    get email(): string { return this._email; }
-    get role(): UserRole { return this._role; }
-    get status(): InvitationStatus { return this._status; }
-    get token(): string { return this._token; }
+    get id(): number {
+        return this._id;
+    }
+
+    get organizationId(): number {
+        return this._organizationId;
+    }
+
+    get email(): string {
+        return this._email;
+    }
+
+    get role(): UserRole {
+        return this._role;
+    }
+
+    get status(): InvitationStatus {
+        return this._status;
+    }
+
+    get token(): string {
+        return this._token;
+    }
+
+    get createdAt(): string {
+        return this._createdAt;
+    }
 
     get isPending(): boolean {
         return this._status === 'PENDING';

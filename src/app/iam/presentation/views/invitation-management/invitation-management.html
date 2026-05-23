@@ -1,0 +1,181 @@
+<section class="page-header">
+    <h1>{{ 'iam.invitations.title' | translate }}</h1>
+    <p>
+        {{ 'iam.invitations.subtitle-before' | translate }}
+        <strong>{{ 'iam.invitations.subtitle-highlight' | translate }}</strong>
+        {{ 'iam.invitations.subtitle-after' | translate }}
+    </p>
+</section>
+
+<section class="metrics-grid">
+    <article class="metric-card">
+        <div class="metric-icon blue">
+            <ng-icon name="heroEnvelope" />
+        </div>
+        <p>{{ 'iam.invitations.metrics.total' | translate }}</p>
+        <h2>{{ totalInvitations() }}</h2>
+    </article>
+
+    <article class="metric-card">
+        <div class="metric-icon warning">
+            <ng-icon name="heroClock" />
+        </div>
+        <p>{{ 'iam.invitations.metrics.pending' | translate }}</p>
+        <h2 class="warning-text">{{ pendingInvitations() }}</h2>
+    </article>
+
+    <article class="metric-card">
+        <div class="metric-icon success">
+            <ng-icon name="heroCheckCircle" />
+        </div>
+        <p>{{ 'iam.invitations.metrics.accepted' | translate }}</p>
+        <h2 class="success-text">{{ acceptedInvitations() }}</h2>
+    </article>
+
+    <article class="metric-card">
+        <div class="metric-icon danger">
+            <ng-icon name="heroXCircle" />
+        </div>
+        <p>{{ 'iam.invitations.metrics.cancelled' | translate }}</p>
+        <h2 class="danger-text">{{ cancelledInvitations() }}</h2>
+    </article>
+</section>
+
+<section class="content-grid">
+    <article class="content-card">
+        <h2>{{ 'iam.invitations.new-title' | translate }}</h2>
+        <p>{{ 'iam.invitations.new-subtitle' | translate }}</p>
+
+        @if (errorMessage()) {
+        <small class="form-error">{{ errorMessage()! | translate }}</small>
+        }
+
+        @if (copiedLink()) {
+        <small class="copy-message">{{ 'iam.invitations.link-copied' | translate }}</small>
+        }
+
+        <form [formGroup]="form" (ngSubmit)="createInvitation()" class="invitation-form">
+            <div class="field">
+                <label for="email">{{ 'iam.invitations.email' | translate }}</label>
+                <input id="email" type="email" formControlName="email"
+                    [placeholder]="'iam.invitations.email-placeholder' | translate">
+
+                @if (form.controls.email.touched && form.controls.email.hasError('required')) {
+                <small class="field-error">{{ 'iam.invitations.error.email-required' | translate }}</small>
+                }
+
+                @if (form.controls.email.touched && form.controls.email.hasError('email')) {
+                <small class="field-error">{{ 'iam.invitations.error.email-invalid' | translate }}</small>
+                }
+            </div>
+
+            <div class="field">
+                <label for="role">{{ 'iam.invitations.role' | translate }}</label>
+
+                <div class="select-control">
+                    <mat-select id="role" formControlName="role" panelClass="auth-select-panel">
+                        <mat-option value="DOCTOR">
+                            {{ 'iam.roles.doctor' | translate }}
+                        </mat-option>
+
+                        <mat-option value="SUPERVISOR">
+                            {{ 'iam.roles.supervisor' | translate }}
+                        </mat-option>
+                    </mat-select>
+                </div>
+            </div>
+
+            <button type="submit" class="primary-button" [disabled]="loading()">
+                <ng-icon name="heroPaperAirplane" />
+                <span>
+                    {{ loading() ? ('iam.invitations.sending' | translate) : ('iam.invitations.send' | translate) }}
+                </span>
+            </button>
+        </form>
+    </article>
+
+    <article class="content-card">
+        <div class="table-tools">
+            <input type="text" [placeholder]="'iam.invitations.search-placeholder' | translate"
+                (input)="updateSearchTerm($event)">
+
+            <div class="status-filter">
+                <mat-select [value]="statusFilter()" panelClass="auth-select-panel"
+                    (selectionChange)="updateStatusFilter($event.value)">
+                    <mat-option value="ALL">{{ 'iam.invitations.filters.all' | translate }}</mat-option>
+                    <mat-option value="PENDING">{{ 'iam.invitations.filters.pending' | translate }}</mat-option>
+                    <mat-option value="ACCEPTED">{{ 'iam.invitations.filters.accepted' | translate }}</mat-option>
+                    <mat-option value="CANCELLED">{{ 'iam.invitations.filters.cancelled' | translate }}</mat-option>
+                </mat-select>
+            </div>
+        </div>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>{{ 'iam.invitations.table.email' | translate }}</th>
+                        <th>{{ 'iam.invitations.table.role' | translate }}</th>
+                        <th>{{ 'iam.invitations.table.status' | translate }}</th>
+                        <th>{{ 'iam.invitations.table.date' | translate }}</th>
+                        <th>{{ 'iam.invitations.table.link' | translate }}</th>
+                        <th>{{ 'iam.invitations.table.actions' | translate }}</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @for (invitation of filteredInvitations(); track invitation.id) {
+                    <tr>
+                        <td>{{ invitation.email }}</td>
+
+                        <td>{{ getRoleLabel(invitation.role) | translate }}</td>
+
+                        <td>
+                            <span class="status-pill" [class]="invitation.status.toLowerCase()">
+                                {{ getStatusLabel(invitation.status) | translate }}
+                            </span>
+                        </td>
+
+                        <td>{{ invitation.createdAt | date:'yyyy-MM-dd HH:mm' }}</td>
+
+                        <td>
+                            @if (invitation.isPending) {
+                            <button type="button" class="action-button copy" (click)="copyInvitationLink(invitation)">
+                                <ng-icon name="heroClipboardDocument" />
+                                <span>{{ 'iam.invitations.copy-link' | translate }}</span>
+                            </button>
+                            } @else {
+                            <span class="muted-text">—</span>
+                            }
+                        </td>
+
+                        <td>
+                            <div class="actions">
+                                @if (invitation.isPending) {
+                                <button type="button" class="action-button warning"
+                                    (click)="cancelInvitation(invitation)">
+                                    <ng-icon name="heroNoSymbol" />
+                                    <span>{{ 'iam.invitations.cancel' | translate }}</span>
+                                </button>
+                                }
+
+                                <button type="button" class="action-button danger"
+                                    (click)="deleteInvitation(invitation)">
+                                    <ng-icon name="heroTrash" />
+                                    <span>{{ 'iam.invitations.delete' | translate }}</span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    } @empty {
+                    <tr>
+                        <td colspan="6" class="empty-state">
+                            {{ 'iam.invitations.empty' | translate }}
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </article>
+</section>

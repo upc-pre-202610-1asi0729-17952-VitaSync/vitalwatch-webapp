@@ -24,7 +24,14 @@ import {
   heroBell,
   heroBolt,
   heroClipboardDocumentCheck,
-  heroCalendarDays
+  heroCalendarDays,
+  heroClock,
+  heroCheckCircle,
+  heroXCircle,
+  heroPaperAirplane,
+  heroClipboardDocument,
+  heroTrash,
+  heroNoSymbol
 } from '@ng-icons/heroicons/outline';
 
 import { routes } from './app.routes';
@@ -60,7 +67,14 @@ export const appConfig: ApplicationConfig = {
       heroBell,
       heroBolt,
       heroClipboardDocumentCheck,
-      heroCalendarDays
+      heroCalendarDays,
+      heroClock,
+      heroCheckCircle,
+      heroXCircle,
+      heroPaperAirplane,
+      heroClipboardDocument,
+      heroTrash,
+      heroNoSymbol
     }),
     provideRouter(routes)
   ]
