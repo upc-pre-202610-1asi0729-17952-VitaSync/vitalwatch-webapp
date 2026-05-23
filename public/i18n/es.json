@@ -51,7 +51,11 @@
     "already-have-account": "¿Ya tienes una cuenta?",
     "sign-in-link": "Iniciar sesión",
     "signing-in": "Ingresando...",
-    "creating-account": "Creando cuenta..."
+    "creating-account": "Creando cuenta...",
+    "invitation-help": "¿Recibiste una invitación? Abre el enlace enviado a tu correo para crear tu cuenta.",
+    "invitation-required-title": "Invitación requerida",
+    "invitation-required-message": "Para crear una cuenta necesitas abrir el enlace de invitación enviado por el administrador de tu centro médico.",
+    "back-to-sign-in": "Volver al inicio de sesión"
   },
   "layout": {
     "admin-title": "Bienvenido, Marcelo",

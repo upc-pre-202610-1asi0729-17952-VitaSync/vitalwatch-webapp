@@ -9,16 +9,6 @@
         </p>
       </div>
 
-      <div class="auth-tabs">
-        <button type="button" class="tab active">
-          {{ 'auth.sign-in-tab' | translate }}
-        </button>
-
-        <a routerLink="/accept-invitation" class="tab">
-          {{ 'auth.register-tab' | translate }}
-        </a>
-      </div>
-
       <form [formGroup]="form" (ngSubmit)="submit()" class="auth-form">
         <div class="field">
           <label for="email">{{ 'auth.email' | translate }}</label>
@@ -67,8 +57,7 @@
       </form>
 
       <p class="register-message">
-        {{ 'auth.register-question' | translate }}
-        <a routerLink="/accept-invitation">{{ 'auth.register-link' | translate }}</a>
+        {{ 'auth.invitation-help' | translate }}
       </p>
     </section>
   </main>

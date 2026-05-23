@@ -1,19 +1,19 @@
 <app-auth-layout variant="register">
     <main class="register-container">
+        @if (!invitation()) {
+        <section class="empty-invitation-card">
+            <h2>{{ 'auth.invitation-required-title' | translate }}</h2>
+            <p>{{ 'auth.invitation-required-message' | translate }}</p>
+
+            <a routerLink="/sign-in" class="back-link">
+                {{ 'auth.back-to-sign-in' | translate }}
+            </a>
+        </section>
+        } @else {
         <section class="auth-card">
             <div class="card-header">
                 <h2>{{ 'auth.register-title' | translate }}</h2>
                 <p>{{ 'auth.register-subtitle' | translate }}</p>
-            </div>
-
-            <div class="auth-tabs">
-                <a routerLink="/sign-in" class="tab">
-                    {{ 'auth.sign-in-tab' | translate }}
-                </a>
-
-                <button type="button" class="tab active">
-                    {{ 'auth.register-tab' | translate }}
-                </button>
             </div>
 
             <form [formGroup]="form" (ngSubmit)="submit()" class="auth-form">
@@ -162,5 +162,8 @@
                 <a routerLink="/sign-in">{{ 'auth.sign-in-link' | translate }}</a>
             </p>
         </section>
+
+        }
+
     </main>
 </app-auth-layout>

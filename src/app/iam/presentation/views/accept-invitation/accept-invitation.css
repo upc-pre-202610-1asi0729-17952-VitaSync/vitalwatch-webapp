@@ -12,12 +12,12 @@
 
 .card-header {
     text-align: center;
-    margin-bottom: 24px;
+    margin-bottom: 34px;
 }
 
 .card-header h2 {
     margin: 0;
-    color: #0b1b2b;
+    color: #1f5eff;
     font-size: 2rem;
     line-height: 1.2;
     font-weight: 800;
@@ -28,36 +28,6 @@
     margin: 10px 0 0;
     color: #667085;
     font-size: 0.98rem;
-}
-
-.auth-tabs {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    margin-bottom: 28px;
-    padding: 6px;
-    border-radius: 16px;
-    background: #eef2f7;
-}
-
-.tab {
-    min-height: 48px;
-    border: 0;
-    border-radius: 12px;
-    display: grid;
-    place-items: center;
-    color: #64748b;
-    background: transparent;
-    text-decoration: none;
-    font: inherit;
-    font-weight: 800;
-    cursor: pointer;
-}
-
-.tab.active {
-    color: #2563eb;
-    background: #ffffff;
-    box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
 }
 
 .auth-form {
@@ -223,6 +193,38 @@
     padding: 12px 14px;
     border-radius: 12px;
     background: rgba(239, 68, 68, 0.1);
+}
+
+.empty-invitation-card {
+    padding: 36px;
+    border-radius: 24px;
+    background: #ffffff;
+    text-align: center;
+    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+}
+
+.empty-invitation-card h2 {
+    margin: 0;
+    color: #0b1b2b;
+    font-size: 2rem;
+    font-weight: 900;
+}
+
+.empty-invitation-card p {
+    margin: 12px 0 24px;
+    color: #667085;
+}
+
+.back-link {
+    min-height: 52px;
+    padding: 0 22px;
+    display: inline-grid;
+    place-items: center;
+    border-radius: 14px;
+    background: #2563eb;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 900;
 }
 
 @media (max-width: 720px) {

@@ -51,7 +51,8 @@
     "already-have-account": "Already have an account?",
     "sign-in-link": "Sign in",
     "signing-in": "Signing in...",
-    "creating-account": "Creating account..."
+    "creating-account": "Creating account...",
+    "invitation-help": "Did you receive an invitation? Open the link sent to your email to create your account."
   },
   "layout": {
     "admin-title": "Welcome, Marcelo",
