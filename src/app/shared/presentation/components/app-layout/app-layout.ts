@@ -1,29 +1,22 @@
-import { Component, inject } from '@angular/core';
-import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
+import { Component, computed, inject } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
 import { Sidebar, SidebarMenuItem, SidebarProfile } from '../sidebar/sidebar';
 import { Topbar } from '../topbar/topbar';
-
-type UserRole = 'admin' | 'supervisor' | 'doctor';
+import { AuthenticationStore } from '../../../../iam/application/authentication.store';
+import { UserRole } from '../../../../iam/domain/model/user.entity';
 
 interface AppLayoutConfig {
   title: string;
   subtitle: string;
   menuTitle: string;
-  profile: SidebarProfile;
   menuItems: SidebarMenuItem[];
 }
 
 const layoutConfig: Record<UserRole, AppLayoutConfig> = {
-  admin: {
+  HOSPITAL_ADMIN: {
     title: 'layout.admin-title',
     subtitle: 'layout.subtitle',
     menuTitle: 'navigation.admin-menu',
-    profile: {
-      fullName: 'Marcelo Administrador',
-      email: 'admin@vitalwatch.com',
-      initials: 'MA',
-      avatarColor: '#11c7c7'
-    },
     menuItems: [
       { label: 'navigation.general-summary', icon: 'heroSquares2x2', link: '/admin/dashboard', exact: true },
       { label: 'navigation.staff', icon: 'heroUsers', link: '/admin/staff' },
@@ -34,16 +27,11 @@ const layoutConfig: Record<UserRole, AppLayoutConfig> = {
       { label: 'navigation.settings', icon: 'heroCog6Tooth', link: '/admin/settings' }
     ]
   },
-  supervisor: {
+
+  SUPERVISOR: {
     title: 'layout.supervisor-title',
     subtitle: 'layout.subtitle',
     menuTitle: 'navigation.supervisor-menu',
-    profile: {
-      fullName: 'Claudia Supervisora',
-      email: 'supervisor@vitalwatch.com',
-      initials: 'CS',
-      avatarColor: '#7c3aed'
-    },
     menuItems: [
       { label: 'navigation.shift-summary', icon: 'heroSquares2x2', link: '/supervisor/dashboard', exact: true },
       { label: 'navigation.risk-staff', icon: 'heroExclamationTriangle', link: '/supervisor/risk-staff' },
@@ -53,16 +41,11 @@ const layoutConfig: Record<UserRole, AppLayoutConfig> = {
       { label: 'navigation.settings', icon: 'heroCog6Tooth', link: '/supervisor/settings' }
     ]
   },
-  doctor: {
+
+  DOCTOR: {
     title: 'layout.doctor-title',
     subtitle: 'layout.subtitle',
     menuTitle: 'navigation.clinical-menu',
-    profile: {
-      fullName: 'Carlos Mendoza',
-      email: 'doctor@vitalwatch.com',
-      initials: 'CM',
-      avatarColor: '#11c7c7'
-    },
     menuItems: [
       { label: 'navigation.my-health-status', icon: 'heroSquares2x2', link: '/doctor/health', exact: true },
       { label: 'navigation.my-vital-signs', icon: 'heroBolt', link: '/doctor/vital-signs' },
@@ -71,6 +54,12 @@ const layoutConfig: Record<UserRole, AppLayoutConfig> = {
       { label: 'navigation.settings', icon: 'heroCog6Tooth', link: '/doctor/settings' }
     ]
   }
+};
+
+const avatarColors: Record<UserRole, string> = {
+  HOSPITAL_ADMIN: '#2563eb',
+  SUPERVISOR: '#7c3aed',
+  DOCTOR: '#11c7c7'
 };
 
 @Component({
@@ -84,13 +73,45 @@ const layoutConfig: Record<UserRole, AppLayoutConfig> = {
   styleUrl: './app-layout.css'
 })
 export class AppLayout {
-  private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private authenticationStore = inject(AuthenticationStore);
 
-  protected role = (this.route.snapshot.data['role'] ?? 'doctor') as UserRole;
-  protected config = layoutConfig[this.role];
+  protected config = computed(() => {
+    const role = this.authenticationStore.currentUser()?.role ?? this.resolveRoleFromUrl();
+    return layoutConfig[role];
+  });
+
+  protected profile = computed<SidebarProfile>(() => {
+    const user = this.authenticationStore.currentUser();
+
+    if (!user) {
+      return {
+        fullName: 'Usuario VitalWatch',
+        email: 'usuario@vitalwatch.com',
+        initials: 'VW',
+        avatarColor: '#2563eb'
+      };
+    }
+
+    return {
+      fullName: user.fullName,
+      email: user.email,
+      initials: user.initials,
+      avatarColor: avatarColors[user.role]
+    };
+  });
 
   protected signOut(): void {
-    this.router.navigate(['/sign-in']).then();
+    this.authenticationStore.signOut();
+  }
+
+  private resolveRoleFromUrl(): UserRole {
+    const url = this.router.url;
+
+    if (url.startsWith('/admin')) return 'HOSPITAL_ADMIN';
+    if (url.startsWith('/supervisor')) return 'SUPERVISOR';
+    if (url.startsWith('/doctor')) return 'DOCTOR';
+
+    return 'DOCTOR';
   }
 }

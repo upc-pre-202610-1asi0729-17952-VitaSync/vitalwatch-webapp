@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { AuthenticationApi } from '../infrastructure/authentication-api';
 import { SignInRequest } from '../infrastructure/sign-in-request';
 import { AuthenticationSession } from '../domain/model/authentication-session.entity';
-import { UserRole } from '../domain/model/user.entity';
+import { User, UserRole } from '../domain/model/user.entity';
 
 @Injectable({
     providedIn: 'root'
@@ -77,11 +77,26 @@ export class AuthenticationStore {
 
         if (!rawSession) return null;
 
-        const parsed = JSON.parse(rawSession);
+        try {
+            const parsed = JSON.parse(rawSession);
 
-        return new AuthenticationSession({
-            token: parsed.token,
-            user: parsed.user
-        });
+            const user = new User({
+                id: parsed.user.id,
+                organizationId: parsed.user.organizationId,
+                firstName: parsed.user.firstName,
+                lastName: parsed.user.lastName,
+                email: parsed.user.email,
+                role: parsed.user.role,
+                status: parsed.user.status
+            });
+
+            return new AuthenticationSession({
+                token: parsed.token,
+                user
+            });
+        } catch {
+            localStorage.removeItem('vitalwatch-session');
+            return null;
+        }
     }
 }
