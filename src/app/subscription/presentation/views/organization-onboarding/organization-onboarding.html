@@ -77,8 +77,12 @@
                     </div>
                 </div>
 
-                <button type="submit" class="submit-button">
-                    {{ 'onboarding.submit' | translate }}
+                @if (errorMessage()) {
+                <small class="field-error">{{ errorMessage() }}</small>
+                }
+
+                <button type="submit" class="submit-button" [disabled]="loading()">
+                    {{ loading() ? ('onboarding.loading' | translate) : ('onboarding.submit' | translate) }}
                 </button>
             </form>
 

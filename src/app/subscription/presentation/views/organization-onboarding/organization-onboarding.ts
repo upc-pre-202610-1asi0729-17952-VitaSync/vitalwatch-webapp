@@ -3,6 +3,8 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
 import { AuthLayout } from '../../../../shared/presentation/components/auth-layout/auth-layout';
+import { signal } from '@angular/core';
+import { SubscriptionApi } from '../../../infrastructure/subscription-api';
 
 @Component({
   selector: 'app-organization-onboarding',
@@ -19,6 +21,10 @@ export class OrganizationOnboarding {
   private formBuilder = inject(NonNullableFormBuilder);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private subscriptionApi = inject(SubscriptionApi);
+
+  protected loading = signal(false);
+  protected errorMessage = signal<string | null>(null);
 
   protected selectedPlan = this.route.snapshot.queryParamMap.get('plan') ?? 'professional';
 
@@ -46,7 +52,10 @@ export class OrganizationOnboarding {
       return;
     }
 
-    const payload = {
+    this.loading.set(true);
+    this.errorMessage.set(null);
+
+    const request = {
       planCode: this.selectedPlan,
       organization: {
         name: this.form.controls.organizationName.value,
@@ -58,15 +67,19 @@ export class OrganizationOnboarding {
         firstName: this.form.controls.adminFirstName.value,
         lastName: this.form.controls.adminLastName.value,
         email: this.form.controls.adminEmail.value,
-        role: 'HOSPITAL_ADMIN'
-      },
-      subscription: {
-        status: 'ACTIVE'
+        password: this.form.controls.password.value
       }
     };
 
-    console.log(payload);
-
-    this.router.navigate(['/admin/dashboard']).then();
+    this.subscriptionApi.createCheckoutSession(request).subscribe({
+      next: response => {
+        this.loading.set(false);
+        this.router.navigateByUrl(response.checkoutUrl).then();
+      },
+      error: error => {
+        this.loading.set(false);
+        this.errorMessage.set(error.message ?? 'Unexpected error');
+      }
+    });
   }
 }

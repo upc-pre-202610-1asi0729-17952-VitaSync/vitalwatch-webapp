@@ -100,10 +100,22 @@
     "confirm-password": "Confirm password",
     "confirm-password-placeholder": "Confirm password",
     "submit": "Continue to payment",
+    "loading": "Creating payment session...",
     "already-have-account": "Already have an account?",
     "sign-in": "Sign in",
     "error": {
       "passwords-do-not-match": "Passwords do not match."
     }
+  },
+  "checkout": {
+    "title": "Plan payment",
+    "subtitle": "Payment simulation to activate VitalWatch.",
+    "session": "Payment session",
+    "confirm-payment": "Confirm payment",
+    "processing": "Processing...",
+    "cancel": "Cancel",
+    "success-title": "Plan activated successfully",
+    "success-subtitle": "Your medical center and administrator account are now active.",
+    "go-dashboard": "Go to dashboard"
   }
 }

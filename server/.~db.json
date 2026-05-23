@@ -1,0 +1,194 @@
+{
+  "plans": [
+    {
+      "id": 1,
+      "code": "basic",
+      "name": "Basic",
+      "price": 49,
+      "billingPeriod": "monthly",
+      "description": "Plan inicial para centros médicos pequeños."
+    },
+    {
+      "id": 2,
+      "code": "professional",
+      "name": "Professional",
+      "price": 99,
+      "billingPeriod": "monthly",
+      "description": "Plan recomendado para clínicas y hospitales medianos."
+    },
+    {
+      "id": 3,
+      "code": "enterprise",
+      "name": "Enterprise",
+      "price": 199,
+      "billingPeriod": "monthly",
+      "description": "Plan avanzado para redes hospitalarias."
+    }
+  ],
+  "organizations": [
+    {
+      "id": 1,
+      "name": "Clínica San Gabriel",
+      "ruc": "20600000000",
+      "address": "Av. Salud 123, Lima",
+      "phone": "+51 999 999 999",
+      "status": "ACTIVE",
+      "planId": 2
+    },
+    {
+      "name": "Clínica General de Huanta",
+      "ruc": "20600000000",
+      "address": "Av. Argentina, Lima",
+      "phone": "+51 999 999 999",
+      "status": "ACTIVE",
+      "planId": 2,
+      "id": 2
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "organizationId": 1,
+      "firstName": "Marcelo",
+      "lastName": "Administrador",
+      "email": "admin@vitalwatch.com",
+      "password": "admin123",
+      "role": "HOSPITAL_ADMIN",
+      "status": "ACTIVE"
+    },
+    {
+      "id": 2,
+      "organizationId": 1,
+      "firstName": "Claudia",
+      "lastName": "Supervisora",
+      "email": "supervisor@vitalwatch.com",
+      "password": "supervisor123",
+      "role": "SUPERVISOR",
+      "status": "ACTIVE"
+    },
+    {
+      "id": 3,
+      "organizationId": 1,
+      "firstName": "Carlos",
+      "lastName": "Mendoza",
+      "email": "doctor@vitalwatch.com",
+      "password": "doctor123",
+      "role": "DOCTOR",
+      "status": "ACTIVE"
+    },
+    {
+      "organizationId": 2,
+      "firstName": "Johan",
+      "lastName": "Yonel",
+      "email": "admin@hospital.com",
+      "password": "waza123",
+      "role": "HOSPITAL_ADMIN",
+      "status": "ACTIVE",
+      "id": 4
+    }
+  ],
+  "subscriptions": [
+    {
+      "id": 1,
+      "organizationId": 1,
+      "planId": 2,
+      "status": "ACTIVE",
+      "startedAt": "2026-05-22T00:00:00.000Z"
+    },
+    {
+      "organizationId": 2,
+      "planId": 2,
+      "status": "ACTIVE",
+      "startedAt": "2026-05-23T05:49:56.536Z",
+      "id": 2
+    }
+  ],
+  "invitations": [
+    {
+      "id": 1,
+      "organizationId": 1,
+      "email": "nuevo.medico@vitalwatch.com",
+      "role": "DOCTOR",
+      "status": "PENDING",
+      "token": "inv-demo-doctor"
+    },
+    {
+      "id": 2,
+      "organizationId": 1,
+      "email": "nuevo.supervisor@vitalwatch.com",
+      "role": "SUPERVISOR",
+      "status": "PENDING",
+      "token": "inv-demo-supervisor"
+    }
+  ],
+  "workAreas": [
+    {
+      "id": 1,
+      "organizationId": 1,
+      "name": "UCI"
+    },
+    {
+      "id": 2,
+      "organizationId": 1,
+      "name": "Emergencias"
+    },
+    {
+      "id": 3,
+      "organizationId": 1,
+      "name": "Hospitalización"
+    },
+    {
+      "id": 4,
+      "organizationId": 1,
+      "name": "Cirugía"
+    },
+    {
+      "id": 5,
+      "organizationId": 1,
+      "name": "Pediatría"
+    },
+    {
+      "id": 6,
+      "organizationId": 1,
+      "name": "Cardiología"
+    }
+  ],
+  "specialties": [
+    {
+      "id": 1,
+      "name": "Medicina General"
+    },
+    {
+      "id": 2,
+      "name": "Enfermería"
+    },
+    {
+      "id": 3,
+      "name": "Cardiología"
+    },
+    {
+      "id": 4,
+      "name": "Pediatría"
+    },
+    {
+      "id": 5,
+      "name": "Anestesiología"
+    },
+    {
+      "id": 6,
+      "name": "Traumatología"
+    }
+  ],
+  "checkoutSessions": [
+    {
+      "organizationId": 2,
+      "administratorId": 4,
+      "subscriptionId": 2,
+      "planId": 2,
+      "planCode": "professional",
+      "status": "COMPLETED",
+      "createdAt": "2026-05-23T05:46:33.063Z",
+      "id": 1
+    }
+  ]
+}

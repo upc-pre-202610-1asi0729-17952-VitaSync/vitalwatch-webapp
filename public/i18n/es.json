@@ -100,10 +100,22 @@
     "confirm-password": "Confirmar contraseña",
     "confirm-password-placeholder": "Confirmar contraseña",
     "submit": "Continuar al pago",
+    "loading": "Creando sesión de pago...",
     "already-have-account": "¿Ya tienes una cuenta?",
     "sign-in": "Iniciar sesión",
     "error": {
       "passwords-do-not-match": "Las contraseñas no coinciden."
     }
+  },
+  "checkout": {
+    "title": "Pago del plan",
+    "subtitle": "Simulación de pago para activar VitalWatch.",
+    "session": "Sesión de pago",
+    "confirm-payment": "Confirmar pago",
+    "processing": "Procesando...",
+    "cancel": "Cancelar",
+    "success-title": "Plan activado correctamente",
+    "success-subtitle": "Tu centro médico y cuenta administradora ya están activos.",
+    "go-dashboard": "Ir al dashboard"
   }
 }

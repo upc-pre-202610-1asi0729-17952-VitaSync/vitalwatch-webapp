@@ -1,0 +1,19 @@
+<main class="checkout-page">
+    <section class="checkout-card">
+        <h1>{{ 'checkout.title' | translate }}</h1>
+        <p>{{ 'checkout.subtitle' | translate }}</p>
+
+        <div class="payment-box">
+            <span>{{ 'checkout.session' | translate }}</span>
+            <strong>#{{ sessionId }}</strong>
+        </div>
+
+        <button class="pay-button" type="button" (click)="confirmPayment()" [disabled]="loading()">
+            {{ loading() ? ('checkout.processing' | translate) : ('checkout.confirm-payment' | translate) }}
+        </button>
+
+        <button class="cancel-button" type="button" (click)="cancelPayment()">
+            {{ 'checkout.cancel' | translate }}
+        </button>
+    </section>
+</main>
