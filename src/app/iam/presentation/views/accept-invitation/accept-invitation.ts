@@ -1,10 +1,13 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
 import { NgIcon } from '@ng-icons/core';
-import { AuthLayout } from '../../../../shared/presentation/components/auth-layout/auth-layout';
 import { MatSelectModule } from '@angular/material/select';
+import { AuthLayout } from '../../../../shared/presentation/components/auth-layout/auth-layout';
+import { IamCatalogApi } from '../../../infrastructure/iam-catalog-api';
+import { WorkArea } from '../../../domain/model/work-area.entity';
+import { Specialty } from '../../../domain/model/specialty.entity';
 
 @Component({
   selector: 'app-accept-invitation',
@@ -19,8 +22,12 @@ import { MatSelectModule } from '@angular/material/select';
   templateUrl: './accept-invitation.html',
   styleUrl: './accept-invitation.css'
 })
-export class AcceptInvitation {
+export class AcceptInvitation implements OnInit {
   private formBuilder = inject(NonNullableFormBuilder);
+  private catalogApi = inject(IamCatalogApi);
+
+  protected workAreas = signal<WorkArea[]>([]);
+  protected specialties = signal<Specialty[]>([]);
 
   protected passwordVisible = signal(false);
   protected confirmPasswordVisible = signal(false);
@@ -30,29 +37,23 @@ export class AcceptInvitation {
     lastName: ['', [Validators.required]],
     email: ['', [Validators.required, Validators.email]],
     phone: ['', [Validators.required]],
-    workArea: ['', [Validators.required]],
-    specialty: ['', [Validators.required]],
+    workAreaId: [null as number | null, [Validators.required]],
+    specialtyId: [null as number | null, [Validators.required]],
     password: ['', [Validators.required, Validators.minLength(6)]],
     confirmPassword: ['', [Validators.required]]
   });
 
-  protected workAreas = [
-    'UCI',
-    'Emergencias',
-    'Hospitalización',
-    'Cirugía',
-    'Pediatría',
-    'Cardiología'
-  ];
+  ngOnInit(): void {
+    const organizationId = 1;
 
-  protected specialties = [
-    'Medicina General',
-    'Enfermería',
-    'Cardiología',
-    'Pediatría',
-    'Anestesiología',
-    'Traumatología'
-  ];
+    this.catalogApi.getWorkAreasByOrganizationId(organizationId).subscribe(workAreas => {
+      this.workAreas.set(workAreas);
+    });
+
+    this.catalogApi.getSpecialties().subscribe(specialties => {
+      this.specialties.set(specialties);
+    });
+  }
 
   protected togglePasswordVisibility(): void {
     this.passwordVisible.update(value => !value);
@@ -63,10 +64,8 @@ export class AcceptInvitation {
   }
 
   protected passwordsDoNotMatch(): boolean {
-    const password = this.form.controls.password.value;
-    const confirmPassword = this.form.controls.confirmPassword.value;
-
-    return this.form.controls.confirmPassword.touched && password !== confirmPassword;
+    return this.form.controls.confirmPassword.touched &&
+      this.form.controls.password.value !== this.form.controls.confirmPassword.value;
   }
 
   protected submit(): void {

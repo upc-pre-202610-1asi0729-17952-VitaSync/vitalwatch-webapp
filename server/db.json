@@ -95,5 +95,63 @@
             "token": "inv-demo-supervisor"
         }
     ],
+    "workAreas": [
+        {
+            "id": 1,
+            "organizationId": 1,
+            "name": "UCI"
+        },
+        {
+            "id": 2,
+            "organizationId": 1,
+            "name": "Emergencias"
+        },
+        {
+            "id": 3,
+            "organizationId": 1,
+            "name": "Hospitalización"
+        },
+        {
+            "id": 4,
+            "organizationId": 1,
+            "name": "Cirugía"
+        },
+        {
+            "id": 5,
+            "organizationId": 1,
+            "name": "Pediatría"
+        },
+        {
+            "id": 6,
+            "organizationId": 1,
+            "name": "Cardiología"
+        }
+    ],
+    "specialties": [
+        {
+            "id": 1,
+            "name": "Medicina General"
+        },
+        {
+            "id": 2,
+            "name": "Enfermería"
+        },
+        {
+            "id": 3,
+            "name": "Cardiología"
+        },
+        {
+            "id": 4,
+            "name": "Pediatría"
+        },
+        {
+            "id": 5,
+            "name": "Anestesiología"
+        },
+        {
+            "id": 6,
+            "name": "Traumatología"
+        }
+    ],
     "checkoutSessions": []
 }

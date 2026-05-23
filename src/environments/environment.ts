@@ -6,5 +6,7 @@ export const environment = {
     usersEndpointPath: '/users',
     subscriptionsEndpointPath: '/subscriptions',
     invitationsEndpointPath: '/invitations',
-    checkoutSessionsEndpointPath: '/checkoutSessions'
+    checkoutSessionsEndpointPath: '/checkoutSessions',
+    workAreasEndpointPath: '/workAreas',
+    specialtiesEndpointPath: '/specialties'
 };

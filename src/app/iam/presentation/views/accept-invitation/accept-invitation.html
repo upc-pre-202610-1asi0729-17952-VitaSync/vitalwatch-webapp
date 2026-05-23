@@ -65,44 +65,48 @@
                     </div>
 
                     <div class="field">
-                        <label for="workArea">{{ 'auth.work-area' | translate }}</label>
+                        <label for="workAreaId">{{ 'auth.work-area' | translate }}</label>
 
                         <div class="input-control"
-                            [class.invalid]="form.controls.workArea.touched && form.controls.workArea.invalid">
+                            [class.invalid]="form.controls.workAreaId.touched && form.controls.workAreaId.invalid">
                             <ng-icon name="heroBriefcase" />
 
-                            <mat-select id="workArea" formControlName="workArea" panelClass="auth-select-panel"
+                            <mat-select id="workAreaId" formControlName="workAreaId" panelClass="auth-select-panel"
                                 [placeholder]="'auth.work-area-placeholder' | translate">
 
-                                @for (workArea of workAreas; track workArea) {
-                                <mat-option [value]="workArea">{{ workArea }}</mat-option>
+                                @for (workArea of workAreas(); track workArea.id) {
+                                <mat-option [value]="workArea.id">
+                                    {{ workArea.name }}
+                                </mat-option>
                                 }
                             </mat-select>
                         </div>
 
-                        @if (form.controls.workArea.touched && form.controls.workArea.hasError('required')) {
+                        @if (form.controls.workAreaId.touched && form.controls.workAreaId.hasError('required')) {
                         <small class="field-error">{{ 'auth.error.work-area-required' | translate }}</small>
                         }
                     </div>
                 </div>
 
                 <div class="field">
-                    <label for="specialty">{{ 'auth.specialty' | translate }}</label>
+                    <label for="specialtyId">{{ 'auth.specialty' | translate }}</label>
 
                     <div class="input-control"
-                        [class.invalid]="form.controls.specialty.touched && form.controls.specialty.invalid">
+                        [class.invalid]="form.controls.specialtyId.touched && form.controls.specialtyId.invalid">
                         <ng-icon name="heroHeart" />
 
-                        <mat-select id="specialty" formControlName="specialty" panelClass="auth-select-panel"
+                        <mat-select id="specialtyId" formControlName="specialtyId" panelClass="auth-select-panel"
                             [placeholder]="'auth.specialty-placeholder' | translate">
 
-                            @for (specialty of specialties; track specialty) {
-                            <mat-option [value]="specialty">{{ specialty }}</mat-option>
+                            @for (specialty of specialties(); track specialty.id) {
+                            <mat-option [value]="specialty.id">
+                                {{ specialty.name }}
+                            </mat-option>
                             }
                         </mat-select>
                     </div>
 
-                    @if (form.controls.specialty.touched && form.controls.specialty.hasError('required')) {
+                    @if (form.controls.specialtyId.touched && form.controls.specialtyId.hasError('required')) {
                     <small class="field-error">{{ 'auth.error.specialty-required' | translate }}</small>
                     }
                 </div>
