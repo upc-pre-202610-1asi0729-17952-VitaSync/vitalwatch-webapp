@@ -1,0 +1,99 @@
+{
+    "plans": [
+        {
+            "id": 1,
+            "code": "basic",
+            "name": "Basic",
+            "price": 49,
+            "billingPeriod": "monthly",
+            "description": "Plan inicial para centros médicos pequeños."
+        },
+        {
+            "id": 2,
+            "code": "professional",
+            "name": "Professional",
+            "price": 99,
+            "billingPeriod": "monthly",
+            "description": "Plan recomendado para clínicas y hospitales medianos."
+        },
+        {
+            "id": 3,
+            "code": "enterprise",
+            "name": "Enterprise",
+            "price": 199,
+            "billingPeriod": "monthly",
+            "description": "Plan avanzado para redes hospitalarias."
+        }
+    ],
+    "organizations": [
+        {
+            "id": 1,
+            "name": "Clínica San Gabriel",
+            "ruc": "20600000000",
+            "address": "Av. Salud 123, Lima",
+            "phone": "+51 999 999 999",
+            "status": "ACTIVE",
+            "planId": 2
+        }
+    ],
+    "users": [
+        {
+            "id": 1,
+            "organizationId": 1,
+            "firstName": "Marcelo",
+            "lastName": "Administrador",
+            "email": "admin@vitalwatch.com",
+            "password": "admin123",
+            "role": "HOSPITAL_ADMIN",
+            "status": "ACTIVE"
+        },
+        {
+            "id": 2,
+            "organizationId": 1,
+            "firstName": "Claudia",
+            "lastName": "Supervisora",
+            "email": "supervisor@vitalwatch.com",
+            "password": "supervisor123",
+            "role": "SUPERVISOR",
+            "status": "ACTIVE"
+        },
+        {
+            "id": 3,
+            "organizationId": 1,
+            "firstName": "Carlos",
+            "lastName": "Mendoza",
+            "email": "doctor@vitalwatch.com",
+            "password": "doctor123",
+            "role": "DOCTOR",
+            "status": "ACTIVE"
+        }
+    ],
+    "subscriptions": [
+        {
+            "id": 1,
+            "organizationId": 1,
+            "planId": 2,
+            "status": "ACTIVE",
+            "startedAt": "2026-05-22T00:00:00.000Z"
+        }
+    ],
+    "invitations": [
+        {
+            "id": 1,
+            "organizationId": 1,
+            "email": "nuevo.medico@vitalwatch.com",
+            "role": "DOCTOR",
+            "status": "PENDING",
+            "token": "inv-demo-doctor"
+        },
+        {
+            "id": 2,
+            "organizationId": 1,
+            "email": "nuevo.supervisor@vitalwatch.com",
+            "role": "SUPERVISOR",
+            "status": "PENDING",
+            "token": "inv-demo-supervisor"
+        }
+    ],
+    "checkoutSessions": []
+}
