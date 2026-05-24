@@ -8,6 +8,8 @@ import { IamCatalogApi } from '../../../infrastructure/iam-catalog-api';
 import { User, UserRole, UserStatus } from '../../../domain/model/user.entity';
 import { WorkArea } from '../../../domain/model/work-area.entity';
 import { Specialty } from '../../../domain/model/specialty.entity';
+import { forkJoin } from 'rxjs';
+import { CareTeamApi } from '../../../../shift-coordination/infrastructure/care-team-api';
 
 type RoleFilter = 'ALL' | UserRole;
 type StatusFilter = 'ALL' | UserStatus;
@@ -26,7 +28,7 @@ export class StaffManagement implements OnInit {
   private authenticationStore = inject(AuthenticationStore);
   private userApi = inject(UserApi);
   private catalogApi = inject(IamCatalogApi);
-
+  private careTeamApi = inject(CareTeamApi);
   protected users = signal<User[]>([]);
   protected workAreas = signal<WorkArea[]>([]);
   protected specialties = signal<Specialty[]>([]);
@@ -61,6 +63,43 @@ export class StaffManagement implements OnInit {
   protected activeUsers = computed(() => this.users().filter(user => user.status === 'ACTIVE').length);
   protected supervisors = computed(() => this.users().filter(user => user.role === 'SUPERVISOR').length);
   protected doctors = computed(() => this.users().filter(user => user.role === 'DOCTOR').length);
+
+  private updateUserInList(updatedUser: User): void {
+    this.users.update(users =>
+      users.map(user => user.id === updatedUser.id ? updatedUser : user)
+    );
+  }
+
+  private cleanAssignmentsAfterRoleChange(updatedUser: User): void {
+    if (updatedUser.role === 'SUPERVISOR') {
+      this.careTeamApi.removeMembershipsByUserId(updatedUser.id).subscribe({
+        error: () => {
+          this.errorMessage.set('iam.staff.error.cleanup-failed');
+        }
+      });
+
+      return;
+    }
+
+    if (updatedUser.role === 'DOCTOR') {
+      this.careTeamApi.clearSupervisorAssignmentsByUserId(updatedUser.id).subscribe({
+        error: () => {
+          this.errorMessage.set('iam.staff.error.cleanup-failed');
+        }
+      });
+    }
+  }
+
+  private cleanAllAssignments(updatedUser: User): void {
+    forkJoin([
+      this.careTeamApi.clearSupervisorAssignmentsByUserId(updatedUser.id),
+      this.careTeamApi.removeMembershipsByUserId(updatedUser.id)
+    ]).subscribe({
+      error: () => {
+        this.errorMessage.set('iam.staff.error.cleanup-failed');
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.loadStaff();
@@ -101,9 +140,13 @@ export class StaffManagement implements OnInit {
 
     this.userApi.updateUserStatus(user.id, { status: nextStatus }).subscribe({
       next: updatedUser => {
-        this.users.update(users =>
-          users.map(item => item.id === updatedUser.id ? updatedUser : item)
-        );
+        this.updateUserInList(updatedUser);
+
+        if (updatedUser.status === 'INACTIVE') {
+          this.cleanAllAssignments(updatedUser);
+        }
+
+        this.errorMessage.set(null);
       },
       error: () => {
         this.errorMessage.set('iam.staff.error.update-status-failed');

@@ -221,7 +221,8 @@
         "no-session": "No active session was found.",
         "load-failed": "Staff could not be loaded.",
         "update-role-failed": "Role could not be updated.",
-        "update-status-failed": "Status could not be updated."
+        "update-status-failed": "Status could not be updated.",
+        "cleanup-failed": "The user was updated, but team assignments could not be cleaned up."
       }
     }
   },

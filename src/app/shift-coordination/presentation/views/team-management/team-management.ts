@@ -83,7 +83,12 @@ export class TeamManagement implements OnInit {
   protected totalTeams = computed(() => this.teams().length);
   protected activeTeams = computed(() => this.teams().filter(team => team.status === 'ACTIVE').length);
   protected totalSupervisors = computed(() => this.supervisors().length);
-  protected totalAssignedMembers = computed(() => this.members().length);
+  protected totalAssignedMembers = computed(() =>
+    this.members().filter(member => {
+      const user = this.getUserById(member.userId);
+      return user?.role === 'DOCTOR' && user.status === 'ACTIVE';
+    }).length
+  );
 
   protected filteredTeams = computed(() => {
     const search = this.searchTerm().toLowerCase().trim();
@@ -255,7 +260,13 @@ export class TeamManagement implements OnInit {
   }
 
   protected getTeamMembers(teamId: number): TeamMember[] {
-    return this.members().filter(member => member.teamId === teamId);
+    return this.members().filter(member => {
+      const user = this.getUserById(member.userId);
+
+      return member.teamId === teamId &&
+        user?.role === 'DOCTOR' &&
+        user.status === 'ACTIVE';
+    });
   }
 
   protected getUserById(userId: number): User | undefined {

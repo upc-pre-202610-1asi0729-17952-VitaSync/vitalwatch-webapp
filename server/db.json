@@ -79,7 +79,7 @@
       "phone": "987111222",
       "workAreaId": 1,
       "specialtyId": 3,
-      "role": "DOCTOR",
+      "role": "SUPERVISOR",
       "status": "ACTIVE"
     },
     {
@@ -219,7 +219,7 @@
       "organizationId": 1,
       "name": "Grupo A",
       "workAreaId": 1,
-      "supervisorId": null,
+      "supervisorId": 3,
       "status": "ACTIVE"
     },
     {
@@ -257,11 +257,6 @@
   ],
   "teamMembers": [
     {
-      "id": 1,
-      "teamId": 1,
-      "userId": 3
-    },
-    {
       "id": 2,
       "teamId": 1,
       "userId": 5
@@ -287,9 +282,9 @@
       "userId": 10
     },
     {
+      "id": 7,
       "teamId": 5,
-      "userId": 9,
-      "id": 7
+      "userId": 9
     }
   ],
   "subscriptions": [

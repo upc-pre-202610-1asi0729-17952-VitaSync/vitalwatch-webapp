@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { forkJoin, map, Observable, switchMap } from 'rxjs';
+import { forkJoin, map, Observable, of, switchMap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { CareTeam, CareTeamStatus } from '../domain/model/care-team.entity';
 import { TeamMember } from '../domain/model/team-member.entity';
@@ -129,6 +129,44 @@ export class CareTeamApi {
           );
         }),
         map(() => void 0)
+      );
+  }
+
+  clearSupervisorAssignmentsByUserId(userId: number): Observable<void> {
+    return this.http
+      .get<CareTeamResource[]>(`${this.careTeamsUrl}?supervisorId=${userId}`)
+      .pipe(
+        switchMap(teams => {
+          if (teams.length === 0) return of(void 0);
+
+          const requests = teams.map(team =>
+            this.http.patch<CareTeamResource>(`${this.careTeamsUrl}/${team.id}`, {
+              supervisorId: null
+            })
+          );
+
+          return forkJoin(requests).pipe(
+            map(() => void 0)
+          );
+        })
+      );
+  }
+
+  removeMembershipsByUserId(userId: number): Observable<void> {
+    return this.http
+      .get<TeamMemberResource[]>(`${this.teamMembersUrl}?userId=${userId}`)
+      .pipe(
+        switchMap(members => {
+          if (members.length === 0) return of(void 0);
+
+          const requests = members.map(member =>
+            this.http.delete<void>(`${this.teamMembersUrl}/${member.id}`)
+          );
+
+          return forkJoin(requests).pipe(
+            map(() => void 0)
+          );
+        })
       );
   }
 }

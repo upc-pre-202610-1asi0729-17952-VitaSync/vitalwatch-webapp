@@ -224,7 +224,8 @@
         "no-session": "No se encontró una sesión activa.",
         "load-failed": "No se pudo cargar el personal.",
         "update-role-failed": "No se pudo actualizar el rol.",
-        "update-status-failed": "No se pudo actualizar el estado."
+        "update-status-failed": "No se pudo actualizar el estado.",
+        "cleanup-failed": "Se actualizó el usuario, pero no se pudieron limpiar sus asignaciones de equipo."
       }
     }
   },
