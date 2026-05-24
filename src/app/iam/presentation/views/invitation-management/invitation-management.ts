@@ -115,11 +115,20 @@ export class InvitationManagement implements OnInit {
   }
 
   protected deleteInvitation(invitation: Invitation): void {
+    if (invitation.status === 'ACCEPTED') {
+      this.errorMessage.set('iam.invitations.error.accepted-cannot-be-deleted');
+      return;
+    }
+
     this.invitationApi.deleteInvitation(invitation.id).subscribe({
       next: () => {
         this.invitations.update(invitations =>
           invitations.filter(item => item.id !== invitation.id)
         );
+        this.errorMessage.set(null);
+      },
+      error: () => {
+        this.errorMessage.set('iam.invitations.error.delete-failed');
       }
     });
   }

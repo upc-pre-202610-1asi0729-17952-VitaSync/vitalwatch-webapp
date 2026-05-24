@@ -159,11 +159,15 @@
                                 </button>
                                 }
 
+                                @if (invitation.status !== 'ACCEPTED') {
                                 <button type="button" class="action-button danger"
                                     (click)="deleteInvitation(invitation)">
                                     <ng-icon name="heroTrash" />
                                     <span>{{ 'iam.invitations.delete' | translate }}</span>
                                 </button>
+                                } @else {
+                                <span class="muted-text">—</span>
+                                }
                             </div>
                         </td>
                     </tr>

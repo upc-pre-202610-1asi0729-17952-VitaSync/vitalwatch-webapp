@@ -185,7 +185,9 @@
         "load-failed": "No se pudieron cargar las invitaciones.",
         "create-failed": "No se pudo crear la invitación.",
         "email-required": "El correo electrónico es obligatorio.",
-        "email-invalid": "Ingresa un correo electrónico válido."
+        "email-invalid": "Ingresa un correo electrónico válido.",
+        "accepted-cannot-be-deleted": "No se puede eliminar una invitación aceptada.",
+        "delete-failed": "No se pudo eliminar la invitación."
       }
     },
     "staff": {

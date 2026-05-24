@@ -182,7 +182,9 @@
         "load-failed": "Invitations could not be loaded.",
         "create-failed": "Invitation could not be created.",
         "email-required": "Email address is required.",
-        "email-invalid": "Enter a valid email address."
+        "email-invalid": "Enter a valid email address.",
+        "accepted-cannot-be-deleted": "Accepted invitations cannot be deleted.",
+        "delete-failed": "Invitation could not be deleted."
       }
     },
     "staff": {
