@@ -31,7 +31,8 @@ import {
   heroPaperAirplane,
   heroClipboardDocument,
   heroTrash,
-  heroNoSymbol
+  heroNoSymbol,
+  heroUserGroup
 } from '@ng-icons/heroicons/outline';
 
 import { routes } from './app.routes';
@@ -74,7 +75,8 @@ export const appConfig: ApplicationConfig = {
       heroPaperAirplane,
       heroClipboardDocument,
       heroTrash,
-      heroNoSymbol
+      heroNoSymbol,
+      heroUserGroup
     }),
     provideRouter(routes)
   ]

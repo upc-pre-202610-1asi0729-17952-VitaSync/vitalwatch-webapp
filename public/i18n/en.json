@@ -183,6 +183,45 @@
         "email-required": "Email address is required.",
         "email-invalid": "Enter a valid email address."
       }
+    },
+    "staff": {
+      "title": "Staff Management",
+      "subtitle-before": "Manage users,",
+      "subtitle-highlight": "roles",
+      "subtitle-after": "and medical staff statuses.",
+      "search-placeholder": "Search by name, email or role...",
+      "deactivate": "Deactivate",
+      "activate": "Activate",
+      "empty": "There is no staff to display.",
+      "metrics": {
+        "total": "Total users",
+        "active": "Active users",
+        "supervisors": "Supervisors",
+        "doctors": "Medical staff"
+      },
+      "filters": {
+        "all-roles": "All roles",
+        "all-statuses": "All statuses"
+      },
+      "status": {
+        "pending": "Pending",
+        "active": "Active",
+        "inactive": "Inactive"
+      },
+      "table": {
+        "staff": "Staff",
+        "role": "Role",
+        "work-area": "Area",
+        "specialty": "Specialty",
+        "status": "Status",
+        "actions": "Actions"
+      },
+      "error": {
+        "no-session": "No active session was found.",
+        "load-failed": "Staff could not be loaded.",
+        "update-role-failed": "Role could not be updated.",
+        "update-status-failed": "Status could not be updated."
+      }
     }
   }
 }

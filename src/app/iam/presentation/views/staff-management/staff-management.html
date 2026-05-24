@@ -1,0 +1,158 @@
+<section class="page-header">
+    <h1>{{ 'iam.staff.title' | translate }}</h1>
+    <p>
+        {{ 'iam.staff.subtitle-before' | translate }}
+        <strong>{{ 'iam.staff.subtitle-highlight' | translate }}</strong>
+        {{ 'iam.staff.subtitle-after' | translate }}
+    </p>
+</section>
+
+<section class="metrics-grid">
+    <article class="metric-card">
+        <div class="metric-icon blue">
+            <ng-icon name="heroUsers" />
+        </div>
+        <p>{{ 'iam.staff.metrics.total' | translate }}</p>
+        <h2>{{ totalUsers() }}</h2>
+    </article>
+
+    <article class="metric-card">
+        <div class="metric-icon success">
+            <ng-icon name="heroCheckCircle" />
+        </div>
+        <p>{{ 'iam.staff.metrics.active' | translate }}</p>
+        <h2 class="success-text">{{ activeUsers() }}</h2>
+    </article>
+
+    <article class="metric-card">
+        <div class="metric-icon purple">
+            <ng-icon name="heroShieldCheck" />
+        </div>
+        <p>{{ 'iam.staff.metrics.supervisors' | translate }}</p>
+        <h2 class="purple-text">{{ supervisors() }}</h2>
+    </article>
+
+    <article class="metric-card">
+        <div class="metric-icon cyan">
+            <ng-icon name="heroUserGroup" />
+        </div>
+        <p>{{ 'iam.staff.metrics.doctors' | translate }}</p>
+        <h2 class="cyan-text">{{ doctors() }}</h2>
+    </article>
+</section>
+
+<section class="content-card">
+    <div class="table-tools">
+        <input type="text" [placeholder]="'iam.staff.search-placeholder' | translate"
+            (input)="updateSearchTerm($event)">
+
+        <div class="filter-control">
+            <mat-select [value]="roleFilter()" panelClass="auth-select-panel"
+                (selectionChange)="updateRoleFilter($event.value)">
+                <mat-option value="ALL">{{ 'iam.staff.filters.all-roles' | translate }}</mat-option>
+                <mat-option value="HOSPITAL_ADMIN">{{ 'iam.roles.admin' | translate }}</mat-option>
+                <mat-option value="SUPERVISOR">{{ 'iam.roles.supervisor' | translate }}</mat-option>
+                <mat-option value="DOCTOR">{{ 'iam.roles.doctor' | translate }}</mat-option>
+            </mat-select>
+        </div>
+
+        <div class="filter-control">
+            <mat-select [value]="statusFilter()" panelClass="auth-select-panel"
+                (selectionChange)="updateStatusFilter($event.value)">
+                <mat-option value="ALL">{{ 'iam.staff.filters.all-statuses' | translate }}</mat-option>
+                <mat-option value="ACTIVE">{{ 'iam.staff.status.active' | translate }}</mat-option>
+                <mat-option value="INACTIVE">{{ 'iam.staff.status.inactive' | translate }}</mat-option>
+            </mat-select>
+        </div>
+    </div>
+
+    @if (errorMessage()) {
+    <small class="form-error">{{ errorMessage()! | translate }}</small>
+    }
+
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>{{ 'iam.staff.table.staff' | translate }}</th>
+                    <th>{{ 'iam.staff.table.role' | translate }}</th>
+                    <th>{{ 'iam.staff.table.work-area' | translate }}</th>
+                    <th>{{ 'iam.staff.table.specialty' | translate }}</th>
+                    <th>{{ 'iam.staff.table.status' | translate }}</th>
+                    <th>{{ 'iam.staff.table.actions' | translate }}</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @for (user of filteredUsers(); track user.id) {
+                <tr>
+                    <td>
+                        <div class="staff-profile">
+                            <div class="avatar" [class.admin]="user.role === 'HOSPITAL_ADMIN'"
+                                [class.supervisor]="user.role === 'SUPERVISOR'">
+                                {{ user.initials }}
+                            </div>
+
+                            <div>
+                                <strong>{{ user.fullName }}</strong>
+                                <span>{{ user.email }}</span>
+                            </div>
+                        </div>
+                    </td>
+
+                    <td>
+                        @if (user.isAdmin) {
+                        <span class="readonly-role">{{ getRoleLabel(user.role) | translate }}</span>
+                        } @else {
+                        <div class="role-select">
+                            <mat-select [value]="user.role" panelClass="auth-select-panel"
+                                (selectionChange)="updateUserRole(user, $event.value)">
+                                @for (role of roleOptions; track role) {
+                                <mat-option [value]="role">
+                                    {{ getRoleLabel(role) | translate }}
+                                </mat-option>
+                                }
+                            </mat-select>
+                        </div>
+                        }
+                    </td>
+
+                    <td>{{ getWorkAreaName(user.workAreaId) }}</td>
+
+                    <td>{{ getSpecialtyName(user.specialtyId) }}</td>
+
+                    <td>
+                        <span class="status-pill" [class]="user.status.toLowerCase()">
+                            {{ getStatusLabel(user.status) | translate }}
+                        </span>
+                    </td>
+
+                    <td>
+                        @if (!user.isAdmin) {
+                        <button type="button" class="action-button" [class.danger]="user.status === 'ACTIVE'"
+                            [class.success]="user.status !== 'ACTIVE'" (click)="toggleUserStatus(user)">
+                            <ng-icon [name]="user.status === 'ACTIVE' ? 'heroNoSymbol' : 'heroCheckCircle'" />
+                            <span>
+                                {{
+                                user.status === 'ACTIVE'
+                                ? ('iam.staff.deactivate' | translate)
+                                : ('iam.staff.activate' | translate)
+                                }}
+                            </span>
+                        </button>
+                        } @else {
+                        <span class="muted-text">—</span>
+                        }
+                    </td>
+                </tr>
+                } @empty {
+                <tr>
+                    <td colspan="6" class="empty-state">
+                        {{ 'iam.staff.empty' | translate }}
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>

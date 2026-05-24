@@ -186,6 +186,45 @@
         "email-required": "El correo electrónico es obligatorio.",
         "email-invalid": "Ingresa un correo electrónico válido."
       }
+    },
+    "staff": {
+      "title": "Gestión de Personal",
+      "subtitle-before": "Administra usuarios,",
+      "subtitle-highlight": "roles",
+      "subtitle-after": "y estados del personal médico.",
+      "search-placeholder": "Buscar por nombre, correo o rol...",
+      "deactivate": "Desactivar",
+      "activate": "Activar",
+      "empty": "No hay personal para mostrar.",
+      "metrics": {
+        "total": "Total de usuarios",
+        "active": "Usuarios activos",
+        "supervisors": "Supervisores",
+        "doctors": "Personal médico"
+      },
+      "filters": {
+        "all-roles": "Todos los roles",
+        "all-statuses": "Todos los estados"
+      },
+      "status": {
+        "pending": "Pendiente",
+        "active": "Activo",
+        "inactive": "Inactivo"
+      },
+      "table": {
+        "staff": "Personal",
+        "role": "Rol",
+        "work-area": "Área",
+        "specialty": "Especialidad",
+        "status": "Estado",
+        "actions": "Acciones"
+      },
+      "error": {
+        "no-session": "No se encontró una sesión activa.",
+        "load-failed": "No se pudo cargar el personal.",
+        "update-role-failed": "No se pudo actualizar el rol.",
+        "update-status-failed": "No se pudo actualizar el estado."
+      }
     }
   }
 }

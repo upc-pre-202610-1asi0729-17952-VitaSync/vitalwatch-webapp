@@ -1,0 +1,350 @@
+.page-header {
+    margin-bottom: 28px;
+}
+
+.page-header h1 {
+    margin: 0;
+    color: #0b1b2b;
+    font-size: 2rem;
+    font-weight: 900;
+    letter-spacing: -0.04em;
+}
+
+.page-header p {
+    margin: 10px 0 0;
+    color: #8b9abb;
+    font-size: 1rem;
+}
+
+.page-header strong {
+    color: #11c7c7;
+}
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.metric-card {
+    min-height: 132px;
+    padding: 22px;
+    border-radius: 16px;
+    background: #ffffff;
+    border: 1px solid #dbe3ef;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+.metric-icon {
+    width: 42px;
+    height: 42px;
+    margin-bottom: 18px;
+    display: grid;
+    place-items: center;
+    border-radius: 14px;
+}
+
+.metric-icon ng-icon {
+    font-size: 1.35rem;
+}
+
+.metric-icon.blue {
+    color: #2563eb;
+    background: rgba(37, 99, 235, 0.12);
+}
+
+.metric-icon.success {
+    color: #10b981;
+    background: rgba(16, 185, 129, 0.12);
+}
+
+.metric-icon.purple {
+    color: #7c3aed;
+    background: rgba(124, 58, 237, 0.12);
+}
+
+.metric-icon.cyan {
+    color: #11c7c7;
+    background: rgba(17, 199, 199, 0.12);
+}
+
+.metric-card p {
+    margin: 0;
+    color: #8b9abb;
+    font-size: 0.95rem;
+}
+
+.metric-card h2 {
+    margin: 10px 0 0;
+    color: #0b1b2b;
+    font-size: 2rem;
+    font-weight: 900;
+}
+
+.success-text {
+    color: #10b981 !important;
+}
+
+.purple-text {
+    color: #7c3aed !important;
+}
+
+.cyan-text {
+    color: #11c7c7 !important;
+}
+
+.content-card {
+    min-width: 0;
+    padding: 24px;
+    border-radius: 16px;
+    background: #ffffff;
+    border: 1px solid #dbe3ef;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+.table-tools {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 190px 190px;
+    gap: 14px;
+    margin-bottom: 18px;
+}
+
+.table-tools input {
+    min-height: 52px;
+    padding: 0 16px;
+    border: 1px solid #d7e0ec;
+    border-radius: 12px;
+    outline: 0;
+    color: #0b1b2b;
+    font: inherit;
+    background: #ffffff;
+    transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.table-tools input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+}
+
+.table-tools input::placeholder {
+    color: #b8c6d8;
+}
+
+.filter-control,
+.role-select {
+    min-height: 52px;
+    display: flex;
+    align-items: center;
+    padding: 0 14px;
+    border: 1px solid #d7e0ec;
+    border-radius: 12px;
+    background: #ffffff;
+}
+
+.filter-control mat-select,
+.role-select mat-select {
+    width: 100%;
+    font-family: inherit;
+}
+
+.role-select {
+    min-width: 190px;
+}
+
+.form-error {
+    display: block;
+    margin-bottom: 16px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.1);
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.table-wrapper {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    min-width: 880px;
+    border-collapse: collapse;
+}
+
+thead {
+    background: #f1f5fb;
+}
+
+th {
+    padding: 14px 16px;
+    color: #8b9abb;
+    text-align: left;
+    text-transform: uppercase;
+    font-size: 0.76rem;
+    font-weight: 900;
+}
+
+td {
+    padding: 16px;
+    border-bottom: 1px solid #e4ebf5;
+    color: #0b1b2b;
+    font-size: 0.92rem;
+    vertical-align: middle;
+}
+
+.staff-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.staff-profile strong {
+    display: block;
+    color: #0b1b2b;
+    font-weight: 900;
+}
+
+.staff-profile span {
+    display: block;
+    margin-top: 4px;
+    color: #667085;
+    font-size: 0.84rem;
+}
+
+.avatar {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    color: #ffffff;
+    background: #11c7c7;
+    font-size: 0.92rem;
+    font-weight: 900;
+}
+
+.avatar.admin {
+    background: #2563eb;
+}
+
+.avatar.supervisor {
+    background: #7c3aed;
+}
+
+.readonly-role {
+    color: #667085;
+    font-weight: 900;
+}
+
+.status-pill {
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 900;
+}
+
+.status-pill.active {
+    color: #10b981;
+    background: rgba(16, 185, 129, 0.12);
+}
+
+.status-pill.inactive {
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.12);
+}
+
+.status-pill.pending {
+    color: #f59e0b;
+    background: rgba(245, 158, 11, 0.12);
+}
+
+.action-button {
+    min-height: 36px;
+    padding: 0 12px;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    background: #ffffff;
+    font: inherit;
+    font-size: 0.82rem;
+    font-weight: 900;
+    cursor: pointer;
+    transition: background 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.action-button ng-icon {
+    font-size: 1rem;
+}
+
+.action-button:hover {
+    transform: translateY(-1px);
+}
+
+.action-button.danger {
+    color: #ef4444;
+    border-color: rgba(239, 68, 68, 0.25);
+    background: rgba(239, 68, 68, 0.08);
+}
+
+.action-button.danger:hover {
+    background: rgba(239, 68, 68, 0.14);
+    border-color: rgba(239, 68, 68, 0.4);
+}
+
+.action-button.success {
+    color: #10b981;
+    border-color: rgba(16, 185, 129, 0.25);
+    background: rgba(16, 185, 129, 0.08);
+}
+
+.action-button.success:hover {
+    background: rgba(16, 185, 129, 0.14);
+    border-color: rgba(16, 185, 129, 0.4);
+}
+
+.muted-text {
+    color: #94a3b8;
+    font-weight: 800;
+}
+
+.empty-state {
+    padding: 32px;
+    text-align: center;
+    color: #8b9abb;
+}
+
+@media (max-width: 1100px) {
+    .metrics-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .table-tools {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 680px) {
+    .page-header h1 {
+        font-size: 1.6rem;
+    }
+
+    .metrics-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .content-card {
+        padding: 20px;
+    }
+
+    .metric-card {
+        min-height: 118px;
+        padding: 20px;
+    }
+}

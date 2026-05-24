@@ -74,6 +74,19 @@
       "status": "ACTIVE",
       "workAreaId": 1,
       "specialtyId": 3
+    },
+    {
+      "organizationId": 1,
+      "firstName": "Johan",
+      "lastName": "Yonel",
+      "email": "jyonel295@gmail.com",
+      "password": "waza123",
+      "phone": "987977022",
+      "workAreaId": 2,
+      "specialtyId": 1,
+      "role": "DOCTOR",
+      "status": "ACTIVE",
+      "id": 4
     }
   ],
   "careTeams": [
@@ -138,7 +151,7 @@
       "organizationId": 1,
       "email": "jyonel295@gmail.com",
       "role": "SUPERVISOR",
-      "status": "PENDING",
+      "status": "ACCEPTED",
       "token": "inv-a0be1499-562b-4aa2-8a3e-ac81e193b3b3",
       "createdAt": "2026-05-24T16:20:28.186Z",
       "emailStatus": "SENT",

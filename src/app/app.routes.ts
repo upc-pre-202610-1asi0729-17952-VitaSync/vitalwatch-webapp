@@ -61,10 +61,9 @@ export const routes: Routes = [
       },
       {
         path: 'staff',
-        loadComponent: pagePlaceholder,
-        data: {
-          title: 'navigation.staff'
-        }
+        loadComponent: () =>
+          import('./iam/presentation/views/staff-management/staff-management')
+            .then(m => m.StaffManagement)
       },
       {
         path: 'invitations',
