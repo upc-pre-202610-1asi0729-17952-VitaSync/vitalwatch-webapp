@@ -20,6 +20,7 @@ const layoutConfig: Record<UserRole, AppLayoutConfig> = {
     menuItems: [
       { label: 'navigation.general-summary', icon: 'heroSquares2x2', link: '/admin/dashboard', exact: true },
       { label: 'navigation.staff', icon: 'heroUsers', link: '/admin/staff' },
+      { label: 'navigation.teams', icon: 'heroUserGroup', link: '/admin/teams' },
       { label: 'navigation.invitations', icon: 'heroEnvelope', link: '/admin/invitations' },
       { label: 'navigation.subscription', icon: 'heroCreditCard', link: '/admin/subscription' },
       { label: 'navigation.reports', icon: 'heroDocumentText', link: '/admin/reports' },

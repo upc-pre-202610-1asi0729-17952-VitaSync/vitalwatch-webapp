@@ -52,6 +52,7 @@
       "firstName": "Marcelo",
       "lastName": "Administrador",
       "email": "admin@vitalwatch.com",
+      "password": "admin123",
       "role": "HOSPITAL_ADMIN",
       "status": "ACTIVE"
     },
@@ -61,6 +62,10 @@
       "firstName": "Claudia",
       "lastName": "Supervisora",
       "email": "supervisor@vitalwatch.com",
+      "password": "supervisor123",
+      "phone": "987654321",
+      "workAreaId": 1,
+      "specialtyId": 1,
       "role": "SUPERVISOR",
       "status": "ACTIVE"
     },
@@ -70,12 +75,15 @@
       "firstName": "Carlos",
       "lastName": "Mendoza",
       "email": "doctor@vitalwatch.com",
-      "role": "DOCTOR",
-      "status": "ACTIVE",
+      "password": "doctor123",
+      "phone": "987111222",
       "workAreaId": 1,
-      "specialtyId": 3
+      "specialtyId": 3,
+      "role": "DOCTOR",
+      "status": "ACTIVE"
     },
     {
+      "id": 4,
       "organizationId": 1,
       "firstName": "Johan",
       "lastName": "Yonel",
@@ -84,9 +92,125 @@
       "phone": "987977022",
       "workAreaId": 2,
       "specialtyId": 1,
+      "role": "SUPERVISOR",
+      "status": "ACTIVE"
+    },
+    {
+      "id": 5,
+      "organizationId": 1,
+      "firstName": "Valeria",
+      "lastName": "Rojas",
+      "email": "valeria.rojas@vitalwatch.com",
+      "password": "valeria123",
+      "phone": "987222333",
+      "workAreaId": 1,
+      "specialtyId": 2,
       "role": "DOCTOR",
-      "status": "ACTIVE",
-      "id": 4
+      "status": "ACTIVE"
+    },
+    {
+      "id": 6,
+      "organizationId": 1,
+      "firstName": "Ana",
+      "lastName": "Torres",
+      "email": "ana.torres@vitalwatch.com",
+      "password": "ana123",
+      "phone": "987333444",
+      "workAreaId": 2,
+      "specialtyId": 1,
+      "role": "DOCTOR",
+      "status": "ACTIVE"
+    },
+    {
+      "id": 7,
+      "organizationId": 1,
+      "firstName": "Javier",
+      "lastName": "Salazar",
+      "email": "javier.salazar@vitalwatch.com",
+      "password": "javier123",
+      "phone": "987444555",
+      "workAreaId": 2,
+      "specialtyId": 5,
+      "role": "DOCTOR",
+      "status": "ACTIVE"
+    },
+    {
+      "id": 8,
+      "organizationId": 1,
+      "firstName": "Lucía",
+      "lastName": "Paredes",
+      "email": "lucia.paredes@vitalwatch.com",
+      "password": "lucia123",
+      "phone": "987555666",
+      "workAreaId": 3,
+      "specialtyId": 2,
+      "role": "DOCTOR",
+      "status": "ACTIVE"
+    },
+    {
+      "id": 9,
+      "organizationId": 1,
+      "firstName": "Diego",
+      "lastName": "Herrera",
+      "email": "diego.herrera@vitalwatch.com",
+      "password": "diego123",
+      "phone": "987666777",
+      "workAreaId": 4,
+      "specialtyId": 6,
+      "role": "DOCTOR",
+      "status": "ACTIVE"
+    },
+    {
+      "id": 10,
+      "organizationId": 1,
+      "firstName": "Mariana",
+      "lastName": "Vega",
+      "email": "mariana.vega@vitalwatch.com",
+      "password": "mariana123",
+      "phone": "987777888",
+      "workAreaId": 5,
+      "specialtyId": 4,
+      "role": "DOCTOR",
+      "status": "ACTIVE"
+    },
+    {
+      "id": 11,
+      "organizationId": 1,
+      "firstName": "Ricardo",
+      "lastName": "Flores",
+      "email": "ricardo.flores@vitalwatch.com",
+      "password": "ricardo123",
+      "phone": "987888999",
+      "workAreaId": 6,
+      "specialtyId": 3,
+      "role": "SUPERVISOR",
+      "status": "ACTIVE"
+    },
+    {
+      "id": 12,
+      "organizationId": 1,
+      "firstName": "Camila",
+      "lastName": "Santos",
+      "email": "camila.santos@vitalwatch.com",
+      "password": "camila123",
+      "phone": "987999000",
+      "workAreaId": 3,
+      "specialtyId": 1,
+      "role": "SUPERVISOR",
+      "status": "ACTIVE"
+    },
+    {
+      "id": 13,
+      "organizationId": 1,
+      "firstName": "Pedro",
+      "lastName": "Castillo",
+      "email": "pedro.castillo@vitalwatch.com",
+      "password": "pedro123",
+      "phone": "987000111",
+      "workAreaId": 4,
+      "specialtyId": 6,
+      "role": "DOCTOR",
+      "status": "ACTIVE"
     }
   ],
   "careTeams": [
@@ -95,14 +219,40 @@
       "organizationId": 1,
       "name": "Grupo A",
       "workAreaId": 1,
-      "supervisorId": 2
+      "supervisorId": null,
+      "status": "ACTIVE"
     },
     {
       "id": 2,
       "organizationId": 1,
       "name": "Grupo B",
       "workAreaId": 2,
-      "supervisorId": null
+      "supervisorId": 4,
+      "status": "ACTIVE"
+    },
+    {
+      "id": 3,
+      "organizationId": 1,
+      "name": "Grupo C",
+      "workAreaId": 3,
+      "supervisorId": 12,
+      "status": "ACTIVE"
+    },
+    {
+      "id": 4,
+      "organizationId": 1,
+      "name": "Grupo D",
+      "workAreaId": 6,
+      "supervisorId": 11,
+      "status": "ACTIVE"
+    },
+    {
+      "organizationId": 1,
+      "name": "Emergencias",
+      "workAreaId": 2,
+      "supervisorId": 2,
+      "status": "ACTIVE",
+      "id": 5
     }
   ],
   "teamMembers": [
@@ -110,6 +260,36 @@
       "id": 1,
       "teamId": 1,
       "userId": 3
+    },
+    {
+      "id": 2,
+      "teamId": 1,
+      "userId": 5
+    },
+    {
+      "id": 3,
+      "teamId": 2,
+      "userId": 6
+    },
+    {
+      "id": 4,
+      "teamId": 2,
+      "userId": 7
+    },
+    {
+      "id": 5,
+      "teamId": 3,
+      "userId": 8
+    },
+    {
+      "id": 6,
+      "teamId": 4,
+      "userId": 10
+    },
+    {
+      "teamId": 5,
+      "userId": 9,
+      "id": 7
     }
   ],
   "subscriptions": [

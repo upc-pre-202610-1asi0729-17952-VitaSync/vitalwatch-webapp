@@ -70,6 +70,7 @@
     "clinical-menu": "Menú clínico",
     "general-summary": "Resumen General",
     "staff": "Personal",
+    "teams": "Equipos",
     "invitations": "Invitaciones",
     "subscription": "Suscripción",
     "reports": "Reportes",
@@ -225,6 +226,59 @@
         "update-role-failed": "No se pudo actualizar el rol.",
         "update-status-failed": "No se pudo actualizar el estado."
       }
+    }
+  },
+  "shift": {
+    "teams": {
+      "title": "Gestión de Equipos",
+      "subtitle-before": "Organiza al personal en",
+      "subtitle-highlight": "grupos clínicos",
+      "subtitle-after": "con supervisores asignados.",
+      "new-title": "Nuevo equipo",
+      "new-subtitle": "Crea un grupo y asigna un supervisor clínico.",
+      "name": "Nombre del equipo",
+      "name-placeholder": "Ej: Grupo A",
+      "work-area": "Área de trabajo",
+      "select-work-area": "Selecciona un área",
+      "supervisor": "Supervisor clínico",
+      "no-supervisor": "Sin supervisor",
+      "create": "Crear equipo",
+      "creating": "Creando...",
+      "assigned-supervisor": "Supervisor asignado",
+      "add-member": "Agregar personal médico",
+      "select-member": "Selecciona un miembro",
+      "add": "Agregar",
+      "no-members": "Este equipo todavía no tiene miembros.",
+      "empty-title": "No hay equipos creados",
+      "empty-subtitle": "Crea el primer equipo para organizar al personal médico.",
+      "metrics": {
+        "total": "Total de equipos",
+        "active": "Equipos activos",
+        "supervisors": "Supervisores activos",
+        "members": "Miembros asignados"
+      },
+      "status": {
+        "active": "Activo",
+        "inactive": "Inactivo"
+      },
+      "error": {
+        "no-session": "No se encontró una sesión activa.",
+        "load-failed": "No se pudieron cargar los equipos.",
+        "create-failed": "No se pudo crear el equipo.",
+        "update-supervisor-failed": "No se pudo actualizar el supervisor.",
+        "add-member-failed": "No se pudo agregar el miembro.",
+        "remove-member-failed": "No se pudo quitar el miembro.",
+        "member-already-assigned": "Este miembro ya pertenece a otro equipo.",
+        "supervisor-already-assigned": "Este supervisor ya está asignado a otro equipo activo.",
+        "update-status-failed": "No se pudo actualizar el estado del equipo.",
+        "inactive-team": "No puedes agregar miembros a un equipo inactivo.",
+        "delete-failed": "No se pudo eliminar el equipo."
+      },
+      "search-placeholder": "Buscar por nombre o área...",
+      "all-work-areas": "Todas las áreas",
+      "deactivate": "Desactivar",
+      "activate": "Activar",
+      "delete": "Eliminar"
     }
   }
 }

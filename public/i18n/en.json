@@ -67,6 +67,7 @@
     "clinical-menu": "Clinical menu",
     "general-summary": "General Summary",
     "staff": "Staff",
+    "teams": "Teams",
     "invitations": "Invitations",
     "subscription": "Subscription",
     "reports": "Reports",
@@ -222,6 +223,59 @@
         "update-role-failed": "Role could not be updated.",
         "update-status-failed": "Status could not be updated."
       }
+    }
+  },
+  "shift": {
+    "teams": {
+      "title": "Team Management",
+      "subtitle-before": "Organize staff into",
+      "subtitle-highlight": "clinical teams",
+      "subtitle-after": "with assigned supervisors.",
+      "new-title": "New team",
+      "new-subtitle": "Create a group and assign a clinical supervisor.",
+      "name": "Team name",
+      "name-placeholder": "E.g. Group A",
+      "work-area": "Work area",
+      "select-work-area": "Select an area",
+      "supervisor": "Clinical supervisor",
+      "no-supervisor": "No supervisor",
+      "create": "Create team",
+      "creating": "Creating...",
+      "assigned-supervisor": "Assigned supervisor",
+      "add-member": "Add medical staff",
+      "select-member": "Select a member",
+      "add": "Add",
+      "no-members": "This team does not have members yet.",
+      "empty-title": "No teams created",
+      "empty-subtitle": "Create the first team to organize medical staff.",
+      "metrics": {
+        "total": "Total teams",
+        "active": "Active teams",
+        "supervisors": "Active supervisors",
+        "members": "Assigned members"
+      },
+      "status": {
+        "active": "Active",
+        "inactive": "Inactive"
+      },
+      "error": {
+        "no-session": "No active session was found.",
+        "load-failed": "Teams could not be loaded.",
+        "create-failed": "Team could not be created.",
+        "update-supervisor-failed": "Supervisor could not be updated.",
+        "add-member-failed": "Member could not be added.",
+        "remove-member-failed": "Member could not be removed.",
+        "member-already-assigned": "This member already belongs to another team.",
+        "supervisor-already-assigned": "This supervisor is already assigned to another active team.",
+        "update-status-failed": "Team status could not be updated.",
+        "inactive-team": "You cannot add members to an inactive team.",
+        "delete-failed": "Team could not be deleted."
+      },
+      "search-placeholder": "Search by name or area...",
+      "all-work-areas": "All areas",
+      "deactivate": "Deactivate",
+      "activate": "Activate",
+      "delete": "Delete"
     }
   }
 }

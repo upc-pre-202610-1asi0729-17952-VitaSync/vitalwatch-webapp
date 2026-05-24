@@ -1,0 +1,240 @@
+<section class="page-header">
+    <h1>{{ 'shift.teams.title' | translate }}</h1>
+    <p>
+        {{ 'shift.teams.subtitle-before' | translate }}
+        <strong>{{ 'shift.teams.subtitle-highlight' | translate }}</strong>
+        {{ 'shift.teams.subtitle-after' | translate }}
+    </p>
+</section>
+
+<section class="metrics-grid">
+    <article class="metric-card">
+        <div class="metric-icon blue">
+            <ng-icon name="heroUserGroup" />
+        </div>
+        <p>{{ 'shift.teams.metrics.total' | translate }}</p>
+        <h2>{{ totalTeams() }}</h2>
+    </article>
+
+    <article class="metric-card">
+        <div class="metric-icon success">
+            <ng-icon name="heroUsers" />
+        </div>
+        <p>{{ 'shift.teams.metrics.active' | translate }}</p>
+        <h2 class="success-text">{{ activeTeams() }}</h2>
+    </article>
+
+    <article class="metric-card">
+        <div class="metric-icon purple">
+            <ng-icon name="heroShieldCheck" />
+        </div>
+        <p>{{ 'shift.teams.metrics.supervisors' | translate }}</p>
+        <h2 class="purple-text">{{ totalSupervisors() }}</h2>
+    </article>
+
+    <article class="metric-card">
+        <div class="metric-icon cyan">
+            <ng-icon name="heroBriefcase" />
+        </div>
+        <p>{{ 'shift.teams.metrics.members' | translate }}</p>
+        <h2 class="cyan-text">{{ totalAssignedMembers() }}</h2>
+    </article>
+</section>
+
+<section class="content-grid">
+    <article class="content-card">
+        <h2>{{ 'shift.teams.new-title' | translate }}</h2>
+        <p>{{ 'shift.teams.new-subtitle' | translate }}</p>
+
+        @if (errorMessage()) {
+        <small class="form-error">{{ errorMessage()! | translate }}</small>
+        }
+
+        <form [formGroup]="form" (ngSubmit)="createTeam()" class="team-form">
+            <div class="field">
+                <label for="name">{{ 'shift.teams.name' | translate }}</label>
+                <input id="name" type="text" formControlName="name"
+                    [placeholder]="'shift.teams.name-placeholder' | translate">
+            </div>
+
+            <div class="field">
+                <label for="workAreaId">{{ 'shift.teams.work-area' | translate }}</label>
+
+                <div class="select-control">
+                    <mat-select id="workAreaId" formControlName="workAreaId" panelClass="auth-select-panel">
+                        <mat-option [value]="0">
+                            {{ 'shift.teams.select-work-area' | translate }}
+                        </mat-option>
+
+                        @for (workArea of workAreas(); track workArea.id) {
+                        <mat-option [value]="workArea.id">
+                            {{ workArea.name }}
+                        </mat-option>
+                        }
+                    </mat-select>
+                </div>
+            </div>
+
+            <div class="field">
+                <label for="supervisorId">{{ 'shift.teams.supervisor' | translate }}</label>
+
+                <div class="select-control">
+                    <mat-select id="supervisorId" formControlName="supervisorId" panelClass="auth-select-panel">
+                        <mat-option [value]="0">
+                            {{ 'shift.teams.no-supervisor' | translate }}
+                        </mat-option>
+
+                        @for (supervisor of availableSupervisorsForNewTeam(); track supervisor.id) {
+                        <mat-option [value]="supervisor.id">
+                            {{ supervisor.fullName }}
+                        </mat-option>
+                        }
+                    </mat-select>
+                </div>
+            </div>
+
+            <button type="submit" class="primary-button" [disabled]="loading()">
+                <ng-icon name="heroPlus" />
+                <span>
+                    {{ loading() ? ('shift.teams.creating' | translate) : ('shift.teams.create' | translate) }}
+                </span>
+            </button>
+        </form>
+    </article>
+
+    <section class="teams-panel">
+        <section class="teams-toolbar">
+            <input type="text" [placeholder]="'shift.teams.search-placeholder' | translate"
+                (input)="updateSearchTerm($event)">
+
+            <div class="select-control">
+                <mat-select [value]="workAreaFilter()" panelClass="auth-select-panel"
+                    (selectionChange)="updateWorkAreaFilter($event.value)">
+                    <mat-option [value]="0">
+                        {{ 'shift.teams.all-work-areas' | translate }}
+                    </mat-option>
+
+                    @for (workArea of workAreas(); track workArea.id) {
+                    <mat-option [value]="workArea.id">
+                        {{ workArea.name }}
+                    </mat-option>
+                    }
+                </mat-select>
+            </div>
+        </section>
+
+        <section class="teams-list">
+            @for (team of filteredTeams(); track team.id) {
+            <article class="team-card">
+                <div class="team-header">
+                    <div>
+                        <h2>{{ team.name }}</h2>
+                        <p>{{ getWorkAreaName(team.workAreaId) }}</p>
+                    </div>
+
+                    <div class="team-actions">
+                        <span class="status-pill" [class.active]="team.status === 'ACTIVE'"
+                            [class.inactive]="team.status === 'INACTIVE'">
+                            {{
+                            team.status === 'ACTIVE'
+                            ? ('shift.teams.status.active' | translate)
+                            : ('shift.teams.status.inactive' | translate)
+                            }}
+                        </span>
+
+                        <button type="button" class="status-button" [class.danger]="team.status === 'ACTIVE'"
+                            [class.success]="team.status === 'INACTIVE'" (click)="toggleTeamStatus(team)">
+                            {{
+                            team.status === 'ACTIVE'
+                            ? ('shift.teams.deactivate' | translate)
+                            : ('shift.teams.activate' | translate)
+                            }}
+                        </button>
+
+                        <button type="button" class="status-button danger" (click)="deleteTeam(team)">
+                            {{ 'shift.teams.delete' | translate }}
+                        </button>
+                    </div>
+                </div>
+
+                <div class="team-section">
+                    <label>{{ 'shift.teams.assigned-supervisor' | translate }}</label>
+
+                    <div class="select-control">
+                        <mat-select [value]="team.supervisorId || 0" panelClass="auth-select-panel"
+                            (selectionChange)="updateSupervisor(team, $event.value)">
+                            <mat-option [value]="0">
+                                {{ 'shift.teams.no-supervisor' | translate }}
+                            </mat-option>
+
+                            @for (supervisor of getAvailableSupervisorsForTeam(team); track supervisor.id) {
+                            <mat-option [value]="supervisor.id">
+                                {{ supervisor.fullName }}
+                            </mat-option>
+                            }
+                        </mat-select>
+                    </div>
+                </div>
+
+                <div class="team-section">
+                    <label>{{ 'shift.teams.add-member' | translate }}</label>
+
+                    <div class="member-add-row">
+                        <div class="select-control">
+                            <mat-select [value]="selectedDoctorByTeam()[team.id] || 0" panelClass="auth-select-panel"
+                                (selectionChange)="updateSelectedDoctor(team.id, $event.value)">
+                                <mat-option [value]="0">
+                                    {{ 'shift.teams.select-member' | translate }}
+                                </mat-option>
+
+                                @for (doctor of getAvailableDoctorsForTeam(team); track doctor.id) {
+                                <mat-option [value]="doctor.id">
+                                    {{ doctor.fullName }}
+                                </mat-option>
+                                }
+                            </mat-select>
+                        </div>
+
+                        <button type="button" class="secondary-button" (click)="addMember(team)">
+                            <ng-icon name="heroPlus" />
+                            <span>{{ 'shift.teams.add' | translate }}</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="members-list">
+                    @for (member of getTeamMembers(team.id); track member.id) {
+                    @let user = getUserById(member.userId);
+
+                    @if (user) {
+                    <div class="member-item">
+                        <div class="avatar">
+                            {{ user.initials }}
+                        </div>
+
+                        <div>
+                            <strong>{{ user.fullName }}</strong>
+                            <span>{{ user.email }}</span>
+                        </div>
+
+                        <button type="button" class="icon-button danger" (click)="removeMember(member)">
+                            <ng-icon name="heroTrash" />
+                        </button>
+                    </div>
+                    }
+                    } @empty {
+                    <p class="empty-members">
+                        {{ 'shift.teams.no-members' | translate }}
+                    </p>
+                    }
+                </div>
+            </article>
+            } @empty {
+            <article class="content-card empty-card">
+                <h2>{{ 'shift.teams.empty-title' | translate }}</h2>
+                <p>{{ 'shift.teams.empty-subtitle' | translate }}</p>
+            </article>
+            }
+        </section>
+    </section>
+</section>

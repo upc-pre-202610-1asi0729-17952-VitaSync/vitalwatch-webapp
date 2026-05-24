@@ -8,5 +8,7 @@ export const environment = {
     invitationsEndpointPath: '/invitations',
     checkoutSessionsEndpointPath: '/checkoutSessions',
     workAreasEndpointPath: '/workAreas',
-    specialtiesEndpointPath: '/specialties'
+    specialtiesEndpointPath: '/specialties',
+    careTeamsEndpointPath: '/careTeams',
+    teamMembersEndpointPath: '/teamMembers'
 };

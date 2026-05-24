@@ -93,6 +93,12 @@ export const routes: Routes = [
         }
       },
       {
+        path: 'teams',
+        loadComponent: () =>
+          import('./shift-coordination/presentation/views/team-management/team-management')
+            .then(m => m.TeamManagement)
+      },
+      {
         path: 'settings',
         loadComponent: pagePlaceholder,
         data: {
