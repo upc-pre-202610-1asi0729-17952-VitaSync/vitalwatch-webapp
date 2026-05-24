@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable, switchMap } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { Invitation, InvitationStatus } from '../domain/model/invitation.entity';
+import { Invitation } from '../domain/model/invitation.entity';
 import { InvitationResource } from './invitation-response';
 import { AcceptInvitationRequest } from './accept-invitation-request';
 import { CreateInvitationRequest } from './create-invitation-request';
@@ -41,19 +41,8 @@ export class InvitationApi {
   }
 
   createInvitation(request: CreateInvitationRequest): Observable<Invitation> {
-    const token = this.generateToken();
-
-    const payload = {
-      organizationId: request.organizationId,
-      email: request.email,
-      role: request.role,
-      status: 'PENDING' as InvitationStatus,
-      token,
-      createdAt: new Date().toISOString()
-    };
-
     return this.http
-      .post<InvitationResource>(this.invitationsUrl, payload)
+      .post<InvitationResource>(`${this.invitationsUrl}/send`, request)
       .pipe(
         map(resource => this.toInvitation(resource))
       );
@@ -108,9 +97,5 @@ export class InvitationApi {
       token: resource.token,
       createdAt: resource.createdAt
     });
-  }
-
-  private generateToken(): string {
-    return `inv-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
   }
 }

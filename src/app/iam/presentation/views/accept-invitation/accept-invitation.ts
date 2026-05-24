@@ -2,6 +2,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
+import { AuthenticationStore } from '../../../application/authentication.store';
 import { NgIcon } from '@ng-icons/core';
 import { MatSelectModule } from '@angular/material/select';
 import { AuthLayout } from '../../../../shared/presentation/components/auth-layout/auth-layout';
@@ -41,6 +42,8 @@ export class AcceptInvitation implements OnInit {
   protected passwordVisible = signal(false);
   protected confirmPasswordVisible = signal(false);
 
+  private authenticationStore = inject(AuthenticationStore);
+
   protected form = this.formBuilder.group({
     firstName: ['', [Validators.required]],
     lastName: ['', [Validators.required]],
@@ -53,6 +56,8 @@ export class AcceptInvitation implements OnInit {
   });
 
   ngOnInit(): void {
+    this.authenticationStore.clearSession();
+
     const token = this.route.snapshot.queryParamMap.get('token');
 
     if (!token) {

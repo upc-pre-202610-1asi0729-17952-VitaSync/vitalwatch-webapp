@@ -41,12 +41,6 @@ export class AuthenticationStore {
         });
     }
 
-    signOut(): void {
-        localStorage.removeItem('vitalwatch-session');
-        this.sessionSignal.set(null);
-        this.router.navigate(['/sign-in']).then();
-    }
-
     private getDefaultRouteByRole(role: UserRole): string {
         const routes: Record<UserRole, string> = {
             HOSPITAL_ADMIN: '/admin/dashboard',
@@ -58,7 +52,7 @@ export class AuthenticationStore {
     }
 
     private persistSession(session: AuthenticationSession): void {
-        localStorage.setItem('vitalwatch-session', JSON.stringify({
+        sessionStorage.setItem('vitalwatch-session', JSON.stringify({
             token: session.token,
             user: {
                 id: session.user.id,
@@ -73,7 +67,7 @@ export class AuthenticationStore {
     }
 
     private restoreSession(): AuthenticationSession | null {
-        const rawSession = localStorage.getItem('vitalwatch-session');
+        const rawSession = sessionStorage.getItem('vitalwatch-session');
 
         if (!rawSession) return null;
 
@@ -95,8 +89,19 @@ export class AuthenticationStore {
                 user
             });
         } catch {
-            localStorage.removeItem('vitalwatch-session');
+            sessionStorage.removeItem('vitalwatch-session');
             return null;
         }
+    }
+
+    clearSession(): void {
+        localStorage.removeItem('vitalwatch-session');
+        sessionStorage.removeItem('vitalwatch-session');
+        this.sessionSignal.set(null);
+    }
+
+    signOut(): void {
+        this.clearSession();
+        this.router.navigate(['/sign-in']).then();
     }
 }

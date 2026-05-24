@@ -30,7 +30,6 @@ export const routes: Routes = [
 
   {
     path: '',
-    canActivate: [publicOnlyGuard],
     loadChildren: iamRoutes
   },
 

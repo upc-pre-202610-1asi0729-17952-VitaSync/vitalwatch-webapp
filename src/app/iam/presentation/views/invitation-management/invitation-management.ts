@@ -90,8 +90,13 @@ export class InvitationManagement implements OnInit {
         });
         this.loading.set(false);
       },
-      error: () => {
-        this.errorMessage.set('iam.invitations.error.create-failed');
+      error: error => {
+        console.error(error);
+
+        this.errorMessage.set(
+          error.error?.message ?? 'iam.invitations.error.create-failed'
+        );
+
         this.loading.set(false);
       }
     });
