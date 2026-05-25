@@ -280,5 +280,37 @@
       "activate": "Activate",
       "delete": "Delete"
     }
+  },
+  "clinical": {
+    "risk": {
+      "low": "Low",
+      "moderate": "Moderate",
+      "high": "High",
+      "critical": "Critical"
+    },
+    "supervisor": {
+      "title": "Shift Summary",
+      "subtitle-before": "General status of your assigned team:",
+      "subtitle-highlight": "alerts, fatigue",
+      "subtitle-after": "and real-time metrics.",
+      "team-fatigue-title": "Current team fatigue",
+      "team-fatigue-subtitle": "Medical staff assigned to your active teams.",
+      "alerts-title": "Active clinical alerts",
+      "alerts-subtitle": "Events requiring preventive follow-up.",
+      "average": "Average",
+      "no-risk-data": "No risk data.",
+      "no-assigned-staff": "You have no assigned medical staff.",
+      "no-active-alerts": "There are no active alerts for your team.",
+      "metrics": {
+        "assigned-staff": "Assigned staff",
+        "high-risk": "At risk now",
+        "active-alerts": "Active alerts",
+        "actions-today": "Actions taken today"
+      },
+      "error": {
+        "no-session": "No active session was found.",
+        "load-failed": "Supervisor dashboard could not be loaded."
+      }
+    }
   }
 }

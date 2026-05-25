@@ -1,0 +1,132 @@
+<section class="page-header">
+    <h1>{{ 'clinical.supervisor.title' | translate }}</h1>
+    <p>
+        {{ 'clinical.supervisor.subtitle-before' | translate }}
+        <strong>{{ 'clinical.supervisor.subtitle-highlight' | translate }}</strong>
+        {{ 'clinical.supervisor.subtitle-after' | translate }}
+    </p>
+</section>
+
+@if (errorMessage()) {
+<small class="form-error">{{ errorMessage()! | translate }}</small>
+}
+
+<section class="metrics-grid">
+    <article class="metric-card">
+        <div class="metric-icon blue">
+            <ng-icon name="heroUsers" />
+        </div>
+        <p>{{ 'clinical.supervisor.metrics.assigned-staff' | translate }}</p>
+        <h2>{{ assignedDoctors().length }}</h2>
+    </article>
+
+    <article class="metric-card">
+        <div class="metric-icon danger">
+            <ng-icon name="heroExclamationTriangle" />
+        </div>
+        <p>{{ 'clinical.supervisor.metrics.high-risk' | translate }}</p>
+        <h2 class="danger-text">{{ highRiskCount() }}</h2>
+    </article>
+
+    <article class="metric-card">
+        <div class="metric-icon warning">
+            <ng-icon name="heroBell" />
+        </div>
+        <p>{{ 'clinical.supervisor.metrics.active-alerts' | translate }}</p>
+        <h2 class="warning-text">{{ activeAlerts().length }}</h2>
+    </article>
+
+    <article class="metric-card">
+        <div class="metric-icon success">
+            <ng-icon name="heroCheckCircle" />
+        </div>
+        <p>{{ 'clinical.supervisor.metrics.actions-today' | translate }}</p>
+        <h2 class="success-text">{{ actionsTakenToday() }}</h2>
+    </article>
+</section>
+
+<section class="content-grid">
+    <article class="content-card">
+        <div class="section-header">
+            <div>
+                <h2>{{ 'clinical.supervisor.team-fatigue-title' | translate }}</h2>
+                <p>{{ 'clinical.supervisor.team-fatigue-subtitle' | translate }}</p>
+            </div>
+
+            <div class="average-fatigue">
+                <span>{{ averageFatigue() }}%</span>
+                <small>{{ 'clinical.supervisor.average' | translate }}</small>
+            </div>
+        </div>
+
+        <div class="doctor-risk-list">
+            @for (doctor of assignedDoctors(); track doctor.id) {
+            @let risk = getRiskByUserId(doctor.id);
+
+            <div class="doctor-risk-item">
+                <div class="staff-profile">
+                    <div class="avatar">
+                        {{ doctor.initials }}
+                    </div>
+
+                    <div>
+                        <strong>{{ doctor.fullName }}</strong>
+                        <span>{{ doctor.email }}</span>
+                    </div>
+                </div>
+
+                @if (risk) {
+                <div class="risk-info">
+                    <span class="risk-pill" [class]="getRiskClass(risk.riskLevel)">
+                        {{ getRiskLabel(risk.riskLevel) | translate }}
+                    </span>
+
+                    <strong>{{ risk.fatigueLevel }}%</strong>
+                </div>
+
+                <div class="progress-track">
+                    <div class="progress-fill" [style.width.%]="risk.fatigueLevel"></div>
+                </div>
+                } @else {
+                <span class="muted-text">{{ 'clinical.supervisor.no-risk-data' | translate }}</span>
+                }
+            </div>
+            } @empty {
+            <p class="empty-state">
+                {{ 'clinical.supervisor.no-assigned-staff' | translate }}
+            </p>
+            }
+        </div>
+    </article>
+
+    <article class="content-card">
+        <div class="section-header">
+            <div>
+                <h2>{{ 'clinical.supervisor.alerts-title' | translate }}</h2>
+                <p>{{ 'clinical.supervisor.alerts-subtitle' | translate }}</p>
+            </div>
+        </div>
+
+        <div class="alerts-list">
+            @for (alert of activeAlerts(); track alert.id) {
+            @let user = getUserById(alert.userId);
+
+            <div class="alert-item" [class]="getRiskClass(alert.severity)">
+                <div class="alert-icon">
+                    <ng-icon name="heroBell" />
+                </div>
+
+                <div>
+                    <strong>{{ user?.fullName ?? '—' }}</strong>
+                    <p>{{ alert.message }}</p>
+                    <span>{{ alert.createdAt | date:'yyyy-MM-dd HH:mm' }}</span>
+                </div>
+            </div>
+            } @empty {
+            <p class="empty-state">
+                {{ 'clinical.supervisor.no-active-alerts' | translate }}
+            </p>
+            }
+        </div>
+    </article>
+</section>

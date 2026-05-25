@@ -36,13 +36,13 @@
       "planId": 2
     },
     {
+      "id": 2,
       "name": "Clínica General de Huanta",
-      "ruc": "20600000000",
+      "ruc": "20600000001",
       "address": "Av. Argentina, Lima",
-      "phone": "+51 999 999 999",
+      "phone": "+51 988 888 888",
       "status": "ACTIVE",
-      "planId": 2,
-      "id": 2
+      "planId": 2
     }
   ],
   "users": [
@@ -64,7 +64,7 @@
       "email": "supervisor@vitalwatch.com",
       "password": "supervisor123",
       "phone": "987654321",
-      "workAreaId": 1,
+      "workAreaId": 2,
       "specialtyId": 1,
       "role": "SUPERVISOR",
       "status": "ACTIVE"
@@ -155,7 +155,7 @@
       "email": "diego.herrera@vitalwatch.com",
       "password": "diego123",
       "phone": "987666777",
-      "workAreaId": 4,
+      "workAreaId": 2,
       "specialtyId": 6,
       "role": "DOCTOR",
       "status": "ACTIVE"
@@ -168,7 +168,7 @@
       "email": "mariana.vega@vitalwatch.com",
       "password": "mariana123",
       "phone": "987777888",
-      "workAreaId": 5,
+      "workAreaId": 2,
       "specialtyId": 4,
       "role": "DOCTOR",
       "status": "ACTIVE"
@@ -207,9 +207,20 @@
       "email": "pedro.castillo@vitalwatch.com",
       "password": "pedro123",
       "phone": "987000111",
-      "workAreaId": 4,
+      "workAreaId": 2,
       "specialtyId": 6,
       "role": "DOCTOR",
+      "status": "ACTIVE"
+    },
+    {
+      "id": 14,
+      "organizationId": 2,
+      "firstName": "Andrea",
+      "lastName": "Quispe",
+      "email": "admin.huanta@vitalwatch.com",
+      "password": "adminhuanta123",
+      "phone": "986111222",
+      "role": "HOSPITAL_ADMIN",
       "status": "ACTIVE"
     }
   ],
@@ -241,40 +252,45 @@
     {
       "id": 4,
       "organizationId": 1,
-      "name": "Grupo D",
-      "workAreaId": 6,
-      "supervisorId": 11,
-      "status": "ACTIVE"
-    },
-    {
-      "organizationId": 1,
       "name": "Emergencias",
       "workAreaId": 2,
       "supervisorId": 2,
-      "status": "ACTIVE",
-      "id": 5
+      "status": "ACTIVE"
+    },
+    {
+      "id": 5,
+      "organizationId": 1,
+      "name": "Cardio Norte",
+      "workAreaId": 6,
+      "supervisorId": 11,
+      "status": "ACTIVE"
     }
   ],
   "teamMembers": [
     {
-      "id": 2,
+      "id": 1,
       "teamId": 1,
       "userId": 5
     },
     {
-      "id": 3,
+      "id": 2,
       "teamId": 2,
       "userId": 6
     },
     {
-      "id": 4,
+      "id": 3,
       "teamId": 2,
       "userId": 7
     },
     {
-      "id": 5,
+      "id": 4,
       "teamId": 3,
       "userId": 8
+    },
+    {
+      "id": 5,
+      "teamId": 4,
+      "userId": 9
     },
     {
       "id": 6,
@@ -283,8 +299,8 @@
     },
     {
       "id": 7,
-      "teamId": 5,
-      "userId": 9
+      "teamId": 4,
+      "userId": 13
     }
   ],
   "subscriptions": [
@@ -296,11 +312,11 @@
       "startedAt": "2026-05-22T00:00:00.000Z"
     },
     {
+      "id": 2,
       "organizationId": 2,
       "planId": 2,
       "status": "ACTIVE",
-      "startedAt": "2026-05-23T05:46:51.903Z",
-      "id": 2
+      "startedAt": "2026-05-23T05:46:51.903Z"
     }
   ],
   "invitations": [
@@ -364,6 +380,21 @@
       "id": 6,
       "organizationId": 1,
       "name": "Cardiología"
+    },
+    {
+      "id": 7,
+      "organizationId": 2,
+      "name": "UCI"
+    },
+    {
+      "id": 8,
+      "organizationId": 2,
+      "name": "Emergencias"
+    },
+    {
+      "id": 9,
+      "organizationId": 2,
+      "name": "Hospitalización"
     }
   ],
   "specialties": [
@@ -392,16 +423,135 @@
       "name": "Traumatología"
     }
   ],
+  "riskAssessments": [
+    {
+      "id": 1,
+      "organizationId": 1,
+      "userId": 5,
+      "fatigueLevel": 55,
+      "riskLevel": "MODERATE",
+      "heartRate": 92,
+      "hrv": 34,
+      "lastUpdatedAt": "2026-05-24T12:15:00.000Z"
+    },
+    {
+      "id": 2,
+      "organizationId": 1,
+      "userId": 6,
+      "fatigueLevel": 32,
+      "riskLevel": "LOW",
+      "heartRate": 82,
+      "hrv": 48,
+      "lastUpdatedAt": "2026-05-24T12:10:00.000Z"
+    },
+    {
+      "id": 3,
+      "organizationId": 1,
+      "userId": 7,
+      "fatigueLevel": 88,
+      "riskLevel": "CRITICAL",
+      "heartRate": 112,
+      "hrv": 18,
+      "lastUpdatedAt": "2026-05-24T12:05:00.000Z"
+    },
+    {
+      "id": 4,
+      "organizationId": 1,
+      "userId": 8,
+      "fatigueLevel": 46,
+      "riskLevel": "MODERATE",
+      "heartRate": 89,
+      "hrv": 39,
+      "lastUpdatedAt": "2026-05-24T12:00:00.000Z"
+    },
+    {
+      "id": 5,
+      "organizationId": 1,
+      "userId": 9,
+      "fatigueLevel": 64,
+      "riskLevel": "HIGH",
+      "heartRate": 98,
+      "hrv": 28,
+      "lastUpdatedAt": "2026-05-24T11:55:00.000Z"
+    },
+    {
+      "id": 6,
+      "organizationId": 1,
+      "userId": 10,
+      "fatigueLevel": 25,
+      "riskLevel": "LOW",
+      "heartRate": 76,
+      "hrv": 52,
+      "lastUpdatedAt": "2026-05-24T11:50:00.000Z"
+    },
+    {
+      "id": 7,
+      "organizationId": 1,
+      "userId": 13,
+      "fatigueLevel": 72,
+      "riskLevel": "HIGH",
+      "heartRate": 101,
+      "hrv": 26,
+      "lastUpdatedAt": "2026-05-24T12:25:00.000Z"
+    }
+  ],
+  "clinicalAlerts": [
+    {
+      "id": 1,
+      "organizationId": 1,
+      "userId": 7,
+      "severity": "CRITICAL",
+      "status": "ACTIVE",
+      "message": "Riesgo crítico por fatiga y baja recuperación.",
+      "createdAt": "2026-05-24T11:35:00.000Z"
+    },
+    {
+      "id": 2,
+      "organizationId": 1,
+      "userId": 5,
+      "severity": "MODERATE",
+      "status": "RESOLVED",
+      "message": "Fatiga moderada controlada con pausa preventiva.",
+      "createdAt": "2026-05-24T10:20:00.000Z"
+    },
+    {
+      "id": 3,
+      "organizationId": 1,
+      "userId": 9,
+      "severity": "HIGH",
+      "status": "ACTIVE",
+      "message": "Fatiga elevada detectada en el turno de Emergencias.",
+      "createdAt": "2026-05-24T12:05:00.000Z"
+    },
+    {
+      "id": 4,
+      "organizationId": 1,
+      "userId": 13,
+      "severity": "HIGH",
+      "status": "ACTIVE",
+      "message": "Riesgo alto por acumulación de horas en guardia.",
+      "createdAt": "2026-05-24T12:15:00.000Z"
+    },
+    {
+      "id": 5,
+      "organizationId": 1,
+      "userId": 10,
+      "severity": "LOW",
+      "status": "RESOLVED",
+      "message": "Pausa preventiva registrada correctamente.",
+      "createdAt": "2026-05-24T10:45:00.000Z"
+    }
+  ],
   "checkoutSessions": [
     {
+      "id": 1,
       "organizationId": 2,
-      "administratorId": 4,
+      "administratorId": 14,
       "subscriptionId": 2,
       "planId": 2,
       "planCode": "professional",
       "status": "COMPLETED",
-      "createdAt": "2026-05-23T05:46:33.063Z",
-      "id": 1
+      "createdAt": "2026-05-23T05:46:33.063Z"
     }
   ]
 }

@@ -123,10 +123,9 @@ export const routes: Routes = [
       },
       {
         path: 'dashboard',
-        loadComponent: pagePlaceholder,
-        data: {
-          title: 'navigation.shift-summary'
-        }
+        loadComponent: () =>
+          import('./clinical-risk-assessment/presentation/views/supervisor-dashboard/supervisor-dashboard')
+            .then(m => m.SupervisorDashboard)
       },
       {
         path: 'risk-staff',

@@ -283,5 +283,37 @@
       "activate": "Activar",
       "delete": "Eliminar"
     }
+  },
+  "clinical": {
+    "risk": {
+      "low": "Bajo",
+      "moderate": "Moderado",
+      "high": "Alto",
+      "critical": "Crítico"
+    },
+    "supervisor": {
+      "title": "Resumen de Turno",
+      "subtitle-before": "Estado general de tu equipo asignado:",
+      "subtitle-highlight": "alertas, fatiga",
+      "subtitle-after": "y métricas en tiempo real.",
+      "team-fatigue-title": "Fatiga actual del equipo",
+      "team-fatigue-subtitle": "Personal médico asignado a tus equipos activos.",
+      "alerts-title": "Alertas clínicas activas",
+      "alerts-subtitle": "Eventos que requieren seguimiento preventivo.",
+      "average": "Promedio",
+      "no-risk-data": "Sin datos de riesgo.",
+      "no-assigned-staff": "No tienes personal médico asignado.",
+      "no-active-alerts": "No hay alertas activas para tu equipo.",
+      "metrics": {
+        "assigned-staff": "Personal a cargo",
+        "high-risk": "En riesgo ahora",
+        "active-alerts": "Alertas activas",
+        "actions-today": "Acciones tomadas hoy"
+      },
+      "error": {
+        "no-session": "No se encontró una sesión activa.",
+        "load-failed": "No se pudo cargar el dashboard del supervisor."
+      }
+    }
   }
 }

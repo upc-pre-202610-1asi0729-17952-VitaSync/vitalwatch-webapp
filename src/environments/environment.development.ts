@@ -10,5 +10,7 @@ export const environment = {
     workAreasEndpointPath: '/workAreas',
     specialtiesEndpointPath: '/specialties',
     careTeamsEndpointPath: '/careTeams',
-    teamMembersEndpointPath: '/teamMembers'
+    teamMembersEndpointPath: '/teamMembers',
+    riskAssessmentsEndpointPath: '/riskAssessments',
+    clinicalAlertsEndpointPath: '/clinicalAlerts'
 };
