@@ -279,6 +279,59 @@
       "deactivate": "Deactivate",
       "activate": "Activate",
       "delete": "Delete"
+    },
+    "doctor": {
+      "title": "My Shifts",
+      "subtitle-before": "Shift management assigned to",
+      "subtitle-after": "and attendance control.",
+      "yes": "Yes",
+      "no": "No",
+      "current-title": "Current shift",
+      "current-subtitle": "Control of the ongoing shift and checkout record.",
+      "next-title": "Next shift",
+      "next-subtitle": "Next scheduled shift.",
+      "upcoming-title": "Upcoming shifts",
+      "upcoming-subtitle": "Pending assigned shifts.",
+      "history-title": "Shift history",
+      "history-subtitle": "Recently completed shifts.",
+      "check-in": "Start shift",
+      "check-out": "End shift",
+      "check-in-at": "Check-in",
+      "duration": "Duration",
+      "no-current-title": "No shift in progress",
+      "no-current-subtitle": "When you start a shift, it will appear here.",
+      "no-next-shift": "You have no upcoming scheduled shifts.",
+      "no-upcoming": "You have no pending shifts.",
+      "no-history": "You do not have completed shifts yet.",
+      "metrics": {
+        "upcoming": "Upcoming shifts",
+        "completed": "Completed",
+        "hours": "Registered hours",
+        "current": "Active shift"
+      },
+      "type": {
+        "day": "Day shift",
+        "night": "Night shift"
+      },
+      "status": {
+        "scheduled": "Scheduled",
+        "in-progress": "In progress",
+        "completed": "Completed",
+        "cancelled": "Cancelled"
+      },
+      "table": {
+        "date": "Date",
+        "area": "Area",
+        "type": "Type",
+        "hours": "Hours",
+        "status": "Status"
+      },
+      "error": {
+        "no-session": "No active session was found.",
+        "load-failed": "Your shifts could not be loaded.",
+        "check-in-failed": "Shift could not be started.",
+        "check-out-failed": "Shift could not be ended."
+      }
     }
   },
   "clinical": {

@@ -282,6 +282,59 @@
       "deactivate": "Desactivar",
       "activate": "Activar",
       "delete": "Eliminar"
+    },
+    "doctor": {
+      "title": "Mis Turnos",
+      "subtitle-before": "Gestión de turnos asignados para",
+      "subtitle-after": "y control de asistencia.",
+      "yes": "Sí",
+      "no": "No",
+      "current-title": "Turno actual",
+      "current-subtitle": "Control del turno en curso y registro de salida.",
+      "next-title": "Próximo turno",
+      "next-subtitle": "Siguiente turno programado.",
+      "upcoming-title": "Próximos turnos",
+      "upcoming-subtitle": "Turnos pendientes asignados.",
+      "history-title": "Historial de turnos",
+      "history-subtitle": "Turnos completados recientemente.",
+      "check-in": "Iniciar turno",
+      "check-out": "Finalizar turno",
+      "check-in-at": "Ingreso",
+      "duration": "Duración",
+      "no-current-title": "No hay turno en curso",
+      "no-current-subtitle": "Cuando inicies un turno, aparecerá aquí.",
+      "no-next-shift": "No tienes próximos turnos programados.",
+      "no-upcoming": "No tienes turnos pendientes.",
+      "no-history": "Aún no tienes turnos completados.",
+      "metrics": {
+        "upcoming": "Próximos turnos",
+        "completed": "Completados",
+        "hours": "Horas registradas",
+        "current": "Turno activo"
+      },
+      "type": {
+        "day": "Turno día",
+        "night": "Turno noche"
+      },
+      "status": {
+        "scheduled": "Programado",
+        "in-progress": "En curso",
+        "completed": "Completado",
+        "cancelled": "Cancelado"
+      },
+      "table": {
+        "date": "Fecha",
+        "area": "Área",
+        "type": "Tipo",
+        "hours": "Horas",
+        "status": "Estado"
+      },
+      "error": {
+        "no-session": "No se encontró una sesión activa.",
+        "load-failed": "No se pudieron cargar tus turnos.",
+        "check-in-failed": "No se pudo iniciar el turno.",
+        "check-out-failed": "No se pudo finalizar el turno."
+      }
     }
   },
   "clinical": {

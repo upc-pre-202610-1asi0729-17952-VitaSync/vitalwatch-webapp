@@ -1,0 +1,223 @@
+<section class="page-header">
+    <h1>{{ 'shift.doctor.title' | translate }}</h1>
+    <p>
+        {{ 'shift.doctor.subtitle-before' | translate }}
+        <strong>{{ doctor()?.fullName }}</strong>
+        {{ 'shift.doctor.subtitle-after' | translate }}
+    </p>
+</section>
+
+@if (errorMessage()) {
+<small class="form-error">{{ errorMessage()! | translate }}</small>
+}
+
+<section class="metrics-grid">
+    <article class="metric-card">
+        <div class="metric-icon blue">
+            <ng-icon name="heroCalendarDays" />
+        </div>
+        <p>{{ 'shift.doctor.metrics.upcoming' | translate }}</p>
+        <h2>{{ upcomingShifts().length }}</h2>
+    </article>
+
+    <article class="metric-card">
+        <div class="metric-icon success">
+            <ng-icon name="heroCheckCircle" />
+        </div>
+        <p>{{ 'shift.doctor.metrics.completed' | translate }}</p>
+        <h2 class="success-text">{{ completedShifts().length }}</h2>
+    </article>
+
+    <article class="metric-card">
+        <div class="metric-icon warning">
+            <ng-icon name="heroClock" />
+        </div>
+        <p>{{ 'shift.doctor.metrics.hours' | translate }}</p>
+        <h2 class="warning-text">{{ formatTotalHours(totalCompletedHours()) }}</h2>
+    </article>
+
+    <article class="metric-card">
+        <div class="metric-icon purple">
+            <ng-icon name="heroBriefcase" />
+        </div>
+        <p>{{ 'shift.doctor.metrics.current' | translate }}</p>
+        <h2>{{ currentShift() ? ('shift.doctor.yes' | translate) : ('shift.doctor.no' | translate) }}</h2>
+    </article>
+</section>
+
+<section class="content-grid">
+    <article class="content-card current-card">
+        <div class="section-header">
+            <div>
+                <h2>{{ 'shift.doctor.current-title' | translate }}</h2>
+                <p>{{ 'shift.doctor.current-subtitle' | translate }}</p>
+            </div>
+        </div>
+
+        @if (currentShift(); as shift) {
+        <div class="current-shift-panel">
+            <div class="shift-icon active">
+                <ng-icon name="heroClock" />
+            </div>
+
+            <div class="shift-info">
+                <span class="status-pill in-progress">
+                    {{ getShiftStatusLabel(shift.status) | translate }}
+                </span>
+
+                <h3>{{ getWorkAreaName(shift.workAreaId) }}</h3>
+
+                <p>
+                    {{ getShiftTypeLabel(shift.type) | translate }} ·
+                    {{ shift.scheduledStart | date:'HH:mm' }} -
+                    {{ shift.scheduledEnd | date:'HH:mm' }}
+                </p>
+
+                <div class="shift-meta">
+                    <span>
+                        {{ 'shift.doctor.check-in-at' | translate }}:
+                        <strong>{{ shift.checkInAt | date:'HH:mm' }}</strong>
+                    </span>
+
+                    <span>
+                        {{ 'shift.doctor.duration' | translate }}:
+                        <strong>{{ getShiftDuration(shift) }}h</strong>
+                    </span>
+                </div>
+            </div>
+
+            <button type="button" class="primary-button danger" (click)="checkOut(shift)">
+                <ng-icon name="heroStopCircle" />
+                <span>{{ 'shift.doctor.check-out' | translate }}</span>
+            </button>
+        </div>
+        } @else {
+        <div class="empty-current">
+            <div class="shift-icon">
+                <ng-icon name="heroCalendarDays" />
+            </div>
+
+            <div>
+                <h3>{{ 'shift.doctor.no-current-title' | translate }}</h3>
+                <p>{{ 'shift.doctor.no-current-subtitle' | translate }}</p>
+            </div>
+        </div>
+        }
+    </article>
+
+    <article class="content-card next-card">
+        <div class="section-header">
+            <div>
+                <h2>{{ 'shift.doctor.next-title' | translate }}</h2>
+                <p>{{ 'shift.doctor.next-subtitle' | translate }}</p>
+            </div>
+        </div>
+
+        @if (nextShift(); as shift) {
+        <div class="next-shift">
+            <div>
+                <span class="status-pill scheduled">
+                    {{ getShiftStatusLabel(shift.status) | translate }}
+                </span>
+
+                <h3>{{ getWorkAreaName(shift.workAreaId) }}</h3>
+
+                <p>
+                    {{ shift.scheduledStart | date:'yyyy-MM-dd' }} ·
+                    {{ shift.scheduledStart | date:'HH:mm' }} -
+                    {{ shift.scheduledEnd | date:'HH:mm' }}
+                </p>
+            </div>
+
+            <button type="button" class="primary-button" [disabled]="!!currentShift()" (click)="checkIn(shift)">
+                <ng-icon name="heroPlayCircle" />
+                <span>{{ 'shift.doctor.check-in' | translate }}</span>
+            </button>
+        </div>
+        } @else {
+        <p class="empty-state">{{ 'shift.doctor.no-next-shift' | translate }}</p>
+        }
+    </article>
+</section>
+
+<section class="content-grid lower-grid">
+    <article class="content-card">
+        <div class="section-header">
+            <div>
+                <h2>{{ 'shift.doctor.upcoming-title' | translate }}</h2>
+                <p>{{ 'shift.doctor.upcoming-subtitle' | translate }}</p>
+            </div>
+        </div>
+
+        <div class="shift-list">
+            @for (shift of upcomingShifts(); track shift.id) {
+            <div class="shift-item">
+                <div class="shift-date">
+                    <strong>{{ shift.scheduledStart | date:'dd' }}</strong>
+                    <span>{{ shift.scheduledStart | date:'MMM' }}</span>
+                </div>
+
+                <div class="shift-detail">
+                    <h3>{{ getWorkAreaName(shift.workAreaId) }}</h3>
+                    <p>
+                        {{ getShiftTypeLabel(shift.type) | translate }} ·
+                        {{ shift.scheduledStart | date:'HH:mm' }} -
+                        {{ shift.scheduledEnd | date:'HH:mm' }}
+                    </p>
+                </div>
+
+                <span class="status-pill" [class]="getShiftStatusClass(shift.status)">
+                    {{ getShiftStatusLabel(shift.status) | translate }}
+                </span>
+            </div>
+            } @empty {
+            <p class="empty-state">{{ 'shift.doctor.no-upcoming' | translate }}</p>
+            }
+        </div>
+    </article>
+
+    <article class="content-card">
+        <div class="section-header">
+            <div>
+                <h2>{{ 'shift.doctor.history-title' | translate }}</h2>
+                <p>{{ 'shift.doctor.history-subtitle' | translate }}</p>
+            </div>
+        </div>
+
+        <div class="shift-table-wrapper">
+            <table class="shift-table">
+                <thead>
+                    <tr>
+                        <th>{{ 'shift.doctor.table.date' | translate }}</th>
+                        <th>{{ 'shift.doctor.table.area' | translate }}</th>
+                        <th>{{ 'shift.doctor.table.type' | translate }}</th>
+                        <th>{{ 'shift.doctor.table.hours' | translate }}</th>
+                        <th>{{ 'shift.doctor.table.status' | translate }}</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @for (shift of completedShifts(); track shift.id) {
+                    <tr>
+                        <td>{{ shift.scheduledStart | date:'yyyy-MM-dd' }}</td>
+                        <td>{{ getWorkAreaName(shift.workAreaId) }}</td>
+                        <td>{{ getShiftTypeLabel(shift.type) | translate }}</td>
+                        <td>{{ getShiftDuration(shift) }}h</td>
+                        <td>
+                            <span class="status-pill completed">
+                                {{ getShiftStatusLabel(shift.status) | translate }}
+                            </span>
+                        </td>
+                    </tr>
+                    } @empty {
+                    <tr>
+                        <td colspan="5">
+                            <p class="empty-state">{{ 'shift.doctor.no-history' | translate }}</p>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </article>
+</section>

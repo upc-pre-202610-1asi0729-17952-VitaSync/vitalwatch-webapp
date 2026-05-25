@@ -828,5 +828,67 @@
       "sensorStatus": "CONNECTED",
       "recordedAt": "2026-05-15T08:00:00.000Z"
     }
+  ],
+  "shiftRecords": [
+    {
+      "id": 1,
+      "organizationId": 1,
+      "userId": 5,
+      "workAreaId": 1,
+      "type": "DAY",
+      "status": "COMPLETED",
+      "scheduledStart": "2026-05-22T07:00:00.000Z",
+      "scheduledEnd": "2026-05-22T19:00:00.000Z",
+      "checkInAt": "2026-05-22T06:55:00.000Z",
+      "checkOutAt": "2026-05-22T19:10:00.000Z"
+    },
+    {
+      "id": 2,
+      "organizationId": 1,
+      "userId": 5,
+      "workAreaId": 1,
+      "type": "NIGHT",
+      "status": "COMPLETED",
+      "scheduledStart": "2026-05-23T19:00:00.000Z",
+      "scheduledEnd": "2026-05-24T07:00:00.000Z",
+      "checkInAt": "2026-05-23T18:50:00.000Z",
+      "checkOutAt": "2026-05-24T07:15:00.000Z"
+    },
+    {
+      "id": 3,
+      "organizationId": 1,
+      "userId": 5,
+      "workAreaId": 1,
+      "type": "DAY",
+      "status": "IN_PROGRESS",
+      "scheduledStart": "2026-05-25T07:00:00.000Z",
+      "scheduledEnd": "2026-05-25T19:00:00.000Z",
+      "checkInAt": "2026-05-25T06:58:00.000Z",
+      "checkOutAt": null
+    },
+    {
+      "id": 4,
+      "organizationId": 1,
+      "userId": 5,
+      "workAreaId": 1,
+      "type": "DAY",
+      "status": "SCHEDULED",
+      "scheduledStart": "2026-05-26T07:00:00.000Z",
+      "scheduledEnd": "2026-05-26T19:00:00.000Z",
+      "checkInAt": null,
+      "checkOutAt": null
+    },
+    {
+      "id": 5,
+      "organizationId": 1,
+      "userId": 5,
+      "workAreaId": 2,
+      "type": "NIGHT",
+      "status": "SCHEDULED",
+      "scheduledStart": "2026-05-28T19:00:00.000Z",
+      "scheduledEnd": "2026-05-29T07:00:00.000Z",
+      "checkInAt": null,
+      "checkOutAt": null
+    }
   ]
 }

@@ -189,10 +189,9 @@ export const routes: Routes = [
       },
       {
         path: 'shifts',
-        loadComponent: pagePlaceholder,
-        data: {
-          title: 'navigation.my-shifts'
-        }
+        loadComponent: () =>
+          import('./shift-coordination/presentation/views/doctor-shifts/doctor-shifts')
+            .then(m => m.DoctorShifts)
       },
       {
         path: 'recovery',

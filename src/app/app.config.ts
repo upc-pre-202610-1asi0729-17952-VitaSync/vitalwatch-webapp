@@ -33,7 +33,9 @@ import {
   heroTrash,
   heroNoSymbol,
   heroUserGroup,
-  heroPlus
+  heroPlus,
+  heroPlayCircle,
+  heroStopCircle
 } from '@ng-icons/heroicons/outline';
 
 import { routes } from './app.routes';
@@ -78,7 +80,9 @@ export const appConfig: ApplicationConfig = {
       heroTrash,
       heroNoSymbol,
       heroUserGroup,
-      heroPlus
+      heroPlus,
+      heroPlayCircle,
+      heroStopCircle
     }),
     provideRouter(routes)
   ]
