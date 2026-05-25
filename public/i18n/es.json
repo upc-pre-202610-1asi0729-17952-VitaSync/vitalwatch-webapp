@@ -359,6 +359,34 @@
         "no-session": "No se encontró una sesión activa.",
         "load-failed": "No se pudo cargar tu estado de salud."
       }
+    },
+    "admin": {
+      "title": "Resumen General",
+      "subtitle-before": "Vista global del",
+      "subtitle-highlight": "centro médico",
+      "subtitle-after": "y su operación preventiva.",
+      "average-fatigue-title": "Fatiga promedio institucional",
+      "average-fatigue-subtitle": "Promedio calculado con las evaluaciones activas del personal médico.",
+      "average": "Promedio",
+      "active-alerts": "Alertas clínicas activas",
+      "staff-at-risk-title": "Personal en riesgo",
+      "staff-at-risk-subtitle": "Usuarios con fatiga alta o crítica.",
+      "teams-title": "Equipos activos",
+      "teams-subtitle": "Grupos clínicos operativos y supervisores asignados.",
+      "supervisor": "Supervisor",
+      "members": "Miembros",
+      "no-staff-at-risk": "No hay personal en riesgo alto o crítico.",
+      "no-active-teams": "No hay equipos activos.",
+      "metrics": {
+        "active-staff": "Personal activo",
+        "supervisors": "Supervisores activos",
+        "active-teams": "Equipos activos",
+        "high-risk": "Personal en riesgo"
+      },
+      "error": {
+        "no-session": "No se encontró una sesión activa.",
+        "load-failed": "No se pudo cargar el dashboard del administrador."
+      }
     }
   }
 }

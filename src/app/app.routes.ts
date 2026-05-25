@@ -48,9 +48,10 @@ export const routes: Routes = [
     },
     children: [
       {
-        path: '',
-        redirectTo: 'dashboard',
-        pathMatch: 'full'
+        path: 'dashboard',
+        loadComponent: () =>
+          import('./clinical-risk-assessment/presentation/views/admin-dashboard/admin-dashboard')
+            .then(m => m.AdminDashboard)
       },
       {
         path: 'dashboard',

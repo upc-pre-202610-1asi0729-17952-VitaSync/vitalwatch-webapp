@@ -356,6 +356,34 @@
         "no-session": "No active session was found.",
         "load-failed": "Your health status could not be loaded."
       }
+    },
+    "admin": {
+      "title": "General Summary",
+      "subtitle-before": "Global view of the",
+      "subtitle-highlight": "medical center",
+      "subtitle-after": "and its preventive operation.",
+      "average-fatigue-title": "Institutional average fatigue",
+      "average-fatigue-subtitle": "Average calculated from active medical staff assessments.",
+      "average": "Average",
+      "active-alerts": "Active clinical alerts",
+      "staff-at-risk-title": "Staff at risk",
+      "staff-at-risk-subtitle": "Users with high or critical fatigue.",
+      "teams-title": "Active teams",
+      "teams-subtitle": "Operational clinical groups and assigned supervisors.",
+      "supervisor": "Supervisor",
+      "members": "Members",
+      "no-staff-at-risk": "There is no staff at high or critical risk.",
+      "no-active-teams": "There are no active teams.",
+      "metrics": {
+        "active-staff": "Active staff",
+        "supervisors": "Active supervisors",
+        "active-teams": "Active teams",
+        "high-risk": "Staff at risk"
+      },
+      "error": {
+        "no-session": "No active session was found.",
+        "load-failed": "Administrator dashboard could not be loaded."
+      }
     }
   }
 }

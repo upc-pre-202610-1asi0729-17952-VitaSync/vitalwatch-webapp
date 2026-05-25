@@ -1,0 +1,149 @@
+<section class="page-header">
+    <h1>{{ 'clinical.admin.title' | translate }}</h1>
+    <p>
+        {{ 'clinical.admin.subtitle-before' | translate }}
+        <strong>{{ 'clinical.admin.subtitle-highlight' | translate }}</strong>
+        {{ 'clinical.admin.subtitle-after' | translate }}
+    </p>
+</section>
+
+@if (errorMessage()) {
+<small class="form-error">{{ errorMessage()! | translate }}</small>
+}
+
+<section class="metrics-grid">
+    <article class="metric-card">
+        <div class="metric-icon blue">
+            <ng-icon name="heroUsers" />
+        </div>
+        <p>{{ 'clinical.admin.metrics.active-staff' | translate }}</p>
+        <h2>{{ activeUsers().length }}</h2>
+    </article>
+
+    <article class="metric-card">
+        <div class="metric-icon purple">
+            <ng-icon name="heroShieldCheck" />
+        </div>
+        <p>{{ 'clinical.admin.metrics.supervisors' | translate }}</p>
+        <h2 class="purple-text">{{ activeSupervisors().length }}</h2>
+    </article>
+
+    <article class="metric-card">
+        <div class="metric-icon cyan">
+            <ng-icon name="heroUserGroup" />
+        </div>
+        <p>{{ 'clinical.admin.metrics.active-teams' | translate }}</p>
+        <h2 class="cyan-text">{{ activeTeams().length }}</h2>
+    </article>
+
+    <article class="metric-card">
+        <div class="metric-icon danger">
+            <ng-icon name="heroExclamationTriangle" />
+        </div>
+        <p>{{ 'clinical.admin.metrics.high-risk' | translate }}</p>
+        <h2 class="danger-text">{{ staffAtRisk().length }}</h2>
+    </article>
+</section>
+
+<section class="summary-grid">
+    <article class="summary-card fatigue-card">
+        <div>
+            <h2>{{ 'clinical.admin.average-fatigue-title' | translate }}</h2>
+            <p>{{ 'clinical.admin.average-fatigue-subtitle' | translate }}</p>
+        </div>
+
+        <div class="fatigue-value">
+            <strong>{{ averageFatigue() }}%</strong>
+            <span>{{ 'clinical.admin.average' | translate }}</span>
+        </div>
+
+        <div class="progress-track">
+            <div class="progress-fill" [style.width.%]="averageFatigue()"></div>
+        </div>
+    </article>
+
+    <article class="summary-card alert-card">
+        <div class="metric-icon warning">
+            <ng-icon name="heroBell" />
+        </div>
+
+        <h2>{{ activeAlerts().length }}</h2>
+        <p>{{ 'clinical.admin.active-alerts' | translate }}</p>
+    </article>
+</section>
+
+<section class="content-grid">
+    <article class="content-card">
+        <div class="section-header">
+            <div>
+                <h2>{{ 'clinical.admin.staff-at-risk-title' | translate }}</h2>
+                <p>{{ 'clinical.admin.staff-at-risk-subtitle' | translate }}</p>
+            </div>
+        </div>
+
+        <div class="risk-list">
+            @for (risk of staffAtRisk(); track risk.id) {
+            @let user = getUserById(risk.userId);
+
+            @if (user) {
+            <div class="risk-item">
+                <div class="staff-profile">
+                    <div class="avatar">
+                        {{ user.initials }}
+                    </div>
+
+                    <div>
+                        <strong>{{ user.fullName }}</strong>
+                        <span>{{ user.email }}</span>
+                    </div>
+                </div>
+
+                <div class="risk-data">
+                    <span class="risk-pill" [class]="getRiskClass(risk.riskLevel)">
+                        {{ getRiskLabel(risk.riskLevel) | translate }}
+                    </span>
+
+                    <strong>{{ risk.fatigueLevel }}%</strong>
+                </div>
+            </div>
+            }
+            } @empty {
+            <p class="empty-state">
+                {{ 'clinical.admin.no-staff-at-risk' | translate }}
+            </p>
+            }
+        </div>
+    </article>
+
+    <article class="content-card">
+        <div class="section-header">
+            <div>
+                <h2>{{ 'clinical.admin.teams-title' | translate }}</h2>
+                <p>{{ 'clinical.admin.teams-subtitle' | translate }}</p>
+            </div>
+        </div>
+
+        <div class="teams-list">
+            @for (team of activeTeams(); track team.id) {
+            <div class="team-item">
+                <div>
+                    <strong>{{ team.name }}</strong>
+                    <span>
+                        {{ 'clinical.admin.supervisor' | translate }}:
+                        {{ getSupervisorName(team.supervisorId) }}
+                    </span>
+                </div>
+
+                <div class="team-count">
+                    <strong>{{ getTeamMemberCount(team.id) }}</strong>
+                    <span>{{ 'clinical.admin.members' | translate }}</span>
+                </div>
+            </div>
+            } @empty {
+            <p class="empty-state">
+                {{ 'clinical.admin.no-active-teams' | translate }}
+            </p>
+            }
+        </div>
+    </article>
+</section>
