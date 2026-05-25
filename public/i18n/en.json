@@ -444,5 +444,57 @@
         "load-failed": "At-risk staff could not be loaded."
       }
     }
+  },
+  "staffRecovery": {
+    "actions": {
+      "title": "Preventive Actions",
+      "subtitle-before": "Register and manage",
+      "subtitle-highlight": "recovery actions",
+      "subtitle-after": "for staff under your supervision.",
+      "new-title": "New preventive action",
+      "new-subtitle": "Select a team member and register a suggested action.",
+      "staff": "Medical staff",
+      "select-staff": "Select staff",
+      "type": "Action type",
+      "notes": "Notes",
+      "notes-placeholder": "Describe the preventive action or follow-up performed...",
+      "create": "Create action",
+      "creating": "Creating...",
+      "search-placeholder": "Search by staff, email, type or note...",
+      "created-at": "Created",
+      "completed-at": "Completed",
+      "complete": "Complete",
+      "cancel": "Cancel",
+      "closed": "Action closed",
+      "empty-title": "No preventive actions",
+      "empty-subtitle": "Create an action to follow up on at-risk staff.",
+      "metrics": {
+        "total": "Total actions",
+        "pending": "Pending",
+        "completed": "Completed",
+        "cancelled": "Cancelled"
+      },
+      "filters": {
+        "all": "All statuses"
+      },
+      "types": {
+        "recovery-break": "Recovery break",
+        "shift-adjustment": "Activity adjustment",
+        "supervisor-check-in": "Supervisor check-in",
+        "medical-evaluation": "Medical evaluation"
+      },
+      "status": {
+        "pending": "Pending",
+        "completed": "Completed",
+        "cancelled": "Cancelled"
+      },
+      "error": {
+        "no-session": "No active session was found.",
+        "load-failed": "Preventive actions could not be loaded.",
+        "create-failed": "Preventive action could not be created.",
+        "update-failed": "Preventive action could not be updated.",
+        "notes-required": "Notes are required."
+      }
+    }
   }
 }

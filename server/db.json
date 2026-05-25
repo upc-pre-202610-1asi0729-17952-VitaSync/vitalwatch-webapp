@@ -553,5 +553,40 @@
       "status": "COMPLETED",
       "createdAt": "2026-05-23T05:46:33.063Z"
     }
+  ],
+  "preventiveActions": [
+    {
+      "id": 1,
+      "organizationId": 1,
+      "supervisorId": 2,
+      "userId": 9,
+      "type": "RECOVERY_BREAK",
+      "status": "COMPLETED",
+      "notes": "Se indicó pausa preventiva de 15 minutos por fatiga elevada.",
+      "createdAt": "2026-05-24T12:35:00.000Z",
+      "completedAt": "2026-05-24T12:55:00.000Z"
+    },
+    {
+      "id": 2,
+      "organizationId": 1,
+      "supervisorId": 2,
+      "userId": 13,
+      "type": "SUPERVISOR_CHECK_IN",
+      "status": "COMPLETED",
+      "notes": "Revisar estado del personal durante la siguiente hora.",
+      "createdAt": "2026-05-24T12:40:00.000Z",
+      "completedAt": "2026-05-25T05:09:54.747Z"
+    },
+    {
+      "organizationId": 1,
+      "supervisorId": 2,
+      "userId": 13,
+      "type": "MEDICAL_EVALUATION",
+      "notes": "Reprogramación de horario laboral.",
+      "status": "PENDING",
+      "createdAt": "2026-05-25T05:09:49.728Z",
+      "completedAt": null,
+      "id": 3
+    }
   ]
 }

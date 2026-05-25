@@ -447,5 +447,57 @@
         "load-failed": "No se pudo cargar el personal en riesgo."
       }
     }
+  },
+  "staffRecovery": {
+    "actions": {
+      "title": "Acciones Preventivas",
+      "subtitle-before": "Registra y gestiona",
+      "subtitle-highlight": "acciones de recuperación",
+      "subtitle-after": "para el personal bajo tu supervisión.",
+      "new-title": "Nueva acción preventiva",
+      "new-subtitle": "Selecciona un miembro del equipo y registra una acción sugerida.",
+      "staff": "Personal médico",
+      "select-staff": "Selecciona personal",
+      "type": "Tipo de acción",
+      "notes": "Notas",
+      "notes-placeholder": "Describe la acción preventiva o seguimiento realizado...",
+      "create": "Crear acción",
+      "creating": "Creando...",
+      "search-placeholder": "Buscar por personal, correo, tipo o nota...",
+      "created-at": "Creada",
+      "completed-at": "Completada",
+      "complete": "Completar",
+      "cancel": "Cancelar",
+      "closed": "Acción cerrada",
+      "empty-title": "No hay acciones preventivas",
+      "empty-subtitle": "Crea una acción para dar seguimiento al personal en riesgo.",
+      "metrics": {
+        "total": "Total de acciones",
+        "pending": "Pendientes",
+        "completed": "Completadas",
+        "cancelled": "Canceladas"
+      },
+      "filters": {
+        "all": "Todos los estados"
+      },
+      "types": {
+        "recovery-break": "Pausa preventiva",
+        "shift-adjustment": "Ajuste de actividad",
+        "supervisor-check-in": "Seguimiento del supervisor",
+        "medical-evaluation": "Evaluación médica"
+      },
+      "status": {
+        "pending": "Pendiente",
+        "completed": "Completada",
+        "cancelled": "Cancelada"
+      },
+      "error": {
+        "no-session": "No se encontró una sesión activa.",
+        "load-failed": "No se pudieron cargar las acciones preventivas.",
+        "create-failed": "No se pudo crear la acción preventiva.",
+        "update-failed": "No se pudo actualizar la acción preventiva.",
+        "notes-required": "Las notas son obligatorias."
+      }
+    }
   }
 }

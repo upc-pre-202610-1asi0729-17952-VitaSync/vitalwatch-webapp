@@ -149,10 +149,9 @@ export const routes: Routes = [
       },
       {
         path: 'preventive-actions',
-        loadComponent: pagePlaceholder,
-        data: {
-          title: 'navigation.preventive-actions'
-        }
+        loadComponent: () =>
+          import('./staff-recovery/presentation/views/preventive-actions-management/preventive-actions-management')
+            .then(m => m.PreventiveActionsManagement)
       },
       {
         path: 'settings',

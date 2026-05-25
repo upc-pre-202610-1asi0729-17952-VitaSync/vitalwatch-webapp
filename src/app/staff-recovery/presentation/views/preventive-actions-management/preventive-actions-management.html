@@ -1,0 +1,194 @@
+<section class="page-header">
+    <h1>{{ 'staffRecovery.actions.title' | translate }}</h1>
+    <p>
+        {{ 'staffRecovery.actions.subtitle-before' | translate }}
+        <strong>{{ 'staffRecovery.actions.subtitle-highlight' | translate }}</strong>
+        {{ 'staffRecovery.actions.subtitle-after' | translate }}
+    </p>
+</section>
+
+<section class="metrics-grid">
+    <article class="metric-card">
+        <div class="metric-icon blue">
+            <ng-icon name="heroClipboardDocumentCheck" />
+        </div>
+        <p>{{ 'staffRecovery.actions.metrics.total' | translate }}</p>
+        <h2>{{ assignedActions().length }}</h2>
+    </article>
+
+    <article class="metric-card">
+        <div class="metric-icon warning">
+            <ng-icon name="heroClock" />
+        </div>
+        <p>{{ 'staffRecovery.actions.metrics.pending' | translate }}</p>
+        <h2 class="warning-text">{{ pendingActions() }}</h2>
+    </article>
+
+    <article class="metric-card">
+        <div class="metric-icon success">
+            <ng-icon name="heroCheckCircle" />
+        </div>
+        <p>{{ 'staffRecovery.actions.metrics.completed' | translate }}</p>
+        <h2 class="success-text">{{ completedActions() }}</h2>
+    </article>
+
+    <article class="metric-card">
+        <div class="metric-icon danger">
+            <ng-icon name="heroXCircle" />
+        </div>
+        <p>{{ 'staffRecovery.actions.metrics.cancelled' | translate }}</p>
+        <h2 class="danger-text">{{ cancelledActions() }}</h2>
+    </article>
+</section>
+
+<section class="content-grid">
+    <article class="content-card">
+        <h2>{{ 'staffRecovery.actions.new-title' | translate }}</h2>
+        <p>{{ 'staffRecovery.actions.new-subtitle' | translate }}</p>
+
+        @if (errorMessage()) {
+        <small class="form-error">{{ errorMessage()! | translate }}</small>
+        }
+
+        <form [formGroup]="form" (ngSubmit)="createAction()" class="action-form">
+            <div class="field">
+                <label for="userId">{{ 'staffRecovery.actions.staff' | translate }}</label>
+
+                <div class="select-control">
+                    <mat-select id="userId" formControlName="userId" panelClass="auth-select-panel">
+                        <mat-option [value]="0">
+                            {{ 'staffRecovery.actions.select-staff' | translate }}
+                        </mat-option>
+
+                        @for (doctor of assignedDoctors(); track doctor.id) {
+                        <mat-option [value]="doctor.id">
+                            {{ doctor.fullName }}
+                        </mat-option>
+                        }
+                    </mat-select>
+                </div>
+            </div>
+
+            <div class="field">
+                <label for="type">{{ 'staffRecovery.actions.type' | translate }}</label>
+
+                <div class="select-control">
+                    <mat-select id="type" formControlName="type" panelClass="auth-select-panel">
+                        @for (type of actionTypes; track type) {
+                        <mat-option [value]="type">
+                            {{ getActionTypeLabel(type) | translate }}
+                        </mat-option>
+                        }
+                    </mat-select>
+                </div>
+            </div>
+
+            <div class="field">
+                <label for="notes">{{ 'staffRecovery.actions.notes' | translate }}</label>
+
+                <textarea id="notes" formControlName="notes" rows="5"
+                    [placeholder]="'staffRecovery.actions.notes-placeholder' | translate">
+        </textarea>
+
+                @if (form.controls.notes.touched && form.controls.notes.hasError('required')) {
+                <small class="field-error">
+                    {{ 'staffRecovery.actions.error.notes-required' | translate }}
+                </small>
+                }
+            </div>
+
+            <button type="submit" class="primary-button" [disabled]="loading()">
+                <ng-icon name="heroPlus" />
+                <span>
+                    {{ loading() ? ('staffRecovery.actions.creating' | translate) : ('staffRecovery.actions.create' |
+                    translate) }}
+                </span>
+            </button>
+        </form>
+    </article>
+
+    <section class="actions-panel">
+        <section class="actions-toolbar">
+            <input type="text" [placeholder]="'staffRecovery.actions.search-placeholder' | translate"
+                (input)="updateSearchTerm($event)">
+
+            <div class="select-control">
+                <mat-select [value]="statusFilter()" panelClass="auth-select-panel"
+                    (selectionChange)="updateStatusFilter($event.value)">
+                    <mat-option value="ALL">{{ 'staffRecovery.actions.filters.all' | translate }}</mat-option>
+                    <mat-option value="PENDING">{{ 'staffRecovery.actions.status.pending' | translate }}</mat-option>
+                    <mat-option value="COMPLETED">{{ 'staffRecovery.actions.status.completed' | translate
+                        }}</mat-option>
+                    <mat-option value="CANCELLED">{{ 'staffRecovery.actions.status.cancelled' | translate
+                        }}</mat-option>
+                </mat-select>
+            </div>
+        </section>
+
+        <section class="actions-list">
+            @for (action of filteredActions(); track action.id) {
+            @let user = getUserById(action.userId);
+
+            <article class="action-card" [class]="action.status.toLowerCase()">
+                <div class="action-main">
+                    <div class="action-icon">
+                        <ng-icon name="heroHeart" />
+                    </div>
+
+                    <div class="action-content">
+                        <div class="action-header">
+                            <div>
+                                <h2>{{ getActionTypeLabel(action.type) | translate }}</h2>
+                                <p>{{ user?.fullName ?? '—' }}</p>
+                            </div>
+
+                            <span class="status-pill" [class]="action.status.toLowerCase()">
+                                {{ getStatusLabel(action.status) | translate }}
+                            </span>
+                        </div>
+
+                        <p class="action-notes">{{ action.notes }}</p>
+
+                        <div class="action-meta">
+                            <span>
+                                {{ 'staffRecovery.actions.created-at' | translate }}:
+                                {{ action.createdAt | date:'yyyy-MM-dd HH:mm' }}
+                            </span>
+
+                            @if (action.completedAt) {
+                            <span>
+                                {{ 'staffRecovery.actions.completed-at' | translate }}:
+                                {{ action.completedAt | date:'yyyy-MM-dd HH:mm' }}
+                            </span>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    @if (action.isPending) {
+                    <button type="button" class="action-button success" (click)="completeAction(action)">
+                        <ng-icon name="heroCheckCircle" />
+                        <span>{{ 'staffRecovery.actions.complete' | translate }}</span>
+                    </button>
+
+                    <button type="button" class="action-button danger" (click)="cancelAction(action)">
+                        <ng-icon name="heroXCircle" />
+                        <span>{{ 'staffRecovery.actions.cancel' | translate }}</span>
+                    </button>
+                    } @else {
+                    <span class="muted-text">
+                        {{ 'staffRecovery.actions.closed' | translate }}
+                    </span>
+                    }
+                </div>
+            </article>
+            } @empty {
+            <article class="empty-card">
+                <h2>{{ 'staffRecovery.actions.empty-title' | translate }}</h2>
+                <p>{{ 'staffRecovery.actions.empty-subtitle' | translate }}</p>
+            </article>
+            }
+        </section>
+    </section>
+</section>
