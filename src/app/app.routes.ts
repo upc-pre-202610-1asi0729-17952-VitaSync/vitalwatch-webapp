@@ -130,10 +130,9 @@ export const routes: Routes = [
       },
       {
         path: 'risk-staff',
-        loadComponent: pagePlaceholder,
-        data: {
-          title: 'navigation.risk-staff'
-        }
+        loadComponent: () =>
+          import('./clinical-risk-assessment/presentation/views/supervisor-risk-staff/supervisor-risk-staff')
+            .then(m => m.SupervisorRiskStaff)
       },
       {
         path: 'clinical-alerts',

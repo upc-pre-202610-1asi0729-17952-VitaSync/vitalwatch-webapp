@@ -419,6 +419,33 @@
         "load-failed": "No se pudieron cargar las alertas clínicas.",
         "resolve-failed": "No se pudo resolver la alerta."
       }
+    },
+    "riskStaff": {
+      "title": "Personal en Riesgo",
+      "subtitle-before": "Monitorea al personal con",
+      "subtitle-highlight": "fatiga moderada, alta o crítica",
+      "subtitle-after": "dentro de tus equipos asignados.",
+      "search-placeholder": "Buscar por nombre, correo o equipo...",
+      "team": "Equipo",
+      "fatigue": "Fatiga",
+      "heart-rate": "Frecuencia cardíaca",
+      "hrv": "HRV",
+      "active-alerts": "Alertas activas",
+      "last-reading": "Última lectura",
+      "empty": "No hay personal en riesgo dentro de tus equipos asignados.",
+      "metrics": {
+        "total": "Personal en riesgo",
+        "moderate": "Riesgo moderado",
+        "high": "Riesgo alto",
+        "critical": "Riesgo crítico"
+      },
+      "filters": {
+        "all": "Todos los riesgos"
+      },
+      "error": {
+        "no-session": "No se encontró una sesión activa.",
+        "load-failed": "No se pudo cargar el personal en riesgo."
+      }
     }
   }
 }

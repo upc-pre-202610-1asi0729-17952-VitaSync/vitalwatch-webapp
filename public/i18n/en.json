@@ -416,6 +416,33 @@
         "load-failed": "Clinical alerts could not be loaded.",
         "resolve-failed": "Alert could not be resolved."
       }
+    },
+    "riskStaff": {
+      "title": "At-Risk Staff",
+      "subtitle-before": "Monitor staff with",
+      "subtitle-highlight": "moderate, high or critical fatigue",
+      "subtitle-after": "within your assigned teams.",
+      "search-placeholder": "Search by name, email or team...",
+      "team": "Team",
+      "fatigue": "Fatigue",
+      "heart-rate": "Heart rate",
+      "hrv": "HRV",
+      "active-alerts": "Active alerts",
+      "last-reading": "Last reading",
+      "empty": "There is no at-risk staff within your assigned teams.",
+      "metrics": {
+        "total": "At-risk staff",
+        "moderate": "Moderate risk",
+        "high": "High risk",
+        "critical": "Critical risk"
+      },
+      "filters": {
+        "all": "All risks"
+      },
+      "error": {
+        "no-session": "No active session was found.",
+        "load-failed": "At-risk staff could not be loaded."
+      }
     }
   }
 }

@@ -1,0 +1,125 @@
+<section class="page-header">
+    <h1>{{ 'clinical.riskStaff.title' | translate }}</h1>
+    <p>
+        {{ 'clinical.riskStaff.subtitle-before' | translate }}
+        <strong>{{ 'clinical.riskStaff.subtitle-highlight' | translate }}</strong>
+        {{ 'clinical.riskStaff.subtitle-after' | translate }}
+    </p>
+</section>
+
+@if (errorMessage()) {
+<small class="form-error">{{ errorMessage()! | translate }}</small>
+}
+
+<section class="metrics-grid">
+    <article class="metric-card">
+        <div class="metric-icon blue">
+            <ng-icon name="heroUsers" />
+        </div>
+        <p>{{ 'clinical.riskStaff.metrics.total' | translate }}</p>
+        <h2>{{ riskStaff().length }}</h2>
+    </article>
+
+    <article class="metric-card">
+        <div class="metric-icon warning">
+            <ng-icon name="heroBell" />
+        </div>
+        <p>{{ 'clinical.riskStaff.metrics.moderate' | translate }}</p>
+        <h2 class="warning-text">{{ moderateCount() }}</h2>
+    </article>
+
+    <article class="metric-card">
+        <div class="metric-icon orange">
+            <ng-icon name="heroExclamationTriangle" />
+        </div>
+        <p>{{ 'clinical.riskStaff.metrics.high' | translate }}</p>
+        <h2 class="orange-text">{{ highCount() }}</h2>
+    </article>
+
+    <article class="metric-card">
+        <div class="metric-icon danger">
+            <ng-icon name="heroBolt" />
+        </div>
+        <p>{{ 'clinical.riskStaff.metrics.critical' | translate }}</p>
+        <h2 class="danger-text">{{ criticalCount() }}</h2>
+    </article>
+</section>
+
+<section class="content-card">
+    <div class="table-tools">
+        <input type="text" [placeholder]="'clinical.riskStaff.search-placeholder' | translate"
+            (input)="updateSearchTerm($event)">
+
+        <div class="filter-control">
+            <mat-select [value]="riskFilter()" panelClass="auth-select-panel"
+                (selectionChange)="updateRiskFilter($event.value)">
+                <mat-option value="ALL">{{ 'clinical.riskStaff.filters.all' | translate }}</mat-option>
+                <mat-option value="MODERATE">{{ 'clinical.risk.moderate' | translate }}</mat-option>
+                <mat-option value="HIGH">{{ 'clinical.risk.high' | translate }}</mat-option>
+                <mat-option value="CRITICAL">{{ 'clinical.risk.critical' | translate }}</mat-option>
+            </mat-select>
+        </div>
+    </div>
+
+    <section class="risk-staff-list">
+        @for (item of filteredRiskStaff(); track item.doctor.id) {
+        <article class="risk-staff-card" [class]="getRiskClass(item.risk.riskLevel)">
+            <div class="staff-main">
+                <div class="avatar">
+                    {{ item.doctor.initials }}
+                </div>
+
+                <div class="staff-info">
+                    <h2>{{ item.doctor.fullName }}</h2>
+                    <p>{{ item.doctor.email }}</p>
+
+                    <span class="team-badge">
+                        {{ 'clinical.riskStaff.team' | translate }}: {{ item.teamName }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="risk-panel">
+                <span class="risk-pill" [class]="getRiskClass(item.risk.riskLevel)">
+                    {{ getRiskLabel(item.risk.riskLevel) | translate }}
+                </span>
+
+                <strong>{{ item.risk.fatigueLevel }}%</strong>
+                <small>{{ 'clinical.riskStaff.fatigue' | translate }}</small>
+            </div>
+
+            <div class="vitals-grid">
+                <div class="vital-item">
+                    <span>{{ 'clinical.riskStaff.heart-rate' | translate }}</span>
+                    <strong>{{ item.risk.heartRate }} bpm</strong>
+                </div>
+
+                <div class="vital-item">
+                    <span>{{ 'clinical.riskStaff.hrv' | translate }}</span>
+                    <strong>{{ item.risk.hrv }} ms</strong>
+                </div>
+
+                <div class="vital-item">
+                    <span>{{ 'clinical.riskStaff.active-alerts' | translate }}</span>
+                    <strong>{{ item.activeAlerts }}</strong>
+                </div>
+
+                <div class="vital-item">
+                    <span>{{ 'clinical.riskStaff.last-reading' | translate }}</span>
+                    <strong>{{ item.risk.lastUpdatedAt | date:'HH:mm' }}</strong>
+                </div>
+            </div>
+
+            <div class="progress-track">
+                <div class="progress-fill" [class]="getRiskClass(item.risk.riskLevel)"
+                    [style.width.%]="item.risk.fatigueLevel">
+                </div>
+            </div>
+        </article>
+        } @empty {
+        <p class="empty-state">
+            {{ 'clinical.riskStaff.empty' | translate }}
+        </p>
+        }
+    </section>
+</section>
