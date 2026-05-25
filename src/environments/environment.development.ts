@@ -13,5 +13,6 @@ export const environment = {
     teamMembersEndpointPath: '/teamMembers',
     riskAssessmentsEndpointPath: '/riskAssessments',
     clinicalAlertsEndpointPath: '/clinicalAlerts',
-    preventiveActionsEndpointPath: '/preventiveActions'
+    preventiveActionsEndpointPath: '/preventiveActions',
+    vitalSignAnomaliesEndpointPath: '/vitalSignAnomalies'
 };

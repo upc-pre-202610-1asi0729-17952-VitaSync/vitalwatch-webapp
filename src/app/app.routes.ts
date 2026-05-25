@@ -142,10 +142,9 @@ export const routes: Routes = [
       },
       {
         path: 'anomalies',
-        loadComponent: pagePlaceholder,
-        data: {
-          title: 'navigation.anomalies'
-        }
+        loadComponent: () =>
+          import('./clinical-risk-assessment/presentation/views/supervisor-anomalies/supervisor-anomalies')
+            .then(m => m.SupervisorAnomalies)
       },
       {
         path: 'preventive-actions',

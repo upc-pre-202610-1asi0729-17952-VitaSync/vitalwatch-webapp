@@ -443,6 +443,49 @@
         "no-session": "No active session was found.",
         "load-failed": "At-risk staff could not be loaded."
       }
+    },
+    "anomalies": {
+      "title": "Anomalies",
+      "subtitle-before": "Review abnormal events detected in",
+      "subtitle-highlight": "vital signs and fatigue",
+      "subtitle-after": "from staff under your supervision.",
+      "search-placeholder": "Search by staff, email, type or message...",
+      "value": "Value",
+      "threshold": "Threshold",
+      "detected-at": "Time",
+      "detected-date": "Detected",
+      "reviewed-at": "Reviewed",
+      "mark-reviewed": "Mark reviewed",
+      "dismiss": "Dismiss",
+      "closed": "Anomaly closed",
+      "empty-title": "No anomalies",
+      "empty-subtitle": "No anomalies were found for the selected filters.",
+      "metrics": {
+        "open": "Open",
+        "critical": "Critical",
+        "reviewed": "Reviewed",
+        "total": "Total assigned"
+      },
+      "filters": {
+        "all-statuses": "All statuses",
+        "all-severities": "All severities"
+      },
+      "status": {
+        "open": "Open",
+        "reviewed": "Reviewed",
+        "dismissed": "Dismissed"
+      },
+      "types": {
+        "heart-rate-spike": "Heart rate spike",
+        "low-hrv": "Low HRV",
+        "fatigue-spike": "Fatigue spike",
+        "sensor-signal-loss": "Sensor signal loss"
+      },
+      "error": {
+        "no-session": "No active session was found.",
+        "load-failed": "Anomalies could not be loaded.",
+        "update-failed": "Anomaly could not be updated."
+      }
     }
   },
   "staffRecovery": {

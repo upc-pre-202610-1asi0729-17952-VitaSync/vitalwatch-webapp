@@ -1,0 +1,163 @@
+<section class="page-header">
+    <h1>{{ 'clinical.anomalies.title' | translate }}</h1>
+    <p>
+        {{ 'clinical.anomalies.subtitle-before' | translate }}
+        <strong>{{ 'clinical.anomalies.subtitle-highlight' | translate }}</strong>
+        {{ 'clinical.anomalies.subtitle-after' | translate }}
+    </p>
+</section>
+
+@if (errorMessage()) {
+<small class="form-error">{{ errorMessage()! | translate }}</small>
+}
+
+<section class="metrics-grid">
+    <article class="metric-card">
+        <div class="metric-icon warning">
+            <ng-icon name="heroBolt" />
+        </div>
+        <p>{{ 'clinical.anomalies.metrics.open' | translate }}</p>
+        <h2 class="warning-text">{{ openAnomalies().length }}</h2>
+    </article>
+
+    <article class="metric-card">
+        <div class="metric-icon danger">
+            <ng-icon name="heroExclamationTriangle" />
+        </div>
+        <p>{{ 'clinical.anomalies.metrics.critical' | translate }}</p>
+        <h2 class="danger-text">{{ criticalAnomalies().length }}</h2>
+    </article>
+
+    <article class="metric-card">
+        <div class="metric-icon success">
+            <ng-icon name="heroCheckCircle" />
+        </div>
+        <p>{{ 'clinical.anomalies.metrics.reviewed' | translate }}</p>
+        <h2 class="success-text">{{ reviewedAnomalies().length }}</h2>
+    </article>
+
+    <article class="metric-card">
+        <div class="metric-icon blue">
+            <ng-icon name="heroUsers" />
+        </div>
+        <p>{{ 'clinical.anomalies.metrics.total' | translate }}</p>
+        <h2>{{ assignedAnomalies().length }}</h2>
+    </article>
+</section>
+
+<section class="content-card">
+    <div class="table-tools">
+        <input type="text" [placeholder]="'clinical.anomalies.search-placeholder' | translate"
+            (input)="updateSearchTerm($event)">
+
+        <div class="filter-control">
+            <mat-select [value]="statusFilter()" panelClass="auth-select-panel"
+                (selectionChange)="updateStatusFilter($event.value)">
+                <mat-option value="ALL">{{ 'clinical.anomalies.filters.all-statuses' | translate }}</mat-option>
+                <mat-option value="OPEN">{{ 'clinical.anomalies.status.open' | translate }}</mat-option>
+                <mat-option value="REVIEWED">{{ 'clinical.anomalies.status.reviewed' | translate }}</mat-option>
+                <mat-option value="DISMISSED">{{ 'clinical.anomalies.status.dismissed' | translate }}</mat-option>
+            </mat-select>
+        </div>
+
+        <div class="filter-control">
+            <mat-select [value]="severityFilter()" panelClass="auth-select-panel"
+                (selectionChange)="updateSeverityFilter($event.value)">
+                <mat-option value="ALL">{{ 'clinical.anomalies.filters.all-severities' | translate }}</mat-option>
+                <mat-option value="LOW">{{ 'clinical.risk.low' | translate }}</mat-option>
+                <mat-option value="MODERATE">{{ 'clinical.risk.moderate' | translate }}</mat-option>
+                <mat-option value="HIGH">{{ 'clinical.risk.high' | translate }}</mat-option>
+                <mat-option value="CRITICAL">{{ 'clinical.risk.critical' | translate }}</mat-option>
+            </mat-select>
+        </div>
+    </div>
+
+    <section class="anomalies-list">
+        @for (anomaly of filteredAnomalies(); track anomaly.id) {
+        @let user = getUserById(anomaly.userId);
+
+        <article class="anomaly-card" [class]="getRiskClass(anomaly.severity)">
+            <div class="anomaly-main">
+                <div class="anomaly-icon">
+                    <ng-icon name="heroBolt" />
+                </div>
+
+                <div class="anomaly-content">
+                    <div class="anomaly-header">
+                        <div>
+                            <h2>{{ getAnomalyTypeLabel(anomaly.type) | translate }}</h2>
+                            <p>{{ user?.fullName ?? '—' }} · {{ user?.email ?? '—' }}</p>
+                        </div>
+
+                        <div class="anomaly-badges">
+                            <span class="risk-pill" [class]="getRiskClass(anomaly.severity)">
+                                {{ getRiskLabel(anomaly.severity) | translate }}
+                            </span>
+
+                            <span class="status-pill" [class]="anomaly.status.toLowerCase()">
+                                {{ getStatusLabel(anomaly.status) | translate }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <p class="anomaly-message">{{ anomaly.message }}</p>
+
+                    <div class="anomaly-values">
+                        <div class="value-item">
+                            <span>{{ 'clinical.anomalies.value' | translate }}</span>
+                            <strong>{{ anomaly.value }}</strong>
+                        </div>
+
+                        <div class="value-item">
+                            <span>{{ 'clinical.anomalies.threshold' | translate }}</span>
+                            <strong>{{ anomaly.threshold }}</strong>
+                        </div>
+
+                        <div class="value-item">
+                            <span>{{ 'clinical.anomalies.detected-at' | translate }}</span>
+                            <strong>{{ anomaly.detectedAt | date:'HH:mm' }}</strong>
+                        </div>
+                    </div>
+
+                    <div class="anomaly-meta">
+                        <span>
+                            {{ 'clinical.anomalies.detected-date' | translate }}:
+                            {{ anomaly.detectedAt | date:'yyyy-MM-dd HH:mm' }}
+                        </span>
+
+                        @if (anomaly.reviewedAt) {
+                        <span>
+                            {{ 'clinical.anomalies.reviewed-at' | translate }}:
+                            {{ anomaly.reviewedAt | date:'yyyy-MM-dd HH:mm' }}
+                        </span>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="anomaly-actions">
+                @if (anomaly.isOpen) {
+                <button type="button" class="action-button success" (click)="markAsReviewed(anomaly)">
+                    <ng-icon name="heroCheckCircle" />
+                    <span>{{ 'clinical.anomalies.mark-reviewed' | translate }}</span>
+                </button>
+
+                <button type="button" class="action-button danger" (click)="dismissAnomaly(anomaly)">
+                    <ng-icon name="heroXCircle" />
+                    <span>{{ 'clinical.anomalies.dismiss' | translate }}</span>
+                </button>
+                } @else {
+                <span class="muted-text">
+                    {{ 'clinical.anomalies.closed' | translate }}
+                </span>
+                }
+            </div>
+        </article>
+        } @empty {
+        <article class="empty-card">
+            <h2>{{ 'clinical.anomalies.empty-title' | translate }}</h2>
+            <p>{{ 'clinical.anomalies.empty-subtitle' | translate }}</p>
+        </article>
+        }
+    </section>
+</section>

@@ -588,5 +588,49 @@
       "completedAt": null,
       "id": 3
     }
+  ],
+  "vitalSignAnomalies": [
+    {
+      "id": 1,
+      "organizationId": 1,
+      "userId": 9,
+      "type": "HEART_RATE_SPIKE",
+      "severity": "HIGH",
+      "status": "REVIEWED",
+      "value": 118,
+      "threshold": 100,
+      "message": "Frecuencia cardíaca elevada durante el turno.",
+      "detectedAt": "2026-05-24T13:05:00.000Z",
+      "reviewedAt": "2026-05-25T05:18:29.170Z",
+      "reviewedBy": 2
+    },
+    {
+      "id": 2,
+      "organizationId": 1,
+      "userId": 13,
+      "type": "LOW_HRV",
+      "severity": "HIGH",
+      "status": "OPEN",
+      "value": 22,
+      "threshold": 30,
+      "message": "Variabilidad cardíaca por debajo del umbral esperado.",
+      "detectedAt": "2026-05-24T13:10:00.000Z",
+      "reviewedAt": null,
+      "reviewedBy": null
+    },
+    {
+      "id": 3,
+      "organizationId": 1,
+      "userId": 10,
+      "type": "FATIGUE_SPIKE",
+      "severity": "MODERATE",
+      "status": "REVIEWED",
+      "value": 64,
+      "threshold": 55,
+      "message": "Incremento de fatiga detectado en lectura reciente.",
+      "detectedAt": "2026-05-24T12:50:00.000Z",
+      "reviewedAt": "2026-05-24T13:00:00.000Z",
+      "reviewedBy": 2
+    }
   ]
 }

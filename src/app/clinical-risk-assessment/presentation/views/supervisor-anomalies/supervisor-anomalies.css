@@ -1,0 +1,438 @@
+.page-header {
+    margin-bottom: 28px;
+}
+
+.page-header h1 {
+    margin: 0;
+    color: #0b1b2b;
+    font-size: 2rem;
+    font-weight: 900;
+    letter-spacing: -0.04em;
+}
+
+.page-header p {
+    margin: 10px 0 0;
+    color: #8b9abb;
+    font-size: 1rem;
+}
+
+.page-header strong {
+    color: #11c7c7;
+}
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.metric-card,
+.content-card,
+.anomaly-card,
+.empty-card {
+    background: #ffffff;
+    border: 1px solid #dbe3ef;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+.metric-card {
+    min-height: 132px;
+    padding: 22px;
+    border-radius: 16px;
+}
+
+.metric-icon {
+    width: 42px;
+    height: 42px;
+    margin-bottom: 18px;
+    display: grid;
+    place-items: center;
+    border-radius: 14px;
+}
+
+.metric-icon ng-icon {
+    font-size: 1.35rem;
+}
+
+.metric-icon.warning {
+    color: #f59e0b;
+    background: rgba(245, 158, 11, 0.12);
+}
+
+.metric-icon.danger {
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.12);
+}
+
+.metric-icon.success {
+    color: #10b981;
+    background: rgba(16, 185, 129, 0.12);
+}
+
+.metric-icon.blue {
+    color: #2563eb;
+    background: rgba(37, 99, 235, 0.12);
+}
+
+.metric-card p {
+    margin: 0;
+    color: #8b9abb;
+    font-size: 0.95rem;
+}
+
+.metric-card h2 {
+    margin: 10px 0 0;
+    color: #0b1b2b;
+    font-size: 2rem;
+    font-weight: 900;
+}
+
+.warning-text {
+    color: #f59e0b !important;
+}
+
+.danger-text {
+    color: #ef4444 !important;
+}
+
+.success-text {
+    color: #10b981 !important;
+}
+
+.content-card {
+    min-width: 0;
+    padding: 24px;
+    border-radius: 16px;
+}
+
+.table-tools {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 190px 190px;
+    gap: 14px;
+    margin-bottom: 22px;
+}
+
+.table-tools input {
+    min-height: 52px;
+    padding: 0 16px;
+    border: 1px solid #d7e0ec;
+    border-radius: 12px;
+    outline: 0;
+    color: #0b1b2b;
+    font: inherit;
+    background: #ffffff;
+}
+
+.table-tools input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+}
+
+.table-tools input::placeholder {
+    color: #b8c6d8;
+}
+
+.filter-control {
+    min-height: 52px;
+    display: flex;
+    align-items: center;
+    padding: 0 14px;
+    border: 1px solid #d7e0ec;
+    border-radius: 12px;
+    background: #ffffff;
+}
+
+.filter-control mat-select {
+    width: 100%;
+}
+
+.anomalies-list {
+    display: grid;
+    gap: 14px;
+}
+
+.anomaly-card {
+    padding: 18px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 16px;
+    border-radius: 18px;
+}
+
+.anomaly-card.low {
+    border-color: rgba(16, 185, 129, 0.25);
+    background: rgba(16, 185, 129, 0.04);
+}
+
+.anomaly-card.moderate {
+    border-color: rgba(245, 158, 11, 0.28);
+    background: rgba(245, 158, 11, 0.06);
+}
+
+.anomaly-card.high {
+    border-color: rgba(249, 115, 22, 0.28);
+    background: rgba(249, 115, 22, 0.06);
+}
+
+.anomaly-card.critical {
+    border-color: rgba(239, 68, 68, 0.28);
+    background: rgba(239, 68, 68, 0.06);
+}
+
+.anomaly-main {
+    min-width: 0;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 14px;
+}
+
+.anomaly-icon {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border-radius: 14px;
+    color: #f59e0b;
+    background: rgba(245, 158, 11, 0.12);
+}
+
+.anomaly-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    align-items: flex-start;
+}
+
+.anomaly-header h2 {
+    margin: 0;
+    color: #0b1b2b;
+    font-size: 1.05rem;
+    font-weight: 900;
+}
+
+.anomaly-header p {
+    margin: 4px 0 0;
+    color: #667085;
+    font-size: 0.86rem;
+}
+
+.anomaly-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+.risk-pill,
+.status-pill {
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 0.76rem;
+    font-weight: 900;
+}
+
+.risk-pill.low {
+    color: #10b981;
+    background: rgba(16, 185, 129, 0.12);
+}
+
+.risk-pill.moderate {
+    color: #f59e0b;
+    background: rgba(245, 158, 11, 0.12);
+}
+
+.risk-pill.high {
+    color: #f97316;
+    background: rgba(249, 115, 22, 0.12);
+}
+
+.risk-pill.critical {
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.12);
+}
+
+.status-pill.open {
+    color: #f59e0b;
+    background: rgba(245, 158, 11, 0.12);
+}
+
+.status-pill.reviewed {
+    color: #10b981;
+    background: rgba(16, 185, 129, 0.12);
+}
+
+.status-pill.dismissed {
+    color: #64748b;
+    background: rgba(100, 116, 139, 0.12);
+}
+
+.anomaly-message {
+    margin: 14px 0;
+    color: #334155;
+    line-height: 1.55;
+}
+
+.anomaly-values {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.value-item {
+    padding: 12px;
+    border-radius: 14px;
+    background: #ffffff;
+    border: 1px solid rgba(219, 227, 239, 0.9);
+}
+
+.value-item span {
+    display: block;
+    color: #8b9abb;
+    font-size: 0.78rem;
+    font-weight: 800;
+}
+
+.value-item strong {
+    display: block;
+    margin-top: 6px;
+    color: #0b1b2b;
+    font-weight: 900;
+}
+
+.anomaly-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    color: #667085;
+    font-size: 0.82rem;
+}
+
+.anomaly-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.action-button {
+    min-height: 38px;
+    padding: 0 12px;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    font: inherit;
+    font-size: 0.82rem;
+    font-weight: 900;
+    cursor: pointer;
+    transition: background 180ms ease, border-color 180ms ease, transform 180ms ease;
+}
+
+.action-button:hover {
+    transform: translateY(-1px);
+}
+
+.action-button.success {
+    color: #10b981;
+    border-color: rgba(16, 185, 129, 0.25);
+    background: rgba(16, 185, 129, 0.08);
+}
+
+.action-button.success:hover {
+    background: rgba(16, 185, 129, 0.14);
+}
+
+.action-button.danger {
+    color: #ef4444;
+    border-color: rgba(239, 68, 68, 0.25);
+    background: rgba(239, 68, 68, 0.08);
+}
+
+.action-button.danger:hover {
+    background: rgba(239, 68, 68, 0.14);
+}
+
+.form-error {
+    display: block;
+    margin-bottom: 16px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.1);
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.muted-text {
+    color: #8b9abb;
+    font-weight: 800;
+}
+
+.empty-card {
+    padding: 32px;
+    border-radius: 16px;
+    text-align: center;
+}
+
+.empty-card h2 {
+    margin: 0;
+    color: #0b1b2b;
+    font-size: 1.25rem;
+    font-weight: 900;
+}
+
+.empty-card p {
+    margin: 8px 0 0;
+    color: #8b9abb;
+}
+
+@media (max-width: 1100px) {
+    .metrics-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .table-tools {
+        grid-template-columns: 1fr;
+    }
+
+    .anomaly-card {
+        grid-template-columns: 1fr;
+    }
+
+    .anomaly-actions {
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 760px) {
+    .anomaly-header {
+        flex-direction: column;
+    }
+
+    .anomaly-badges {
+        justify-content: flex-start;
+    }
+
+    .anomaly-values {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 560px) {
+    .page-header h1 {
+        font-size: 1.6rem;
+    }
+
+    .metrics-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .content-card,
+    .empty-card {
+        padding: 20px;
+    }
+}

@@ -446,6 +446,49 @@
         "no-session": "No se encontró una sesión activa.",
         "load-failed": "No se pudo cargar el personal en riesgo."
       }
+    },
+    "anomalies": {
+      "title": "Anomalías",
+      "subtitle-before": "Revisa eventos anómalos detectados en",
+      "subtitle-highlight": "signos vitales y fatiga",
+      "subtitle-after": "del personal bajo tu supervisión.",
+      "search-placeholder": "Buscar por personal, correo, tipo o mensaje...",
+      "value": "Valor",
+      "threshold": "Umbral",
+      "detected-at": "Hora",
+      "detected-date": "Detectada",
+      "reviewed-at": "Revisada",
+      "mark-reviewed": "Marcar revisada",
+      "dismiss": "Descartar",
+      "closed": "Anomalía cerrada",
+      "empty-title": "No hay anomalías",
+      "empty-subtitle": "No se encontraron anomalías para los filtros seleccionados.",
+      "metrics": {
+        "open": "Abiertas",
+        "critical": "Críticas",
+        "reviewed": "Revisadas",
+        "total": "Total asignadas"
+      },
+      "filters": {
+        "all-statuses": "Todos los estados",
+        "all-severities": "Todas las severidades"
+      },
+      "status": {
+        "open": "Abierta",
+        "reviewed": "Revisada",
+        "dismissed": "Descartada"
+      },
+      "types": {
+        "heart-rate-spike": "Pico de frecuencia cardíaca",
+        "low-hrv": "HRV bajo",
+        "fatigue-spike": "Incremento brusco de fatiga",
+        "sensor-signal-loss": "Pérdida de señal del sensor"
+      },
+      "error": {
+        "no-session": "No se encontró una sesión activa.",
+        "load-failed": "No se pudieron cargar las anomalías.",
+        "update-failed": "No se pudo actualizar la anomalía."
+      }
     }
   },
   "staffRecovery": {
