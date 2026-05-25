@@ -384,6 +384,38 @@
         "no-session": "No active session was found.",
         "load-failed": "Administrator dashboard could not be loaded."
       }
+    },
+    "alerts": {
+      "title": "Clinical Alerts",
+      "subtitle-before": "Manage active alerts from the",
+      "subtitle-highlight": "staff under your supervision",
+      "subtitle-after": "and record preventive actions.",
+      "search-placeholder": "Search by staff, email or message...",
+      "created-at": "Created",
+      "resolved-at": "Resolved",
+      "fatigue": "Fatigue",
+      "resolve": "Mark as resolved",
+      "already-resolved": "Alert resolved",
+      "empty": "There are no alerts to display.",
+      "metrics": {
+        "active": "Active alerts",
+        "high-priority": "High priority",
+        "resolved": "Resolved",
+        "total": "Total assigned"
+      },
+      "filters": {
+        "all-statuses": "All statuses",
+        "all-severities": "All severities"
+      },
+      "status": {
+        "active": "Active",
+        "resolved": "Resolved"
+      },
+      "error": {
+        "no-session": "No active session was found.",
+        "load-failed": "Clinical alerts could not be loaded.",
+        "resolve-failed": "Alert could not be resolved."
+      }
     }
   }
 }

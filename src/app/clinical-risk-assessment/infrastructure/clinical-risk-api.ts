@@ -4,6 +4,7 @@ import { map, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { RiskAssessment, RiskLevel } from '../domain/model/risk-assessment.entity';
 import { ClinicalAlert, ClinicalAlertStatus } from '../domain/model/clinical-alert.entity';
+import { UpdateClinicalAlertStatusRequest } from './update-clinical-alert-status-request';
 
 interface RiskAssessmentResource {
   id: number;
@@ -24,6 +25,8 @@ interface ClinicalAlertResource {
   status: ClinicalAlertStatus;
   message: string;
   createdAt: string;
+  resolvedAt?: string;
+  resolvedBy?: number;
 }
 
 @Injectable({
@@ -51,6 +54,17 @@ export class ClinicalRiskApi {
       );
   }
 
+  updateClinicalAlertStatus(
+    alertId: number,
+    request: UpdateClinicalAlertStatusRequest
+  ): Observable<ClinicalAlert> {
+    return this.http
+      .patch<ClinicalAlertResource>(`${this.clinicalAlertsUrl}/${alertId}`, request)
+      .pipe(
+        map(resource => this.toClinicalAlert(resource))
+      );
+  }
+
   private toRiskAssessment(resource: RiskAssessmentResource): RiskAssessment {
     return new RiskAssessment({
       id: resource.id,
@@ -72,7 +86,9 @@ export class ClinicalRiskApi {
       severity: resource.severity,
       status: resource.status,
       message: resource.message,
-      createdAt: resource.createdAt
+      createdAt: resource.createdAt,
+      resolvedAt: resource.resolvedAt,
+      resolvedBy: resource.resolvedBy
     });
   }
 }

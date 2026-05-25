@@ -10,6 +10,8 @@ export class ClinicalAlert {
     private _status: ClinicalAlertStatus;
     private _message: string;
     private _createdAt: string;
+    private _resolvedAt?: string;
+    private _resolvedBy?: number;
 
     constructor(props: {
         id: number;
@@ -19,6 +21,8 @@ export class ClinicalAlert {
         status: ClinicalAlertStatus;
         message: string;
         createdAt: string;
+        resolvedAt?: string;
+        resolvedBy?: number;
     }) {
         this._id = props.id;
         this._organizationId = props.organizationId;
@@ -27,6 +31,8 @@ export class ClinicalAlert {
         this._status = props.status;
         this._message = props.message;
         this._createdAt = props.createdAt;
+        this._resolvedAt = props.resolvedAt;
+        this._resolvedBy = props.resolvedBy;
     }
 
     get id(): number { return this._id; }
@@ -36,6 +42,8 @@ export class ClinicalAlert {
     get status(): ClinicalAlertStatus { return this._status; }
     get message(): string { return this._message; }
     get createdAt(): string { return this._createdAt; }
+    get resolvedAt(): string | undefined { return this._resolvedAt; }
+    get resolvedBy(): number | undefined { return this._resolvedBy; }
 
     get isActive(): boolean {
         return this._status === 'ACTIVE';

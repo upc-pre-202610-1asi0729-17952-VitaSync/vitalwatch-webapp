@@ -1,0 +1,145 @@
+<section class="page-header">
+    <h1>{{ 'clinical.alerts.title' | translate }}</h1>
+    <p>
+        {{ 'clinical.alerts.subtitle-before' | translate }}
+        <strong>{{ 'clinical.alerts.subtitle-highlight' | translate }}</strong>
+        {{ 'clinical.alerts.subtitle-after' | translate }}
+    </p>
+</section>
+
+@if (errorMessage()) {
+<small class="form-error">{{ errorMessage()! | translate }}</small>
+}
+
+<section class="metrics-grid">
+    <article class="metric-card">
+        <div class="metric-icon warning">
+            <ng-icon name="heroBell" />
+        </div>
+        <p>{{ 'clinical.alerts.metrics.active' | translate }}</p>
+        <h2 class="warning-text">{{ activeAlerts().length }}</h2>
+    </article>
+
+    <article class="metric-card">
+        <div class="metric-icon danger">
+            <ng-icon name="heroExclamationTriangle" />
+        </div>
+        <p>{{ 'clinical.alerts.metrics.high-priority' | translate }}</p>
+        <h2 class="danger-text">{{ highPriorityAlerts().length }}</h2>
+    </article>
+
+    <article class="metric-card">
+        <div class="metric-icon success">
+            <ng-icon name="heroCheckCircle" />
+        </div>
+        <p>{{ 'clinical.alerts.metrics.resolved' | translate }}</p>
+        <h2 class="success-text">{{ resolvedAlerts().length }}</h2>
+    </article>
+
+    <article class="metric-card">
+        <div class="metric-icon blue">
+            <ng-icon name="heroUsers" />
+        </div>
+        <p>{{ 'clinical.alerts.metrics.total' | translate }}</p>
+        <h2>{{ assignedAlerts().length }}</h2>
+    </article>
+</section>
+
+<section class="content-card">
+    <div class="table-tools">
+        <input type="text" [placeholder]="'clinical.alerts.search-placeholder' | translate"
+            (input)="updateSearchTerm($event)">
+
+        <div class="filter-control">
+            <mat-select [value]="statusFilter()" panelClass="auth-select-panel"
+                (selectionChange)="updateStatusFilter($event.value)">
+                <mat-option value="ALL">{{ 'clinical.alerts.filters.all-statuses' | translate }}</mat-option>
+                <mat-option value="ACTIVE">{{ 'clinical.alerts.status.active' | translate }}</mat-option>
+                <mat-option value="RESOLVED">{{ 'clinical.alerts.status.resolved' | translate }}</mat-option>
+            </mat-select>
+        </div>
+
+        <div class="filter-control">
+            <mat-select [value]="severityFilter()" panelClass="auth-select-panel"
+                (selectionChange)="updateSeverityFilter($event.value)">
+                <mat-option value="ALL">{{ 'clinical.alerts.filters.all-severities' | translate }}</mat-option>
+                <mat-option value="LOW">{{ 'clinical.risk.low' | translate }}</mat-option>
+                <mat-option value="MODERATE">{{ 'clinical.risk.moderate' | translate }}</mat-option>
+                <mat-option value="HIGH">{{ 'clinical.risk.high' | translate }}</mat-option>
+                <mat-option value="CRITICAL">{{ 'clinical.risk.critical' | translate }}</mat-option>
+            </mat-select>
+        </div>
+    </div>
+
+    <section class="alerts-list">
+        @for (alert of filteredAlerts(); track alert.id) {
+        @let user = getUserById(alert.userId);
+        @let risk = getRiskByUserId(alert.userId);
+
+        <article class="alert-card" [class]="getRiskClass(alert.severity)">
+            <div class="alert-main">
+                <div class="alert-icon">
+                    <ng-icon name="heroBell" />
+                </div>
+
+                <div class="alert-content">
+                    <div class="alert-header">
+                        <div>
+                            <h2>{{ user?.fullName ?? '—' }}</h2>
+                            <p>{{ user?.email ?? '—' }}</p>
+                        </div>
+
+                        <div class="alert-badges">
+                            <span class="risk-pill" [class]="getRiskClass(alert.severity)">
+                                {{ getRiskLabel(alert.severity) | translate }}
+                            </span>
+
+                            <span class="status-pill" [class]="alert.status.toLowerCase()">
+                                {{ getStatusLabel(alert.status) | translate }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <p class="alert-message">{{ alert.message }}</p>
+
+                    <div class="alert-meta">
+                        <span>
+                            {{ 'clinical.alerts.created-at' | translate }}:
+                            {{ alert.createdAt | date:'yyyy-MM-dd HH:mm' }}
+                        </span>
+
+                        @if (risk) {
+                        <span>
+                            {{ 'clinical.alerts.fatigue' | translate }}:
+                            <strong>{{ risk.fatigueLevel }}%</strong>
+                        </span>
+                        }
+
+                        @if (alert.resolvedAt) {
+                        <span>
+                            {{ 'clinical.alerts.resolved-at' | translate }}:
+                            {{ alert.resolvedAt | date:'yyyy-MM-dd HH:mm' }}
+                        </span>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert-actions">
+                @if (alert.isActive) {
+                <button type="button" class="primary-action" (click)="resolveAlert(alert)">
+                    <ng-icon name="heroCheckCircle" />
+                    <span>{{ 'clinical.alerts.resolve' | translate }}</span>
+                </button>
+                } @else {
+                <span class="muted-text">{{ 'clinical.alerts.already-resolved' | translate }}</span>
+                }
+            </div>
+        </article>
+        } @empty {
+        <p class="empty-state">
+            {{ 'clinical.alerts.empty' | translate }}
+        </p>
+        }
+    </section>
+</section>

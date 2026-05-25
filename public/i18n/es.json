@@ -387,6 +387,38 @@
         "no-session": "No se encontró una sesión activa.",
         "load-failed": "No se pudo cargar el dashboard del administrador."
       }
+    },
+    "alerts": {
+      "title": "Alertas Clínicas",
+      "subtitle-before": "Gestiona alertas activas del",
+      "subtitle-highlight": "personal bajo tu supervisión",
+      "subtitle-after": "y registra acciones preventivas.",
+      "search-placeholder": "Buscar por personal, correo o mensaje...",
+      "created-at": "Creada",
+      "resolved-at": "Resuelta",
+      "fatigue": "Fatiga",
+      "resolve": "Marcar como resuelta",
+      "already-resolved": "Alerta resuelta",
+      "empty": "No hay alertas para mostrar.",
+      "metrics": {
+        "active": "Alertas activas",
+        "high-priority": "Alta prioridad",
+        "resolved": "Resueltas",
+        "total": "Total asignadas"
+      },
+      "filters": {
+        "all-statuses": "Todos los estados",
+        "all-severities": "Todas las severidades"
+      },
+      "status": {
+        "active": "Activa",
+        "resolved": "Resuelta"
+      },
+      "error": {
+        "no-session": "No se encontró una sesión activa.",
+        "load-failed": "No se pudieron cargar las alertas clínicas.",
+        "resolve-failed": "No se pudo resolver la alerta."
+      }
     }
   }
 }

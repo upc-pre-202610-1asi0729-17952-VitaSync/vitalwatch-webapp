@@ -137,10 +137,9 @@ export const routes: Routes = [
       },
       {
         path: 'clinical-alerts',
-        loadComponent: pagePlaceholder,
-        data: {
-          title: 'navigation.clinical-alerts'
-        }
+        loadComponent: () =>
+          import('./clinical-risk-assessment/presentation/views/supervisor-clinical-alerts/supervisor-clinical-alerts')
+            .then(m => m.SupervisorClinicalAlerts)
       },
       {
         path: 'anomalies',
