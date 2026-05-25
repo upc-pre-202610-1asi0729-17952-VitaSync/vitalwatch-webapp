@@ -314,6 +314,51 @@
         "no-session": "No se encontró una sesión activa.",
         "load-failed": "No se pudo cargar el dashboard del supervisor."
       }
+    },
+    "doctor": {
+      "title": "Mi Estado de Salud",
+      "subtitle-before": "Monitoreo preventivo personalizado para",
+      "subtitle-after": "durante el turno actual.",
+      "current-status-title": "Estado actual",
+      "fatigue-level": "Nivel de fatiga",
+      "recommendations-title": "Recomendaciones preventivas",
+      "recommendations-subtitle": "Acciones sugeridas según tu estado actual.",
+      "alerts-title": "Mis alertas activas",
+      "alerts-subtitle": "Eventos clínicos asociados a tu monitoreo.",
+      "no-active-alerts": "No tienes alertas activas.",
+      "no-risk-title": "Sin datos de riesgo",
+      "no-risk-subtitle": "Aún no hay registros biométricos disponibles para tu usuario.",
+      "metrics": {
+        "fatigue": "Fatiga actual",
+        "heart-rate": "Frecuencia cardíaca",
+        "hrv": "HRV",
+        "active-alerts": "Alertas activas"
+      },
+      "vitals": {
+        "heart-rate": "Frecuencia cardíaca",
+        "hrv": "Variabilidad HRV",
+        "updated": "Última lectura"
+      },
+      "message": {
+        "low": "Tus indicadores se encuentran dentro de un rango estable. Mantén el monitoreo activo.",
+        "moderate": "Se detecta fatiga moderada. Considera una pausa breve y seguimiento preventivo.",
+        "high": "Tu nivel de fatiga es elevado. Se recomienda informar al supervisor y tomar una pausa de recuperación.",
+        "critical": "Tu estado requiere atención inmediata. Detén actividades críticas y solicita apoyo del supervisor."
+      },
+      "recommendations": {
+        "keep-hydrated": "Mantén hidratación constante durante el turno.",
+        "keep-monitoring": "Continúa con el monitoreo biométrico preventivo.",
+        "short-break": "Realiza una pausa breve de recuperación.",
+        "breathing": "Aplica respiración controlada durante 3 a 5 minutos.",
+        "notify-supervisor": "Informa tu estado al supervisor clínico.",
+        "recovery-break": "Toma una pausa de recuperación antes de continuar.",
+        "stop-activity": "Evita continuar con actividades críticas.",
+        "immediate-support": "Solicita apoyo inmediato del supervisor o equipo asignado."
+      },
+      "error": {
+        "no-session": "No se encontró una sesión activa.",
+        "load-failed": "No se pudo cargar tu estado de salud."
+      }
     }
   }
 }

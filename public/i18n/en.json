@@ -311,6 +311,51 @@
         "no-session": "No active session was found.",
         "load-failed": "Supervisor dashboard could not be loaded."
       }
+    },
+    "doctor": {
+      "title": "My Health Status",
+      "subtitle-before": "Personalized preventive monitoring for",
+      "subtitle-after": "during the current shift.",
+      "current-status-title": "Current status",
+      "fatigue-level": "Fatigue level",
+      "recommendations-title": "Preventive recommendations",
+      "recommendations-subtitle": "Suggested actions based on your current condition.",
+      "alerts-title": "My active alerts",
+      "alerts-subtitle": "Clinical events associated with your monitoring.",
+      "no-active-alerts": "You have no active alerts.",
+      "no-risk-title": "No risk data",
+      "no-risk-subtitle": "There are no biometric records available for your user yet.",
+      "metrics": {
+        "fatigue": "Current fatigue",
+        "heart-rate": "Heart rate",
+        "hrv": "HRV",
+        "active-alerts": "Active alerts"
+      },
+      "vitals": {
+        "heart-rate": "Heart rate",
+        "hrv": "HRV variability",
+        "updated": "Last reading"
+      },
+      "message": {
+        "low": "Your indicators are within a stable range. Keep preventive monitoring active.",
+        "moderate": "Moderate fatigue has been detected. Consider a short break and preventive follow-up.",
+        "high": "Your fatigue level is high. Notify your supervisor and take a recovery break.",
+        "critical": "Your condition requires immediate attention. Stop critical activities and request supervisor support."
+      },
+      "recommendations": {
+        "keep-hydrated": "Keep constant hydration during the shift.",
+        "keep-monitoring": "Continue preventive biometric monitoring.",
+        "short-break": "Take a short recovery break.",
+        "breathing": "Apply controlled breathing for 3 to 5 minutes.",
+        "notify-supervisor": "Notify your clinical supervisor about your condition.",
+        "recovery-break": "Take a recovery break before continuing.",
+        "stop-activity": "Avoid continuing critical activities.",
+        "immediate-support": "Request immediate support from your supervisor or assigned team."
+      },
+      "error": {
+        "no-session": "No active session was found.",
+        "load-failed": "Your health status could not be loaded."
+      }
     }
   }
 }

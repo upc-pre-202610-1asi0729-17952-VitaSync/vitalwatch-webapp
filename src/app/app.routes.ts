@@ -180,10 +180,9 @@ export const routes: Routes = [
       },
       {
         path: 'health',
-        loadComponent: pagePlaceholder,
-        data: {
-          title: 'navigation.my-health-status'
-        }
+        loadComponent: () =>
+          import('./clinical-risk-assessment/presentation/views/doctor-health-dashboard/doctor-health-dashboard')
+            .then(m => m.DoctorHealthDashboard)
       },
       {
         path: 'vital-signs',

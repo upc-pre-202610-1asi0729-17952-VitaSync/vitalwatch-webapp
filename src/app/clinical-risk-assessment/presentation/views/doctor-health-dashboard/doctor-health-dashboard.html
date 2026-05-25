@@ -1,0 +1,143 @@
+<section class="page-header">
+    <h1>{{ 'clinical.doctor.title' | translate }}</h1>
+    <p>
+        {{ 'clinical.doctor.subtitle-before' | translate }}
+        <strong>{{ doctor()?.fullName }}</strong>
+        {{ 'clinical.doctor.subtitle-after' | translate }}
+    </p>
+</section>
+
+@if (errorMessage()) {
+<small class="form-error">{{ errorMessage()! | translate }}</small>
+}
+
+<section class="metrics-grid">
+    <article class="metric-card">
+        <div class="metric-icon blue">
+            <ng-icon name="heroHeart" />
+        </div>
+        <p>{{ 'clinical.doctor.metrics.fatigue' | translate }}</p>
+        <h2>{{ currentRisk()?.fatigueLevel ?? 0 }}%</h2>
+    </article>
+
+    <article class="metric-card">
+        <div class="metric-icon danger">
+            <ng-icon name="heroBolt" />
+        </div>
+        <p>{{ 'clinical.doctor.metrics.heart-rate' | translate }}</p>
+        <h2>{{ currentRisk()?.heartRate ?? 0 }}</h2>
+    </article>
+
+    <article class="metric-card">
+        <div class="metric-icon purple">
+            <ng-icon name="heroShieldCheck" />
+        </div>
+        <p>{{ 'clinical.doctor.metrics.hrv' | translate }}</p>
+        <h2>{{ currentRisk()?.hrv ?? 0 }}</h2>
+    </article>
+
+    <article class="metric-card">
+        <div class="metric-icon warning">
+            <ng-icon name="heroBell" />
+        </div>
+        <p>{{ 'clinical.doctor.metrics.active-alerts' | translate }}</p>
+        <h2 class="warning-text">{{ activeAlerts().length }}</h2>
+    </article>
+</section>
+
+<section class="content-grid">
+    <article class="health-card">
+        @if (currentRisk(); as risk) {
+        <div class="health-status-header">
+            <div>
+                <span class="risk-pill" [class]="riskClass()">
+                    {{ riskLabel() | translate }}
+                </span>
+
+                <h2>{{ 'clinical.doctor.current-status-title' | translate }}</h2>
+                <p>{{ healthMessage() | translate }}</p>
+            </div>
+
+            <div class="fatigue-score" [class]="riskClass()">
+                <strong>{{ risk.fatigueLevel }}%</strong>
+                <span>{{ 'clinical.doctor.fatigue-level' | translate }}</span>
+            </div>
+        </div>
+
+        <div class="progress-track">
+            <div class="progress-fill" [class.low]="risk.riskLevel === 'LOW'"
+                [class.moderate]="risk.riskLevel === 'MODERATE'" [class.high]="risk.riskLevel === 'HIGH'"
+                [class.critical]="risk.riskLevel === 'CRITICAL'" [style.width.%]="risk.fatigueLevel">
+            </div>
+        </div>
+
+        <div class="vitals-grid">
+            <div class="vital-item">
+                <span>{{ 'clinical.doctor.vitals.heart-rate' | translate }}</span>
+                <strong>{{ risk.heartRate }} bpm</strong>
+            </div>
+
+            <div class="vital-item">
+                <span>{{ 'clinical.doctor.vitals.hrv' | translate }}</span>
+                <strong>{{ risk.hrv }} ms</strong>
+            </div>
+
+            <div class="vital-item">
+                <span>{{ 'clinical.doctor.vitals.updated' | translate }}</span>
+                <strong>{{ risk.lastUpdatedAt | date:'HH:mm' }}</strong>
+            </div>
+        </div>
+        } @else {
+        <div class="empty-state">
+            <h2>{{ 'clinical.doctor.no-risk-title' | translate }}</h2>
+            <p>{{ 'clinical.doctor.no-risk-subtitle' | translate }}</p>
+        </div>
+        }
+    </article>
+
+    <article class="content-card">
+        <div class="section-header">
+            <h2>{{ 'clinical.doctor.recommendations-title' | translate }}</h2>
+            <p>{{ 'clinical.doctor.recommendations-subtitle' | translate }}</p>
+        </div>
+
+        <div class="recommendations-list">
+            @for (recommendation of recommendations(); track recommendation) {
+            <div class="recommendation-item">
+                <div class="recommendation-icon">
+                    <ng-icon name="heroCheckCircle" />
+                </div>
+
+                <p>{{ recommendation | translate }}</p>
+            </div>
+            }
+        </div>
+    </article>
+
+    <article class="content-card alerts-card">
+        <div class="section-header">
+            <h2>{{ 'clinical.doctor.alerts-title' | translate }}</h2>
+            <p>{{ 'clinical.doctor.alerts-subtitle' | translate }}</p>
+        </div>
+
+        <div class="alerts-list">
+            @for (alert of activeAlerts(); track alert.id) {
+            <div class="alert-item" [class]="getRiskClass(alert.severity)">
+                <div class="alert-icon">
+                    <ng-icon name="heroExclamationTriangle" />
+                </div>
+
+                <div>
+                    <strong>{{ getRiskLabel(alert.severity) | translate }}</strong>
+                    <p>{{ alert.message }}</p>
+                    <span>{{ alert.createdAt | date:'yyyy-MM-dd HH:mm' }}</span>
+                </div>
+            </div>
+            } @empty {
+            <p class="empty-state-text">
+                {{ 'clinical.doctor.no-active-alerts' | translate }}
+            </p>
+            }
+        </div>
+    </article>
+</section>
