@@ -79,7 +79,7 @@
       "phone": "987111222",
       "workAreaId": 1,
       "specialtyId": 3,
-      "role": "SUPERVISOR",
+      "role": "DOCTOR",
       "status": "ACTIVE"
     },
     {
@@ -226,14 +226,6 @@
   ],
   "careTeams": [
     {
-      "id": 1,
-      "organizationId": 1,
-      "name": "Grupo A",
-      "workAreaId": 1,
-      "supervisorId": 3,
-      "status": "ACTIVE"
-    },
-    {
       "id": 2,
       "organizationId": 1,
       "name": "Grupo B",
@@ -268,11 +260,6 @@
   ],
   "teamMembers": [
     {
-      "id": 1,
-      "teamId": 1,
-      "userId": 5
-    },
-    {
       "id": 2,
       "teamId": 2,
       "userId": 6
@@ -298,9 +285,19 @@
       "userId": 10
     },
     {
-      "id": 7,
-      "teamId": 4,
-      "userId": 13
+      "teamId": 2,
+      "userId": 3,
+      "id": 8
+    },
+    {
+      "teamId": 5,
+      "userId": 5,
+      "id": 9
+    },
+    {
+      "teamId": 5,
+      "userId": 13,
+      "id": 10
     }
   ],
   "subscriptions": [
@@ -631,6 +628,205 @@
       "detectedAt": "2026-05-24T12:50:00.000Z",
       "reviewedAt": "2026-05-24T13:00:00.000Z",
       "reviewedBy": 2
+    }
+  ],
+  "vitalSignReadings": [
+    {
+      "id": 1,
+      "organizationId": 1,
+      "userId": 5,
+      "heartRate": 92,
+      "hrv": 34,
+      "fatigueLevel": 55,
+      "sensorStatus": "CONNECTED",
+      "recordedAt": "2026-05-24T13:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "organizationId": 1,
+      "userId": 5,
+      "heartRate": 88,
+      "hrv": 38,
+      "fatigueLevel": 49,
+      "sensorStatus": "CONNECTED",
+      "recordedAt": "2026-05-24T12:30:00.000Z"
+    },
+    {
+      "id": 3,
+      "organizationId": 1,
+      "userId": 6,
+      "heartRate": 82,
+      "hrv": 48,
+      "fatigueLevel": 32,
+      "sensorStatus": "CONNECTED",
+      "recordedAt": "2026-05-24T13:05:00.000Z"
+    },
+    {
+      "id": 4,
+      "organizationId": 1,
+      "userId": 7,
+      "heartRate": 112,
+      "hrv": 18,
+      "fatigueLevel": 88,
+      "sensorStatus": "CONNECTED",
+      "recordedAt": "2026-05-24T13:10:00.000Z"
+    },
+    {
+      "id": 5,
+      "organizationId": 1,
+      "userId": 9,
+      "heartRate": 118,
+      "hrv": 25,
+      "fatigueLevel": 70,
+      "sensorStatus": "CONNECTED",
+      "recordedAt": "2026-05-24T13:15:00.000Z"
+    },
+    {
+      "id": 6,
+      "organizationId": 1,
+      "userId": 10,
+      "heartRate": 76,
+      "hrv": 52,
+      "fatigueLevel": 25,
+      "sensorStatus": "CONNECTED",
+      "recordedAt": "2026-05-24T13:20:00.000Z"
+    },
+    {
+      "id": 7,
+      "organizationId": 1,
+      "userId": 5,
+      "heartRate": 72,
+      "hrv": 42,
+      "fatigueLevel": 38,
+      "sensorStatus": "CONNECTED",
+      "recordedAt": "2026-05-24T08:00:00.000Z"
+    },
+    {
+      "id": 8,
+      "organizationId": 1,
+      "userId": 5,
+      "heartRate": 76,
+      "hrv": 40,
+      "fatigueLevel": 44,
+      "sensorStatus": "CONNECTED",
+      "recordedAt": "2026-05-24T09:00:00.000Z"
+    },
+    {
+      "id": 9,
+      "organizationId": 1,
+      "userId": 5,
+      "heartRate": 82,
+      "hrv": 37,
+      "fatigueLevel": 50,
+      "sensorStatus": "CONNECTED",
+      "recordedAt": "2026-05-24T10:00:00.000Z"
+    },
+    {
+      "id": 10,
+      "organizationId": 1,
+      "userId": 5,
+      "heartRate": 88,
+      "hrv": 35,
+      "fatigueLevel": 58,
+      "sensorStatus": "CONNECTED",
+      "recordedAt": "2026-05-24T11:00:00.000Z"
+    },
+    {
+      "id": 11,
+      "organizationId": 1,
+      "userId": 5,
+      "heartRate": 94,
+      "hrv": 33,
+      "fatigueLevel": 65,
+      "sensorStatus": "CONNECTED",
+      "recordedAt": "2026-05-24T12:00:00.000Z"
+    },
+    {
+      "id": 12,
+      "organizationId": 1,
+      "userId": 5,
+      "heartRate": 98,
+      "hrv": 31,
+      "fatigueLevel": 72,
+      "sensorStatus": "CONNECTED",
+      "recordedAt": "2026-05-24T13:00:00.000Z"
+    },
+    {
+      "id": 7,
+      "organizationId": 1,
+      "userId": 5,
+      "heartRate": 72,
+      "hrv": 42,
+      "fatigueLevel": 38,
+      "cortisolLevel": 410,
+      "sensorStatus": "CONNECTED",
+      "recordedAt": "2026-05-09T08:00:00.000Z"
+    },
+    {
+      "id": 8,
+      "organizationId": 1,
+      "userId": 5,
+      "heartRate": 86,
+      "hrv": 30,
+      "fatigueLevel": 44,
+      "cortisolLevel": 480,
+      "sensorStatus": "CONNECTED",
+      "recordedAt": "2026-05-10T08:00:00.000Z"
+    },
+    {
+      "id": 9,
+      "organizationId": 1,
+      "userId": 5,
+      "heartRate": 78,
+      "hrv": 31,
+      "fatigueLevel": 40,
+      "cortisolLevel": 465,
+      "sensorStatus": "CONNECTED",
+      "recordedAt": "2026-05-11T08:00:00.000Z"
+    },
+    {
+      "id": 10,
+      "organizationId": 1,
+      "userId": 5,
+      "heartRate": 92,
+      "hrv": 24,
+      "fatigueLevel": 70,
+      "cortisolLevel": 580,
+      "sensorStatus": "CONNECTED",
+      "recordedAt": "2026-05-12T08:00:00.000Z"
+    },
+    {
+      "id": 11,
+      "organizationId": 1,
+      "userId": 5,
+      "heartRate": 76,
+      "hrv": 35,
+      "fatigueLevel": 32,
+      "cortisolLevel": 420,
+      "sensorStatus": "CONNECTED",
+      "recordedAt": "2026-05-13T08:00:00.000Z"
+    },
+    {
+      "id": 12,
+      "organizationId": 1,
+      "userId": 5,
+      "heartRate": 84,
+      "hrv": 28,
+      "fatigueLevel": 58,
+      "cortisolLevel": 510,
+      "sensorStatus": "CONNECTED",
+      "recordedAt": "2026-05-14T08:00:00.000Z"
+    },
+    {
+      "id": 13,
+      "organizationId": 1,
+      "userId": 5,
+      "heartRate": 98,
+      "hrv": 21,
+      "fatigueLevel": 78,
+      "cortisolLevel": 620,
+      "sensorStatus": "CONNECTED",
+      "recordedAt": "2026-05-15T08:00:00.000Z"
     }
   ]
 }

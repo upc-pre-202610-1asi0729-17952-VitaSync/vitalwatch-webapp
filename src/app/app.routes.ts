@@ -183,10 +183,9 @@ export const routes: Routes = [
       },
       {
         path: 'vital-signs',
-        loadComponent: pagePlaceholder,
-        data: {
-          title: 'navigation.my-vital-signs'
-        }
+        loadComponent: () =>
+          import('./clinical-risk-assessment/presentation/views/doctor-vital-signs/doctor-vital-signs')
+            .then(m => m.DoctorVitalSigns)
       },
       {
         path: 'shifts',

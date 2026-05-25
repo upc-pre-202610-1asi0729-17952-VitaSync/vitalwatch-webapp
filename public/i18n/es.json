@@ -489,6 +489,40 @@
         "load-failed": "No se pudieron cargar las anomalías.",
         "update-failed": "No se pudo actualizar la anomalía."
       }
+    },
+    "vitalSigns": {
+      "title": "Mis Signos Vitales",
+      "subtitle-before": "Historial de",
+      "subtitle-highlight": "cortisol",
+      "subtitle-after": ", HRV y frecuencia cardíaca de los últimos 7 días.",
+      "cortisol-chart-title": "Cortisol — 7 días",
+      "cortisol-unit": "nmol/L · Umbral: 550 nmol/L",
+      "hrv-chart-title": "HRV — 7 días",
+      "hrv-unit": "ms · Umbral mínimo: 25 ms",
+      "heart-rate-chart-title": "Frecuencia Cardíaca promedio — 7 días",
+      "heart-rate-unit": "bpm por turno",
+      "records-title": "Registros históricos",
+      "records-subtitle": "Lecturas biométricas registradas durante los últimos turnos.",
+      "last-seven-days": "Últimos 7 días",
+      "table": {
+        "date": "Fecha",
+        "shift": "Turno",
+        "cortisol": "Cortisol",
+        "hrv": "HRV",
+        "heart-rate": "FC Prom.",
+        "fatigue": "Fatiga",
+        "status": "Estado"
+      },
+      "shift": {
+        "morning": "Mañana",
+        "afternoon": "Tarde",
+        "night": "Noche"
+      },
+      "no-readings": "Aún no hay lecturas biométricas disponibles.",
+      "error": {
+        "no-session": "No se encontró una sesión activa.",
+        "load-failed": "No se pudieron cargar tus signos vitales."
+      }
     }
   },
   "staffRecovery": {

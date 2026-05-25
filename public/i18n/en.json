@@ -486,6 +486,40 @@
         "load-failed": "Anomalies could not be loaded.",
         "update-failed": "Anomaly could not be updated."
       }
+    },
+    "vitalSigns": {
+      "title": "My Vital Signs",
+      "subtitle-before": "History of",
+      "subtitle-highlight": "cortisol",
+      "subtitle-after": ", HRV and heart rate from the last 7 days.",
+      "cortisol-chart-title": "Cortisol — 7 days",
+      "cortisol-unit": "nmol/L · Threshold: 550 nmol/L",
+      "hrv-chart-title": "HRV — 7 days",
+      "hrv-unit": "ms · Minimum threshold: 25 ms",
+      "heart-rate-chart-title": "Average Heart Rate — 7 days",
+      "heart-rate-unit": "bpm per shift",
+      "records-title": "Historical records",
+      "records-subtitle": "Biometric readings recorded during recent shifts.",
+      "last-seven-days": "Last 7 days",
+      "table": {
+        "date": "Date",
+        "shift": "Shift",
+        "cortisol": "Cortisol",
+        "hrv": "HRV",
+        "heart-rate": "Avg. HR",
+        "fatigue": "Fatigue",
+        "status": "Status"
+      },
+      "shift": {
+        "morning": "Morning",
+        "afternoon": "Afternoon",
+        "night": "Night"
+      },
+      "no-readings": "There are no biometric readings available yet.",
+      "error": {
+        "no-session": "No active session was found.",
+        "load-failed": "Your vital signs could not be loaded."
+      }
     }
   },
   "staffRecovery": {

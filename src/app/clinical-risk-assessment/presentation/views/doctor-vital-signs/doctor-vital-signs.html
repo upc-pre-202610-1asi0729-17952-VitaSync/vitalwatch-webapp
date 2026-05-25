@@ -1,0 +1,194 @@
+<section class="page-header">
+    <h1>{{ 'clinical.vitalSigns.title' | translate }}</h1>
+
+    <p>
+        {{ 'clinical.vitalSigns.subtitle-before' | translate }}
+        <strong>{{ 'clinical.vitalSigns.subtitle-highlight' | translate }}</strong>
+        {{ 'clinical.vitalSigns.subtitle-after' | translate }}
+    </p>
+</section>
+
+@if (errorMessage()) {
+<small class="form-error">{{ errorMessage()! | translate }}</small>
+}
+
+<section class="charts-grid">
+    <article class="content-card chart-card">
+        <div class="chart-header">
+            <h2>{{ 'clinical.vitalSigns.cortisol-chart-title' | translate }}</h2>
+            <span>{{ 'clinical.vitalSigns.cortisol-unit' | translate }}</span>
+        </div>
+
+        <div class="chart-container">
+            <svg class="line-chart" viewBox="0 0 680 240" role="img">
+                <line x1="36" y1="36" x2="36" y2="204" class="chart-axis" />
+                <line x1="36" y1="204" x2="644" y2="204" class="chart-axis" />
+
+                <line x1="36" y1="64" x2="644" y2="64" class="chart-grid-line" />
+                <line x1="36" y1="108" x2="644" y2="108" class="chart-grid-line" />
+                <line x1="36" y1="152" x2="644" y2="152" class="chart-grid-line" />
+
+                <line x1="36" y1="92" x2="644" y2="92" class="threshold-line" />
+
+                <text x="8" y="40" class="chart-y-label">650</text>
+                <text x="8" y="86" class="chart-y-label">550</text>
+                <text x="8" y="130" class="chart-y-label">450</text>
+                <text x="8" y="208" class="chart-y-label">350</text>
+
+                <polyline [attr.points]="cortisolPolyline()" class="chart-line cortisol-line" />
+
+                @for (point of cortisolPoints(); track point.x) {
+                <circle [attr.cx]="point.x" [attr.cy]="point.y" r="5" class="chart-dot cortisol-dot" />
+                }
+
+                @for (label of chartLabels(); track label.id) {
+                <text [attr.x]="label.x" y="230" text-anchor="middle" class="chart-x-label">
+                    {{ label.label }}
+                </text>
+                }
+            </svg>
+        </div>
+    </article>
+
+    <article class="content-card chart-card">
+        <div class="chart-header">
+            <h2>{{ 'clinical.vitalSigns.hrv-chart-title' | translate }}</h2>
+            <span>{{ 'clinical.vitalSigns.hrv-unit' | translate }}</span>
+        </div>
+
+        <div class="chart-container">
+            <svg class="line-chart" viewBox="0 0 680 240" role="img">
+                <line x1="36" y1="36" x2="36" y2="204" class="chart-axis" />
+                <line x1="36" y1="204" x2="644" y2="204" class="chart-axis" />
+
+                <line x1="36" y1="64" x2="644" y2="64" class="chart-grid-line" />
+                <line x1="36" y1="108" x2="644" y2="108" class="chart-grid-line" />
+                <line x1="36" y1="152" x2="644" y2="152" class="chart-grid-line" />
+
+                <line x1="36" y1="148" x2="644" y2="148" class="threshold-line" />
+
+                <text x="14" y="40" class="chart-y-label">45</text>
+                <text x="14" y="84" class="chart-y-label">35</text>
+                <text x="14" y="128" class="chart-y-label">25</text>
+                <text x="14" y="208" class="chart-y-label">15</text>
+
+                <polyline [attr.points]="hrvPolyline()" class="chart-line hrv-line" />
+
+                @for (point of hrvPoints(); track point.x) {
+                <circle [attr.cx]="point.x" [attr.cy]="point.y" r="5" class="chart-dot hrv-dot" />
+                }
+
+                @for (label of chartLabels(); track label.id) {
+                <text [attr.x]="label.x" y="230" text-anchor="middle" class="chart-x-label">
+                    {{ label.label }}
+                </text>
+                }
+            </svg>
+        </div>
+    </article>
+</section>
+
+<section class="content-card bar-chart-card">
+    <div class="chart-header">
+        <h2>{{ 'clinical.vitalSigns.heart-rate-chart-title' | translate }}</h2>
+        <span>{{ 'clinical.vitalSigns.heart-rate-unit' | translate }}</span>
+    </div>
+
+    <div class="chart-container">
+        <svg class="bar-chart" viewBox="0 0 680 240" role="img">
+            <line x1="36" y1="36" x2="36" y2="204" class="chart-axis" />
+            <line x1="36" y1="204" x2="644" y2="204" class="chart-axis" />
+
+            <line x1="36" y1="64" x2="644" y2="64" class="chart-grid-line" />
+            <line x1="36" y1="108" x2="644" y2="108" class="chart-grid-line" />
+            <line x1="36" y1="152" x2="644" y2="152" class="chart-grid-line" />
+
+            <text x="14" y="40" class="chart-y-label">110</text>
+            <text x="14" y="84" class="chart-y-label">90</text>
+            <text x="14" y="128" class="chart-y-label">70</text>
+            <text x="14" y="208" class="chart-y-label">40</text>
+
+            @for (bar of heartRateBars(); track bar.id) {
+            <rect [attr.x]="bar.x" [attr.y]="bar.y" [attr.width]="bar.width" [attr.height]="bar.height" rx="6"
+                class="heart-rate-bar" [class.high]="bar.isHigh" />
+            }
+
+            @for (label of chartLabels(); track label.id) {
+            <text [attr.x]="label.x" y="230" text-anchor="middle" class="chart-x-label">
+                {{ label.label }}
+            </text>
+            }
+        </svg>
+    </div>
+</section>
+
+<section class="content-card records-card">
+    <div class="records-header">
+        <div>
+            <h2>{{ 'clinical.vitalSigns.records-title' | translate }}</h2>
+            <p>{{ 'clinical.vitalSigns.records-subtitle' | translate }}</p>
+        </div>
+
+        <span class="period-pill">{{ 'clinical.vitalSigns.last-seven-days' | translate }}</span>
+    </div>
+
+    <div class="records-table-wrapper">
+        <table class="records-table">
+            <thead>
+                <tr>
+                    <th>{{ 'clinical.vitalSigns.table.date' | translate }}</th>
+                    <th>{{ 'clinical.vitalSigns.table.shift' | translate }}</th>
+                    <th>{{ 'clinical.vitalSigns.table.cortisol' | translate }}</th>
+                    <th>{{ 'clinical.vitalSigns.table.hrv' | translate }}</th>
+                    <th>{{ 'clinical.vitalSigns.table.heart-rate' | translate }}</th>
+                    <th>{{ 'clinical.vitalSigns.table.fatigue' | translate }}</th>
+                    <th>{{ 'clinical.vitalSigns.table.status' | translate }}</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @for (reading of tableReadings(); track reading.id) {
+                @let riskLevel = getFatigueRiskLevel(reading.fatigueLevel);
+
+                <tr>
+                    <td>{{ reading.recordedAt | date:'yyyy-MM-dd' }}</td>
+                    <td>{{ getShiftLabel(reading.recordedAt) | translate }}</td>
+                    <td>
+                        <strong [class.alert-value]="reading.cortisolLevel >= 550">
+                            {{ reading.cortisolLevel }} nmol/L
+                        </strong>
+                    </td>
+                    <td>
+                        <strong [class.alert-value]="reading.hrv < 25">
+                            {{ reading.hrv }} ms
+                        </strong>
+                    </td>
+                    <td>{{ reading.heartRate }} bpm</td>
+                    <td>
+                        <div class="fatigue-cell">
+                            <div class="fatigue-track">
+                                <div class="fatigue-fill" [class]="getRiskClass(riskLevel)"
+                                    [style.width.%]="reading.fatigueLevel">
+                                </div>
+                            </div>
+
+                            <span>{{ reading.fatigueLevel }}%</span>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="risk-pill" [class]="getRiskClass(riskLevel)">
+                            {{ getRiskLabel(riskLevel) | translate }}
+                        </span>
+                    </td>
+                </tr>
+                } @empty {
+                <tr>
+                    <td colspan="7">
+                        <p class="empty-state">{{ 'clinical.vitalSigns.no-readings' | translate }}</p>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>
