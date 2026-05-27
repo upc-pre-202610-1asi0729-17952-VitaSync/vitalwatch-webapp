@@ -1,0 +1,150 @@
+<section class="page-header">
+    <h1>{{ 'settings.account.title' | translate }}</h1>
+    <p>
+        {{ 'settings.account.subtitle-before' | translate }}
+        <strong>{{ currentUser()?.fullName }}</strong>
+        {{ 'settings.account.subtitle-after' | translate }}
+    </p>
+</section>
+
+@if (successMessage()) {
+<small class="form-success">
+    {{ successMessage()! | translate }}
+</small>
+}
+
+@if (errorMessage()) {
+<small class="form-error">
+    {{ errorMessage()! | translate }}
+</small>
+}
+
+<section class="settings-grid">
+    <article class="profile-card">
+        <div class="profile-avatar">
+            {{ currentUser()?.initials ?? '--' }}
+        </div>
+
+        <h2>{{ currentUser()?.fullName ?? '—' }}</h2>
+        <p>{{ currentUser()?.email ?? '—' }}</p>
+
+        <div class="profile-meta">
+            <div>
+                <ng-icon name="heroShieldCheck" />
+                <span>{{ getRoleLabel(currentUser()?.role ?? '') | translate }}</span>
+            </div>
+
+            <div>
+                <ng-icon name="heroCheckCircle" />
+                <span class="status-pill" [class]="getStatusClass(currentUser()?.status ?? 'ACTIVE')">
+                    {{ getStatusLabel(currentUser()?.status ?? 'ACTIVE') | translate }}
+                </span>
+            </div>
+        </div>
+    </article>
+
+    <article class="settings-card">
+        <div class="section-header">
+            <div>
+                <h2>{{ 'settings.account.form-title' | translate }}</h2>
+                <p>{{ 'settings.account.form-subtitle' | translate }}</p>
+            </div>
+        </div>
+
+        <form [formGroup]="form" (ngSubmit)="saveChanges()" class="settings-form">
+            <div class="form-row">
+                <div class="field">
+                    <label for="firstName">
+                        {{ 'settings.account.first-name' | translate }}
+                    </label>
+
+                    <div class="input-control">
+                        <ng-icon name="heroUserCircle" />
+                        <input id="firstName" type="text" formControlName="firstName"
+                            [placeholder]="'settings.account.first-name-placeholder' | translate">
+                    </div>
+
+                    @if (form.controls.firstName.touched && form.controls.firstName.hasError('required')) {
+                    <small class="field-error">
+                        {{ 'settings.account.error.first-name-required' | translate }}
+                    </small>
+                    }
+                </div>
+
+                <div class="field">
+                    <label for="lastName">
+                        {{ 'settings.account.last-name' | translate }}
+                    </label>
+
+                    <div class="input-control">
+                        <ng-icon name="heroUserCircle" />
+                        <input id="lastName" type="text" formControlName="lastName"
+                            [placeholder]="'settings.account.last-name-placeholder' | translate">
+                    </div>
+
+                    @if (form.controls.lastName.touched && form.controls.lastName.hasError('required')) {
+                    <small class="field-error">
+                        {{ 'settings.account.error.last-name-required' | translate }}
+                    </small>
+                    }
+                </div>
+            </div>
+
+            <div class="field">
+                <label for="email">
+                    {{ 'settings.account.email' | translate }}
+                </label>
+
+                <div class="input-control">
+                    <ng-icon name="heroEnvelope" />
+                    <input id="email" type="email" formControlName="email"
+                        [placeholder]="'settings.account.email-placeholder' | translate">
+                </div>
+
+                @if (form.controls.email.touched && form.controls.email.hasError('required')) {
+                <small class="field-error">
+                    {{ 'settings.account.error.email-required' | translate }}
+                </small>
+                }
+
+                @if (form.controls.email.touched && form.controls.email.hasError('email')) {
+                <small class="field-error">
+                    {{ 'settings.account.error.email-invalid' | translate }}
+                </small>
+                }
+            </div>
+
+            <div class="readonly-grid">
+                <div class="readonly-item">
+                    <span>{{ 'settings.account.role' | translate }}</span>
+                    <strong>{{ getRoleLabel(currentUser()?.role ?? '') | translate }}</strong>
+                </div>
+
+                <div class="readonly-item">
+                    <span>{{ 'settings.account.status-label' | translate }}</span>
+                    <strong>{{ getStatusLabel(currentUser()?.status ?? 'ACTIVE') | translate }}</strong>
+                </div>
+
+                <div class="readonly-item">
+                    <span>{{ 'settings.account.organization' | translate }}</span>
+                    <strong>#{{ currentUser()?.organizationId ?? '—' }}</strong>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="secondary-button" (click)="resetForm()">
+                    <ng-icon name="heroArrowPath" />
+                    <span>{{ 'settings.account.reset' | translate }}</span>
+                </button>
+
+                <button type="submit" class="primary-button" [disabled]="loading()">
+                    <ng-icon name="heroCheckCircle" />
+                    <span>
+                        {{ loading() ? ('settings.account.saving' | translate) : ('settings.account.save' | translate)
+                        }}
+                    </span>
+                </button>
+            </div>
+        </form>
+    </article>
+</section>

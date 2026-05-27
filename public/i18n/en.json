@@ -838,5 +838,45 @@
         "change-plan-failed": "Plan could not be changed."
       }
     }
+  },
+  "settings": {
+    "account": {
+      "title": "Settings",
+      "subtitle-before": "Manage account information for",
+      "subtitle-after": "and basic profile data.",
+      "form-title": "Account details",
+      "form-subtitle": "Update basic information visible inside the platform.",
+      "first-name": "First name",
+      "last-name": "Last name",
+      "email": "Email address",
+      "first-name-placeholder": "Example: Marcelo",
+      "last-name-placeholder": "Example: Administrator",
+      "email-placeholder": "email@hospital.com",
+      "role": "Role",
+      "status-label": "Status",
+      "organization": "Organization",
+      "reset": "Reset",
+      "save": "Save changes",
+      "saving": "Saving...",
+      "success": "Account information was updated successfully.",
+      "roles": {
+        "admin": "Hospital administrator",
+        "supervisor": "Clinical supervisor",
+        "doctor": "Medical staff"
+      },
+      "status": {
+        "active": "Active",
+        "inactive": "Inactive",
+        "pending": "Pending"
+      },
+      "error": {
+        "no-session": "No active session was found.",
+        "update-failed": "Account could not be updated.",
+        "first-name-required": "First name is required.",
+        "last-name-required": "Last name is required.",
+        "email-required": "Email is required.",
+        "email-invalid": "Enter a valid email address."
+      }
+    }
   }
 }

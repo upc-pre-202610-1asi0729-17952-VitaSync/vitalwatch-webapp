@@ -841,5 +841,45 @@
         "change-plan-failed": "No se pudo cambiar el plan."
       }
     }
+  },
+  "settings": {
+    "account": {
+      "title": "Configuración",
+      "subtitle-before": "Gestiona la información de la cuenta de",
+      "subtitle-after": "y sus datos básicos.",
+      "form-title": "Datos de la cuenta",
+      "form-subtitle": "Actualiza la información básica visible dentro de la plataforma.",
+      "first-name": "Nombre",
+      "last-name": "Apellido",
+      "email": "Correo electrónico",
+      "first-name-placeholder": "Ej: Marcelo",
+      "last-name-placeholder": "Ej: Administrador",
+      "email-placeholder": "correo@hospital.com",
+      "role": "Rol",
+      "status-label": "Estado",
+      "organization": "Organización",
+      "reset": "Restablecer",
+      "save": "Guardar cambios",
+      "saving": "Guardando...",
+      "success": "Los datos de la cuenta se actualizaron correctamente.",
+      "roles": {
+        "admin": "Administrador hospitalario",
+        "supervisor": "Supervisor clínico",
+        "doctor": "Personal médico"
+      },
+      "status": {
+        "active": "Activo",
+        "inactive": "Inactivo",
+        "pending": "Pendiente"
+      },
+      "error": {
+        "no-session": "No se encontró una sesión activa.",
+        "update-failed": "No se pudo actualizar la cuenta.",
+        "first-name-required": "El nombre es obligatorio.",
+        "last-name-required": "El apellido es obligatorio.",
+        "email-required": "El correo es obligatorio.",
+        "email-invalid": "Ingresa un correo válido."
+      }
+    }
   }
 }

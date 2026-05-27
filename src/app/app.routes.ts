@@ -98,10 +98,9 @@ export const routes: Routes = [
       },
       {
         path: 'settings',
-        loadComponent: pagePlaceholder,
-        data: {
-          title: 'navigation.settings'
-        }
+        loadComponent: () =>
+          import('./iam/presentation/views/account-settings/account-settings')
+            .then(m => m.AccountSettings)
       }
     ]
   },
@@ -151,10 +150,9 @@ export const routes: Routes = [
       },
       {
         path: 'settings',
-        loadComponent: pagePlaceholder,
-        data: {
-          title: 'navigation.settings'
-        }
+        loadComponent: () =>
+          import('./iam/presentation/views/account-settings/account-settings')
+            .then(m => m.AccountSettings)
       }
     ]
   },
@@ -198,10 +196,9 @@ export const routes: Routes = [
       },
       {
         path: 'settings',
-        loadComponent: pagePlaceholder,
-        data: {
-          title: 'navigation.settings'
-        }
+        loadComponent: () =>
+          import('./iam/presentation/views/account-settings/account-settings')
+            .then(m => m.AccountSettings)
       }
     ]
   },
