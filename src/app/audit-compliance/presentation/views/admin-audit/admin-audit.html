@@ -1,0 +1,144 @@
+<section class="page-header">
+    <h1>{{ 'audit.logs.title' | translate }}</h1>
+    <p>
+        {{ 'audit.logs.subtitle-before' | translate }}
+        <strong>{{ 'audit.logs.subtitle-highlight' | translate }}</strong>
+        {{ 'audit.logs.subtitle-after' | translate }}
+    </p>
+</section>
+
+@if (errorMessage()) {
+<small class="form-error">{{ errorMessage()! | translate }}</small>
+}
+
+<section class="metrics-grid">
+    <article class="metric-card">
+        <div class="metric-icon blue">
+            <ng-icon name="heroDocumentText" />
+        </div>
+        <p>{{ 'audit.logs.metrics.total' | translate }}</p>
+        <h2>{{ totalLogs() }}</h2>
+    </article>
+
+    <article class="metric-card">
+        <div class="metric-icon warning">
+            <ng-icon name="heroExclamationTriangle" />
+        </div>
+        <p>{{ 'audit.logs.metrics.warning' | translate }}</p>
+        <h2 class="warning-text">{{ warningLogs() }}</h2>
+    </article>
+
+    <article class="metric-card">
+        <div class="metric-icon danger">
+            <ng-icon name="heroShieldExclamation" />
+        </div>
+        <p>{{ 'audit.logs.metrics.critical' | translate }}</p>
+        <h2 class="danger-text">{{ criticalLogs() }}</h2>
+    </article>
+
+    <article class="metric-card">
+        <div class="metric-icon purple">
+            <ng-icon name="heroUsers" />
+        </div>
+        <p>{{ 'audit.logs.metrics.user-management' | translate }}</p>
+        <h2 class="purple-text">{{ userManagementLogs() }}</h2>
+    </article>
+</section>
+
+<section class="content-card">
+    <div class="table-tools">
+        <input type="text" [placeholder]="'audit.logs.search-placeholder' | translate"
+            (input)="updateSearchTerm($event)">
+
+        <div class="filter-control">
+            <mat-select [value]="typeFilter()" panelClass="auth-select-panel"
+                (selectionChange)="updateTypeFilter($event.value)">
+                <mat-option value="ALL">
+                    {{ 'audit.logs.filters.all-types' | translate }}
+                </mat-option>
+
+                @for (type of auditTypes; track type) {
+                <mat-option [value]="type">
+                    {{ getAuditTypeLabel(type) | translate }}
+                </mat-option>
+                }
+            </mat-select>
+        </div>
+
+        <div class="filter-control">
+            <mat-select [value]="severityFilter()" panelClass="auth-select-panel"
+                (selectionChange)="updateSeverityFilter($event.value)">
+                <mat-option value="ALL">
+                    {{ 'audit.logs.filters.all-severities' | translate }}
+                </mat-option>
+
+                <mat-option value="INFO">
+                    {{ 'audit.logs.severity.info' | translate }}
+                </mat-option>
+
+                <mat-option value="WARNING">
+                    {{ 'audit.logs.severity.warning' | translate }}
+                </mat-option>
+
+                <mat-option value="CRITICAL">
+                    {{ 'audit.logs.severity.critical' | translate }}
+                </mat-option>
+            </mat-select>
+        </div>
+    </div>
+
+    <section class="audit-list">
+        @for (log of filteredAuditLogs(); track log.id) {
+        <article class="audit-item" [class]="getSeverityClass(log.severity)">
+            <div class="audit-icon" [class]="getSeverityClass(log.severity)">
+                @switch (log.severity) {
+                @case ('CRITICAL') {
+                <ng-icon name="heroShieldExclamation" />
+                }
+                @case ('WARNING') {
+                <ng-icon name="heroExclamationTriangle" />
+                }
+                @default {
+                <ng-icon name="heroInformationCircle" />
+                }
+                }
+            </div>
+
+            <div class="audit-content">
+                <div class="audit-header">
+                    <div>
+                        <h2>{{ getAuditTypeLabel(log.type) | translate }}</h2>
+                        <p>{{ log.description }}</p>
+                    </div>
+
+                    <span class="severity-pill" [class]="getSeverityClass(log.severity)">
+                        {{ getSeverityLabel(log.severity) | translate }}
+                    </span>
+                </div>
+
+                <div class="audit-meta">
+                    <span>
+                        {{ 'audit.logs.actor' | translate }}:
+                        <strong>{{ getActorName(log.actorUserId) }}</strong>
+                    </span>
+
+                    <span>
+                        {{ 'audit.logs.resource' | translate }}:
+                        <strong>{{ log.resourceType }} #{{ log.resourceId ?? '—' }}</strong>
+                    </span>
+
+                    <span>
+                        {{ 'audit.logs.date' | translate }}:
+                        <strong>{{ log.createdAt | date:'yyyy-MM-dd HH:mm' }}</strong>
+                    </span>
+                </div>
+            </div>
+        </article>
+        } @empty {
+        <article class="empty-card">
+            <h2>{{ 'audit.logs.empty-title' | translate }}</h2>
+            <p>{{ 'audit.logs.empty-subtitle' | translate }}</p>
+        </article>
+        }
+    </section>
+</section>

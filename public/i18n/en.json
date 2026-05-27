@@ -737,6 +737,53 @@
         "no-session": "No active session was found.",
         "load-failed": "Reports could not be loaded."
       }
+    },
+    "logs": {
+      "title": "Audit",
+      "subtitle-before": "Record of critical and operational events from the",
+      "subtitle-highlight": "hospital system",
+      "subtitle-after": "for traceability and compliance.",
+      "search-placeholder": "Search by description, actor, resource or type...",
+      "actor": "Actor",
+      "resource": "Resource",
+      "date": "Date",
+      "empty-title": "No audit events",
+      "empty-subtitle": "No records were found for the selected filters.",
+      "metrics": {
+        "total": "Registered events",
+        "warning": "Warnings",
+        "critical": "Critical",
+        "user-management": "User management"
+      },
+      "filters": {
+        "all-types": "All types",
+        "all-severities": "All severities"
+      },
+      "severity": {
+        "info": "Info",
+        "warning": "Warning",
+        "critical": "Critical"
+      },
+      "types": {
+        "user-invited": "User invited",
+        "user-registered": "User registered",
+        "user-role-changed": "Role changed",
+        "user-status-changed": "Status changed",
+        "team-created": "Team created",
+        "team-updated": "Team updated",
+        "team-status-changed": "Team status changed",
+        "alert-resolved": "Alert resolved",
+        "anomaly-reviewed": "Anomaly reviewed",
+        "anomaly-dismissed": "Anomaly dismissed",
+        "preventive-action-created": "Preventive action created",
+        "preventive-action-completed": "Preventive action completed",
+        "shift-check-in": "Shift check-in",
+        "shift-check-out": "Shift check-out"
+      },
+      "error": {
+        "no-session": "No active session was found.",
+        "load-failed": "Audit events could not be loaded."
+      }
     }
   }
 }

@@ -16,5 +16,6 @@ export const environment = {
     preventiveActionsEndpointPath: '/preventiveActions',
     vitalSignAnomaliesEndpointPath: '/vitalSignAnomalies',
     vitalSignReadingsEndpointPath: '/vitalSignReadings',
-    shiftRecordsEndpointPath: '/shiftRecords'
+    shiftRecordsEndpointPath: '/shiftRecords',
+    auditLogsEndpointPath: '/auditLogs'
 };

@@ -740,6 +740,53 @@
         "no-session": "No se encontró una sesión activa.",
         "load-failed": "No se pudieron cargar los reportes."
       }
+    },
+    "logs": {
+      "title": "Auditoría",
+      "subtitle-before": "Registro de eventos críticos y operativos del",
+      "subtitle-highlight": "sistema hospitalario",
+      "subtitle-after": "para trazabilidad y cumplimiento.",
+      "search-placeholder": "Buscar por descripción, actor, recurso o tipo...",
+      "actor": "Actor",
+      "resource": "Recurso",
+      "date": "Fecha",
+      "empty-title": "No hay eventos de auditoría",
+      "empty-subtitle": "No se encontraron registros para los filtros seleccionados.",
+      "metrics": {
+        "total": "Eventos registrados",
+        "warning": "Advertencias",
+        "critical": "Críticos",
+        "user-management": "Gestión de usuarios"
+      },
+      "filters": {
+        "all-types": "Todos los tipos",
+        "all-severities": "Todas las severidades"
+      },
+      "severity": {
+        "info": "Informativo",
+        "warning": "Advertencia",
+        "critical": "Crítico"
+      },
+      "types": {
+        "user-invited": "Usuario invitado",
+        "user-registered": "Usuario registrado",
+        "user-role-changed": "Cambio de rol",
+        "user-status-changed": "Cambio de estado",
+        "team-created": "Equipo creado",
+        "team-updated": "Equipo actualizado",
+        "team-status-changed": "Cambio de estado de equipo",
+        "alert-resolved": "Alerta resuelta",
+        "anomaly-reviewed": "Anomalía revisada",
+        "anomaly-dismissed": "Anomalía descartada",
+        "preventive-action-created": "Acción preventiva creada",
+        "preventive-action-completed": "Acción preventiva completada",
+        "shift-check-in": "Inicio de turno",
+        "shift-check-out": "Fin de turno"
+      },
+      "error": {
+        "no-session": "No se encontró una sesión activa.",
+        "load-failed": "No se pudieron cargar los eventos de auditoría."
+      }
     }
   }
 }

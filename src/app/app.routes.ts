@@ -87,10 +87,9 @@ export const routes: Routes = [
       },
       {
         path: 'audit',
-        loadComponent: pagePlaceholder,
-        data: {
-          title: 'navigation.audit'
-        }
+        loadComponent: () =>
+          import('./audit-compliance/presentation/views/admin-audit/admin-audit')
+            .then(m => m.AdminAudit)
       },
       {
         path: 'teams',

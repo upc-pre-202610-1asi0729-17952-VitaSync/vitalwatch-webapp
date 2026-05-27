@@ -912,5 +912,95 @@
       "checkInAt": null,
       "checkOutAt": null
     }
+  ],
+  "auditLogs": [
+    {
+      "id": 1,
+      "organizationId": 1,
+      "actorUserId": 1,
+      "type": "USER_INVITED",
+      "severity": "INFO",
+      "resourceType": "Invitation",
+      "resourceId": 3,
+      "description": "El administrador envió una invitación a jyonel295@gmail.com como Supervisor Clínico.",
+      "createdAt": "2026-05-24T16:20:28.186Z"
+    },
+    {
+      "id": 2,
+      "organizationId": 1,
+      "actorUserId": 1,
+      "type": "USER_ROLE_CHANGED",
+      "severity": "WARNING",
+      "resourceType": "User",
+      "resourceId": 3,
+      "description": "Carlos Mendoza fue cambiado de Personal Médico a Supervisor Clínico.",
+      "createdAt": "2026-05-24T17:15:00.000Z"
+    },
+    {
+      "id": 3,
+      "organizationId": 1,
+      "actorUserId": 1,
+      "type": "TEAM_CREATED",
+      "severity": "INFO",
+      "resourceType": "CareTeam",
+      "resourceId": 1,
+      "description": "Se creó el equipo Grupo A para el área UCI.",
+      "createdAt": "2026-05-24T17:35:00.000Z"
+    },
+    {
+      "id": 4,
+      "organizationId": 1,
+      "actorUserId": 2,
+      "type": "ALERT_RESOLVED",
+      "severity": "INFO",
+      "resourceType": "ClinicalAlert",
+      "resourceId": 1,
+      "description": "Claudia Supervisora marcó una alerta clínica como resuelta.",
+      "createdAt": "2026-05-25T09:15:00.000Z"
+    },
+    {
+      "id": 5,
+      "organizationId": 1,
+      "actorUserId": 2,
+      "type": "ANOMALY_REVIEWED",
+      "severity": "WARNING",
+      "resourceType": "VitalSignAnomaly",
+      "resourceId": 3,
+      "description": "Se revisó una anomalía de fatiga en personal asignado.",
+      "createdAt": "2026-05-25T10:05:00.000Z"
+    },
+    {
+      "id": 6,
+      "organizationId": 1,
+      "actorUserId": 2,
+      "type": "PREVENTIVE_ACTION_CREATED",
+      "severity": "INFO",
+      "resourceType": "PreventiveAction",
+      "resourceId": 3,
+      "description": "Se creó una acción preventiva de pausa de recuperación.",
+      "createdAt": "2026-05-25T12:20:00.000Z"
+    },
+    {
+      "id": 7,
+      "organizationId": 1,
+      "actorUserId": 5,
+      "type": "SHIFT_CHECK_IN",
+      "severity": "INFO",
+      "resourceType": "ShiftRecord",
+      "resourceId": 3,
+      "description": "Valeria Rojas inició su turno programado.",
+      "createdAt": "2026-05-25T06:58:00.000Z"
+    },
+    {
+      "id": 8,
+      "organizationId": 1,
+      "actorUserId": 5,
+      "type": "PREVENTIVE_ACTION_COMPLETED",
+      "severity": "INFO",
+      "resourceType": "PreventiveAction",
+      "resourceId": 3,
+      "description": "Valeria Rojas completó una acción preventiva asignada.",
+      "createdAt": "2026-05-25T12:45:00.000Z"
+    }
   ]
 }
