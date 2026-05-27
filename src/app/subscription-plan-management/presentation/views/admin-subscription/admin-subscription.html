@@ -1,0 +1,201 @@
+<section class="page-header">
+    <h1>{{ 'subscription.admin.title' | translate }}</h1>
+    <p>
+        {{ 'subscription.admin.subtitle-before' | translate }}
+        <strong>{{ 'subscription.admin.subtitle-highlight' | translate }}</strong>
+        {{ 'subscription.admin.subtitle-after' | translate }}
+    </p>
+</section>
+
+@if (errorMessage()) {
+<small class="form-error">{{ errorMessage()! | translate }}</small>
+}
+
+<section class="metrics-grid">
+    <article class="metric-card">
+        <div class="metric-icon blue">
+            <ng-icon name="heroCreditCard" />
+        </div>
+        <p>{{ 'subscription.admin.metrics.current-plan' | translate }}</p>
+        <h2>{{ currentPlan()?.name ?? '—' }}</h2>
+    </article>
+
+    <article class="metric-card">
+        <div class="metric-icon success">
+            <ng-icon name="heroCheckCircle" />
+        </div>
+        <p>{{ 'subscription.admin.metrics.status' | translate }}</p>
+        <h2 class="success-text">
+            {{ subscription() ? (getStatusLabel(subscription()!.status) | translate) : '—' }}
+        </h2>
+    </article>
+
+    <article class="metric-card">
+        <div class="metric-icon purple">
+            <ng-icon name="heroSparkles" />
+        </div>
+        <p>{{ 'subscription.admin.metrics.monthly-cost' | translate }}</p>
+        <h2>{{ monthlyCost() | currency:'USD':'symbol':'1.0-0' }}</h2>
+    </article>
+
+    <article class="metric-card">
+        <div class="metric-icon warning">
+            <ng-icon name="heroArrowPath" />
+        </div>
+        <p>{{ 'subscription.admin.metrics.checkout-history' | translate }}</p>
+        <h2 class="warning-text">{{ checkoutSessions().length }}</h2>
+    </article>
+</section>
+
+<section class="content-grid">
+    <article class="subscription-card">
+        <div class="section-header">
+            <div>
+                <h2>{{ 'subscription.admin.current-title' | translate }}</h2>
+                <p>{{ 'subscription.admin.current-subtitle' | translate }}</p>
+            </div>
+
+            @if (subscription(); as currentSubscription) {
+            <span class="status-pill" [class]="getStatusClass(currentSubscription.status)">
+                {{ getStatusLabel(currentSubscription.status) | translate }}
+            </span>
+            }
+        </div>
+
+        @if (currentPlan(); as plan) {
+        <div class="plan-highlight">
+            <div class="plan-icon">
+                <ng-icon name="heroCreditCard" />
+            </div>
+
+            <div>
+                <span>{{ 'subscription.admin.active-plan' | translate }}</span>
+                <h3>{{ plan.name }}</h3>
+                <p>{{ plan.description }}</p>
+            </div>
+        </div>
+
+        <div class="plan-price">
+            <strong>{{ plan.price | currency:'USD':'symbol':'1.0-0' }}</strong>
+            <span>
+                /
+                {{
+                plan.billingPeriod === 'monthly'
+                ? ('subscription.admin.billing.monthly' | translate)
+                : ('subscription.admin.billing.yearly' | translate)
+                }}
+            </span>
+        </div>
+
+        <div class="subscription-details">
+            <div>
+                <span>{{ 'subscription.admin.plan-code' | translate }}</span>
+                <strong>{{ plan.code }}</strong>
+            </div>
+
+            <div>
+                <span>{{ 'subscription.admin.started-at' | translate }}</span>
+                <strong>{{ subscription()?.startedAt | date:'yyyy-MM-dd' }}</strong>
+            </div>
+
+            <div>
+                <span>{{ 'subscription.admin.last-checkout' | translate }}</span>
+                <strong>
+                    @if (lastCheckoutSession(); as session) {
+                    {{ session.createdAt | date:'yyyy-MM-dd' }}
+                    } @else {
+                    —
+                    }
+                </strong>
+            </div>
+        </div>
+        } @else {
+        <p class="empty-state">{{ 'subscription.admin.no-subscription' | translate }}</p>
+        }
+    </article>
+
+    <article class="content-card">
+        <div class="section-header">
+            <div>
+                <h2>{{ 'subscription.admin.available-title' | translate }}</h2>
+                <p>{{ 'subscription.admin.available-subtitle' | translate }}</p>
+            </div>
+        </div>
+
+        <div class="plans-list">
+            @for (plan of availablePlans(); track plan.id) {
+            <article class="plan-card">
+                <div>
+                    <span class="plan-code">{{ plan.code }}</span>
+                    <h3>{{ plan.name }}</h3>
+                    <p>{{ plan.description }}</p>
+                </div>
+
+                <div class="plan-card-footer">
+                    <div class="mini-price">
+                        <strong>{{ plan.price | currency:'USD':'symbol':'1.0-0' }}</strong>
+                        <span>
+                            /
+                            {{
+                            plan.billingPeriod === 'monthly'
+                            ? ('subscription.admin.billing.monthly' | translate)
+                            : ('subscription.admin.billing.yearly' | translate)
+                            }}
+                        </span>
+                    </div>
+
+                    <button type="button" class="primary-button" [disabled]="loading()" (click)="changePlan(plan)">
+                        <ng-icon name="heroArrowPath" />
+                        <span>{{ 'subscription.admin.change-plan' | translate }}</span>
+                    </button>
+                </div>
+            </article>
+            } @empty {
+            <p class="empty-state">{{ 'subscription.admin.no-available-plans' | translate }}</p>
+            }
+        </div>
+    </article>
+</section>
+
+<section class="content-card">
+    <div class="section-header">
+        <div>
+            <h2>{{ 'subscription.admin.history-title' | translate }}</h2>
+            <p>{{ 'subscription.admin.history-subtitle' | translate }}</p>
+        </div>
+    </div>
+
+    <div class="table-wrapper">
+        <table class="checkout-table">
+            <thead>
+                <tr>
+                    <th>{{ 'subscription.admin.table.date' | translate }}</th>
+                    <th>{{ 'subscription.admin.table.plan' | translate }}</th>
+                    <th>{{ 'subscription.admin.table.status' | translate }}</th>
+                    <th>{{ 'subscription.admin.table.session' | translate }}</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @for (session of checkoutSessions(); track session.id) {
+                <tr>
+                    <td>{{ session.createdAt | date:'yyyy-MM-dd HH:mm' }}</td>
+                    <td>{{ session.planCode }}</td>
+                    <td>
+                        <span class="status-pill" [class]="getStatusClass(session.status)">
+                            {{ getStatusLabel(session.status) | translate }}
+                        </span>
+                    </td>
+                    <td>#{{ session.id }}</td>
+                </tr>
+                } @empty {
+                <tr>
+                    <td colspan="4">
+                        <p class="empty-state">{{ 'subscription.admin.no-history' | translate }}</p>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>

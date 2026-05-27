@@ -74,10 +74,9 @@ export const routes: Routes = [
       },
       {
         path: 'subscription',
-        loadComponent: pagePlaceholder,
-        data: {
-          title: 'navigation.subscription'
-        }
+        loadComponent: () =>
+          import('./subscription-plan-management/presentation/views/admin-subscription/admin-subscription')
+            .then(m => m.AdminSubscription)
       },
       {
         path: 'reports',

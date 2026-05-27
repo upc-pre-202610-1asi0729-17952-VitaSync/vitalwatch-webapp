@@ -788,5 +788,58 @@
         "load-failed": "No se pudieron cargar los eventos de auditoría."
       }
     }
+  },
+  "subscription": {
+    "admin": {
+      "title": "Suscripción",
+      "subtitle-before": "Gestiona el",
+      "subtitle-highlight": "plan activo",
+      "subtitle-after": "del centro médico.",
+      "current-title": "Plan actual",
+      "current-subtitle": "Información de la suscripción activa del centro médico.",
+      "available-title": "Planes disponibles",
+      "available-subtitle": "Puedes simular un cambio de plan para la demo.",
+      "history-title": "Historial de pagos",
+      "history-subtitle": "Sesiones de checkout registradas para la organización.",
+      "active-plan": "Plan activo",
+      "plan-code": "Código del plan",
+      "started-at": "Inicio",
+      "last-checkout": "Último pago",
+      "change-plan": "Cambiar plan",
+      "no-subscription": "No se encontró una suscripción activa.",
+      "no-available-plans": "No hay otros planes disponibles.",
+      "no-history": "No hay historial de pagos registrado.",
+      "metrics": {
+        "current-plan": "Plan actual",
+        "status": "Estado",
+        "monthly-cost": "Costo mensual",
+        "checkout-history": "Pagos registrados"
+      },
+      "billing": {
+        "monthly": "mes",
+        "yearly": "año"
+      },
+      "status": {
+        "active": "Activo",
+        "past-due": "Pago pendiente",
+        "cancelled": "Cancelado"
+      },
+      "checkout-status": {
+        "completed": "Completado",
+        "pending": "Pendiente",
+        "failed": "Fallido"
+      },
+      "table": {
+        "date": "Fecha",
+        "plan": "Plan",
+        "status": "Estado",
+        "session": "Sesión"
+      },
+      "error": {
+        "no-session": "No se encontró una sesión activa.",
+        "load-failed": "No se pudo cargar la suscripción.",
+        "change-plan-failed": "No se pudo cambiar el plan."
+      }
+    }
   }
 }

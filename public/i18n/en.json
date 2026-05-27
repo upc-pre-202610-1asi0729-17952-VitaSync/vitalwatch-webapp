@@ -785,5 +785,58 @@
         "load-failed": "Audit events could not be loaded."
       }
     }
+  },
+  "subscription": {
+    "admin": {
+      "title": "Subscription",
+      "subtitle-before": "Manage the",
+      "subtitle-highlight": "active plan",
+      "subtitle-after": "of the medical center.",
+      "current-title": "Current plan",
+      "current-subtitle": "Information about the medical center active subscription.",
+      "available-title": "Available plans",
+      "available-subtitle": "You can simulate a plan change for the demo.",
+      "history-title": "Payment history",
+      "history-subtitle": "Checkout sessions registered for the organization.",
+      "active-plan": "Active plan",
+      "plan-code": "Plan code",
+      "started-at": "Start date",
+      "last-checkout": "Last payment",
+      "change-plan": "Change plan",
+      "no-subscription": "No active subscription was found.",
+      "no-available-plans": "There are no other plans available.",
+      "no-history": "No payment history has been registered.",
+      "metrics": {
+        "current-plan": "Current plan",
+        "status": "Status",
+        "monthly-cost": "Monthly cost",
+        "checkout-history": "Registered payments"
+      },
+      "billing": {
+        "monthly": "month",
+        "yearly": "year"
+      },
+      "status": {
+        "active": "Active",
+        "past-due": "Past due",
+        "cancelled": "Cancelled"
+      },
+      "checkout-status": {
+        "completed": "Completed",
+        "pending": "Pending",
+        "failed": "Failed"
+      },
+      "table": {
+        "date": "Date",
+        "plan": "Plan",
+        "status": "Status",
+        "session": "Session"
+      },
+      "error": {
+        "no-session": "No active session was found.",
+        "load-failed": "Subscription could not be loaded.",
+        "change-plan-failed": "Plan could not be changed."
+      }
+    }
   }
 }

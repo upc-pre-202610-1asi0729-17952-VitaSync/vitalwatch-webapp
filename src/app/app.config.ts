@@ -38,7 +38,9 @@ import {
   heroStopCircle,
   heroDocumentChartBar,
   heroShieldExclamation,
-  heroInformationCircle
+  heroInformationCircle,
+  heroSparkles,
+  heroArrowPath
 } from '@ng-icons/heroicons/outline';
 
 import { routes } from './app.routes';
@@ -88,7 +90,9 @@ export const appConfig: ApplicationConfig = {
       heroStopCircle,
       heroDocumentChartBar,
       heroShieldExclamation,
-      heroInformationCircle
+      heroInformationCircle,
+      heroSparkles,
+      heroArrowPath
     }),
     provideRouter(routes)
   ]
