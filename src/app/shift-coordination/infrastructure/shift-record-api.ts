@@ -35,6 +35,16 @@ export class ShiftRecordApi {
       );
   }
 
+  getShiftRecordsByOrganizationId(organizationId: number): Observable<ShiftRecord[]> {
+    return this.http
+      .get<ShiftRecordResource[]>(
+        `${this.shiftRecordsUrl}?organizationId=${organizationId}&_sort=scheduledStart&_order=desc`
+      )
+      .pipe(
+        map(resources => resources.map(resource => this.toShiftRecord(resource)))
+      );
+  }
+
   updateShiftRecordStatus(
     shiftRecordId: number,
     request: UpdateShiftRecordStatusRequest

@@ -682,5 +682,64 @@
         "update-failed": "No se pudo actualizar la acción preventiva."
       }
     }
+  },
+  "audit": {
+    "reports": {
+      "title": "Reportes",
+      "subtitle-before": "Indicadores globales del",
+      "subtitle-highlight": "centro médico",
+      "subtitle-after": "para seguimiento operativo y preventivo.",
+      "average-fatigue-title": "Fatiga promedio institucional",
+      "average-fatigue-subtitle": "Promedio calculado sobre el personal médico activo.",
+      "average": "Promedio",
+      "resolved-alerts": "Alertas resueltas",
+      "open-anomalies": "Anomalías abiertas",
+      "completed-actions": "Acciones completadas",
+      "staff-summary-title": "Resumen por personal médico",
+      "staff-summary-subtitle": "Consolidado de riesgo, alertas, anomalías, acciones y turnos.",
+      "teams-summary-title": "Resumen por equipos",
+      "teams-summary-subtitle": "Equipos activos con supervisor y miembros asignados.",
+      "operations-title": "Operación clínica",
+      "operations-subtitle": "Indicadores generales de turnos y acciones preventivas.",
+      "compliance-title": "Seguimiento preventivo",
+      "compliance-subtitle": "Estado de controles básicos del monitoreo clínico.",
+      "supervisor": "Supervisor",
+      "members": "Miembros",
+      "empty-staff": "No hay personal médico para mostrar.",
+      "empty-teams": "No hay equipos activos para mostrar.",
+      "metrics": {
+        "active-staff": "Personal médico activo",
+        "active-teams": "Equipos activos",
+        "high-risk": "Riesgo alto/crítico",
+        "active-alerts": "Alertas activas"
+      },
+      "table": {
+        "staff": "Personal",
+        "team": "Equipo",
+        "risk": "Riesgo",
+        "alerts": "Alertas",
+        "anomalies": "Anomalías",
+        "actions": "Acciones",
+        "shifts": "Turnos"
+      },
+      "operations": {
+        "completed-shifts": "Turnos completados",
+        "completed-hours": "Horas registradas",
+        "supervisors": "Supervisores activos",
+        "preventive-actions": "Acciones preventivas"
+      },
+      "compliance": {
+        "staff-monitoring-title": "Monitoreo del personal",
+        "staff-monitoring-description": "El personal activo cuenta con seguimiento biométrico y evaluación de riesgo.",
+        "alert-followup-title": "Seguimiento de alertas",
+        "alert-followup-description": "Las alertas clínicas activas requieren revisión de los supervisores.",
+        "recovery-title": "Recuperación preventiva",
+        "recovery-description": "Las acciones preventivas permiten registrar pausas, seguimientos y evaluaciones."
+      },
+      "error": {
+        "no-session": "No se encontró una sesión activa.",
+        "load-failed": "No se pudieron cargar los reportes."
+      }
+    }
   }
 }

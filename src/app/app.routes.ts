@@ -81,10 +81,9 @@ export const routes: Routes = [
       },
       {
         path: 'reports',
-        loadComponent: pagePlaceholder,
-        data: {
-          title: 'navigation.reports'
-        }
+        loadComponent: () =>
+          import('./audit-compliance/presentation/views/admin-reports/admin-reports')
+            .then(m => m.AdminReports)
       },
       {
         path: 'audit',

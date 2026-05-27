@@ -679,5 +679,64 @@
         "update-failed": "Preventive action could not be updated."
       }
     }
+  },
+  "audit": {
+    "reports": {
+      "title": "Reports",
+      "subtitle-before": "Global indicators for the",
+      "subtitle-highlight": "medical center",
+      "subtitle-after": "for operational and preventive tracking.",
+      "average-fatigue-title": "Institutional average fatigue",
+      "average-fatigue-subtitle": "Average calculated from active medical staff.",
+      "average": "Average",
+      "resolved-alerts": "Resolved alerts",
+      "open-anomalies": "Open anomalies",
+      "completed-actions": "Completed actions",
+      "staff-summary-title": "Medical staff summary",
+      "staff-summary-subtitle": "Risk, alerts, anomalies, actions and shifts overview.",
+      "teams-summary-title": "Team summary",
+      "teams-summary-subtitle": "Active teams with assigned supervisor and members.",
+      "operations-title": "Clinical operation",
+      "operations-subtitle": "General shift and preventive action indicators.",
+      "compliance-title": "Preventive tracking",
+      "compliance-subtitle": "Basic control status for clinical monitoring.",
+      "supervisor": "Supervisor",
+      "members": "Members",
+      "empty-staff": "There is no medical staff to display.",
+      "empty-teams": "There are no active teams to display.",
+      "metrics": {
+        "active-staff": "Active medical staff",
+        "active-teams": "Active teams",
+        "high-risk": "High/critical risk",
+        "active-alerts": "Active alerts"
+      },
+      "table": {
+        "staff": "Staff",
+        "team": "Team",
+        "risk": "Risk",
+        "alerts": "Alerts",
+        "anomalies": "Anomalies",
+        "actions": "Actions",
+        "shifts": "Shifts"
+      },
+      "operations": {
+        "completed-shifts": "Completed shifts",
+        "completed-hours": "Registered hours",
+        "supervisors": "Active supervisors",
+        "preventive-actions": "Preventive actions"
+      },
+      "compliance": {
+        "staff-monitoring-title": "Staff monitoring",
+        "staff-monitoring-description": "Active staff has biometric monitoring and risk assessment.",
+        "alert-followup-title": "Alert follow-up",
+        "alert-followup-description": "Active clinical alerts require supervisor review.",
+        "recovery-title": "Preventive recovery",
+        "recovery-description": "Preventive actions make it possible to record breaks, follow-ups and evaluations."
+      },
+      "error": {
+        "no-session": "No active session was found.",
+        "load-failed": "Reports could not be loaded."
+      }
+    }
   }
 }

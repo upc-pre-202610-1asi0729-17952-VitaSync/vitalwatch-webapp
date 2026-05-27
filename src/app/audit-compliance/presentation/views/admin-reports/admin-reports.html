@@ -1,0 +1,291 @@
+<section class="page-header">
+    <h1>{{ 'audit.reports.title' | translate }}</h1>
+    <p>
+        {{ 'audit.reports.subtitle-before' | translate }}
+        <strong>{{ 'audit.reports.subtitle-highlight' | translate }}</strong>
+        {{ 'audit.reports.subtitle-after' | translate }}
+    </p>
+</section>
+
+@if (errorMessage()) {
+<small class="form-error">{{ errorMessage()! | translate }}</small>
+}
+
+<section class="metrics-grid">
+    <article class="metric-card">
+        <div class="metric-icon blue">
+            <ng-icon name="heroUsers" />
+        </div>
+        <p>{{ 'audit.reports.metrics.active-staff' | translate }}</p>
+        <h2>{{ activeDoctors().length }}</h2>
+    </article>
+
+    <article class="metric-card">
+        <div class="metric-icon purple">
+            <ng-icon name="heroUserGroup" />
+        </div>
+        <p>{{ 'audit.reports.metrics.active-teams' | translate }}</p>
+        <h2 class="purple-text">{{ activeTeams().length }}</h2>
+    </article>
+
+    <article class="metric-card">
+        <div class="metric-icon danger">
+            <ng-icon name="heroExclamationTriangle" />
+        </div>
+        <p>{{ 'audit.reports.metrics.high-risk' | translate }}</p>
+        <h2 class="danger-text">{{ highRiskStaff().length }}</h2>
+    </article>
+
+    <article class="metric-card">
+        <div class="metric-icon warning">
+            <ng-icon name="heroBell" />
+        </div>
+        <p>{{ 'audit.reports.metrics.active-alerts' | translate }}</p>
+        <h2 class="warning-text">{{ activeAlerts().length }}</h2>
+    </article>
+</section>
+
+<section class="summary-grid">
+    <article class="summary-card fatigue-card">
+        <div class="summary-header">
+            <div>
+                <h2>{{ 'audit.reports.average-fatigue-title' | translate }}</h2>
+                <p>{{ 'audit.reports.average-fatigue-subtitle' | translate }}</p>
+            </div>
+
+            <div class="summary-icon">
+                <ng-icon name="heroDocumentChartBar" />
+            </div>
+        </div>
+
+        <div class="fatigue-value">
+            <strong>{{ averageFatigue() }}%</strong>
+            <span>{{ 'audit.reports.average' | translate }}</span>
+        </div>
+
+        <div class="progress-track">
+            <div class="progress-fill" [style.width.%]="averageFatigue()"></div>
+        </div>
+    </article>
+
+    <article class="summary-card small-summary">
+        <div class="metric-icon success">
+            <ng-icon name="heroCheckCircle" />
+        </div>
+
+        <h2>{{ resolvedAlerts().length }}</h2>
+        <p>{{ 'audit.reports.resolved-alerts' | translate }}</p>
+    </article>
+
+    <article class="summary-card small-summary">
+        <div class="metric-icon danger">
+            <ng-icon name="heroBolt" />
+        </div>
+
+        <h2>{{ openAnomalies().length }}</h2>
+        <p>{{ 'audit.reports.open-anomalies' | translate }}</p>
+    </article>
+
+    <article class="summary-card small-summary">
+        <div class="metric-icon blue">
+            <ng-icon name="heroClipboardDocumentCheck" />
+        </div>
+
+        <h2>{{ completedPreventiveActions().length }}</h2>
+        <p>{{ 'audit.reports.completed-actions' | translate }}</p>
+    </article>
+</section>
+
+<section class="content-grid">
+    <article class="content-card">
+        <div class="section-header">
+            <div>
+                <h2>{{ 'audit.reports.staff-summary-title' | translate }}</h2>
+                <p>{{ 'audit.reports.staff-summary-subtitle' | translate }}</p>
+            </div>
+        </div>
+
+        <div class="table-wrapper">
+            <table class="report-table">
+                <thead>
+                    <tr>
+                        <th>{{ 'audit.reports.table.staff' | translate }}</th>
+                        <th>{{ 'audit.reports.table.team' | translate }}</th>
+                        <th>{{ 'audit.reports.table.risk' | translate }}</th>
+                        <th>{{ 'audit.reports.table.alerts' | translate }}</th>
+                        <th>{{ 'audit.reports.table.anomalies' | translate }}</th>
+                        <th>{{ 'audit.reports.table.actions' | translate }}</th>
+                        <th>{{ 'audit.reports.table.shifts' | translate }}</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @for (item of staffReport(); track item.doctor.id) {
+                    <tr>
+                        <td>
+                            <div class="staff-profile">
+                                <div class="avatar">
+                                    {{ item.doctor.initials }}
+                                </div>
+
+                                <div>
+                                    <strong>{{ item.doctor.fullName }}</strong>
+                                    <span>{{ item.doctor.email }}</span>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td>{{ item.teamName }}</td>
+
+                        <td>
+                            @if (item.risk) {
+                            <span class="risk-pill" [class]="getRiskClass(item.risk.riskLevel)">
+                                {{ getRiskLabel(item.risk.riskLevel) | translate }}
+                            </span>
+
+                            <strong class="fatigue-text">
+                                {{ item.risk.fatigueLevel }}%
+                            </strong>
+                            } @else {
+                            <span class="muted-text">—</span>
+                            }
+                        </td>
+
+                        <td>
+                            <span class="count-pill warning">
+                                {{ item.activeAlerts }}
+                            </span>
+                        </td>
+
+                        <td>
+                            <span class="count-pill danger">
+                                {{ item.openAnomalies }}
+                            </span>
+                        </td>
+
+                        <td>
+                            <span class="count-pill blue">
+                                {{ item.preventiveActions }}
+                            </span>
+                        </td>
+
+                        <td>
+                            <span class="count-pill success">
+                                {{ item.completedShifts }}
+                            </span>
+                        </td>
+                    </tr>
+                    } @empty {
+                    <tr>
+                        <td colspan="7">
+                            <p class="empty-state">
+                                {{ 'audit.reports.empty-staff' | translate }}
+                            </p>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </article>
+
+    <article class="content-card">
+        <div class="section-header">
+            <div>
+                <h2>{{ 'audit.reports.teams-summary-title' | translate }}</h2>
+                <p>{{ 'audit.reports.teams-summary-subtitle' | translate }}</p>
+            </div>
+        </div>
+
+        <div class="teams-list">
+            @for (team of activeTeams(); track team.id) {
+            <div class="team-item">
+                <div>
+                    <strong>{{ team.name }}</strong>
+                    <span>
+                        {{ 'audit.reports.supervisor' | translate }}:
+                        {{ getSupervisorName(team.supervisorId) }}
+                    </span>
+                </div>
+
+                <div class="team-count">
+                    <strong>{{ getTeamMemberCount(team.id) }}</strong>
+                    <span>{{ 'audit.reports.members' | translate }}</span>
+                </div>
+            </div>
+            } @empty {
+            <p class="empty-state">
+                {{ 'audit.reports.empty-teams' | translate }}
+            </p>
+            }
+        </div>
+    </article>
+</section>
+
+<section class="content-grid lower-grid">
+    <article class="content-card">
+        <div class="section-header">
+            <div>
+                <h2>{{ 'audit.reports.operations-title' | translate }}</h2>
+                <p>{{ 'audit.reports.operations-subtitle' | translate }}</p>
+            </div>
+        </div>
+
+        <div class="operations-grid">
+            <div class="operation-item">
+                <span>{{ 'audit.reports.operations.completed-shifts' | translate }}</span>
+                <strong>{{ completedShifts().length }}</strong>
+            </div>
+
+            <div class="operation-item">
+                <span>{{ 'audit.reports.operations.completed-hours' | translate }}</span>
+                <strong>{{ formatHours(totalCompletedHours()) }}</strong>
+            </div>
+
+            <div class="operation-item">
+                <span>{{ 'audit.reports.operations.supervisors' | translate }}</span>
+                <strong>{{ activeSupervisors().length }}</strong>
+            </div>
+
+            <div class="operation-item">
+                <span>{{ 'audit.reports.operations.preventive-actions' | translate }}</span>
+                <strong>{{ completedPreventiveActions().length }}</strong>
+            </div>
+        </div>
+    </article>
+
+    <article class="content-card">
+        <div class="section-header">
+            <div>
+                <h2>{{ 'audit.reports.compliance-title' | translate }}</h2>
+                <p>{{ 'audit.reports.compliance-subtitle' | translate }}</p>
+            </div>
+        </div>
+
+        <div class="compliance-list">
+            <div class="compliance-item success">
+                <ng-icon name="heroCheckCircle" />
+                <div>
+                    <strong>{{ 'audit.reports.compliance.staff-monitoring-title' | translate }}</strong>
+                    <span>{{ 'audit.reports.compliance.staff-monitoring-description' | translate }}</span>
+                </div>
+            </div>
+
+            <div class="compliance-item warning">
+                <ng-icon name="heroBell" />
+                <div>
+                    <strong>{{ 'audit.reports.compliance.alert-followup-title' | translate }}</strong>
+                    <span>{{ 'audit.reports.compliance.alert-followup-description' | translate }}</span>
+                </div>
+            </div>
+
+            <div class="compliance-item blue">
+                <ng-icon name="heroClipboardDocumentCheck" />
+                <div>
+                    <strong>{{ 'audit.reports.compliance.recovery-title' | translate }}</strong>
+                    <span>{{ 'audit.reports.compliance.recovery-description' | translate }}</span>
+                </div>
+            </div>
+        </div>
+    </article>
+</section>
