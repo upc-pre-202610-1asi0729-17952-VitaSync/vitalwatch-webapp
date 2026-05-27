@@ -584,6 +584,28 @@
       "createdAt": "2026-05-25T05:09:49.728Z",
       "completedAt": null,
       "id": 3
+    },
+    {
+      "id": 3,
+      "organizationId": 1,
+      "supervisorId": 3,
+      "userId": 5,
+      "type": "RECOVERY_BREAK",
+      "status": "PENDING",
+      "notes": "Tomar pausa preventiva de 15 minutos por fatiga moderada.",
+      "createdAt": "2026-05-25T12:20:00.000Z",
+      "completedAt": null
+    },
+    {
+      "id": 4,
+      "organizationId": 1,
+      "supervisorId": 3,
+      "userId": 5,
+      "type": "SUPERVISOR_CHECK_IN",
+      "status": "COMPLETED",
+      "notes": "Seguimiento realizado después del turno nocturno.",
+      "createdAt": "2026-05-24T18:10:00.000Z",
+      "completedAt": "2026-05-24T18:35:00.000Z"
     }
   ],
   "vitalSignAnomalies": [
@@ -860,11 +882,11 @@
       "userId": 5,
       "workAreaId": 1,
       "type": "DAY",
-      "status": "IN_PROGRESS",
+      "status": "COMPLETED",
       "scheduledStart": "2026-05-25T07:00:00.000Z",
       "scheduledEnd": "2026-05-25T19:00:00.000Z",
       "checkInAt": "2026-05-25T06:58:00.000Z",
-      "checkOutAt": null
+      "checkOutAt": "2026-05-25T06:10:59.098Z"
     },
     {
       "id": 4,
@@ -872,10 +894,10 @@
       "userId": 5,
       "workAreaId": 1,
       "type": "DAY",
-      "status": "SCHEDULED",
+      "status": "IN_PROGRESS",
       "scheduledStart": "2026-05-26T07:00:00.000Z",
       "scheduledEnd": "2026-05-26T19:00:00.000Z",
-      "checkInAt": null,
+      "checkInAt": "2026-05-25T06:11:01.959Z",
       "checkOutAt": null
     },
     {

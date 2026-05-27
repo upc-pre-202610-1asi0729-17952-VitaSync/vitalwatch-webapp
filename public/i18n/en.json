@@ -625,6 +625,59 @@
         "update-failed": "Preventive action could not be updated.",
         "notes-required": "Notes are required."
       }
+    },
+    "doctor": {
+      "title": "My Recovery",
+      "subtitle-before": "Preventive recovery tracking for",
+      "subtitle-after": "based on your current status.",
+      "current-status-title": "Recovery status",
+      "recovery-score": "Recovery",
+      "fatigue-level": "Current fatigue",
+      "heart-rate": "Heart rate",
+      "hrv": "HRV",
+      "recommendations-title": "Recommendations",
+      "recommendations-subtitle": "Suggested actions based on your current indicators.",
+      "pending-title": "Pending actions",
+      "pending-subtitle": "Actions assigned by your clinical supervisor.",
+      "history-title": "Recovery history",
+      "history-subtitle": "Recently registered preventive actions.",
+      "created-at": "Created",
+      "mark-completed": "Mark completed",
+      "no-pending-actions": "You have no pending preventive actions.",
+      "no-history": "You have no preventive action history.",
+      "metrics": {
+        "recovery-score": "Recovery score",
+        "pending-actions": "Pending actions",
+        "active-alerts": "Active alerts",
+        "completed-actions": "Completed actions"
+      },
+      "status": {
+        "low": "Stable",
+        "moderate": "Needs break",
+        "high": "Needs recovery",
+        "critical": "Immediate attention"
+      },
+      "message": {
+        "low": "Your status remains stable. Continue preventive monitoring.",
+        "moderate": "A short break and vital signs follow-up are recommended.",
+        "high": "Your fatigue is high. Prioritize recovery before continuing demanding activities.",
+        "critical": "Your status requires immediate support. Avoid critical activities and contact your supervisor."
+      },
+      "recommendations": {
+        "hydration": "Keep constant hydration during the shift.",
+        "monitoring": "Continue checking your biometric indicators.",
+        "short-break": "Take a short 10 to 15 minute break.",
+        "breathing": "Practice controlled breathing for 3 to 5 minutes.",
+        "recovery-break": "Take a recovery break before continuing.",
+        "notify-supervisor": "Notify your clinical supervisor about your condition.",
+        "stop-critical-work": "Avoid continuing critical activities.",
+        "request-support": "Request immediate support from your supervisor or assigned team."
+      },
+      "error": {
+        "no-session": "No active session was found.",
+        "load-failed": "Your recovery information could not be loaded.",
+        "update-failed": "Preventive action could not be updated."
+      }
     }
   }
 }

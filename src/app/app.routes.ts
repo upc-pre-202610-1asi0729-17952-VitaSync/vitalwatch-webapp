@@ -195,10 +195,9 @@ export const routes: Routes = [
       },
       {
         path: 'recovery',
-        loadComponent: pagePlaceholder,
-        data: {
-          title: 'navigation.my-recovery'
-        }
+        loadComponent: () =>
+          import('./staff-recovery/presentation/views/doctor-recovery/doctor-recovery')
+            .then(m => m.DoctorRecovery)
       },
       {
         path: 'settings',

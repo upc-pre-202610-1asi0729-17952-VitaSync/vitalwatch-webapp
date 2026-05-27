@@ -1,0 +1,182 @@
+<section class="page-header">
+    <h1>{{ 'staffRecovery.doctor.title' | translate }}</h1>
+    <p>
+        {{ 'staffRecovery.doctor.subtitle-before' | translate }}
+        <strong>{{ doctor()?.fullName }}</strong>
+        {{ 'staffRecovery.doctor.subtitle-after' | translate }}
+    </p>
+</section>
+
+@if (errorMessage()) {
+<small class="form-error">{{ errorMessage()! | translate }}</small>
+}
+
+<section class="metrics-grid">
+    <article class="metric-card">
+        <div class="metric-icon blue">
+            <ng-icon name="heroShieldCheck" />
+        </div>
+        <p>{{ 'staffRecovery.doctor.metrics.recovery-score' | translate }}</p>
+        <h2>{{ recoveryScore() }}%</h2>
+    </article>
+
+    <article class="metric-card">
+        <div class="metric-icon warning">
+            <ng-icon name="heroClock" />
+        </div>
+        <p>{{ 'staffRecovery.doctor.metrics.pending-actions' | translate }}</p>
+        <h2 class="warning-text">{{ pendingActions().length }}</h2>
+    </article>
+
+    <article class="metric-card">
+        <div class="metric-icon danger">
+            <ng-icon name="heroExclamationTriangle" />
+        </div>
+        <p>{{ 'staffRecovery.doctor.metrics.active-alerts' | translate }}</p>
+        <h2 class="danger-text">{{ activeAlerts().length }}</h2>
+    </article>
+
+    <article class="metric-card">
+        <div class="metric-icon success">
+            <ng-icon name="heroCheckCircle" />
+        </div>
+        <p>{{ 'staffRecovery.doctor.metrics.completed-actions' | translate }}</p>
+        <h2 class="success-text">{{ completedActions().length }}</h2>
+    </article>
+</section>
+
+<section class="content-grid">
+    <article class="recovery-card" [class]="recoveryStatusClass()">
+        <div class="recovery-header">
+            <div>
+                <span class="status-pill" [class]="recoveryStatusClass()">
+                    {{ recoveryStatusLabel() | translate }}
+                </span>
+
+                <h2>{{ 'staffRecovery.doctor.current-status-title' | translate }}</h2>
+                <p>{{ recoveryMessage() | translate }}</p>
+            </div>
+
+            <div class="recovery-score" [class]="recoveryStatusClass()">
+                <strong>{{ recoveryScore() }}%</strong>
+                <span>{{ 'staffRecovery.doctor.recovery-score' | translate }}</span>
+            </div>
+        </div>
+
+        <div class="progress-track">
+            <div class="progress-fill" [class]="recoveryStatusClass()" [style.width.%]="recoveryScore()">
+            </div>
+        </div>
+
+        @if (currentRisk(); as risk) {
+        <div class="risk-summary">
+            <div>
+                <span>{{ 'staffRecovery.doctor.fatigue-level' | translate }}</span>
+                <strong>{{ risk.fatigueLevel }}%</strong>
+            </div>
+
+            <div>
+                <span>{{ 'staffRecovery.doctor.heart-rate' | translate }}</span>
+                <strong>{{ risk.heartRate }} bpm</strong>
+            </div>
+
+            <div>
+                <span>{{ 'staffRecovery.doctor.hrv' | translate }}</span>
+                <strong>{{ risk.hrv }} ms</strong>
+            </div>
+        </div>
+        }
+    </article>
+
+    <article class="content-card">
+        <div class="section-header">
+            <div>
+                <h2>{{ 'staffRecovery.doctor.recommendations-title' | translate }}</h2>
+                <p>{{ 'staffRecovery.doctor.recommendations-subtitle' | translate }}</p>
+            </div>
+        </div>
+
+        <div class="recommendations-list">
+            @for (recommendation of recommendations(); track recommendation) {
+            <div class="recommendation-item">
+                <div class="recommendation-icon">
+                    <ng-icon name="heroHeart" />
+                </div>
+
+                <p>{{ recommendation | translate }}</p>
+            </div>
+            }
+        </div>
+    </article>
+</section>
+
+<section class="content-grid lower-grid">
+    <article class="content-card">
+        <div class="section-header">
+            <div>
+                <h2>{{ 'staffRecovery.doctor.pending-title' | translate }}</h2>
+                <p>{{ 'staffRecovery.doctor.pending-subtitle' | translate }}</p>
+            </div>
+        </div>
+
+        <div class="actions-list">
+            @for (action of pendingActions(); track action.id) {
+            <article class="action-card pending">
+                <div class="action-content">
+                    <span class="action-type">
+                        {{ getActionTypeLabel(action.type) | translate }}
+                    </span>
+
+                    <h3>{{ action.notes }}</h3>
+
+                    <p>
+                        {{ 'staffRecovery.doctor.created-at' | translate }}:
+                        {{ action.createdAt | date:'yyyy-MM-dd HH:mm' }}
+                    </p>
+                </div>
+
+                <button type="button" class="action-button" (click)="completeAction(action)">
+                    <ng-icon name="heroCheckCircle" />
+                    <span>{{ 'staffRecovery.doctor.mark-completed' | translate }}</span>
+                </button>
+            </article>
+            } @empty {
+            <p class="empty-state">
+                {{ 'staffRecovery.doctor.no-pending-actions' | translate }}
+            </p>
+            }
+        </div>
+    </article>
+
+    <article class="content-card">
+        <div class="section-header">
+            <div>
+                <h2>{{ 'staffRecovery.doctor.history-title' | translate }}</h2>
+                <p>{{ 'staffRecovery.doctor.history-subtitle' | translate }}</p>
+            </div>
+        </div>
+
+        <div class="history-list">
+            @for (action of personalActions(); track action.id) {
+            <article class="history-item" [class]="getActionStatusClass(action.status)">
+                <div>
+                    <span class="status-pill" [class]="getActionStatusClass(action.status)">
+                        {{ getActionStatusLabel(action.status) | translate }}
+                    </span>
+
+                    <h3>{{ getActionTypeLabel(action.type) | translate }}</h3>
+                    <p>{{ action.notes }}</p>
+
+                    <small>
+                        {{ action.createdAt | date:'yyyy-MM-dd HH:mm' }}
+                    </small>
+                </div>
+            </article>
+            } @empty {
+            <p class="empty-state">
+                {{ 'staffRecovery.doctor.no-history' | translate }}
+            </p>
+            }
+        </div>
+    </article>
+</section>

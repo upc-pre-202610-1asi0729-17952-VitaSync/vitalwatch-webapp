@@ -628,6 +628,59 @@
         "update-failed": "No se pudo actualizar la acción preventiva.",
         "notes-required": "Las notas son obligatorias."
       }
+    },
+    "doctor": {
+      "title": "Mi Recuperación",
+      "subtitle-before": "Seguimiento de recuperación preventiva para",
+      "subtitle-after": "según tu estado actual.",
+      "current-status-title": "Estado de recuperación",
+      "recovery-score": "Recuperación",
+      "fatigue-level": "Fatiga actual",
+      "heart-rate": "Frecuencia cardíaca",
+      "hrv": "HRV",
+      "recommendations-title": "Recomendaciones",
+      "recommendations-subtitle": "Acciones sugeridas según tus indicadores actuales.",
+      "pending-title": "Acciones pendientes",
+      "pending-subtitle": "Acciones asignadas por tu supervisor clínico.",
+      "history-title": "Historial de recuperación",
+      "history-subtitle": "Acciones preventivas registradas recientemente.",
+      "created-at": "Creada",
+      "mark-completed": "Marcar completada",
+      "no-pending-actions": "No tienes acciones preventivas pendientes.",
+      "no-history": "No tienes historial de acciones preventivas.",
+      "metrics": {
+        "recovery-score": "Puntaje de recuperación",
+        "pending-actions": "Acciones pendientes",
+        "active-alerts": "Alertas activas",
+        "completed-actions": "Acciones completadas"
+      },
+      "status": {
+        "low": "Estable",
+        "moderate": "Requiere pausa",
+        "high": "Requiere recuperación",
+        "critical": "Atención inmediata"
+      },
+      "message": {
+        "low": "Tu estado se mantiene estable. Continúa con el monitoreo preventivo.",
+        "moderate": "Se recomienda una pausa breve y seguimiento de tus signos vitales.",
+        "high": "Tu fatiga es elevada. Prioriza recuperación antes de continuar actividades exigentes.",
+        "critical": "Tu estado requiere apoyo inmediato. Evita actividades críticas y contacta a tu supervisor."
+      },
+      "recommendations": {
+        "hydration": "Mantén hidratación constante durante el turno.",
+        "monitoring": "Continúa revisando tus indicadores biométricos.",
+        "short-break": "Realiza una pausa breve de 10 a 15 minutos.",
+        "breathing": "Practica respiración controlada durante 3 a 5 minutos.",
+        "recovery-break": "Toma una pausa de recuperación antes de continuar.",
+        "notify-supervisor": "Informa tu estado al supervisor clínico.",
+        "stop-critical-work": "Evita continuar con actividades críticas.",
+        "request-support": "Solicita apoyo inmediato del supervisor o equipo asignado."
+      },
+      "error": {
+        "no-session": "No se encontró una sesión activa.",
+        "load-failed": "No se pudo cargar tu información de recuperación.",
+        "update-failed": "No se pudo actualizar la acción preventiva."
+      }
     }
   }
 }
