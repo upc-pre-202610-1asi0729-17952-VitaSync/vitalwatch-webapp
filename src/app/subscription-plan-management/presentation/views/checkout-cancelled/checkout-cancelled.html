@@ -1,0 +1,23 @@
+<section class="result-page">
+    <article class="result-card">
+        <div class="result-icon warning">
+            <ng-icon name="heroExclamationTriangle" />
+        </div>
+
+        <h1>{{ 'subscription.checkoutCancelled.title' | translate }}</h1>
+
+        <p>
+            {{ 'subscription.checkoutCancelled.subtitle' | translate }}
+        </p>
+
+        <div class="actions">
+            <button type="button" class="secondary-button" (click)="goToSignIn()">
+                {{ 'subscription.checkoutCancelled.go-login' | translate }}
+            </button>
+
+            <button type="button" class="primary-button" (click)="tryAgain()">
+                {{ 'subscription.checkoutCancelled.try-again' | translate }}
+            </button>
+        </div>
+    </article>
+</section>

@@ -837,6 +837,52 @@
         "load-failed": "Subscription could not be loaded.",
         "change-plan-failed": "Plan could not be changed."
       }
+    },
+    "registration": {
+      "badge": "Organization registration",
+      "title": "Create medical center",
+      "subtitle": "Complete the medical center and administrator account details to activate the selected plan.",
+      "selected-plan": "Selected plan",
+      "month": "month",
+      "organization-title": "Medical center details",
+      "organization-name": "Medical center name",
+      "organization-name-placeholder": "Example: San Gabriel Clinic",
+      "ruc": "Tax ID",
+      "ruc-placeholder": "20600000000",
+      "organization-phone": "Center phone",
+      "address": "Address",
+      "address-placeholder": "Health Ave. 123, Lima",
+      "admin-title": "Administrator account",
+      "first-name": "First name",
+      "last-name": "Last name",
+      "email": "Email address",
+      "phone": "Phone",
+      "password": "Password",
+      "first-name-placeholder": "Example: Marcelo",
+      "last-name-placeholder": "Example: Administrator",
+      "email-placeholder": "admin@hospital.com",
+      "phone-placeholder": "+51 999 999 999",
+      "password-placeholder": "At least 6 characters",
+      "back-login": "Back to sign in",
+      "pay-and-create": "Pay and create account",
+      "processing": "Processing...",
+      "success": "Medical center and administrator account were created successfully. Redirecting to sign in...",
+      "error": {
+        "plan-not-found": "Selected plan was not found.",
+        "load-plans-failed": "Plans could not be loaded.",
+        "create-failed": "Organization registration could not be completed."
+      }
+    },
+    "checkoutSuccess": {
+      "title": "Payment completed",
+      "subtitle": "The medical center and administrator account were created successfully. You can now sign in with the registered credentials.",
+      "go-login": "Go to sign in"
+    },
+    "checkoutCancelled": {
+      "title": "Payment cancelled",
+      "subtitle": "The payment process was cancelled or was not completed. You can try again whenever you want.",
+      "go-login": "Back to sign in",
+      "try-again": "Try again"
     }
   },
   "settings": {

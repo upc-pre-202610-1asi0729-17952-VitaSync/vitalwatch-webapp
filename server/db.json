@@ -43,6 +43,15 @@
       "phone": "+51 988 888 888",
       "status": "ACTIVE",
       "planId": 3
+    },
+    {
+      "name": "Clínica Waza",
+      "ruc": "20600000000",
+      "address": "Av. Waza 131",
+      "phone": "988888888",
+      "planId": 2,
+      "status": "ACTIVE",
+      "id": 3
     }
   ],
   "users": [
@@ -416,6 +425,17 @@
       "specialtyId": 2,
       "role": "DOCTOR",
       "status": "ACTIVE"
+    },
+    {
+      "firstName": "Waza",
+      "lastName": "Papu",
+      "email": "wazapapuxd123@gmail.com",
+      "password": "waza123",
+      "phone": "999999999",
+      "organizationId": 3,
+      "role": "HOSPITAL_ADMIN",
+      "status": "ACTIVE",
+      "id": 30
     }
   ],
   "careTeams": [
@@ -603,6 +623,13 @@
       "planId": 3,
       "status": "ACTIVE",
       "startedAt": "2026-05-23T05:46:51.903Z"
+    },
+    {
+      "organizationId": 3,
+      "planId": 2,
+      "status": "ACTIVE",
+      "startedAt": "2026-05-29T23:30:57.509Z",
+      "id": 3
     }
   ],
   "invitations": [
@@ -790,6 +817,16 @@
       "planCode": "enterprise",
       "status": "COMPLETED",
       "createdAt": "2026-05-23T05:46:33.063Z"
+    },
+    {
+      "organizationId": 3,
+      "administratorId": 30,
+      "subscriptionId": 3,
+      "planId": 2,
+      "planCode": "professional",
+      "status": "COMPLETED",
+      "createdAt": "2026-05-29T23:30:57.541Z",
+      "id": 4
     }
   ],
   "riskAssessments": [

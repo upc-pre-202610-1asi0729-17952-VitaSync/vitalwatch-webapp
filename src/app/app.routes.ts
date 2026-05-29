@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 import {
   authenticationGuard,
-  publicOnlyGuard,
   roleGuard
 } from './iam/application/authentication.guard';
 
@@ -9,17 +8,13 @@ const iamRoutes = () =>
   import('./iam/presentation/iam.routes')
     .then(m => m.iamRoutes);
 
-const subscriptionRoutes = () =>
-  import('./subscription/presentation/subscription.routes')
-    .then(m => m.subscriptionRoutes);
+const subscriptionPlanManagementRoutes = () =>
+  import('./subscription-plan-management/presentation/subscription-plan-management.routes')
+    .then(m => m.subscriptionPlanManagementRoutes);
 
 const appLayout = () =>
   import('./shared/presentation/components/app-layout/app-layout')
     .then(m => m.AppLayout);
-
-const pagePlaceholder = () =>
-  import('./shared/presentation/views/page-placeholder/page-placeholder')
-    .then(m => m.PagePlaceholder);
 
 export const routes: Routes = [
   {
@@ -35,8 +30,15 @@ export const routes: Routes = [
 
   {
     path: 'onboarding',
-    canActivate: [publicOnlyGuard],
-    loadChildren: subscriptionRoutes
+    loadChildren: subscriptionPlanManagementRoutes
+  },
+  {
+    path: 'register-organization',
+    loadChildren: subscriptionPlanManagementRoutes
+  },
+  {
+    path: 'checkout',
+    loadChildren: subscriptionPlanManagementRoutes
   },
 
   {
@@ -48,23 +50,27 @@ export const routes: Routes = [
     },
     children: [
       {
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full'
+      },
+      {
         path: 'dashboard',
         loadComponent: () =>
           import('./clinical-risk-assessment/presentation/views/admin-dashboard/admin-dashboard')
             .then(m => m.AdminDashboard)
       },
       {
-        path: 'dashboard',
-        loadComponent: pagePlaceholder,
-        data: {
-          title: 'navigation.general-summary'
-        }
-      },
-      {
         path: 'staff',
         loadComponent: () =>
           import('./iam/presentation/views/staff-management/staff-management')
             .then(m => m.StaffManagement)
+      },
+      {
+        path: 'teams',
+        loadComponent: () =>
+          import('./shift-coordination/presentation/views/team-management/team-management')
+            .then(m => m.TeamManagement)
       },
       {
         path: 'invitations',
@@ -89,12 +95,6 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./audit-compliance/presentation/views/admin-audit/admin-audit')
             .then(m => m.AdminAudit)
-      },
-      {
-        path: 'teams',
-        loadComponent: () =>
-          import('./shift-coordination/presentation/views/team-management/team-management')
-            .then(m => m.TeamManagement)
       },
       {
         path: 'settings',

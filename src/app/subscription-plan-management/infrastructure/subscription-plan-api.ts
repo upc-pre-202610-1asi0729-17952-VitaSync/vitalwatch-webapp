@@ -35,6 +35,45 @@ interface CheckoutSessionResource {
   createdAt: string;
 }
 
+interface OrganizationResource {
+  id: number;
+  name: string;
+  ruc: string;
+  address: string;
+  phone: string;
+  status: 'ACTIVE' | 'INACTIVE';
+  planId: number;
+}
+
+interface UserResource {
+  id: number;
+  organizationId: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  password?: string;
+  phone?: string;
+  role: 'HOSPITAL_ADMIN' | 'SUPERVISOR' | 'DOCTOR';
+  status: 'ACTIVE' | 'INACTIVE' | 'PENDING';
+}
+
+export interface CreateOrganizationRequest {
+  name: string;
+  ruc: string;
+  address: string;
+  phone: string;
+  planId: number;
+}
+
+export interface CreateHospitalAdministratorRequest {
+  organizationId: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  phone: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -44,6 +83,8 @@ export class SubscriptionPlanApi {
   private plansUrl = `${environment.platformProviderApiBaseUrl}${environment.plansEndpointPath}`;
   private subscriptionsUrl = `${environment.platformProviderApiBaseUrl}${environment.subscriptionsEndpointPath}`;
   private checkoutSessionsUrl = `${environment.platformProviderApiBaseUrl}${environment.checkoutSessionsEndpointPath}`;
+  private organizationsUrl = `${environment.platformProviderApiBaseUrl}${environment.organizationsEndpointPath}`;
+  private usersUrl = `${environment.platformProviderApiBaseUrl}${environment.usersEndpointPath}`;
 
   getPlans(): Observable<Plan[]> {
     return this.http
@@ -104,6 +145,86 @@ export class SubscriptionPlanApi {
           )
         )
       );
+  }
+
+  createOrganization(request: CreateOrganizationRequest): Observable<OrganizationResource> {
+    const payload = {
+      ...request,
+      status: 'ACTIVE'
+    };
+
+    return this.http.post<OrganizationResource>(this.organizationsUrl, payload);
+  }
+
+  createHospitalAdministrator(request: CreateHospitalAdministratorRequest): Observable<UserResource> {
+    const payload = {
+      ...request,
+      role: 'HOSPITAL_ADMIN',
+      status: 'ACTIVE'
+    };
+
+    return this.http.post<UserResource>(this.usersUrl, payload);
+  }
+
+  createSubscription(request: {
+    organizationId: number;
+    planId: number;
+  }): Observable<Subscription> {
+    const payload = {
+      ...request,
+      status: 'ACTIVE' as SubscriptionStatus,
+      startedAt: new Date().toISOString()
+    };
+
+    return this.http
+      .post<SubscriptionResource>(this.subscriptionsUrl, payload)
+      .pipe(
+        map(resource => this.toSubscription(resource))
+      );
+  }
+
+  registerOrganizationWithAdministrator(request: {
+    plan: Plan;
+    organization: CreateOrganizationRequest;
+    administrator: Omit<CreateHospitalAdministratorRequest, 'organizationId'>;
+  }): Observable<{
+    organization: OrganizationResource;
+    administrator: UserResource;
+    subscription: Subscription;
+    checkoutSession: CheckoutSession;
+  }> {
+    return this.createOrganization(request.organization).pipe(
+      switchMap(organization =>
+        this.createHospitalAdministrator({
+          ...request.administrator,
+          organizationId: organization.id
+        }).pipe(
+          switchMap(administrator =>
+            this.createSubscription({
+              organizationId: organization.id,
+              planId: request.plan.id
+            }).pipe(
+              switchMap(subscription =>
+                this.createCompletedCheckoutSession({
+                  organizationId: organization.id,
+                  administratorId: administrator.id,
+                  subscriptionId: subscription.id,
+                  planId: request.plan.id,
+                  planCode: request.plan.code
+                }).pipe(
+                  map(checkoutSession => ({
+                    organization,
+                    administrator,
+                    subscription,
+                    checkoutSession
+                  }))
+                )
+              )
+            )
+          )
+        )
+      )
+    );
   }
 
   private toPlan(resource: PlanResource): Plan {

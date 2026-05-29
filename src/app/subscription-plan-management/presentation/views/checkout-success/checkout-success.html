@@ -1,0 +1,17 @@
+<section class="result-page">
+    <article class="result-card">
+        <div class="result-icon success">
+            <ng-icon name="heroCheckCircle" />
+        </div>
+
+        <h1>{{ 'subscription.checkoutSuccess.title' | translate }}</h1>
+
+        <p>
+            {{ 'subscription.checkoutSuccess.subtitle' | translate }}
+        </p>
+
+        <button type="button" class="primary-button" (click)="goToSignIn()">
+            {{ 'subscription.checkoutSuccess.go-login' | translate }}
+        </button>
+    </article>
+</section>

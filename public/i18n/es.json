@@ -840,6 +840,52 @@
         "load-failed": "No se pudo cargar la suscripción.",
         "change-plan-failed": "No se pudo cambiar el plan."
       }
+    },
+    "registration": {
+      "badge": "Registro de organización",
+      "title": "Crear centro médico",
+      "subtitle": "Completa los datos del centro médico y de la cuenta administradora para activar el plan seleccionado.",
+      "selected-plan": "Plan seleccionado",
+      "month": "mes",
+      "organization-title": "Datos del centro médico",
+      "organization-name": "Nombre del centro médico",
+      "organization-name-placeholder": "Ej: Clínica San Gabriel",
+      "ruc": "RUC",
+      "ruc-placeholder": "20600000000",
+      "organization-phone": "Teléfono del centro",
+      "address": "Dirección",
+      "address-placeholder": "Av. Salud 123, Lima",
+      "admin-title": "Cuenta del administrador",
+      "first-name": "Nombre",
+      "last-name": "Apellido",
+      "email": "Correo electrónico",
+      "phone": "Teléfono",
+      "password": "Contraseña",
+      "first-name-placeholder": "Ej: Marcelo",
+      "last-name-placeholder": "Ej: Administrador",
+      "email-placeholder": "admin@hospital.com",
+      "phone-placeholder": "+51 999 999 999",
+      "password-placeholder": "Mínimo 6 caracteres",
+      "back-login": "Volver al inicio de sesión",
+      "pay-and-create": "Pagar y crear cuenta",
+      "processing": "Procesando...",
+      "success": "Centro médico y administrador creados correctamente. Redirigiendo al inicio de sesión...",
+      "error": {
+        "plan-not-found": "No se encontró el plan seleccionado.",
+        "load-plans-failed": "No se pudieron cargar los planes.",
+        "create-failed": "No se pudo completar el registro de la organización."
+      }
+    },
+    "checkoutSuccess": {
+      "title": "Pago completado",
+      "subtitle": "El centro médico y la cuenta administradora fueron creados correctamente. Ya puedes iniciar sesión con las credenciales registradas.",
+      "go-login": "Ir al inicio de sesión"
+    },
+    "checkoutCancelled": {
+      "title": "Pago cancelado",
+      "subtitle": "El proceso de pago fue cancelado o no se completó. Puedes volver a intentarlo cuando desees.",
+      "go-login": "Volver al inicio",
+      "try-again": "Intentar nuevamente"
     }
   },
   "settings": {

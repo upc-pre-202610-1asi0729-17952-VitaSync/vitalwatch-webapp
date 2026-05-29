@@ -1,0 +1,69 @@
+.result-page {
+    min-height: 100vh;
+    padding: 24px;
+    display: grid;
+    place-items: center;
+    background:
+        radial-gradient(circle at top left, rgba(17, 199, 199, 0.18), transparent 32%),
+        linear-gradient(135deg, #eef7ff, #f8fbff);
+    box-sizing: border-box;
+}
+
+.result-card {
+    width: min(520px, 100%);
+    padding: 36px;
+    border-radius: 24px;
+    text-align: center;
+    background: #ffffff;
+    border: 1px solid #dbe3ef;
+    box-shadow: 0 24px 70px rgba(15, 23, 42, 0.12);
+}
+
+.result-icon {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 22px;
+    display: grid;
+    place-items: center;
+    border-radius: 22px;
+}
+
+.result-icon ng-icon {
+    font-size: 2.2rem;
+}
+
+.result-icon.success {
+    color: #10b981;
+    background: rgba(16, 185, 129, 0.12);
+}
+
+.result-card h1 {
+    margin: 0;
+    color: #0b1b2b;
+    font-size: 2rem;
+    font-weight: 900;
+    letter-spacing: -0.04em;
+}
+
+.result-card p {
+    margin: 12px 0 26px;
+    color: #667085;
+    line-height: 1.6;
+}
+
+.primary-button {
+    min-height: 48px;
+    padding: 0 18px;
+    border: 0;
+    border-radius: 14px;
+    color: #ffffff;
+    background: #2563eb;
+    font: inherit;
+    font-weight: 900;
+    cursor: pointer;
+    box-shadow: 0 16px 30px rgba(37, 99, 235, 0.24);
+}
+
+.primary-button:hover {
+    background: #3571f3;
+}

@@ -1,0 +1,116 @@
+<section class="registration-page">
+    <article class="registration-card">
+        <div class="header">
+            <span>{{ 'subscription.registration.badge' | translate }}</span>
+            <h1>{{ 'subscription.registration.title' | translate }}</h1>
+            <p>{{ 'subscription.registration.subtitle' | translate }}</p>
+        </div>
+
+        @if (selectedPlan(); as plan) {
+        <section class="plan-summary">
+            <div>
+                <span>{{ 'subscription.registration.selected-plan' | translate }}</span>
+                <h2>{{ plan.name }}</h2>
+                <p>{{ plan.description }}</p>
+            </div>
+
+            <strong>
+                {{ plan.price | currency:'USD':'symbol':'1.0-0' }}
+                <small>/ {{ 'subscription.registration.month' | translate }}</small>
+            </strong>
+        </section>
+        }
+
+        @if (successMessage()) {
+        <small class="form-success">{{ successMessage()! | translate }}</small>
+        }
+
+        @if (errorMessage()) {
+        <small class="form-error">{{ errorMessage()! | translate }}</small>
+        }
+
+        <form [formGroup]="form" (ngSubmit)="submit()" class="registration-form">
+            <section class="form-section">
+                <h2>{{ 'subscription.registration.organization-title' | translate }}</h2>
+
+                <div class="field">
+                    <label>{{ 'subscription.registration.organization-name' | translate }}</label>
+                    <input type="text" formControlName="organizationName"
+                        [placeholder]="'subscription.registration.organization-name-placeholder' | translate">
+                </div>
+
+                <div class="form-row">
+                    <div class="field">
+                        <label>{{ 'subscription.registration.ruc' | translate }}</label>
+                        <input type="text" formControlName="ruc" maxlength="11"
+                            [placeholder]="'subscription.registration.ruc-placeholder' | translate">
+                    </div>
+
+                    <div class="field">
+                        <label>{{ 'subscription.registration.organization-phone' | translate }}</label>
+                        <input type="text" formControlName="organizationPhone"
+                            [placeholder]="'subscription.registration.phone-placeholder' | translate">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>{{ 'subscription.registration.address' | translate }}</label>
+                    <input type="text" formControlName="address"
+                        [placeholder]="'subscription.registration.address-placeholder' | translate">
+                </div>
+            </section>
+
+            <section class="form-section">
+                <h2>{{ 'subscription.registration.admin-title' | translate }}</h2>
+
+                <div class="form-row">
+                    <div class="field">
+                        <label>{{ 'subscription.registration.first-name' | translate }}</label>
+                        <input type="text" formControlName="firstName"
+                            [placeholder]="'subscription.registration.first-name-placeholder' | translate">
+                    </div>
+
+                    <div class="field">
+                        <label>{{ 'subscription.registration.last-name' | translate }}</label>
+                        <input type="text" formControlName="lastName"
+                            [placeholder]="'subscription.registration.last-name-placeholder' | translate">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="field">
+                        <label>{{ 'subscription.registration.email' | translate }}</label>
+                        <input type="email" formControlName="email"
+                            [placeholder]="'subscription.registration.email-placeholder' | translate">
+                    </div>
+
+                    <div class="field">
+                        <label>{{ 'subscription.registration.phone' | translate }}</label>
+                        <input type="text" formControlName="phone"
+                            [placeholder]="'subscription.registration.phone-placeholder' | translate">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>{{ 'subscription.registration.password' | translate }}</label>
+                    <input type="password" formControlName="password"
+                        [placeholder]="'subscription.registration.password-placeholder' | translate">
+                </div>
+            </section>
+
+            <div class="actions">
+                <button type="button" class="secondary-button" (click)="goToSignIn()">
+                    {{ 'subscription.registration.back-login' | translate }}
+                </button>
+
+                <button type="submit" class="primary-button" [disabled]="loading()">
+                    <ng-icon name="heroCreditCard" />
+                    <span>
+                        {{ loading() ? ('subscription.registration.processing' | translate) :
+                        ('subscription.registration.pay-and-create' | translate) }}
+                    </span>
+                </button>
+            </div>
+        </form>
+    </article>
+</section>
