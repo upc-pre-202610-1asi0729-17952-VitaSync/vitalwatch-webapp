@@ -14,6 +14,19 @@ interface PlanResource {
   price: number;
   billingPeriod: BillingPeriod;
   description: string;
+  currency?: string;
+  descriptionKey?: string;
+  maxDoctors?: number | null;
+  maxSupervisors?: number | null;
+  maxTeams?: number | null;
+  maxWorkAreas?: number | null;
+  monthlyInvitations?: number | null;
+  dataHistoryDays?: number;
+  supportLevel?: string;
+  recommended?: boolean;
+  featureKeys?: string[];
+  enabledModules?: string[];
+  disabledModules?: string[];
 }
 
 interface SubscriptionResource {
@@ -233,8 +246,21 @@ export class SubscriptionPlanApi {
       code: resource.code,
       name: resource.name,
       price: resource.price,
+      currency: resource.currency,
       billingPeriod: resource.billingPeriod,
-      description: resource.description
+      description: resource.description,
+      descriptionKey: resource.descriptionKey,
+      maxDoctors: resource.maxDoctors,
+      maxSupervisors: resource.maxSupervisors,
+      maxTeams: resource.maxTeams,
+      maxWorkAreas: resource.maxWorkAreas,
+      monthlyInvitations: resource.monthlyInvitations,
+      dataHistoryDays: resource.dataHistoryDays,
+      supportLevel: resource.supportLevel,
+      recommended: resource.recommended,
+      featureKeys: resource.featureKeys,
+      enabledModules: resource.enabledModules,
+      disabledModules: resource.disabledModules
     });
   }
 

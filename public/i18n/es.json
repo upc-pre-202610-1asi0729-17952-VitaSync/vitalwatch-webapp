@@ -790,6 +790,89 @@
     }
   },
   "subscription": {
+    "plans": {
+      "basic": {
+        "description": "Plan esencial para clínicas pequeñas que necesitan monitoreo, gestión de personal y control básico de riesgos."
+      },
+      "professional": {
+        "description": "Plan recomendado para clínicas medianas que necesitan operación completa, prevención clínica, auditoría y reportes administrativos."
+      },
+      "enterprise": {
+        "description": "Plan avanzado para hospitales grandes, redes clínicas y organizaciones con múltiples sedes, integraciones y operación a gran escala."
+      },
+      "features": {
+        "common": {
+          "admin-dashboard": "Dashboard administrativo",
+          "staff-management": "Gestión de personal médico",
+          "team-management": "Gestión de equipos clínicos",
+          "supervisor-assignment": "Asignación de supervisores",
+          "vital-signs": "Monitoreo de signos vitales",
+          "doctor-health": "Vista de salud del médico",
+          "shift-management": "Gestión de turnos",
+          "email-invitations": "Invitaciones por correo"
+        },
+        "basic": {
+          "doctors": "Hasta 30 médicos activos",
+          "supervisors": "Hasta 6 supervisores clínicos",
+          "teams": "Hasta 6 equipos clínicos activos",
+          "work-areas": "Hasta 6 áreas de trabajo",
+          "invitations": "Hasta 80 invitaciones mensuales",
+          "risk-assessment": "Evaluación básica de riesgo",
+          "clinical-alerts": "Alertas clínicas esenciales",
+          "reports": "Reportes básicos",
+          "history": "Historial de datos de 45 días",
+          "support": "Soporte estándar"
+        },
+        "professional": {
+          "doctors": "Hasta 120 médicos activos",
+          "supervisors": "Hasta 25 supervisores clínicos",
+          "teams": "Hasta 25 equipos clínicos activos",
+          "work-areas": "Hasta 15 áreas de trabajo",
+          "invitations": "Hasta 350 invitaciones mensuales",
+          "admin-dashboard": "Dashboard administrativo completo",
+          "staff-management": "Gestión completa de personal",
+          "team-management": "Gestión completa de equipos",
+          "risk-assessment": "Evaluación avanzada de riesgo",
+          "clinical-alerts": "Alertas clínicas completas",
+          "anomalies": "Detección de anomalías biométricas",
+          "preventive-actions": "Acciones preventivas",
+          "doctor-recovery": "Seguimiento de recuperación del médico",
+          "reports": "Reportes administrativos completos",
+          "audit": "Auditoría del sistema",
+          "history": "Historial de datos de 180 días",
+          "support": "Soporte prioritario"
+        },
+        "enterprise": {
+          "doctors": "Médicos ilimitados",
+          "supervisors": "Supervisores ilimitados",
+          "teams": "Equipos clínicos ilimitados",
+          "work-areas": "Áreas de trabajo ilimitadas",
+          "invitations": "Invitaciones ilimitadas",
+          "multi-site": "Multi-sede",
+          "admin-dashboard": "Dashboard administrativo avanzado",
+          "staff-management": "Gestión completa de personal",
+          "team-management": "Gestión avanzada de equipos",
+          "vital-signs": "Monitoreo completo de signos vitales",
+          "risk-assessment": "Evaluación avanzada de riesgo",
+          "clinical-alerts": "Alertas clínicas completas",
+          "anomalies": "Detección de anomalías biométricas",
+          "preventive-actions": "Acciones preventivas",
+          "doctor-recovery": "Seguimiento de recuperación del médico",
+          "shift-management": "Gestión completa de turnos",
+          "reports": "Reportes avanzados",
+          "audit": "Auditoría completa",
+          "history": "Historial extendido de 2 años",
+          "integrations": "Integraciones externas",
+          "api": "API empresarial",
+          "hospital-systems": "Integración con sistemas hospitalarios",
+          "payment-gateways": "Integración con pasarelas de pago",
+          "data-export": "Exportación avanzada de datos",
+          "custom-setup": "Configuración personalizada",
+          "support": "Soporte dedicado",
+          "implementation": "Asistencia de implementación"
+        }
+      }
+    },
     "admin": {
       "title": "Suscripción",
       "subtitle-before": "Gestiona el",

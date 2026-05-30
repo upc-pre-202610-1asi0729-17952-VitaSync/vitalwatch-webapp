@@ -787,6 +787,89 @@
     }
   },
   "subscription": {
+    "plans": {
+      "basic": {
+        "description": "Essential plan for small clinics that need monitoring, staff management and basic risk control."
+      },
+      "professional": {
+        "description": "Recommended plan for medium-sized clinics that need full operation, clinical prevention, audit and administrative reports."
+      },
+      "enterprise": {
+        "description": "Advanced plan for large hospitals, clinical networks and organizations with multiple sites, integrations and large-scale operations."
+      },
+      "features": {
+        "common": {
+          "admin-dashboard": "Administrative dashboard",
+          "staff-management": "Medical staff management",
+          "team-management": "Clinical team management",
+          "supervisor-assignment": "Supervisor assignment",
+          "vital-signs": "Vital signs monitoring",
+          "doctor-health": "Doctor health status view",
+          "shift-management": "Shift management",
+          "email-invitations": "Email invitations"
+        },
+        "basic": {
+          "doctors": "Up to 30 active doctors",
+          "supervisors": "Up to 6 clinical supervisors",
+          "teams": "Up to 6 active clinical teams",
+          "work-areas": "Up to 6 work areas",
+          "invitations": "Up to 80 monthly invitations",
+          "risk-assessment": "Basic risk assessment",
+          "clinical-alerts": "Essential clinical alerts",
+          "reports": "Basic reports",
+          "history": "45-day data history",
+          "support": "Standard support"
+        },
+        "professional": {
+          "doctors": "Up to 120 active doctors",
+          "supervisors": "Up to 25 clinical supervisors",
+          "teams": "Up to 25 active clinical teams",
+          "work-areas": "Up to 15 work areas",
+          "invitations": "Up to 350 monthly invitations",
+          "admin-dashboard": "Complete administrative dashboard",
+          "staff-management": "Complete staff management",
+          "team-management": "Complete team management",
+          "risk-assessment": "Advanced risk assessment",
+          "clinical-alerts": "Complete clinical alerts",
+          "anomalies": "Biometric anomaly detection",
+          "preventive-actions": "Preventive actions",
+          "doctor-recovery": "Doctor recovery tracking",
+          "reports": "Complete administrative reports",
+          "audit": "System audit",
+          "history": "180-day data history",
+          "support": "Priority support"
+        },
+        "enterprise": {
+          "doctors": "Unlimited doctors",
+          "supervisors": "Unlimited supervisors",
+          "teams": "Unlimited clinical teams",
+          "work-areas": "Unlimited work areas",
+          "invitations": "Unlimited invitations",
+          "multi-site": "Multi-site",
+          "admin-dashboard": "Advanced administrative dashboard",
+          "staff-management": "Complete staff management",
+          "team-management": "Advanced team management",
+          "vital-signs": "Complete vital signs monitoring",
+          "risk-assessment": "Advanced risk assessment",
+          "clinical-alerts": "Complete clinical alerts",
+          "anomalies": "Biometric anomaly detection",
+          "preventive-actions": "Preventive actions",
+          "doctor-recovery": "Doctor recovery tracking",
+          "shift-management": "Complete shift management",
+          "reports": "Advanced reports",
+          "audit": "Complete audit",
+          "history": "2-year extended history",
+          "integrations": "External integrations",
+          "api": "Enterprise API",
+          "hospital-systems": "Hospital system integration",
+          "payment-gateways": "Payment gateway integration",
+          "data-export": "Advanced data export",
+          "custom-setup": "Custom setup",
+          "support": "Dedicated support",
+          "implementation": "Implementation assistance"
+        }
+      }
+    },
     "admin": {
       "title": "Subscription",
       "subtitle-before": "Manage the",
