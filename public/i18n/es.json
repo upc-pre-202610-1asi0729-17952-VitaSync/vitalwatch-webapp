@@ -994,6 +994,15 @@
       "subtitle": "El proceso de pago fue cancelado o no se completó. Puedes volver a intentarlo cuando desees.",
       "go-login": "Volver al inicio",
       "try-again": "Intentar nuevamente"
+    },
+    "limits": {
+      "doctors-exceeded": "Has alcanzado el límite de médicos activos permitido por tu plan.",
+      "supervisors-exceeded": "Has alcanzado el límite de supervisores clínicos permitido por tu plan.",
+      "teams-exceeded": "Has alcanzado el límite de equipos activos permitido por tu plan.",
+      "work-areas-exceeded": "Has alcanzado el límite de áreas de trabajo permitido por tu plan.",
+      "invitations-exceeded": "Has alcanzado el límite de invitaciones mensuales permitido por tu plan.",
+      "module-not-available": "Este módulo no está disponible en tu plan actual.",
+      "generic-exceeded": "Has alcanzado el límite permitido por tu plan."
     }
   },
   "settings": {

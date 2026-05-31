@@ -1,5 +1,6 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { SubscriptionAccessService } from '../../../../subscription-plan-management/application/subscription-access.service';
 import { TranslatePipe } from '@ngx-translate/core';
 import { MatSelectModule } from '@angular/material/select';
 import { AuthenticationStore } from '../../../application/authentication.store';
@@ -25,6 +26,7 @@ export class InvitationManagement implements OnInit {
   private formBuilder = inject(NonNullableFormBuilder);
   private invitationApi = inject(InvitationApi);
   private authenticationStore = inject(AuthenticationStore);
+  private subscriptionAccessService = inject(SubscriptionAccessService);
 
   protected invitations = signal<Invitation[]>([]);
   protected loading = signal(false);
@@ -64,6 +66,10 @@ export class InvitationManagement implements OnInit {
   protected createInvitation(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
+      return;
+    }
+
+    if (!this.canSendInvitation()) {
       return;
     }
 
@@ -173,6 +179,34 @@ export class InvitationManagement implements OnInit {
     };
 
     return labels[status];
+  }
+
+  private getInvitationsThisMonthCount(): number {
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth();
+    const currentYear = currentDate.getFullYear();
+
+    return this.invitations().filter(invitation => {
+      const createdAt = new Date(invitation.createdAt);
+
+      return createdAt.getMonth() === currentMonth &&
+        createdAt.getFullYear() === currentYear;
+    }).length;
+  }
+
+  private canSendInvitation(): boolean {
+    const plan = this.subscriptionAccessService.currentPlan();
+
+    if (!plan) return true;
+
+    const invitationsThisMonth = this.getInvitationsThisMonthCount();
+
+    if (!this.subscriptionAccessService.canUseLimit(plan.monthlyInvitations, invitationsThisMonth)) {
+      this.errorMessage.set('subscription.limits.invitations-exceeded');
+      return false;
+    }
+
+    return true;
   }
 
   private loadInvitations(): void {

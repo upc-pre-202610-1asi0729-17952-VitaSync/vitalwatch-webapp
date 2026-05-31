@@ -11,6 +11,7 @@ import { WorkArea } from '../../../../iam/domain/model/work-area.entity';
 import { CareTeam } from '../../../domain/model/care-team.entity';
 import { TeamMember } from '../../../domain/model/team-member.entity';
 import { CareTeamApi } from '../../../infrastructure/care-team-api';
+import { SubscriptionAccessService } from '../../../../subscription-plan-management/application/subscription-access.service';
 
 @Component({
   selector: 'app-team-management',
@@ -29,6 +30,7 @@ export class TeamManagement implements OnInit {
   private userApi = inject(UserApi);
   private catalogApi = inject(IamCatalogApi);
   private careTeamApi = inject(CareTeamApi);
+  private subscriptionAccessService = inject(SubscriptionAccessService);
 
   protected teams = signal<CareTeam[]>([]);
   protected members = signal<TeamMember[]>([]);
@@ -134,6 +136,17 @@ export class TeamManagement implements OnInit {
       return;
     }
 
+    if (!this.canCreateOrActivateTeam()) {
+      return;
+    }
+
+    const supervisorId = this.form.controls.supervisorId.value || null;
+
+    if (this.isSupervisorAlreadyAssigned(supervisorId)) {
+      this.errorMessage.set('shift.teams.error.supervisor-already-assigned');
+      return;
+    }
+
     this.loading.set(true);
     this.errorMessage.set(null);
 
@@ -141,7 +154,7 @@ export class TeamManagement implements OnInit {
       organizationId: currentUser.organizationId,
       name: this.form.controls.name.value,
       workAreaId: this.form.controls.workAreaId.value,
-      supervisorId: this.form.controls.supervisorId.value || null
+      supervisorId
     }).subscribe({
       next: team => {
         this.teams.update(teams => [team, ...teams]);
@@ -162,13 +175,7 @@ export class TeamManagement implements OnInit {
   protected updateSupervisor(team: CareTeam, supervisorId: number): void {
     const selectedSupervisorId = supervisorId || null;
 
-    const supervisorAlreadyAssigned = this.teams().some(currentTeam =>
-      currentTeam.status === 'ACTIVE' &&
-      currentTeam.id !== team.id &&
-      currentTeam.supervisorId === selectedSupervisorId
-    );
-
-    if (supervisorAlreadyAssigned) {
+    if (this.isSupervisorAlreadyAssigned(selectedSupervisorId, team.id)) {
       this.errorMessage.set('shift.teams.error.supervisor-already-assigned');
       return;
     }
@@ -190,6 +197,10 @@ export class TeamManagement implements OnInit {
 
   protected toggleTeamStatus(team: CareTeam): void {
     const nextStatus = team.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE';
+
+    if (nextStatus === 'ACTIVE' && !this.canCreateOrActivateTeam()) {
+      return;
+    }
 
     this.careTeamApi.updateStatus(team.id, { status: nextStatus }).subscribe({
       next: updatedTeam => {
@@ -287,6 +298,35 @@ export class TeamManagement implements OnInit {
     const assignedDoctorIds = this.members().map(member => member.userId);
 
     return this.doctors().filter(doctor => !assignedDoctorIds.includes(doctor.id));
+  }
+
+  private getActiveTeamCount(): number {
+    return this.teams().filter(team => team.status === 'ACTIVE').length;
+  }
+
+  private canCreateOrActivateTeam(): boolean {
+    const plan = this.subscriptionAccessService.currentPlan();
+
+    if (!plan) return true;
+
+    const activeTeams = this.getActiveTeamCount();
+
+    if (!this.subscriptionAccessService.canUseLimit(plan.maxTeams, activeTeams)) {
+      this.errorMessage.set('subscription.limits.teams-exceeded');
+      return false;
+    }
+
+    return true;
+  }
+
+  private isSupervisorAlreadyAssigned(supervisorId: number | null, ignoredTeamId?: number): boolean {
+    if (!supervisorId) return false;
+
+    return this.teams().some(team =>
+      team.status === 'ACTIVE' &&
+      team.supervisorId === supervisorId &&
+      team.id !== ignoredTeamId
+    );
   }
 
   private loadData(): void {

@@ -1063,6 +1063,26 @@
       "status": "COMPLETED",
       "createdAt": "2026-05-31T03:20:12.607Z",
       "id": 11
+    },
+    {
+      "organizationId": 1,
+      "administratorId": 1,
+      "subscriptionId": 1,
+      "planId": 1,
+      "planCode": "basic",
+      "status": "COMPLETED",
+      "createdAt": "2026-05-31T03:39:25.689Z",
+      "id": 12
+    },
+    {
+      "organizationId": 1,
+      "administratorId": 1,
+      "subscriptionId": 1,
+      "planId": 2,
+      "planCode": "professional",
+      "status": "COMPLETED",
+      "createdAt": "2026-05-31T03:41:33.094Z",
+      "id": 13
     }
   ],
   "riskAssessments": [

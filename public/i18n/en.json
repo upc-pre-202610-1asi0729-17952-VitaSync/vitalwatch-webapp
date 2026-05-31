@@ -991,6 +991,15 @@
       "subtitle": "The payment process was cancelled or was not completed. You can try again whenever you want.",
       "go-login": "Back to sign in",
       "try-again": "Try again"
+    },
+    "limits": {
+      "doctors-exceeded": "You have reached the active doctors limit allowed by your plan.",
+      "supervisors-exceeded": "You have reached the clinical supervisors limit allowed by your plan.",
+      "teams-exceeded": "You have reached the active teams limit allowed by your plan.",
+      "work-areas-exceeded": "You have reached the work areas limit allowed by your plan.",
+      "invitations-exceeded": "You have reached the monthly invitations limit allowed by your plan.",
+      "module-not-available": "This module is not available in your current plan.",
+      "generic-exceeded": "You have reached the limit allowed by your plan."
     }
   },
   "settings": {

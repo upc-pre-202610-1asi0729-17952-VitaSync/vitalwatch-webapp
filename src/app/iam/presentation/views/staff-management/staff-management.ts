@@ -2,14 +2,15 @@ import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { MatSelectModule } from '@angular/material/select';
 import { NgIcon } from '@ng-icons/core';
+import { forkJoin } from 'rxjs';
 import { AuthenticationStore } from '../../../application/authentication.store';
 import { UserApi } from '../../../infrastructure/user-api';
 import { IamCatalogApi } from '../../../infrastructure/iam-catalog-api';
 import { User, UserRole, UserStatus } from '../../../domain/model/user.entity';
 import { WorkArea } from '../../../domain/model/work-area.entity';
 import { Specialty } from '../../../domain/model/specialty.entity';
-import { forkJoin } from 'rxjs';
 import { CareTeamApi } from '../../../../shift-coordination/infrastructure/care-team-api';
+import { SubscriptionAccessService } from '../../../../subscription-plan-management/application/subscription-access.service';
 
 type RoleFilter = 'ALL' | UserRole;
 type StatusFilter = 'ALL' | UserStatus;
@@ -29,6 +30,8 @@ export class StaffManagement implements OnInit {
   private userApi = inject(UserApi);
   private catalogApi = inject(IamCatalogApi);
   private careTeamApi = inject(CareTeamApi);
+  private subscriptionAccessService = inject(SubscriptionAccessService);
+
   protected users = signal<User[]>([]);
   protected workAreas = signal<WorkArea[]>([]);
   protected specialties = signal<Specialty[]>([]);
@@ -60,46 +63,18 @@ export class StaffManagement implements OnInit {
   });
 
   protected totalUsers = computed(() => this.users().length);
-  protected activeUsers = computed(() => this.users().filter(user => user.status === 'ACTIVE').length);
-  protected supervisors = computed(() => this.users().filter(user => user.role === 'SUPERVISOR').length);
-  protected doctors = computed(() => this.users().filter(user => user.role === 'DOCTOR').length);
 
-  private updateUserInList(updatedUser: User): void {
-    this.users.update(users =>
-      users.map(user => user.id === updatedUser.id ? updatedUser : user)
-    );
-  }
+  protected activeUsers = computed(() =>
+    this.users().filter(user => user.status === 'ACTIVE').length
+  );
 
-  private cleanAssignmentsAfterRoleChange(updatedUser: User): void {
-    if (updatedUser.role === 'SUPERVISOR') {
-      this.careTeamApi.removeMembershipsByUserId(updatedUser.id).subscribe({
-        error: () => {
-          this.errorMessage.set('iam.staff.error.cleanup-failed');
-        }
-      });
+  protected supervisors = computed(() =>
+    this.users().filter(user => user.role === 'SUPERVISOR').length
+  );
 
-      return;
-    }
-
-    if (updatedUser.role === 'DOCTOR') {
-      this.careTeamApi.clearSupervisorAssignmentsByUserId(updatedUser.id).subscribe({
-        error: () => {
-          this.errorMessage.set('iam.staff.error.cleanup-failed');
-        }
-      });
-    }
-  }
-
-  private cleanAllAssignments(updatedUser: User): void {
-    forkJoin([
-      this.careTeamApi.clearSupervisorAssignmentsByUserId(updatedUser.id),
-      this.careTeamApi.removeMembershipsByUserId(updatedUser.id)
-    ]).subscribe({
-      error: () => {
-        this.errorMessage.set('iam.staff.error.cleanup-failed');
-      }
-    });
-  }
+  protected doctors = computed(() =>
+    this.users().filter(user => user.role === 'DOCTOR').length
+  );
 
   ngOnInit(): void {
     this.loadStaff();
@@ -121,11 +96,19 @@ export class StaffManagement implements OnInit {
   protected updateUserRole(user: User, role: UserRole): void {
     if (user.isAdmin) return;
 
+    if (user.role === role) {
+      return;
+    }
+
+    if (user.status === 'ACTIVE' && !this.canAssignRoleByPlan(role)) {
+      return;
+    }
+
     this.userApi.updateUserRole(user.id, { role }).subscribe({
       next: updatedUser => {
-        this.users.update(users =>
-          users.map(item => item.id === updatedUser.id ? updatedUser : item)
-        );
+        this.updateUserInList(updatedUser);
+        this.cleanAssignmentsAfterRoleChange(updatedUser);
+        this.errorMessage.set(null);
       },
       error: () => {
         this.errorMessage.set('iam.staff.error.update-role-failed');
@@ -137,6 +120,10 @@ export class StaffManagement implements OnInit {
     if (user.isAdmin) return;
 
     const nextStatus: UserStatus = user.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE';
+
+    if (nextStatus === 'ACTIVE' && !this.canAssignRoleByPlan(user.role)) {
+      return;
+    }
 
     this.userApi.updateUserStatus(user.id, { status: nextStatus }).subscribe({
       next: updatedUser => {
@@ -184,6 +171,83 @@ export class StaffManagement implements OnInit {
     if (!specialtyId) return '—';
 
     return this.specialties().find(specialty => specialty.id === specialtyId)?.name ?? '—';
+  }
+
+  private getActiveDoctorCount(): number {
+    return this.users().filter(user =>
+      user.role === 'DOCTOR' &&
+      user.status === 'ACTIVE'
+    ).length;
+  }
+
+  private getActiveSupervisorCount(): number {
+    return this.users().filter(user =>
+      user.role === 'SUPERVISOR' &&
+      user.status === 'ACTIVE'
+    ).length;
+  }
+
+  private canAssignRoleByPlan(role: UserRole): boolean {
+    const plan = this.subscriptionAccessService.currentPlan();
+
+    if (!plan) return true;
+
+    if (role === 'DOCTOR') {
+      const activeDoctors = this.getActiveDoctorCount();
+
+      if (!this.subscriptionAccessService.canUseLimit(plan.maxDoctors, activeDoctors)) {
+        this.errorMessage.set('subscription.limits.doctors-exceeded');
+        return false;
+      }
+    }
+
+    if (role === 'SUPERVISOR') {
+      const activeSupervisors = this.getActiveSupervisorCount();
+
+      if (!this.subscriptionAccessService.canUseLimit(plan.maxSupervisors, activeSupervisors)) {
+        this.errorMessage.set('subscription.limits.supervisors-exceeded');
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  private updateUserInList(updatedUser: User): void {
+    this.users.update(users =>
+      users.map(user => user.id === updatedUser.id ? updatedUser : user)
+    );
+  }
+
+  private cleanAssignmentsAfterRoleChange(updatedUser: User): void {
+    if (updatedUser.role === 'SUPERVISOR') {
+      this.careTeamApi.removeMembershipsByUserId(updatedUser.id).subscribe({
+        error: () => {
+          this.errorMessage.set('iam.staff.error.cleanup-failed');
+        }
+      });
+
+      return;
+    }
+
+    if (updatedUser.role === 'DOCTOR') {
+      this.careTeamApi.clearSupervisorAssignmentsByUserId(updatedUser.id).subscribe({
+        error: () => {
+          this.errorMessage.set('iam.staff.error.cleanup-failed');
+        }
+      });
+    }
+  }
+
+  private cleanAllAssignments(updatedUser: User): void {
+    forkJoin([
+      this.careTeamApi.clearSupervisorAssignmentsByUserId(updatedUser.id),
+      this.careTeamApi.removeMembershipsByUserId(updatedUser.id)
+    ]).subscribe({
+      error: () => {
+        this.errorMessage.set('iam.staff.error.cleanup-failed');
+      }
+    });
   }
 
   private loadStaff(): void {
