@@ -224,8 +224,8 @@
     {
       "id": 1,
       "organizationId": 1,
-      "firstName": "Marcelo",
-      "lastName": "Administrador",
+      "firstName": "Waza",
+      "lastName": "Mauricio",
       "email": "admin@vitalwatch.com",
       "password": "admin123",
       "role": "HOSPITAL_ADMIN",
@@ -779,7 +779,7 @@
     {
       "id": 1,
       "organizationId": 1,
-      "planId": 2,
+      "planId": 1,
       "status": "ACTIVE",
       "startedAt": "2026-05-22T00:00:00.000Z"
     },
@@ -993,6 +993,16 @@
       "status": "COMPLETED",
       "createdAt": "2026-05-29T23:30:57.541Z",
       "id": 4
+    },
+    {
+      "organizationId": 1,
+      "administratorId": 1,
+      "subscriptionId": 1,
+      "planId": 1,
+      "planCode": "basic",
+      "status": "COMPLETED",
+      "createdAt": "2026-05-30T03:06:48.610Z",
+      "id": 5
     }
   ],
   "riskAssessments": [

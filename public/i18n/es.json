@@ -58,11 +58,36 @@
     "back-to-sign-in": "Volver al inicio de sesión"
   },
   "layout": {
-    "admin-title": "Bienvenido, Marcelo",
-    "supervisor-title": "Bienvenida, Claudia",
-    "doctor-title": "Bienvenido, Carlos",
-    "subtitle": "Monitoreo preventivo y gestión operativa del personal médico.",
-    "content-pending": "El contenido de este módulo se implementará en el siguiente avance."
+    "topbar": {
+      "greetings": {
+        "default": {
+          "hello": "Hola, {{name}}. ¿Qué hacemos hoy?",
+          "ready": "{{name}}, tu espacio de trabajo está listo.",
+          "continue": "Buen día, {{name}}. Todo listo para continuar."
+        },
+        "admin": {
+          "manage-today": "Hola, {{name}}. ¿Qué gestionamos hoy?",
+          "review-operation": "{{name}}, veamos cómo marcha la operación.",
+          "panel-ready": "{{name}}, tienes el panel administrativo listo.",
+          "staff-and-reports": "Hola, {{name}}. Revisemos personal, equipos y reportes.",
+          "center-status": "Buen día, {{name}}. Revisemos el estado del centro médico."
+        },
+        "supervisor": {
+          "review-team": "Hola, {{name}}. ¿A quién revisamos hoy?",
+          "alerts-and-risks": "{{name}}, revisemos alertas y riesgos.",
+          "care-team": "Hola, {{name}}. Sigamos cuidando al personal asignado.",
+          "quick-review": "{{name}}, tu equipo necesita una revisión rápida.",
+          "preventive-work": "Buen día, {{name}}. Avancemos con el monitoreo preventivo."
+        },
+        "doctor": {
+          "how-is-shift": "Hola, {{name}}. ¿Cómo va tu jornada?",
+          "review-status": "{{name}}, revisemos tu estado antes de continuar.",
+          "care-rhythm": "Buen día, {{name}}. Cuidemos tu ritmo de trabajo.",
+          "indicators-ready": "Hola, {{name}}. Tus indicadores están listos para revisar.",
+          "recovery-status": "{{name}}, veamos cómo se encuentra tu recuperación."
+        }
+      }
+    }
   },
   "navigation": {
     "admin-menu": "Menú administrativo",

@@ -55,11 +55,36 @@
     "invitation-help": "Did you receive an invitation? Open the link sent to your email to create your account."
   },
   "layout": {
-    "admin-title": "Welcome, Marcelo",
-    "supervisor-title": "Welcome, Claudia",
-    "doctor-title": "Welcome, Carlos",
-    "subtitle": "Preventive monitoring and operational management of medical staff.",
-    "content-pending": "This module content will be implemented in the next iteration."
+    "topbar": {
+      "greetings": {
+        "default": {
+          "hello": "Hi, {{name}}. What should we do today?",
+          "ready": "{{name}}, your workspace is ready.",
+          "continue": "Good day, {{name}}. Everything is ready to continue."
+        },
+        "admin": {
+          "manage-today": "Hi, {{name}}. What should we manage today?",
+          "review-operation": "{{name}}, let's see how operations are going.",
+          "panel-ready": "{{name}}, your admin panel is ready.",
+          "staff-and-reports": "Hi, {{name}}. Let's review staff, teams and reports.",
+          "center-status": "Good day, {{name}}. Let's review the medical center status."
+        },
+        "supervisor": {
+          "review-team": "Hi, {{name}}. Who should we review today?",
+          "alerts-and-risks": "{{name}}, let's review alerts and risks.",
+          "care-team": "Hi, {{name}}. Let's keep caring for your assigned staff.",
+          "quick-review": "{{name}}, your team needs a quick review.",
+          "preventive-work": "Good day, {{name}}. Let's continue preventive monitoring."
+        },
+        "doctor": {
+          "how-is-shift": "Hi, {{name}}. How is your shift going?",
+          "review-status": "{{name}}, let's review your status before continuing.",
+          "care-rhythm": "Good day, {{name}}. Let's take care of your work rhythm.",
+          "indicators-ready": "Hi, {{name}}. Your indicators are ready to review.",
+          "recovery-status": "{{name}}, let's check your recovery status."
+        }
+      }
+    }
   },
   "navigation": {
     "admin-menu": "Administrative menu",

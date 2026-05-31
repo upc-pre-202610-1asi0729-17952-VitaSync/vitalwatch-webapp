@@ -52,6 +52,16 @@
 
 .profile-info {
     min-width: 0;
+    max-width: 158px;
+    overflow: hidden;
+}
+
+.profile-info h2,
+.profile-info p {
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .profile-info h2 {
@@ -60,23 +70,12 @@
     font-size: 0.92rem;
     line-height: 1.2;
     font-weight: 800;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 .profile-info p {
     margin: 4px 0 0;
     color: #b8c7dc;
     font-size: 0.78rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.navigation {
-    padding: 18px 12px;
-    overflow-y: auto;
 }
 
 .menu-title {
@@ -101,11 +100,24 @@
     font-size: 0.95rem;
     font-weight: 800;
     transition: background 180ms ease, color 180ms ease;
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 .nav-item ng-icon {
     font-size: 1.2rem;
     color: #8fa2bb;
+    flex-shrink: 0;
+}
+
+.nav-item span {
+    min-width: 0;
+    max-width: 100%;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .nav-item:hover {
@@ -138,14 +150,80 @@
     font-weight: 800;
     cursor: pointer;
     transition: background 180ms ease, color 180ms ease;
+    min-width: 0;
+    max-width: calc(100% - 24px);
+    overflow: hidden;
 }
 
 .sign-out-button ng-icon {
     font-size: 1.2rem;
     color: inherit;
+    flex-shrink: 0;
+}
+
+.sign-out-button span {
+    min-width: 0;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .sign-out-button:hover {
     color: #ff4d4f;
     background: rgba(255, 77, 79, 0.12);
+}
+
+.sidebar {
+    width: 252px;
+    min-width: 252px;
+    max-width: 252px;
+    overflow: hidden;
+}
+
+.brand-section,
+.profile-section,
+.navigation,
+.sign-out-button {
+    min-width: 0;
+}
+
+.brand-section>div,
+.profile-info {
+    min-width: 0;
+    overflow: hidden;
+}
+
+.brand-section h1,
+.profile-info h2,
+.profile-info p {
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.profile-info {
+    max-width: 158px;
+}
+
+.nav-item,
+.sign-out-button {
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.nav-item ng-icon,
+.sign-out-button ng-icon {
+    flex-shrink: 0;
+}
+
+.nav-item span,
+.sign-out-button span {
+    min-width: 0;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

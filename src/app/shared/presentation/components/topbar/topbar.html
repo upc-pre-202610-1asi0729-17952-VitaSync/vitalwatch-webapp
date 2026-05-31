@@ -1,8 +1,9 @@
 <header class="topbar">
-    <div>
-        <h2>{{ title | translate }}</h2>
-        <p>{{ subtitle | translate }}</p>
+    <div class="topbar-title">
+        <h1>{{ greetingKey() | translate:greetingParams() }}</h1>
     </div>
 
-    <app-language-switcher />
+    <div class="topbar-actions">
+        <app-language-switcher />
+    </div>
 </header>
