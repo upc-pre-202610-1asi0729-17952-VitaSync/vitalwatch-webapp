@@ -3,6 +3,7 @@ import {
   authenticationGuard,
   roleGuard
 } from './iam/application/authentication.guard';
+import { moduleAccessGuard } from './subscription-plan-management/application/module-access.guard';
 
 const iamRoutes = () =>
   import('./iam/presentation/iam.routes')
@@ -86,12 +87,20 @@ export const routes: Routes = [
       },
       {
         path: 'reports',
+        canActivate: [moduleAccessGuard],
+        data: {
+          module: 'ADMIN_REPORTS'
+        },
         loadComponent: () =>
           import('./audit-compliance/presentation/views/admin-reports/admin-reports')
             .then(m => m.AdminReports)
       },
       {
         path: 'audit',
+        canActivate: [moduleAccessGuard],
+        data: {
+          module: 'ADMIN_AUDIT'
+        },
         loadComponent: () =>
           import('./audit-compliance/presentation/views/admin-audit/admin-audit')
             .then(m => m.AdminAudit)
@@ -138,12 +147,20 @@ export const routes: Routes = [
       },
       {
         path: 'anomalies',
+        canActivate: [moduleAccessGuard],
+        data: {
+          module: 'VITAL_SIGN_ANOMALIES'
+        },
         loadComponent: () =>
           import('./clinical-risk-assessment/presentation/views/supervisor-anomalies/supervisor-anomalies')
             .then(m => m.SupervisorAnomalies)
       },
       {
         path: 'preventive-actions',
+        canActivate: [moduleAccessGuard],
+        data: {
+          module: 'PREVENTIVE_ACTIONS'
+        },
         loadComponent: () =>
           import('./staff-recovery/presentation/views/preventive-actions-management/preventive-actions-management')
             .then(m => m.PreventiveActionsManagement)

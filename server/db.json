@@ -779,7 +779,7 @@
     {
       "id": 1,
       "organizationId": 1,
-      "planId": 1,
+      "planId": 2,
       "status": "ACTIVE",
       "startedAt": "2026-05-22T00:00:00.000Z"
     },
@@ -1003,6 +1003,66 @@
       "status": "COMPLETED",
       "createdAt": "2026-05-30T03:06:48.610Z",
       "id": 5
+    },
+    {
+      "organizationId": 1,
+      "administratorId": 1,
+      "subscriptionId": 1,
+      "planId": 2,
+      "planCode": "professional",
+      "status": "COMPLETED",
+      "createdAt": "2026-05-31T03:03:36.116Z",
+      "id": 6
+    },
+    {
+      "organizationId": 1,
+      "administratorId": 1,
+      "subscriptionId": 1,
+      "planId": 1,
+      "planCode": "basic",
+      "status": "COMPLETED",
+      "createdAt": "2026-05-31T03:18:43.395Z",
+      "id": 7
+    },
+    {
+      "organizationId": 1,
+      "administratorId": 1,
+      "subscriptionId": 1,
+      "planId": 3,
+      "planCode": "enterprise",
+      "status": "COMPLETED",
+      "createdAt": "2026-05-31T03:19:27.840Z",
+      "id": 8
+    },
+    {
+      "organizationId": 1,
+      "administratorId": 1,
+      "subscriptionId": 1,
+      "planId": 2,
+      "planCode": "professional",
+      "status": "COMPLETED",
+      "createdAt": "2026-05-31T03:19:43.053Z",
+      "id": 9
+    },
+    {
+      "organizationId": 1,
+      "administratorId": 1,
+      "subscriptionId": 1,
+      "planId": 3,
+      "planCode": "enterprise",
+      "status": "COMPLETED",
+      "createdAt": "2026-05-31T03:19:58.802Z",
+      "id": 10
+    },
+    {
+      "organizationId": 1,
+      "administratorId": 1,
+      "subscriptionId": 1,
+      "planId": 2,
+      "planCode": "professional",
+      "status": "COMPLETED",
+      "createdAt": "2026-05-31T03:20:12.607Z",
+      "id": 11
     }
   ],
   "riskAssessments": [
