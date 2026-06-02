@@ -3,12 +3,8 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { MatSelectModule } from '@angular/material/select';
 import { NgIcon } from '@ng-icons/core';
 import { forkJoin } from 'rxjs';
-import { AuthenticationStore } from '../../../application/authentication.store';
-import { UserApi } from '../../../infrastructure/user-api';
-import { IamCatalogApi } from '../../../infrastructure/iam-catalog-api';
 import { User, UserRole, UserStatus } from '../../../domain/model/user.entity';
-import { WorkArea } from '../../../domain/model/work-area.entity';
-import { Specialty } from '../../../domain/model/specialty.entity';
+import { IamStore } from '../../../application/iam.store';
 import { CareTeamApi } from '../../../../shift-coordination/infrastructure/care-team-api';
 import { SubscriptionAccessService } from '../../../../subscription-plan-management/application/subscription-access.service';
 
@@ -26,18 +22,32 @@ type StatusFilter = 'ALL' | UserStatus;
   styleUrl: './staff-management.css'
 })
 export class StaffManagement implements OnInit {
-  private authenticationStore = inject(AuthenticationStore);
-  private userApi = inject(UserApi);
-  private catalogApi = inject(IamCatalogApi);
+  private iamStore = inject(IamStore);
   private careTeamApi = inject(CareTeamApi);
   private subscriptionAccessService = inject(SubscriptionAccessService);
 
-  protected users = signal<User[]>([]);
-  protected workAreas = signal<WorkArea[]>([]);
-  protected specialties = signal<Specialty[]>([]);
+  private localErrorMessage = signal<string | null>(null);
 
-  protected loading = signal(false);
-  protected errorMessage = signal<string | null>(null);
+  protected users = computed(() =>
+    this.iamStore.users()
+  );
+
+  protected workAreas = computed(() =>
+    this.iamStore.workAreas()
+  );
+
+  protected specialties = computed(() =>
+    this.iamStore.specialties()
+  );
+
+  protected loading = computed(() =>
+    this.iamStore.loading()
+  );
+
+  protected errorMessage = computed(() =>
+    this.localErrorMessage() ?? this.iamStore.error()
+  );
+
   protected searchTerm = signal('');
   protected roleFilter = signal<RoleFilter>('ALL');
   protected statusFilter = signal<StatusFilter>('ALL');
@@ -62,7 +72,9 @@ export class StaffManagement implements OnInit {
     });
   });
 
-  protected totalUsers = computed(() => this.users().length);
+  protected totalUsers = computed(() =>
+    this.users().length
+  );
 
   protected activeUsers = computed(() =>
     this.users().filter(user => user.status === 'ACTIVE').length
@@ -77,7 +89,7 @@ export class StaffManagement implements OnInit {
   );
 
   ngOnInit(): void {
-    this.loadStaff();
+    this.iamStore.loadStaffData();
   }
 
   protected updateSearchTerm(event: Event): void {
@@ -100,18 +112,20 @@ export class StaffManagement implements OnInit {
       return;
     }
 
+    this.localErrorMessage.set(null);
+    this.iamStore.clearError();
+
     if (user.status === 'ACTIVE' && !this.canAssignRoleByPlan(role)) {
       return;
     }
 
-    this.userApi.updateUserRole(user.id, { role }).subscribe({
+    this.iamStore.updateUserRole(user.id, { role }).subscribe({
       next: updatedUser => {
-        this.updateUserInList(updatedUser);
         this.cleanAssignmentsAfterRoleChange(updatedUser);
-        this.errorMessage.set(null);
+        this.localErrorMessage.set(null);
       },
       error: () => {
-        this.errorMessage.set('iam.staff.error.update-role-failed');
+        this.localErrorMessage.set('iam.staff.error.update-role-failed');
       }
     });
   }
@@ -121,22 +135,23 @@ export class StaffManagement implements OnInit {
 
     const nextStatus: UserStatus = user.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE';
 
+    this.localErrorMessage.set(null);
+    this.iamStore.clearError();
+
     if (nextStatus === 'ACTIVE' && !this.canAssignRoleByPlan(user.role)) {
       return;
     }
 
-    this.userApi.updateUserStatus(user.id, { status: nextStatus }).subscribe({
+    this.iamStore.updateUserStatus(user.id, { status: nextStatus }).subscribe({
       next: updatedUser => {
-        this.updateUserInList(updatedUser);
-
         if (updatedUser.status === 'INACTIVE') {
           this.cleanAllAssignments(updatedUser);
         }
 
-        this.errorMessage.set(null);
+        this.localErrorMessage.set(null);
       },
       error: () => {
-        this.errorMessage.set('iam.staff.error.update-status-failed');
+        this.localErrorMessage.set('iam.staff.error.update-status-failed');
       }
     });
   }
@@ -162,29 +177,11 @@ export class StaffManagement implements OnInit {
   }
 
   protected getWorkAreaName(workAreaId?: number): string {
-    if (!workAreaId) return '—';
-
-    return this.workAreas().find(workArea => workArea.id === workAreaId)?.name ?? '—';
+    return this.iamStore.getWorkAreaName(workAreaId);
   }
 
   protected getSpecialtyName(specialtyId?: number): string {
-    if (!specialtyId) return '—';
-
-    return this.specialties().find(specialty => specialty.id === specialtyId)?.name ?? '—';
-  }
-
-  private getActiveDoctorCount(): number {
-    return this.users().filter(user =>
-      user.role === 'DOCTOR' &&
-      user.status === 'ACTIVE'
-    ).length;
-  }
-
-  private getActiveSupervisorCount(): number {
-    return this.users().filter(user =>
-      user.role === 'SUPERVISOR' &&
-      user.status === 'ACTIVE'
-    ).length;
+    return this.iamStore.getSpecialtyName(specialtyId);
   }
 
   private canAssignRoleByPlan(role: UserRole): boolean {
@@ -193,19 +190,19 @@ export class StaffManagement implements OnInit {
     if (!plan) return true;
 
     if (role === 'DOCTOR') {
-      const activeDoctors = this.getActiveDoctorCount();
+      const activeDoctors = this.iamStore.countActiveDoctors();
 
       if (!this.subscriptionAccessService.canUseLimit(plan.maxDoctors, activeDoctors)) {
-        this.errorMessage.set('subscription.limits.doctors-exceeded');
+        this.localErrorMessage.set('subscription.limits.doctors-exceeded');
         return false;
       }
     }
 
     if (role === 'SUPERVISOR') {
-      const activeSupervisors = this.getActiveSupervisorCount();
+      const activeSupervisors = this.iamStore.countActiveSupervisors();
 
       if (!this.subscriptionAccessService.canUseLimit(plan.maxSupervisors, activeSupervisors)) {
-        this.errorMessage.set('subscription.limits.supervisors-exceeded');
+        this.localErrorMessage.set('subscription.limits.supervisors-exceeded');
         return false;
       }
     }
@@ -213,17 +210,11 @@ export class StaffManagement implements OnInit {
     return true;
   }
 
-  private updateUserInList(updatedUser: User): void {
-    this.users.update(users =>
-      users.map(user => user.id === updatedUser.id ? updatedUser : user)
-    );
-  }
-
   private cleanAssignmentsAfterRoleChange(updatedUser: User): void {
     if (updatedUser.role === 'SUPERVISOR') {
       this.careTeamApi.removeMembershipsByUserId(updatedUser.id).subscribe({
         error: () => {
-          this.errorMessage.set('iam.staff.error.cleanup-failed');
+          this.localErrorMessage.set('iam.staff.error.cleanup-failed');
         }
       });
 
@@ -233,7 +224,7 @@ export class StaffManagement implements OnInit {
     if (updatedUser.role === 'DOCTOR') {
       this.careTeamApi.clearSupervisorAssignmentsByUserId(updatedUser.id).subscribe({
         error: () => {
-          this.errorMessage.set('iam.staff.error.cleanup-failed');
+          this.localErrorMessage.set('iam.staff.error.cleanup-failed');
         }
       });
     }
@@ -245,38 +236,8 @@ export class StaffManagement implements OnInit {
       this.careTeamApi.removeMembershipsByUserId(updatedUser.id)
     ]).subscribe({
       error: () => {
-        this.errorMessage.set('iam.staff.error.cleanup-failed');
+        this.localErrorMessage.set('iam.staff.error.cleanup-failed');
       }
-    });
-  }
-
-  private loadStaff(): void {
-    const currentUser = this.authenticationStore.currentUser();
-
-    if (!currentUser) {
-      this.errorMessage.set('iam.staff.error.no-session');
-      return;
-    }
-
-    this.loading.set(true);
-
-    this.userApi.getUsersByOrganizationId(currentUser.organizationId).subscribe({
-      next: users => {
-        this.users.set(users);
-        this.loading.set(false);
-      },
-      error: () => {
-        this.errorMessage.set('iam.staff.error.load-failed');
-        this.loading.set(false);
-      }
-    });
-
-    this.catalogApi.getWorkAreasByOrganizationId(currentUser.organizationId).subscribe(workAreas => {
-      this.workAreas.set(workAreas);
-    });
-
-    this.catalogApi.getSpecialties().subscribe(specialties => {
-      this.specialties.set(specialties);
     });
   }
 }

@@ -3,7 +3,7 @@ import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angula
 import { TranslatePipe } from '@ngx-translate/core';
 import { NgIcon } from '@ng-icons/core';
 import { AuthenticationStore } from '../../../application/authentication.store';
-import { UserApi } from '../../../infrastructure/user-api';
+import { IamStore } from '../../../application/iam.store';
 import { User } from '../../../domain/model/user.entity';
 
 @Component({
@@ -19,12 +19,21 @@ import { User } from '../../../domain/model/user.entity';
 export class AccountSettings implements OnInit {
   private formBuilder = inject(NonNullableFormBuilder);
   private authenticationStore = inject(AuthenticationStore);
-  private userApi = inject(UserApi);
+  private iamStore = inject(IamStore);
 
-  protected savedUser = signal<User | null>(null);
-  protected loading = signal(false);
+  private savedUser = signal<User | null>(null);
+  private localLoading = signal(false);
+  private localErrorMessage = signal<string | null>(null);
+
   protected successMessage = signal<string | null>(null);
-  protected errorMessage = signal<string | null>(null);
+
+  protected loading = computed(() =>
+    this.localLoading() || this.iamStore.loading()
+  );
+
+  protected errorMessage = computed(() =>
+    this.localErrorMessage() ?? this.iamStore.error()
+  );
 
   protected currentUser = computed(() =>
     this.savedUser() ?? this.authenticationStore.currentUser()
@@ -44,7 +53,7 @@ export class AccountSettings implements OnInit {
     const user = this.currentUser();
 
     if (!user) {
-      this.errorMessage.set('settings.account.error.no-session');
+      this.localErrorMessage.set('settings.account.error.no-session');
       return;
     }
 
@@ -53,23 +62,25 @@ export class AccountSettings implements OnInit {
       return;
     }
 
-    this.loading.set(true);
+    this.localLoading.set(true);
     this.successMessage.set(null);
-    this.errorMessage.set(null);
+    this.localErrorMessage.set(null);
+    this.iamStore.clearError();
 
-    this.userApi.updateUserProfile(user.id, {
+    this.iamStore.updateUserProfile(user.id, {
       firstName: this.form.controls.firstName.value,
       lastName: this.form.controls.lastName.value,
       email: this.form.controls.email.value
     }).subscribe({
       next: updatedUser => {
         this.savedUser.set(updatedUser);
+        this.authenticationStore.updateCurrentUser(updatedUser);
         this.successMessage.set('settings.account.success');
-        this.loading.set(false);
+        this.localLoading.set(false);
       },
       error: () => {
-        this.errorMessage.set('settings.account.error.update-failed');
-        this.loading.set(false);
+        this.localErrorMessage.set('settings.account.error.update-failed');
+        this.localLoading.set(false);
       }
     });
   }
@@ -77,7 +88,8 @@ export class AccountSettings implements OnInit {
   protected resetForm(): void {
     this.loadUserData();
     this.successMessage.set(null);
-    this.errorMessage.set(null);
+    this.localErrorMessage.set(null);
+    this.iamStore.clearError();
   }
 
   protected getRoleLabel(role: string): string {
@@ -108,7 +120,7 @@ export class AccountSettings implements OnInit {
     const user = this.currentUser();
 
     if (!user) {
-      this.errorMessage.set('settings.account.error.no-session');
+      this.localErrorMessage.set('settings.account.error.no-session');
       return;
     }
 

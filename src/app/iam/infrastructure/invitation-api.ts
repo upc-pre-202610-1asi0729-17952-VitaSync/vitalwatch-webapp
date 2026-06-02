@@ -3,9 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { map, Observable, switchMap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Invitation } from '../domain/model/invitation.entity';
-import { InvitationResource } from './invitation-response';
-import { AcceptInvitationRequest } from './accept-invitation-request';
-import { CreateInvitationRequest } from './create-invitation-request';
+import { InvitationResource } from './responses/invitation-response';
+import { AcceptInvitationRequest } from './request/accept-invitation-request';
+import { CreateInvitationRequest } from './request/create-invitation-request';
 
 @Injectable({
   providedIn: 'root'

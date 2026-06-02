@@ -3,9 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { User, UserRole, UserStatus } from '../domain/model/user.entity';
-import { UpdateUserRoleRequest } from './update-user-role-request';
-import { UpdateUserStatusRequest } from './update-user-status-request';
-import { UpdateUserProfileRequest } from './update-user-profile-request';
+import { UpdateUserRoleRequest } from './request/update-user-role-request';
+import { UpdateUserStatusRequest } from './request/update-user-status-request';
+import { UpdateUserProfileRequest } from './request/update-user-profile-request';
 
 interface UserResource {
   id: number;

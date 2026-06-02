@@ -2,9 +2,9 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { SignInRequest } from './sign-in-request';
+import { SignInRequest } from './request/sign-in-request';
 import { AuthenticationSession } from '../domain/model/authentication-session.entity';
-import { AuthenticationUserResource } from './authentication-response';
+import { AuthenticationUserResource } from './responses/authentication-response';
 import { User } from '../domain/model/user.entity';
 
 @Injectable({

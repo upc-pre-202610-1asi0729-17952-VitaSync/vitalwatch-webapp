@@ -1,4 +1,4 @@
-import { UserRole, UserStatus } from '../domain/model/user.entity';
+import { UserRole, UserStatus } from '../../domain/model/user.entity';
 
 export interface AuthenticationUserResource {
     id: number;
