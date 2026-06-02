@@ -3,7 +3,7 @@ import { DatePipe } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { NgIcon } from '@ng-icons/core';
 import { AuthenticationStore } from '../../../../iam/application/authentication.store';
-import { UserApi } from '../../../../iam/infrastructure/user-api';
+import { UserApi } from '../../../../iam/infrastructure/apis/user-api';
 import { User } from '../../../../iam/domain/model/user.entity';
 import { CareTeamApi } from '../../../../shift-coordination/infrastructure/care-team-api';
 import { CareTeam } from '../../../../shift-coordination/domain/model/care-team.entity';

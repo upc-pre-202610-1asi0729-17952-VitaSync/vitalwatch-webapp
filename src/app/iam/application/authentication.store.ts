@@ -1,6 +1,6 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthenticationApi } from '../infrastructure/authentication-api';
+import { AuthenticationApi } from '../infrastructure/apis/authentication-api';
 import { SignInRequest } from '../infrastructure/request/sign-in-request';
 import { AuthenticationSession } from '../domain/model/authentication-session.entity';
 import { User, UserRole } from '../domain/model/user.entity';

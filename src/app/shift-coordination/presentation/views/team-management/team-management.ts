@@ -4,15 +4,14 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { MatSelectModule } from '@angular/material/select';
 import { NgIcon } from '@ng-icons/core';
 import { AuthenticationStore } from '../../../../iam/application/authentication.store';
-import { IamStore } from '../../../../iam/application/iam.store';
+import { UserApi } from '../../../../iam/infrastructure/apis/user-api';
+import { IamCatalogApi } from '../../../../iam/infrastructure/apis/iam-catalog-api';
 import { User } from '../../../../iam/domain/model/user.entity';
+import { WorkArea } from '../../../../iam/domain/model/work-area.entity';
 import { CareTeam } from '../../../domain/model/care-team.entity';
 import { TeamMember } from '../../../domain/model/team-member.entity';
-import { ShiftCoordinationStore } from '../../../application/shift-coordination.store';
+import { CareTeamApi } from '../../../infrastructure/care-team-api';
 import { SubscriptionAccessService } from '../../../../subscription-plan-management/application/subscription-access.service';
-
-type WorkAreaFilter = 'ALL' | number;
-type TeamStatusFilter = 'ALL' | 'ACTIVE' | 'INACTIVE';
 
 @Component({
   selector: 'app-team-management',
@@ -28,41 +27,22 @@ type TeamStatusFilter = 'ALL' | 'ACTIVE' | 'INACTIVE';
 export class TeamManagement implements OnInit {
   private formBuilder = inject(NonNullableFormBuilder);
   private authenticationStore = inject(AuthenticationStore);
-  private iamStore = inject(IamStore);
-  private shiftCoordinationStore = inject(ShiftCoordinationStore);
+  private userApi = inject(UserApi);
+  private catalogApi = inject(IamCatalogApi);
+  private careTeamApi = inject(CareTeamApi);
   private subscriptionAccessService = inject(SubscriptionAccessService);
 
-  private localErrorMessage = signal<string | null>(null);
+  protected teams = signal<CareTeam[]>([]);
+  protected members = signal<TeamMember[]>([]);
+  protected users = signal<User[]>([]);
+  protected workAreas = signal<WorkArea[]>([]);
 
-  protected teams = computed(() =>
-    this.shiftCoordinationStore.teams()
-  );
-
-  protected members = computed(() =>
-    this.shiftCoordinationStore.members()
-  );
-
-  protected users = computed(() =>
-    this.iamStore.users()
-  );
-
-  protected workAreas = computed(() =>
-    this.iamStore.workAreas()
-  );
-
-  protected loading = computed(() =>
-    this.shiftCoordinationStore.loading() || this.iamStore.loading()
-  );
-
-  protected errorMessage = computed(() =>
-    this.localErrorMessage() ??
-    this.shiftCoordinationStore.error() ??
-    this.iamStore.error()
-  );
+  protected selectedDoctorByTeam = signal<Record<number, number>>({});
+  protected loading = signal(false);
+  protected errorMessage = signal<string | null>(null);
 
   protected searchTerm = signal('');
-  protected workAreaFilter = signal<WorkAreaFilter>('ALL');
-  protected statusFilter = signal<TeamStatusFilter>('ALL');
+  protected workAreaFilter = signal<number>(0);
 
   protected form = this.formBuilder.group({
     name: ['', [Validators.required]],
@@ -70,85 +50,84 @@ export class TeamManagement implements OnInit {
     supervisorId: [0]
   });
 
+  protected supervisors = computed(() =>
+    this.users().filter(user => user.role === 'SUPERVISOR' && user.status === 'ACTIVE')
+  );
+
+  protected availableSupervisorsForNewTeam = computed(() => {
+    const assignedSupervisorIds = this.teams()
+      .filter(team => team.status === 'ACTIVE' && team.supervisorId !== null)
+      .map(team => team.supervisorId);
+
+    return this.supervisors().filter(supervisor =>
+      !assignedSupervisorIds.includes(supervisor.id)
+    );
+  });
+
+  protected getAvailableSupervisorsForTeam(team: CareTeam): User[] {
+    const assignedSupervisorIds = this.teams()
+      .filter(currentTeam =>
+        currentTeam.status === 'ACTIVE' &&
+        currentTeam.id !== team.id &&
+        currentTeam.supervisorId !== null
+      )
+      .map(currentTeam => currentTeam.supervisorId);
+
+    return this.supervisors().filter(supervisor =>
+      !assignedSupervisorIds.includes(supervisor.id)
+    );
+  }
+
+  protected doctors = computed(() =>
+    this.users().filter(user => user.role === 'DOCTOR' && user.status === 'ACTIVE')
+  );
+
+  protected totalTeams = computed(() => this.teams().length);
+  protected activeTeams = computed(() => this.teams().filter(team => team.status === 'ACTIVE').length);
+  protected totalSupervisors = computed(() => this.supervisors().length);
+  protected totalAssignedMembers = computed(() =>
+    this.members().filter(member => {
+      const user = this.getUserById(member.userId);
+      return user?.role === 'DOCTOR' && user.status === 'ACTIVE';
+    }).length
+  );
+
   protected filteredTeams = computed(() => {
     const search = this.searchTerm().toLowerCase().trim();
-    const workArea = this.workAreaFilter();
-    const status = this.statusFilter();
+    const workAreaId = this.workAreaFilter();
 
     return this.teams().filter(team => {
       const workAreaName = this.getWorkAreaName(team.workAreaId).toLowerCase();
-      const supervisorName = this.getSupervisorName(team.supervisorId).toLowerCase();
 
       const matchesSearch =
         team.name.toLowerCase().includes(search) ||
-        workAreaName.includes(search) ||
-        supervisorName.includes(search);
+        workAreaName.includes(search);
 
       const matchesWorkArea =
-        workArea === 'ALL' ||
-        team.workAreaId === workArea;
+        workAreaId === 0 || team.workAreaId === workAreaId;
 
-      const matchesStatus =
-        status === 'ALL' ||
-        team.status === status;
-
-      return matchesSearch && matchesWorkArea && matchesStatus;
+      return matchesSearch && matchesWorkArea;
     });
   });
-
-  protected totalTeams = computed(() =>
-    this.teams().length
-  );
-
-  protected activeTeams = computed(() =>
-    this.teams().filter(team => team.status === 'ACTIVE').length
-  );
-
-  protected inactiveTeams = computed(() =>
-    this.teams().filter(team => team.status === 'INACTIVE').length
-  );
-
-  protected assignedMembers = computed(() =>
-    this.members().length
-  );
-
-  protected availableSupervisors = computed(() =>
-    this.users().filter(user =>
-      user.role === 'SUPERVISOR' &&
-      user.status === 'ACTIVE'
-    )
-  );
-
-  protected availableDoctors = computed(() =>
-    this.users().filter(user =>
-      user.role === 'DOCTOR' &&
-      user.status === 'ACTIVE' &&
-      !this.shiftCoordinationStore.isDoctorAlreadyAssigned(user.id)
-    )
-  );
-
-  ngOnInit(): void {
-    this.shiftCoordinationStore.loadTeamManagementData();
-  }
 
   protected updateSearchTerm(event: Event): void {
     const input = event.target as HTMLInputElement;
     this.searchTerm.set(input.value);
   }
 
-  protected updateWorkAreaFilter(value: WorkAreaFilter): void {
-    this.workAreaFilter.set(value);
+  protected updateWorkAreaFilter(workAreaId: number): void {
+    this.workAreaFilter.set(workAreaId);
   }
 
-  protected updateStatusFilter(value: TeamStatusFilter): void {
-    this.statusFilter.set(value);
+  ngOnInit(): void {
+    this.loadData();
   }
 
   protected createTeam(): void {
     const currentUser = this.authenticationStore.currentUser();
 
     if (!currentUser) {
-      this.localErrorMessage.set('shift.teams.error.no-session');
+      this.errorMessage.set('shift.teams.error.no-session');
       return;
     }
 
@@ -157,37 +136,38 @@ export class TeamManagement implements OnInit {
       return;
     }
 
-    this.localErrorMessage.set(null);
-    this.shiftCoordinationStore.clearError();
-
     if (!this.canCreateOrActivateTeam()) {
       return;
     }
 
     const supervisorId = this.form.controls.supervisorId.value || null;
 
-    if (this.shiftCoordinationStore.isSupervisorAlreadyAssigned(supervisorId)) {
-      this.localErrorMessage.set('shift.teams.error.supervisor-already-assigned');
+    if (this.isSupervisorAlreadyAssigned(supervisorId)) {
+      this.errorMessage.set('shift.teams.error.supervisor-already-assigned');
       return;
     }
 
-    this.shiftCoordinationStore.createTeam({
+    this.loading.set(true);
+    this.errorMessage.set(null);
+
+    this.careTeamApi.createCareTeam({
       organizationId: currentUser.organizationId,
       name: this.form.controls.name.value,
       workAreaId: this.form.controls.workAreaId.value,
       supervisorId
     }).subscribe({
-      next: () => {
+      next: team => {
+        this.teams.update(teams => [team, ...teams]);
         this.form.reset({
           name: '',
           workAreaId: 0,
           supervisorId: 0
         });
-
-        this.localErrorMessage.set(null);
+        this.loading.set(false);
       },
       error: () => {
-        this.localErrorMessage.set('shift.teams.error.create-failed');
+        this.errorMessage.set('shift.teams.error.create-failed');
+        this.loading.set(false);
       }
     });
   }
@@ -195,22 +175,22 @@ export class TeamManagement implements OnInit {
   protected updateSupervisor(team: CareTeam, supervisorId: number): void {
     const selectedSupervisorId = supervisorId || null;
 
-    this.localErrorMessage.set(null);
-    this.shiftCoordinationStore.clearError();
-
-    if (this.shiftCoordinationStore.isSupervisorAlreadyAssigned(selectedSupervisorId, team.id)) {
-      this.localErrorMessage.set('shift.teams.error.supervisor-already-assigned');
+    if (this.isSupervisorAlreadyAssigned(selectedSupervisorId, team.id)) {
+      this.errorMessage.set('shift.teams.error.supervisor-already-assigned');
       return;
     }
 
-    this.shiftCoordinationStore.updateSupervisor(team.id, {
+    this.careTeamApi.updateSupervisor(team.id, {
       supervisorId: selectedSupervisorId
     }).subscribe({
-      next: () => {
-        this.localErrorMessage.set(null);
+      next: updatedTeam => {
+        this.teams.update(teams =>
+          teams.map(item => item.id === updatedTeam.id ? updatedTeam : item)
+        );
+        this.errorMessage.set(null);
       },
       error: () => {
-        this.localErrorMessage.set('shift.teams.error.update-supervisor-failed');
+        this.errorMessage.set('shift.teams.error.update-supervisor-failed');
       }
     });
   }
@@ -218,150 +198,110 @@ export class TeamManagement implements OnInit {
   protected toggleTeamStatus(team: CareTeam): void {
     const nextStatus = team.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE';
 
-    this.localErrorMessage.set(null);
-    this.shiftCoordinationStore.clearError();
-
     if (nextStatus === 'ACTIVE' && !this.canCreateOrActivateTeam()) {
       return;
     }
 
-    this.shiftCoordinationStore.updateTeamStatus(team.id, {
-      status: nextStatus
-    }).subscribe({
-      next: () => {
-        this.localErrorMessage.set(null);
+    this.careTeamApi.updateStatus(team.id, { status: nextStatus }).subscribe({
+      next: updatedTeam => {
+        this.teams.update(teams =>
+          teams.map(item => item.id === updatedTeam.id ? updatedTeam : item)
+        );
+        this.errorMessage.set(null);
       },
       error: () => {
-        this.localErrorMessage.set('shift.teams.error.update-status-failed');
+        this.errorMessage.set('shift.teams.error.update-status-failed');
       }
     });
   }
 
-  protected deleteTeam(team: CareTeam): void {
-    this.localErrorMessage.set(null);
-    this.shiftCoordinationStore.clearError();
-
-    this.shiftCoordinationStore.deleteTeam(team).subscribe({
-      next: () => {
-        this.localErrorMessage.set(null);
-      },
-      error: () => {
-        this.localErrorMessage.set('shift.teams.error.delete-failed');
-      }
-    });
+  protected updateSelectedDoctor(teamId: number, userId: number): void {
+    this.selectedDoctorByTeam.update(selected => ({
+      ...selected,
+      [teamId]: userId
+    }));
   }
 
-  protected addMember(team: CareTeam, userId: number): void {
-    if (!userId) return;
-
-    this.localErrorMessage.set(null);
-    this.shiftCoordinationStore.clearError();
-
-    if (this.shiftCoordinationStore.isDoctorAlreadyAssigned(userId)) {
-      this.localErrorMessage.set('shift.teams.error.member-already-assigned');
+  protected addMember(team: CareTeam): void {
+    if (!team.isActive) {
+      this.errorMessage.set('shift.teams.error.inactive-team');
       return;
     }
 
-    this.shiftCoordinationStore.addTeamMember({
+    const userId = this.selectedDoctorByTeam()[team.id];
+
+    if (!userId) return;
+
+    const alreadyAssignedToAnyTeam = this.members().some(member =>
+      member.userId === userId
+    );
+
+    if (alreadyAssignedToAnyTeam) {
+      this.errorMessage.set('shift.teams.error.member-already-assigned');
+      return;
+    }
+
+    this.careTeamApi.addTeamMember({
       teamId: team.id,
       userId
     }).subscribe({
-      next: () => {
-        this.localErrorMessage.set(null);
+      next: member => {
+        this.members.update(members => [...members, member]);
+        this.selectedDoctorByTeam.update(selected => ({
+          ...selected,
+          [team.id]: 0
+        }));
+        this.errorMessage.set(null);
       },
       error: () => {
-        this.localErrorMessage.set('shift.teams.error.add-member-failed');
+        this.errorMessage.set('shift.teams.error.add-member-failed');
       }
     });
   }
 
   protected removeMember(member: TeamMember): void {
-    this.localErrorMessage.set(null);
-    this.shiftCoordinationStore.clearError();
-
-    this.shiftCoordinationStore.removeTeamMember(member.id).subscribe({
+    this.careTeamApi.removeTeamMember(member.id).subscribe({
       next: () => {
-        this.localErrorMessage.set(null);
+        this.members.update(members => members.filter(item => item.id !== member.id));
       },
       error: () => {
-        this.localErrorMessage.set('shift.teams.error.remove-member-failed');
+        this.errorMessage.set('shift.teams.error.remove-member-failed');
       }
     });
   }
 
-  protected removeMemberByUserId(teamId: number, userId: number): void {
-    const member = this.members().find(item =>
-      item.teamId === teamId &&
-      item.userId === userId
-    );
+  protected getTeamMembers(teamId: number): TeamMember[] {
+    return this.members().filter(member => {
+      const user = this.getUserById(member.userId);
 
-    if (!member) return;
-
-    this.removeMember(member);
+      return member.teamId === teamId &&
+        user?.role === 'DOCTOR' &&
+        user.status === 'ACTIVE';
+    });
   }
 
-  protected getTeamMembers(teamId: number): User[] {
-    const teamMembers = this.shiftCoordinationStore.getTeamMembers(teamId);
-
-    return teamMembers
-      .map(member => this.users().find(user => user.id === member.userId))
-      .filter((user): user is User => !!user);
+  protected getUserById(userId: number): User | undefined {
+    return this.users().find(user => user.id === userId);
   }
 
-  protected getTeamMemberRecords(teamId: number): TeamMember[] {
-    return this.shiftCoordinationStore.getTeamMembers(teamId);
-  }
-
-  protected getAvailableDoctorsForTeam(teamId: number): User[] {
-    const currentTeamUserIds = this.getTeamMembers(teamId).map(user => user.id);
-
-    return this.users().filter(user =>
-      user.role === 'DOCTOR' &&
-      user.status === 'ACTIVE' &&
-      (
-        !this.shiftCoordinationStore.isDoctorAlreadyAssigned(user.id) ||
-        currentTeamUserIds.includes(user.id)
-      )
-    );
-  }
-
-  protected getAvailableSupervisorsForTeam(teamId: number): User[] {
-    return this.users().filter(user =>
-      user.role === 'SUPERVISOR' &&
-      user.status === 'ACTIVE' &&
-      !this.shiftCoordinationStore.isSupervisorAlreadyAssigned(user.id, teamId)
-    );
-  }
-
-  protected getWorkAreaName(workAreaId?: number): string {
-    return this.iamStore.getWorkAreaName(workAreaId);
-  }
-
-  protected getSupervisorName(supervisorId?: number | null): string {
+  protected getSupervisorName(supervisorId: number | null): string {
     if (!supervisorId) return '—';
 
-    return this.users().find(user => user.id === supervisorId)?.fullName ?? '—';
+    return this.getUserById(supervisorId)?.fullName ?? '—';
   }
 
-  protected getUserName(userId: number): string {
-    return this.users().find(user => user.id === userId)?.fullName ?? '—';
+  protected getWorkAreaName(workAreaId: number): string {
+    return this.workAreas().find(workArea => workArea.id === workAreaId)?.name ?? '—';
   }
 
-  protected getUserInitials(userId: number): string {
-    return this.users().find(user => user.id === userId)?.initials ?? '--';
+  protected getAvailableDoctorsForTeam(team: CareTeam): User[] {
+    const assignedDoctorIds = this.members().map(member => member.userId);
+
+    return this.doctors().filter(doctor => !assignedDoctorIds.includes(doctor.id));
   }
 
-  protected getStatusLabel(status: string): string {
-    const labels: Record<string, string> = {
-      ACTIVE: 'shift.teams.status.active',
-      INACTIVE: 'shift.teams.status.inactive'
-    };
-
-    return labels[status] ?? status;
-  }
-
-  protected getStatusClass(status: string): string {
-    return status.toLowerCase();
+  private getActiveTeamCount(): number {
+    return this.teams().filter(team => team.status === 'ACTIVE').length;
   }
 
   private canCreateOrActivateTeam(): boolean {
@@ -369,13 +309,80 @@ export class TeamManagement implements OnInit {
 
     if (!plan) return true;
 
-    const activeTeams = this.shiftCoordinationStore.countActiveTeams();
+    const activeTeams = this.getActiveTeamCount();
 
     if (!this.subscriptionAccessService.canUseLimit(plan.maxTeams, activeTeams)) {
-      this.localErrorMessage.set('subscription.limits.teams-exceeded');
+      this.errorMessage.set('subscription.limits.teams-exceeded');
       return false;
     }
 
     return true;
+  }
+
+  private isSupervisorAlreadyAssigned(supervisorId: number | null, ignoredTeamId?: number): boolean {
+    if (!supervisorId) return false;
+
+    return this.teams().some(team =>
+      team.status === 'ACTIVE' &&
+      team.supervisorId === supervisorId &&
+      team.id !== ignoredTeamId
+    );
+  }
+
+  private loadData(): void {
+    const currentUser = this.authenticationStore.currentUser();
+
+    if (!currentUser) {
+      this.errorMessage.set('shift.teams.error.no-session');
+      return;
+    }
+
+    this.loading.set(true);
+
+    this.careTeamApi.getCareTeamsByOrganizationId(currentUser.organizationId).subscribe({
+      next: teams => {
+        this.teams.set([...teams].reverse());
+        this.loading.set(false);
+      },
+      error: () => {
+        this.errorMessage.set('shift.teams.error.load-failed');
+        this.loading.set(false);
+      }
+    });
+
+    this.careTeamApi.getTeamMembers().subscribe(members => {
+      this.members.set(members);
+    });
+
+    this.userApi.getUsersByOrganizationId(currentUser.organizationId).subscribe(users => {
+      this.users.set(users);
+    });
+
+    this.catalogApi.getWorkAreasByOrganizationId(currentUser.organizationId).subscribe(workAreas => {
+      this.workAreas.set(workAreas);
+    });
+  }
+
+  protected deleteTeam(team: CareTeam): void {
+    const confirmed = window.confirm(`¿Eliminar ${team.name}? Esta acción también quitará sus miembros asignados.`);
+
+    if (!confirmed) return;
+
+    this.careTeamApi.deleteCareTeam(team.id).subscribe({
+      next: () => {
+        this.teams.update(teams =>
+          teams.filter(item => item.id !== team.id)
+        );
+
+        this.members.update(members =>
+          members.filter(member => member.teamId !== team.id)
+        );
+
+        this.errorMessage.set(null);
+      },
+      error: () => {
+        this.errorMessage.set('shift.teams.error.delete-failed');
+      }
+    });
   }
 }

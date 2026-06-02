@@ -3,7 +3,7 @@ import { DatePipe } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { NgIcon } from '@ng-icons/core';
 import { AuthenticationStore } from '../../../../iam/application/authentication.store';
-import { IamCatalogApi } from '../../../../iam/infrastructure/iam-catalog-api';
+import { IamCatalogApi } from '../../../../iam/infrastructure/apis/iam-catalog-api';
 import { WorkArea } from '../../../../iam/domain/model/work-area.entity';
 import { ShiftRecordApi } from '../../../infrastructure/shift-record-api';
 import { ShiftRecord, ShiftStatus, ShiftType } from '../../../domain/model/shift-record.entity';

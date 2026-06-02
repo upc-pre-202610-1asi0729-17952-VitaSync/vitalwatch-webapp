@@ -1,13 +1,12 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
-import { AuthenticationStore } from '../../../application/authentication.store';
-import { NgIcon } from '@ng-icons/core';
 import { MatSelectModule } from '@angular/material/select';
+import { NgIcon } from '@ng-icons/core';
 import { AuthLayout } from '../../../../shared/presentation/components/auth-layout/auth-layout';
-import { IamCatalogApi } from '../../../infrastructure/iam-catalog-api';
-import { InvitationApi } from '../../../infrastructure/invitation-api';
+import { InvitationApi } from '../../../infrastructure/apis/invitation-api';
+import { IamCatalogApi } from '../../../infrastructure/apis/iam-catalog-api';
 import { Invitation } from '../../../domain/model/invitation.entity';
 import { WorkArea } from '../../../domain/model/work-area.entity';
 import { Specialty } from '../../../domain/model/specialty.entity';
@@ -15,12 +14,12 @@ import { Specialty } from '../../../domain/model/specialty.entity';
 @Component({
   selector: 'app-accept-invitation',
   imports: [
-    AuthLayout,
+    RouterLink,
     ReactiveFormsModule,
     TranslatePipe,
+    MatSelectModule,
     NgIcon,
-    RouterLink,
-    MatSelectModule
+    AuthLayout
   ],
   templateUrl: './accept-invitation.html',
   styleUrl: './accept-invitation.css'
@@ -29,25 +28,22 @@ export class AcceptInvitation implements OnInit {
   private formBuilder = inject(NonNullableFormBuilder);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
-  private catalogApi = inject(IamCatalogApi);
   private invitationApi = inject(InvitationApi);
+  private catalogApi = inject(IamCatalogApi);
 
   protected invitation = signal<Invitation | null>(null);
   protected workAreas = signal<WorkArea[]>([]);
   protected specialties = signal<Specialty[]>([]);
-
   protected loading = signal(false);
   protected errorMessage = signal<string | null>(null);
 
   protected passwordVisible = signal(false);
   protected confirmPasswordVisible = signal(false);
 
-  private authenticationStore = inject(AuthenticationStore);
-
   protected form = this.formBuilder.group({
+    email: [{ value: '', disabled: true }, [Validators.required, Validators.email]],
     firstName: ['', [Validators.required]],
     lastName: ['', [Validators.required]],
-    email: [{ value: '', disabled: true }, [Validators.required, Validators.email]],
     phone: ['', [Validators.required]],
     workAreaId: [0, [Validators.required]],
     specialtyId: [0, [Validators.required]],
@@ -55,60 +51,39 @@ export class AcceptInvitation implements OnInit {
     confirmPassword: ['', [Validators.required]]
   });
 
-  ngOnInit(): void {
-    this.authenticationStore.clearSession();
+  protected passwordsDoNotMatch = computed(() => {
+    const password = this.form.controls.password.value;
+    const confirmPassword = this.form.controls.confirmPassword.value;
 
-    const token = this.route.snapshot.queryParamMap.get('token');
-
-    if (!token) {
-      this.errorMessage.set('auth.error.invitation-token-required');
-      return;
-    }
-
-    this.loading.set(true);
-
-    this.invitationApi.getInvitationByToken(token).subscribe({
-      next: invitation => {
-        if (!invitation.isPending) {
-          this.errorMessage.set('auth.error.invitation-not-available');
-          this.loading.set(false);
-          return;
-        }
-
-        this.invitation.set(invitation);
-        this.form.controls.email.setValue(invitation.email);
-
-        this.loadCatalogs(invitation.organizationId);
-      },
-      error: () => {
-        this.errorMessage.set('auth.error.invitation-not-found');
-        this.loading.set(false);
-      }
-    });
-  }
-
-  protected togglePasswordVisibility(): void {
-    this.passwordVisible.update(value => !value);
-  }
-
-  protected toggleConfirmPasswordVisibility(): void {
-    this.confirmPasswordVisible.update(value => !value);
-  }
-
-  protected passwordsDoNotMatch(): boolean {
     return this.form.controls.confirmPassword.touched &&
-      this.form.controls.password.value !== this.form.controls.confirmPassword.value;
+      password.length > 0 &&
+      confirmPassword.length > 0 &&
+      password !== confirmPassword;
+  });
+
+  ngOnInit(): void {
+    this.loadInvitation();
   }
 
-  protected submit(): void {
+  protected acceptInvitation(): void {
     const invitation = this.invitation();
 
     if (!invitation) {
-      this.errorMessage.set('auth.error.invitation-token-required');
+      this.errorMessage.set('auth.error.invitation-not-found');
       return;
     }
 
-    if (this.form.invalid || this.passwordsDoNotMatch()) {
+    if (!invitation.isPending) {
+      this.errorMessage.set('auth.error.invitation-not-available');
+      return;
+    }
+
+    if (
+      this.form.invalid ||
+      this.form.controls.workAreaId.value === 0 ||
+      this.form.controls.specialtyId.value === 0 ||
+      this.form.controls.password.value !== this.form.controls.confirmPassword.value
+    ) {
       this.form.markAllAsTouched();
       return;
     }
@@ -116,11 +91,7 @@ export class AcceptInvitation implements OnInit {
     this.loading.set(true);
     this.errorMessage.set(null);
 
-    this.invitationApi.acceptInvitation({
-      invitationId: invitation.id,
-      organizationId: invitation.organizationId,
-      email: invitation.email,
-      role: invitation.role,
+    this.invitationApi.acceptInvitation(invitation, {
       firstName: this.form.controls.firstName.value,
       lastName: this.form.controls.lastName.value,
       phone: this.form.controls.phone.value,
@@ -139,14 +110,67 @@ export class AcceptInvitation implements OnInit {
     });
   }
 
+  protected togglePasswordVisibility(): void {
+    this.passwordVisible.update(value => !value);
+  }
+
+  protected toggleConfirmPasswordVisibility(): void {
+    this.confirmPasswordVisible.update(value => !value);
+  }
+
+  protected goToSignIn(): void {
+    this.router.navigate(['/sign-in']).then();
+  }
+
+  private loadInvitation(): void {
+    const token = this.route.snapshot.queryParamMap.get('token');
+
+    if (!token) {
+      this.errorMessage.set('auth.error.invitation-token-missing');
+      return;
+    }
+
+    this.loading.set(true);
+    this.errorMessage.set(null);
+
+    this.invitationApi.getInvitationByToken(token).subscribe({
+      next: invitation => {
+        if (!invitation || !invitation.isPending) {
+          this.errorMessage.set('auth.error.invitation-not-available');
+          this.loading.set(false);
+          return;
+        }
+
+        this.invitation.set(invitation);
+        this.form.controls.email.setValue(invitation.email);
+        this.loadCatalogs(invitation.organizationId);
+      },
+      error: () => {
+        this.errorMessage.set('auth.error.invitation-not-found');
+        this.loading.set(false);
+      }
+    });
+  }
+
   private loadCatalogs(organizationId: number): void {
-    this.catalogApi.getWorkAreasByOrganizationId(organizationId).subscribe(workAreas => {
-      this.workAreas.set(workAreas);
+    this.catalogApi.getWorkAreasByOrganizationId(organizationId).subscribe({
+      next: workAreas => {
+        this.workAreas.set(workAreas);
+      },
+      error: () => {
+        this.errorMessage.set('auth.error.catalog-load-failed');
+      }
     });
 
-    this.catalogApi.getSpecialties().subscribe(specialties => {
-      this.specialties.set(specialties);
-      this.loading.set(false);
+    this.catalogApi.getSpecialties().subscribe({
+      next: specialties => {
+        this.specialties.set(specialties);
+        this.loading.set(false);
+      },
+      error: () => {
+        this.errorMessage.set('auth.error.catalog-load-failed');
+        this.loading.set(false);
+      }
     });
   }
 }

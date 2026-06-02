@@ -1,9 +1,19 @@
 <app-auth-layout variant="register">
     <main class="register-container">
-        @if (!invitation()) {
+        @if (loading() && !invitation()) {
+        <section class="empty-invitation-card">
+            <h2>{{ 'auth.loading-invitation-title' | translate }}</h2>
+            <p>{{ 'auth.loading-invitation-message' | translate }}</p>
+        </section>
+        } @else if (!invitation()) {
         <section class="empty-invitation-card">
             <h2>{{ 'auth.invitation-required-title' | translate }}</h2>
+
+            @if (errorMessage()) {
+            <p>{{ errorMessage()! | translate }}</p>
+            } @else {
             <p>{{ 'auth.invitation-required-message' | translate }}</p>
+            }
 
             <a routerLink="/sign-in" class="back-link">
                 {{ 'auth.back-to-sign-in' | translate }}
@@ -16,7 +26,7 @@
                 <p>{{ 'auth.register-subtitle' | translate }}</p>
             </div>
 
-            <form [formGroup]="form" (ngSubmit)="submit()" class="auth-form">
+            <form [formGroup]="form" (ngSubmit)="acceptInvitation()" class="auth-form">
                 <div class="form-row">
                     <div class="field">
                         <label for="firstName">{{ 'auth.first-name' | translate }}</label>
@@ -24,9 +34,14 @@
                         <div class="input-control"
                             [class.invalid]="form.controls.firstName.touched && form.controls.firstName.invalid">
                             <ng-icon name="heroUser" />
+
                             <input id="firstName" type="text" formControlName="firstName"
                                 [placeholder]="'auth.first-name-placeholder' | translate">
                         </div>
+
+                        @if (form.controls.firstName.touched && form.controls.firstName.hasError('required')) {
+                        <small class="field-error">{{ 'auth.error.first-name-required' | translate }}</small>
+                        }
                     </div>
 
                     <div class="field">
@@ -35,9 +50,14 @@
                         <div class="input-control"
                             [class.invalid]="form.controls.lastName.touched && form.controls.lastName.invalid">
                             <ng-icon name="heroUser" />
+
                             <input id="lastName" type="text" formControlName="lastName"
                                 [placeholder]="'auth.last-name-placeholder' | translate">
                         </div>
+
+                        @if (form.controls.lastName.touched && form.controls.lastName.hasError('required')) {
+                        <small class="field-error">{{ 'auth.error.last-name-required' | translate }}</small>
+                        }
                     </div>
                 </div>
 
@@ -52,6 +72,7 @@
 
                     <div class="input-control disabled">
                         <ng-icon name="heroEnvelope" />
+
                         <input id="email" type="email" formControlName="email">
                     </div>
                 </div>
@@ -63,21 +84,25 @@
                         <div class="input-control"
                             [class.invalid]="form.controls.phone.touched && form.controls.phone.invalid">
                             <ng-icon name="heroPhone" />
+
                             <input id="phone" type="tel" formControlName="phone"
                                 [placeholder]="'auth.phone-placeholder' | translate">
                         </div>
+
+                        @if (form.controls.phone.touched && form.controls.phone.hasError('required')) {
+                        <small class="field-error">{{ 'auth.error.phone-required' | translate }}</small>
+                        }
                     </div>
 
                     <div class="field">
                         <label for="workAreaId">{{ 'auth.work-area' | translate }}</label>
 
                         <div class="input-control"
-                            [class.invalid]="form.controls.workAreaId.touched && form.controls.workAreaId.invalid">
+                            [class.invalid]="form.controls.workAreaId.touched && form.controls.workAreaId.value === 0">
                             <ng-icon name="heroBriefcase" />
 
                             <mat-select id="workAreaId" formControlName="workAreaId" panelClass="auth-select-panel"
                                 [placeholder]="'auth.work-area-placeholder' | translate">
-
                                 @for (workArea of workAreas(); track workArea.id) {
                                 <mat-option [value]="workArea.id">
                                     {{ workArea.name }}
@@ -86,7 +111,7 @@
                             </mat-select>
                         </div>
 
-                        @if (form.controls.workAreaId.touched && form.controls.workAreaId.hasError('required')) {
+                        @if (form.controls.workAreaId.touched && form.controls.workAreaId.value === 0) {
                         <small class="field-error">{{ 'auth.error.work-area-required' | translate }}</small>
                         }
                     </div>
@@ -96,12 +121,11 @@
                     <label for="specialtyId">{{ 'auth.specialty' | translate }}</label>
 
                     <div class="input-control"
-                        [class.invalid]="form.controls.specialtyId.touched && form.controls.specialtyId.invalid">
+                        [class.invalid]="form.controls.specialtyId.touched && form.controls.specialtyId.value === 0">
                         <ng-icon name="heroHeart" />
 
                         <mat-select id="specialtyId" formControlName="specialtyId" panelClass="auth-select-panel"
                             [placeholder]="'auth.specialty-placeholder' | translate">
-
                             @for (specialty of specialties(); track specialty.id) {
                             <mat-option [value]="specialty.id">
                                 {{ specialty.name }}
@@ -110,7 +134,7 @@
                         </mat-select>
                     </div>
 
-                    @if (form.controls.specialtyId.touched && form.controls.specialtyId.hasError('required')) {
+                    @if (form.controls.specialtyId.touched && form.controls.specialtyId.value === 0) {
                     <small class="field-error">{{ 'auth.error.specialty-required' | translate }}</small>
                     }
                 </div>
@@ -129,6 +153,14 @@
                             <ng-icon [name]="passwordVisible() ? 'heroEyeSlash' : 'heroEye'" />
                         </button>
                     </div>
+
+                    @if (form.controls.password.touched && form.controls.password.hasError('required')) {
+                    <small class="field-error">{{ 'auth.error.password-required' | translate }}</small>
+                    }
+
+                    @if (form.controls.password.touched && form.controls.password.hasError('minlength')) {
+                    <small class="field-error">{{ 'auth.error.password-minlength' | translate }}</small>
+                    }
                 </div>
 
                 <div class="field">
@@ -147,6 +179,10 @@
                         </button>
                     </div>
 
+                    @if (form.controls.confirmPassword.touched && form.controls.confirmPassword.hasError('required')) {
+                    <small class="field-error">{{ 'auth.error.confirm-password-required' | translate }}</small>
+                    }
+
                     @if (passwordsDoNotMatch()) {
                     <small class="field-error">{{ 'auth.error.passwords-do-not-match' | translate }}</small>
                     }
@@ -162,8 +198,6 @@
                 <a routerLink="/sign-in">{{ 'auth.sign-in-link' | translate }}</a>
             </p>
         </section>
-
         }
-
     </main>
 </app-auth-layout>
