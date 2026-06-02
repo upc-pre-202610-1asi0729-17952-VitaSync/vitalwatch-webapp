@@ -3,7 +3,6 @@ import {
   authenticationGuard,
   roleGuard
 } from './iam/application/authentication.guard';
-import { moduleAccessGuard } from './subscription-plan-management/application/module-access.guard';
 import {
   adminShiftCoordinationRoutes,
   doctorShiftCoordinationRoutes
@@ -17,6 +16,7 @@ import {
   doctorStaffRecoveryRoutes,
   supervisorStaffRecoveryRoutes
 } from './staff-recovery/presentation/staff-recovery.routes';
+import { adminAuditComplianceRoutes } from './audit-compliance/presentation/audit-compliance.routes';
 
 const iamRoutes = () =>
   import('./iam/presentation/iam.routes')
@@ -92,26 +92,9 @@ export const routes: Routes = [
           import('./subscription-plan-management/presentation/views/admin-subscription/admin-subscription')
             .then(m => m.AdminSubscription)
       },
-      {
-        path: 'reports',
-        canActivate: [moduleAccessGuard],
-        data: {
-          module: 'ADMIN_REPORTS'
-        },
-        loadComponent: () =>
-          import('./audit-compliance/presentation/views/admin-reports/admin-reports')
-            .then(m => m.AdminReports)
-      },
-      {
-        path: 'audit',
-        canActivate: [moduleAccessGuard],
-        data: {
-          module: 'ADMIN_AUDIT'
-        },
-        loadComponent: () =>
-          import('./audit-compliance/presentation/views/admin-audit/admin-audit')
-            .then(m => m.AdminAudit)
-      },
+
+      ...adminAuditComplianceRoutes,
+
       {
         path: 'settings',
         loadComponent: () =>
