@@ -8,6 +8,11 @@ import {
   adminShiftCoordinationRoutes,
   doctorShiftCoordinationRoutes
 } from './shift-coordination/presentation/shift-coordination.routes';
+import {
+  adminClinicalRiskAssessmentRoutes,
+  doctorClinicalRiskAssessmentRoutes,
+  supervisorClinicalRiskAssessmentRoutes
+} from './clinical-risk-assessment/presentation/clinical-risk-assessment.routes';
 
 const iamRoutes = () =>
   import('./iam/presentation/iam.routes')
@@ -59,12 +64,9 @@ export const routes: Routes = [
         redirectTo: 'dashboard',
         pathMatch: 'full'
       },
-      {
-        path: 'dashboard',
-        loadComponent: () =>
-          import('./clinical-risk-assessment/presentation/views/admin-dashboard/admin-dashboard')
-            .then(m => m.AdminDashboard)
-      },
+
+      ...adminClinicalRiskAssessmentRoutes,
+
       {
         path: 'staff',
         loadComponent: () =>
@@ -128,34 +130,9 @@ export const routes: Routes = [
         redirectTo: 'dashboard',
         pathMatch: 'full'
       },
-      {
-        path: 'dashboard',
-        loadComponent: () =>
-          import('./clinical-risk-assessment/presentation/views/supervisor-dashboard/supervisor-dashboard')
-            .then(m => m.SupervisorDashboard)
-      },
-      {
-        path: 'risk-staff',
-        loadComponent: () =>
-          import('./clinical-risk-assessment/presentation/views/supervisor-risk-staff/supervisor-risk-staff')
-            .then(m => m.SupervisorRiskStaff)
-      },
-      {
-        path: 'clinical-alerts',
-        loadComponent: () =>
-          import('./clinical-risk-assessment/presentation/views/supervisor-clinical-alerts/supervisor-clinical-alerts')
-            .then(m => m.SupervisorClinicalAlerts)
-      },
-      {
-        path: 'anomalies',
-        canActivate: [moduleAccessGuard],
-        data: {
-          module: 'VITAL_SIGN_ANOMALIES'
-        },
-        loadComponent: () =>
-          import('./clinical-risk-assessment/presentation/views/supervisor-anomalies/supervisor-anomalies')
-            .then(m => m.SupervisorAnomalies)
-      },
+
+      ...supervisorClinicalRiskAssessmentRoutes,
+
       {
         path: 'preventive-actions',
         canActivate: [moduleAccessGuard],
@@ -188,18 +165,8 @@ export const routes: Routes = [
         redirectTo: 'health',
         pathMatch: 'full'
       },
-      {
-        path: 'health',
-        loadComponent: () =>
-          import('./clinical-risk-assessment/presentation/views/doctor-health-dashboard/doctor-health-dashboard')
-            .then(m => m.DoctorHealthDashboard)
-      },
-      {
-        path: 'vital-signs',
-        loadComponent: () =>
-          import('./clinical-risk-assessment/presentation/views/doctor-vital-signs/doctor-vital-signs')
-            .then(m => m.DoctorVitalSigns)
-      },
+
+      ...doctorClinicalRiskAssessmentRoutes,
 
       ...doctorShiftCoordinationRoutes,
 

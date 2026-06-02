@@ -4,12 +4,12 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { MatSelectModule } from '@angular/material/select';
 import { NgIcon } from '@ng-icons/core';
 import { AuthenticationStore } from '../../../../iam/application/authentication.store';
-import { UserApi } from '../../../../iam/infrastructure/apis/user-api';
+import { IamStore } from '../../../../iam/application/iam.store';
 import { User } from '../../../../iam/domain/model/user.entity';
-import { CareTeamApi } from '../../../../shift-coordination/infrastructure/api/care-team-api';
+import { ShiftCoordinationStore } from '../../../../shift-coordination/application/shift-coordination.store';
 import { CareTeam } from '../../../../shift-coordination/domain/model/care-team.entity';
 import { TeamMember } from '../../../../shift-coordination/domain/model/team-member.entity';
-import { ClinicalRiskApi } from '../../../infrastructure/clinical-risk-api';
+import { ClinicalRiskStore } from '../../../application/clinical-risk.store';
 import { RiskAssessment, RiskLevel } from '../../../domain/model/risk-assessment.entity';
 import { ClinicalAlert } from '../../../domain/model/clinical-alert.entity';
 
@@ -35,18 +35,52 @@ interface RiskStaffItem {
 })
 export class SupervisorRiskStaff implements OnInit {
   private authenticationStore = inject(AuthenticationStore);
-  private userApi = inject(UserApi);
-  private careTeamApi = inject(CareTeamApi);
-  private clinicalRiskApi = inject(ClinicalRiskApi);
+  private iamStore = inject(IamStore);
+  private shiftCoordinationStore = inject(ShiftCoordinationStore);
+  private clinicalRiskStore = inject(ClinicalRiskStore);
 
-  protected teams = signal<CareTeam[]>([]);
-  protected members = signal<TeamMember[]>([]);
-  protected users = signal<User[]>([]);
-  protected risks = signal<RiskAssessment[]>([]);
-  protected alerts = signal<ClinicalAlert[]>([]);
+  private localErrorMessage = signal<string | null>(null);
 
-  protected loading = signal(false);
-  protected errorMessage = signal<string | null>(null);
+  protected teams = computed<CareTeam[]>(() => {
+    const currentUser = this.authenticationStore.currentUser();
+
+    if (!currentUser) return [];
+
+    return this.shiftCoordinationStore.teams().filter(team =>
+      team.supervisorId === currentUser.id &&
+      team.status === 'ACTIVE'
+    );
+  });
+
+  protected members = computed<TeamMember[]>(() =>
+    this.shiftCoordinationStore.teamMembers()
+  );
+
+  protected users = computed<User[]>(() =>
+    this.iamStore.users()
+  );
+
+  protected risks = computed<RiskAssessment[]>(() =>
+    this.clinicalRiskStore.riskAssessments()
+  );
+
+  protected alerts = computed<ClinicalAlert[]>(() =>
+    this.clinicalRiskStore.clinicalAlerts()
+  );
+
+  protected loading = computed(() =>
+    this.iamStore.loading() ||
+    this.shiftCoordinationStore.loading() ||
+    this.clinicalRiskStore.loading()
+  );
+
+  protected errorMessage = computed(() =>
+    this.localErrorMessage() ??
+    this.iamStore.error() ??
+    this.shiftCoordinationStore.error() ??
+    this.clinicalRiskStore.error()
+  );
+
   protected searchTerm = signal('');
   protected riskFilter = signal<RiskFilter>('ALL');
 
@@ -84,7 +118,9 @@ export class SupervisorRiskStaff implements OnInit {
       })
       .filter((item): item is RiskStaffItem => item !== null)
       .sort((a, b) => {
-        const riskPriority = this.getRiskPriority(b.risk.riskLevel) - this.getRiskPriority(a.risk.riskLevel);
+        const riskPriority =
+          this.getRiskPriority(b.risk.riskLevel) -
+          this.getRiskPriority(a.risk.riskLevel);
 
         if (riskPriority !== 0) return riskPriority;
 
@@ -102,7 +138,9 @@ export class SupervisorRiskStaff implements OnInit {
         item.doctor.email.toLowerCase().includes(search) ||
         item.teamName.toLowerCase().includes(search);
 
-      const matchesRisk = riskFilter === 'ALL' || item.risk.riskLevel === riskFilter;
+      const matchesRisk =
+        riskFilter === 'ALL' ||
+        item.risk.riskLevel === riskFilter;
 
       return matchesSearch && matchesRisk;
     });
@@ -160,7 +198,10 @@ export class SupervisorRiskStaff implements OnInit {
   }
 
   private getTeamNameByDoctorId(userId: number): string {
-    const membership = this.members().find(member => member.userId === userId);
+    const membership = this.members().find(member =>
+      member.userId === userId &&
+      this.assignedTeamIds().includes(member.teamId)
+    );
 
     if (!membership) return '—';
 
@@ -182,42 +223,17 @@ export class SupervisorRiskStaff implements OnInit {
     const currentUser = this.authenticationStore.currentUser();
 
     if (!currentUser) {
-      this.errorMessage.set('clinical.riskStaff.error.no-session');
+      this.localErrorMessage.set('clinical.riskStaff.error.no-session');
       return;
     }
 
-    this.loading.set(true);
+    this.localErrorMessage.set(null);
+    this.iamStore.clearError();
+    this.shiftCoordinationStore.clearError();
+    this.clinicalRiskStore.clearError();
 
-    this.careTeamApi.getCareTeamsByOrganizationId(currentUser.organizationId).subscribe({
-      next: teams => {
-        this.teams.set(
-          teams.filter(team =>
-            team.supervisorId === currentUser.id &&
-            team.status === 'ACTIVE'
-          )
-        );
-        this.loading.set(false);
-      },
-      error: () => {
-        this.errorMessage.set('clinical.riskStaff.error.load-failed');
-        this.loading.set(false);
-      }
-    });
-
-    this.careTeamApi.getTeamMembers().subscribe(members => {
-      this.members.set(members);
-    });
-
-    this.userApi.getUsersByOrganizationId(currentUser.organizationId).subscribe(users => {
-      this.users.set(users);
-    });
-
-    this.clinicalRiskApi.getRiskAssessmentsByOrganizationId(currentUser.organizationId).subscribe(risks => {
-      this.risks.set(risks);
-    });
-
-    this.clinicalRiskApi.getClinicalAlertsByOrganizationId(currentUser.organizationId).subscribe(alerts => {
-      this.alerts.set(alerts);
-    });
+    this.iamStore.loadStaffData();
+    this.shiftCoordinationStore.loadTeams();
+    this.clinicalRiskStore.loadRiskAndAlerts();
   }
 }

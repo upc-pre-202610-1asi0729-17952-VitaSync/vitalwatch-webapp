@@ -3,9 +3,8 @@ import { DatePipe } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { NgIcon } from '@ng-icons/core';
 import { AuthenticationStore } from '../../../../iam/application/authentication.store';
-import { ClinicalRiskApi } from '../../../infrastructure/clinical-risk-api';
-import { RiskAssessment, RiskLevel } from '../../../domain/model/risk-assessment.entity';
-import { ClinicalAlert } from '../../../domain/model/clinical-alert.entity';
+import { ClinicalRiskStore } from '../../../application/clinical-risk.store';
+import { RiskLevel } from '../../../domain/model/risk-assessment.entity';
 
 @Component({
   selector: 'app-doctor-health-dashboard',
@@ -19,14 +18,29 @@ import { ClinicalAlert } from '../../../domain/model/clinical-alert.entity';
 })
 export class DoctorHealthDashboard implements OnInit {
   private authenticationStore = inject(AuthenticationStore);
-  private clinicalRiskApi = inject(ClinicalRiskApi);
+  private clinicalRiskStore = inject(ClinicalRiskStore);
 
-  protected risks = signal<RiskAssessment[]>([]);
-  protected alerts = signal<ClinicalAlert[]>([]);
-  protected loading = signal(false);
-  protected errorMessage = signal<string | null>(null);
+  private localErrorMessage = signal<string | null>(null);
 
-  protected doctor = computed(() => this.authenticationStore.currentUser());
+  protected doctor = computed(() =>
+    this.authenticationStore.currentUser()
+  );
+
+  protected risks = computed(() =>
+    this.clinicalRiskStore.riskAssessments()
+  );
+
+  protected alerts = computed(() =>
+    this.clinicalRiskStore.clinicalAlerts()
+  );
+
+  protected loading = computed(() =>
+    this.clinicalRiskStore.loading()
+  );
+
+  protected errorMessage = computed(() =>
+    this.localErrorMessage() ?? this.clinicalRiskStore.error()
+  );
 
   protected currentRisk = computed(() => {
     const doctor = this.doctor();
@@ -64,6 +78,7 @@ export class DoctorHealthDashboard implements OnInit {
 
   protected riskLabel = computed(() => {
     const riskLevel = this.currentRisk()?.riskLevel ?? 'LOW';
+
     return this.getRiskLabel(riskLevel);
   });
 
@@ -128,30 +143,13 @@ export class DoctorHealthDashboard implements OnInit {
     const doctor = this.authenticationStore.currentUser();
 
     if (!doctor) {
-      this.errorMessage.set('clinical.doctor.error.no-session');
+      this.localErrorMessage.set('clinical.doctor.error.no-session');
       return;
     }
 
-    this.loading.set(true);
+    this.localErrorMessage.set(null);
+    this.clinicalRiskStore.clearError();
 
-    this.clinicalRiskApi.getRiskAssessmentsByOrganizationId(doctor.organizationId).subscribe({
-      next: risks => {
-        this.risks.set(risks);
-        this.loading.set(false);
-      },
-      error: () => {
-        this.errorMessage.set('clinical.doctor.error.load-failed');
-        this.loading.set(false);
-      }
-    });
-
-    this.clinicalRiskApi.getClinicalAlertsByOrganizationId(doctor.organizationId).subscribe({
-      next: alerts => {
-        this.alerts.set(alerts);
-      },
-      error: () => {
-        this.errorMessage.set('clinical.doctor.error.load-failed');
-      }
-    });
+    this.clinicalRiskStore.loadRiskAndAlerts();
   }
 }

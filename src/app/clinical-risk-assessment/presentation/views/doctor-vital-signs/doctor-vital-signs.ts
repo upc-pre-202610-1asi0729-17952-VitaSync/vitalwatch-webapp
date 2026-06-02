@@ -16,7 +16,7 @@ import {
   NgApexchartsModule
 } from 'ng-apexcharts';
 import { AuthenticationStore } from '../../../../iam/application/authentication.store';
-import { VitalSignReadingApi } from '../../../infrastructure/vital-sign-reading-api';
+import { ClinicalRiskStore } from '../../../application/clinical-risk.store';
 import { VitalSignReading } from '../../../domain/model/vital-sign-reading.entity';
 import { RiskLevel } from '../../../domain/model/risk-assessment.entity';
 
@@ -58,13 +58,25 @@ type BarChartOptions = {
 })
 export class DoctorVitalSigns implements OnInit {
   private authenticationStore = inject(AuthenticationStore);
-  private vitalSignReadingApi = inject(VitalSignReadingApi);
+  private clinicalRiskStore = inject(ClinicalRiskStore);
 
-  protected readings = signal<VitalSignReading[]>([]);
-  protected loading = signal(false);
-  protected errorMessage = signal<string | null>(null);
+  private localErrorMessage = signal<string | null>(null);
 
-  protected doctor = computed(() => this.authenticationStore.currentUser());
+  protected doctor = computed(() =>
+    this.authenticationStore.currentUser()
+  );
+
+  protected readings = computed(() =>
+    this.clinicalRiskStore.vitalSignReadings()
+  );
+
+  protected loading = computed(() =>
+    this.clinicalRiskStore.loading()
+  );
+
+  protected errorMessage = computed(() =>
+    this.localErrorMessage() ?? this.clinicalRiskStore.error()
+  );
 
   protected chartReadings = computed(() =>
     [...this.readings()].slice(0, 7).reverse()
@@ -87,12 +99,8 @@ export class DoctorVitalSigns implements OnInit {
       chart: {
         type: 'line',
         height: 300,
-        toolbar: {
-          show: false
-        },
-        zoom: {
-          enabled: false
-        },
+        toolbar: { show: false },
+        zoom: { enabled: false },
         fontFamily: 'inherit'
       },
       colors: ['#7c3aed'],
@@ -106,26 +114,14 @@ export class DoctorVitalSigns implements OnInit {
         strokeWidth: 3,
         strokeColors: '#ffffff',
         colors: ['#7c3aed'],
-        hover: {
-          size: 7
-        }
+        hover: { size: 7 }
       },
-      dataLabels: {
-        enabled: false
-      },
+      dataLabels: { enabled: false },
       grid: {
         borderColor: '#e8eef7',
         strokeDashArray: 0,
-        xaxis: {
-          lines: {
-            show: false
-          }
-        },
-        yaxis: {
-          lines: {
-            show: true
-          }
-        }
+        xaxis: { lines: { show: false } },
+        yaxis: { lines: { show: true } }
       },
       xaxis: {
         categories: readings.map(reading => this.formatChartDay(reading.recordedAt)),
@@ -133,9 +129,7 @@ export class DoctorVitalSigns implements OnInit {
           show: true,
           color: '#dbe3ef'
         },
-        axisTicks: {
-          show: false
-        },
+        axisTicks: { show: false },
         labels: {
           style: {
             colors: '#8b9abb',
@@ -178,12 +172,8 @@ export class DoctorVitalSigns implements OnInit {
       chart: {
         type: 'line',
         height: 300,
-        toolbar: {
-          show: false
-        },
-        zoom: {
-          enabled: false
-        },
+        toolbar: { show: false },
+        zoom: { enabled: false },
         fontFamily: 'inherit'
       },
       colors: ['#11c7c7'],
@@ -197,26 +187,14 @@ export class DoctorVitalSigns implements OnInit {
         strokeWidth: 3,
         strokeColors: '#ffffff',
         colors: ['#11c7c7'],
-        hover: {
-          size: 7
-        }
+        hover: { size: 7 }
       },
-      dataLabels: {
-        enabled: false
-      },
+      dataLabels: { enabled: false },
       grid: {
         borderColor: '#e8eef7',
         strokeDashArray: 0,
-        xaxis: {
-          lines: {
-            show: false
-          }
-        },
-        yaxis: {
-          lines: {
-            show: true
-          }
-        }
+        xaxis: { lines: { show: false } },
+        yaxis: { lines: { show: true } }
       },
       xaxis: {
         categories: readings.map(reading => this.formatChartDay(reading.recordedAt)),
@@ -224,9 +202,7 @@ export class DoctorVitalSigns implements OnInit {
           show: true,
           color: '#dbe3ef'
         },
-        axisTicks: {
-          show: false
-        },
+        axisTicks: { show: false },
         labels: {
           style: {
             colors: '#8b9abb',
@@ -277,12 +253,8 @@ export class DoctorVitalSigns implements OnInit {
       chart: {
         type: 'bar',
         height: 360,
-        toolbar: {
-          show: false
-        },
-        zoom: {
-          enabled: false
-        },
+        toolbar: { show: false },
+        zoom: { enabled: false },
         fontFamily: 'inherit'
       },
       colors: ['#11c7c7'],
@@ -293,34 +265,20 @@ export class DoctorVitalSigns implements OnInit {
           distributed: false
         }
       },
-      dataLabels: {
-        enabled: false
-      },
-      fill: {
-        opacity: 1
-      },
+      dataLabels: { enabled: false },
+      fill: { opacity: 1 },
       grid: {
         borderColor: '#e8eef7',
         strokeDashArray: 0,
-        xaxis: {
-          lines: {
-            show: false
-          }
-        },
-        yaxis: {
-          lines: {
-            show: true
-          }
-        }
+        xaxis: { lines: { show: false } },
+        yaxis: { lines: { show: true } }
       },
       xaxis: {
         axisBorder: {
           show: true,
           color: '#dbe3ef'
         },
-        axisTicks: {
-          show: false
-        },
+        axisTicks: { show: false },
         labels: {
           style: {
             colors: '#8b9abb',
@@ -354,25 +312,6 @@ export class DoctorVitalSigns implements OnInit {
     };
   });
 
-  private getHeartRateRiskLevel(heartRate: number): RiskLevel {
-    if (heartRate >= 115) return 'CRITICAL';
-    if (heartRate >= 105) return 'HIGH';
-    if (heartRate >= 90) return 'MODERATE';
-
-    return 'LOW';
-  }
-
-  private getHeartRateColor(riskLevel: RiskLevel): string {
-    const colors: Record<RiskLevel, string> = {
-      LOW: '#11c7c7',
-      MODERATE: '#f59e0b',
-      HIGH: '#f97316',
-      CRITICAL: '#ef4444'
-    };
-
-    return colors[riskLevel];
-  }
-
   ngOnInit(): void {
     this.loadVitalSigns();
   }
@@ -381,6 +320,7 @@ export class DoctorVitalSigns implements OnInit {
     if (fatigueLevel >= 90) return 'CRITICAL';
     if (fatigueLevel >= 75) return 'HIGH';
     if (fatigueLevel >= 50) return 'MODERATE';
+
     return 'LOW';
   }
 
@@ -412,23 +352,32 @@ export class DoctorVitalSigns implements OnInit {
     const doctor = this.authenticationStore.currentUser();
 
     if (!doctor) {
-      this.errorMessage.set('clinical.vitalSigns.error.no-session');
+      this.localErrorMessage.set('clinical.vitalSigns.error.no-session');
       return;
     }
 
-    this.loading.set(true);
-    this.errorMessage.set(null);
+    this.localErrorMessage.set(null);
+    this.clinicalRiskStore.clearError();
+    this.clinicalRiskStore.loadVitalSignReadingsForCurrentDoctor();
+  }
 
-    this.vitalSignReadingApi.getReadingsByUserId(doctor.organizationId, doctor.id).subscribe({
-      next: readings => {
-        this.readings.set(readings);
-        this.loading.set(false);
-      },
-      error: () => {
-        this.errorMessage.set('clinical.vitalSigns.error.load-failed');
-        this.loading.set(false);
-      }
-    });
+  private getHeartRateRiskLevel(heartRate: number): RiskLevel {
+    if (heartRate >= 120) return 'CRITICAL';
+    if (heartRate >= 110) return 'HIGH';
+    if (heartRate >= 95) return 'MODERATE';
+
+    return 'LOW';
+  }
+
+  private getHeartRateColor(riskLevel: RiskLevel): string {
+    const colors: Record<RiskLevel, string> = {
+      LOW: '#11c7c7',
+      MODERATE: '#f59e0b',
+      HIGH: '#f97316',
+      CRITICAL: '#ef4444'
+    };
+
+    return colors[riskLevel];
   }
 
   private formatChartDay(value: string): string {

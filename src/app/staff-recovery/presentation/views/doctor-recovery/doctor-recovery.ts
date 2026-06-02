@@ -3,7 +3,7 @@ import { DatePipe } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { NgIcon } from '@ng-icons/core';
 import { AuthenticationStore } from '../../../../iam/application/authentication.store';
-import { ClinicalRiskApi } from '../../../../clinical-risk-assessment/infrastructure/clinical-risk-api';
+import { ClinicalRiskApi } from '../../../../clinical-risk-assessment/infrastructure/api/clinical-risk-api';
 import { RiskAssessment, RiskLevel } from '../../../../clinical-risk-assessment/domain/model/risk-assessment.entity';
 import { ClinicalAlert } from '../../../../clinical-risk-assessment/domain/model/clinical-alert.entity';
 import { PreventiveActionApi } from '../../../infrastructure/preventive-action-api';

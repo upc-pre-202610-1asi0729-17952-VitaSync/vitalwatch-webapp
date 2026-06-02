@@ -4,9 +4,9 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { MatSelectModule } from '@angular/material/select';
 import { NgIcon } from '@ng-icons/core';
 import { AuthenticationStore } from '../../../../iam/application/authentication.store';
-import { UserApi } from '../../../../iam/infrastructure/apis/user-api';
+import { IamStore } from '../../../../iam/application/iam.store';
 import { User } from '../../../../iam/domain/model/user.entity';
-import { CareTeamApi } from '../../../../shift-coordination/infrastructure/api/care-team-api';
+import { ShiftCoordinationStore } from '../../../../shift-coordination/application/shift-coordination.store';
 import { CareTeam } from '../../../../shift-coordination/domain/model/care-team.entity';
 import { TeamMember } from '../../../../shift-coordination/domain/model/team-member.entity';
 import { RiskLevel } from '../../../domain/model/risk-assessment.entity';
@@ -15,7 +15,7 @@ import {
   VitalSignAnomalyStatus,
   VitalSignAnomalyType
 } from '../../../domain/model/vital-sign-anomaly.entity';
-import { VitalSignAnomalyApi } from '../../../infrastructure/vital-sign-anomaly-api';
+import { ClinicalRiskStore } from '../../../application/clinical-risk.store';
 
 type StatusFilter = 'ALL' | VitalSignAnomalyStatus;
 type SeverityFilter = 'ALL' | RiskLevel;
@@ -33,17 +33,48 @@ type SeverityFilter = 'ALL' | RiskLevel;
 })
 export class SupervisorAnomalies implements OnInit {
   private authenticationStore = inject(AuthenticationStore);
-  private userApi = inject(UserApi);
-  private careTeamApi = inject(CareTeamApi);
-  private anomalyApi = inject(VitalSignAnomalyApi);
+  private iamStore = inject(IamStore);
+  private shiftCoordinationStore = inject(ShiftCoordinationStore);
+  private clinicalRiskStore = inject(ClinicalRiskStore);
 
-  protected teams = signal<CareTeam[]>([]);
-  protected members = signal<TeamMember[]>([]);
-  protected users = signal<User[]>([]);
-  protected anomalies = signal<VitalSignAnomaly[]>([]);
+  private localErrorMessage = signal<string | null>(null);
 
-  protected loading = signal(false);
-  protected errorMessage = signal<string | null>(null);
+  protected teams = computed<CareTeam[]>(() => {
+    const currentUser = this.authenticationStore.currentUser();
+
+    if (!currentUser) return [];
+
+    return this.shiftCoordinationStore.teams().filter(team =>
+      team.supervisorId === currentUser.id &&
+      team.status === 'ACTIVE'
+    );
+  });
+
+  protected members = computed<TeamMember[]>(() =>
+    this.shiftCoordinationStore.teamMembers()
+  );
+
+  protected users = computed<User[]>(() =>
+    this.iamStore.users()
+  );
+
+  protected anomalies = computed<VitalSignAnomaly[]>(() =>
+    this.clinicalRiskStore.vitalSignAnomalies()
+  );
+
+  protected loading = computed(() =>
+    this.iamStore.loading() ||
+    this.shiftCoordinationStore.loading() ||
+    this.clinicalRiskStore.loading()
+  );
+
+  protected errorMessage = computed(() =>
+    this.localErrorMessage() ??
+    this.iamStore.error() ??
+    this.shiftCoordinationStore.error() ??
+    this.clinicalRiskStore.error()
+  );
+
   protected searchTerm = signal('');
   protected statusFilter = signal<StatusFilter>('OPEN');
   protected severityFilter = signal<SeverityFilter>('ALL');
@@ -166,24 +197,21 @@ export class SupervisorAnomalies implements OnInit {
     return riskLevel.toLowerCase();
   }
 
-  private updateAnomalyStatus(anomaly: VitalSignAnomaly, status: VitalSignAnomalyStatus): void {
-    const currentUser = this.authenticationStore.currentUser();
+  private updateAnomalyStatus(
+    anomaly: VitalSignAnomaly,
+    status: VitalSignAnomalyStatus
+  ): void {
+    if (!anomaly.isOpen) return;
 
-    if (!currentUser || !anomaly.isOpen) return;
+    this.localErrorMessage.set(null);
+    this.clinicalRiskStore.clearError();
 
-    this.anomalyApi.updateAnomalyStatus(anomaly.id, {
-      status,
-      reviewedAt: new Date().toISOString(),
-      reviewedBy: currentUser.id
-    }).subscribe({
-      next: updatedAnomaly => {
-        this.anomalies.update(anomalies =>
-          anomalies.map(item => item.id === updatedAnomaly.id ? updatedAnomaly : item)
-        );
-        this.errorMessage.set(null);
+    this.clinicalRiskStore.updateAnomalyStatus(anomaly, status).subscribe({
+      next: () => {
+        this.localErrorMessage.set(null);
       },
       error: () => {
-        this.errorMessage.set('clinical.anomalies.error.update-failed');
+        this.localErrorMessage.set('clinical.anomalies.error.update-failed');
       }
     });
   }
@@ -192,38 +220,17 @@ export class SupervisorAnomalies implements OnInit {
     const currentUser = this.authenticationStore.currentUser();
 
     if (!currentUser) {
-      this.errorMessage.set('clinical.anomalies.error.no-session');
+      this.localErrorMessage.set('clinical.anomalies.error.no-session');
       return;
     }
 
-    this.loading.set(true);
+    this.localErrorMessage.set(null);
+    this.iamStore.clearError();
+    this.shiftCoordinationStore.clearError();
+    this.clinicalRiskStore.clearError();
 
-    this.careTeamApi.getCareTeamsByOrganizationId(currentUser.organizationId).subscribe({
-      next: teams => {
-        this.teams.set(
-          teams.filter(team =>
-            team.supervisorId === currentUser.id &&
-            team.status === 'ACTIVE'
-          )
-        );
-        this.loading.set(false);
-      },
-      error: () => {
-        this.errorMessage.set('clinical.anomalies.error.load-failed');
-        this.loading.set(false);
-      }
-    });
-
-    this.careTeamApi.getTeamMembers().subscribe(members => {
-      this.members.set(members);
-    });
-
-    this.userApi.getUsersByOrganizationId(currentUser.organizationId).subscribe(users => {
-      this.users.set(users);
-    });
-
-    this.anomalyApi.getAnomaliesByOrganizationId(currentUser.organizationId).subscribe(anomalies => {
-      this.anomalies.set([...anomalies].reverse());
-    });
+    this.iamStore.loadStaffData();
+    this.shiftCoordinationStore.loadTeams();
+    this.clinicalRiskStore.loadAnomalies();
   }
 }

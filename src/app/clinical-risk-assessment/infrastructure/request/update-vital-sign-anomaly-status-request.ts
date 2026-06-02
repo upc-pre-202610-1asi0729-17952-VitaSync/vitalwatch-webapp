@@ -1,4 +1,4 @@
-import { VitalSignAnomalyStatus } from '../domain/model/vital-sign-anomaly.entity';
+import { VitalSignAnomalyStatus } from '../../domain/model/vital-sign-anomaly.entity';
 
 export interface UpdateVitalSignAnomalyStatusRequest {
     status: VitalSignAnomalyStatus;

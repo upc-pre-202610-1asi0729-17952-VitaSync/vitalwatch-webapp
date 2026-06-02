@@ -2,37 +2,61 @@ import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { NgIcon } from '@ng-icons/core';
 import { AuthenticationStore } from '../../../../iam/application/authentication.store';
-import { UserApi } from '../../../../iam/infrastructure/apis/user-api';
+import { IamStore } from '../../../../iam/application/iam.store';
 import { User } from '../../../../iam/domain/model/user.entity';
-import { CareTeamApi } from '../../../../shift-coordination/infrastructure/api/care-team-api';
-import { CareTeam } from '../../../../shift-coordination/domain/model/care-team.entity';
-import { TeamMember } from '../../../../shift-coordination/domain/model/team-member.entity';
-import { ClinicalRiskApi } from '../../../infrastructure/clinical-risk-api';
-import { RiskAssessment, RiskLevel } from '../../../domain/model/risk-assessment.entity';
-import { ClinicalAlert } from '../../../domain/model/clinical-alert.entity';
+import { ShiftCoordinationStore } from '../../../../shift-coordination/application/shift-coordination.store';
+import { ClinicalRiskStore } from '../../../application/clinical-risk.store';
+import { RiskLevel } from '../../../domain/model/risk-assessment.entity';
 
 @Component({
   selector: 'app-admin-dashboard',
   imports: [
     TranslatePipe,
-    NgIcon,
+    NgIcon
   ],
   templateUrl: './admin-dashboard.html',
   styleUrl: './admin-dashboard.css'
 })
 export class AdminDashboard implements OnInit {
   private authenticationStore = inject(AuthenticationStore);
-  private userApi = inject(UserApi);
-  private careTeamApi = inject(CareTeamApi);
-  private clinicalRiskApi = inject(ClinicalRiskApi);
+  private iamStore = inject(IamStore);
+  private shiftCoordinationStore = inject(ShiftCoordinationStore);
+  private clinicalRiskStore = inject(ClinicalRiskStore);
 
-  protected users = signal<User[]>([]);
-  protected teams = signal<CareTeam[]>([]);
-  protected members = signal<TeamMember[]>([]);
-  protected risks = signal<RiskAssessment[]>([]);
-  protected alerts = signal<ClinicalAlert[]>([]);
-  protected loading = signal(false);
-  protected errorMessage = signal<string | null>(null);
+  private localErrorMessage = signal<string | null>(null);
+
+  protected users = computed(() =>
+    this.iamStore.users()
+  );
+
+  protected teams = computed(() =>
+    this.shiftCoordinationStore.teams()
+  );
+
+  protected members = computed(() =>
+    this.shiftCoordinationStore.teamMembers()
+  );
+
+  protected risks = computed(() =>
+    this.clinicalRiskStore.riskAssessments()
+  );
+
+  protected alerts = computed(() =>
+    this.clinicalRiskStore.clinicalAlerts()
+  );
+
+  protected loading = computed(() =>
+    this.iamStore.loading() ||
+    this.shiftCoordinationStore.loading() ||
+    this.clinicalRiskStore.loading()
+  );
+
+  protected errorMessage = computed(() =>
+    this.localErrorMessage() ??
+    this.iamStore.error() ??
+    this.shiftCoordinationStore.error() ??
+    this.clinicalRiskStore.error()
+  );
 
   protected activeUsers = computed(() =>
     this.users().filter(user => user.status === 'ACTIVE')
@@ -55,7 +79,10 @@ export class AdminDashboard implements OnInit {
   );
 
   protected highRiskAssessments = computed(() =>
-    this.risks().filter(risk => risk.riskLevel === 'HIGH' || risk.riskLevel === 'CRITICAL')
+    this.risks().filter(risk =>
+      risk.riskLevel === 'HIGH' ||
+      risk.riskLevel === 'CRITICAL'
+    )
   );
 
   protected averageFatigue = computed(() => {
@@ -72,7 +99,9 @@ export class AdminDashboard implements OnInit {
     this.highRiskAssessments()
       .filter(risk => {
         const user = this.getUserById(risk.userId);
-        return user?.role === 'DOCTOR' && user.status === 'ACTIVE';
+
+        return user?.role === 'DOCTOR' &&
+          user.status === 'ACTIVE';
       })
       .sort((a, b) => b.fatigueLevel - a.fatigueLevel)
   );
@@ -120,37 +149,17 @@ export class AdminDashboard implements OnInit {
     const currentUser = this.authenticationStore.currentUser();
 
     if (!currentUser) {
-      this.errorMessage.set('clinical.admin.error.no-session');
+      this.localErrorMessage.set('clinical.admin.error.no-session');
       return;
     }
 
-    this.loading.set(true);
+    this.localErrorMessage.set(null);
+    this.iamStore.clearError();
+    this.shiftCoordinationStore.clearError();
+    this.clinicalRiskStore.clearError();
 
-    this.userApi.getUsersByOrganizationId(currentUser.organizationId).subscribe({
-      next: users => {
-        this.users.set(users);
-        this.loading.set(false);
-      },
-      error: () => {
-        this.errorMessage.set('clinical.admin.error.load-failed');
-        this.loading.set(false);
-      }
-    });
-
-    this.careTeamApi.getCareTeamsByOrganizationId(currentUser.organizationId).subscribe(teams => {
-      this.teams.set(teams);
-    });
-
-    this.careTeamApi.getTeamMembers().subscribe(members => {
-      this.members.set(members);
-    });
-
-    this.clinicalRiskApi.getRiskAssessmentsByOrganizationId(currentUser.organizationId).subscribe(risks => {
-      this.risks.set(risks);
-    });
-
-    this.clinicalRiskApi.getClinicalAlertsByOrganizationId(currentUser.organizationId).subscribe(alerts => {
-      this.alerts.set(alerts);
-    });
+    this.iamStore.loadStaffData();
+    this.shiftCoordinationStore.loadTeams();
+    this.clinicalRiskStore.loadRiskAndAlerts();
   }
 }
