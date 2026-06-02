@@ -4,6 +4,10 @@ import {
   roleGuard
 } from './iam/application/authentication.guard';
 import { moduleAccessGuard } from './subscription-plan-management/application/module-access.guard';
+import {
+  adminShiftCoordinationRoutes,
+  doctorShiftCoordinationRoutes
+} from './shift-coordination/presentation/shift-coordination.routes';
 
 const iamRoutes = () =>
   import('./iam/presentation/iam.routes')
@@ -67,12 +71,9 @@ export const routes: Routes = [
           import('./iam/presentation/views/staff-management/staff-management')
             .then(m => m.StaffManagement)
       },
-      {
-        path: 'teams',
-        loadComponent: () =>
-          import('./shift-coordination/presentation/views/team-management/team-management')
-            .then(m => m.TeamManagement)
-      },
+
+      ...adminShiftCoordinationRoutes,
+
       {
         path: 'invitations',
         loadComponent: () =>
@@ -199,12 +200,9 @@ export const routes: Routes = [
           import('./clinical-risk-assessment/presentation/views/doctor-vital-signs/doctor-vital-signs')
             .then(m => m.DoctorVitalSigns)
       },
-      {
-        path: 'shifts',
-        loadComponent: () =>
-          import('./shift-coordination/presentation/views/doctor-shifts/doctor-shifts')
-            .then(m => m.DoctorShifts)
-      },
+
+      ...doctorShiftCoordinationRoutes,
+
       {
         path: 'recovery',
         loadComponent: () =>
