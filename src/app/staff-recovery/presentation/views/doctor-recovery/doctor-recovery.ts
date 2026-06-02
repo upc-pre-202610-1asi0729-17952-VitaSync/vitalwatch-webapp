@@ -12,7 +12,7 @@ import {
   PreventiveActionStatus,
   PreventiveActionType
 } from '../../../domain/model/preventive-action.entity';
-import { ShiftRecordApi } from '../../../../shift-coordination/infrastructure/shift-record-api';
+import { ShiftRecordApi } from '../../../../shift-coordination/infrastructure/api/shift-record-api';
 import { ShiftRecord } from '../../../../shift-coordination/domain/model/shift-record.entity';
 
 @Component({

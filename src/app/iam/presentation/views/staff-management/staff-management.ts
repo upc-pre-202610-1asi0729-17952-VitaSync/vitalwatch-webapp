@@ -5,7 +5,7 @@ import { NgIcon } from '@ng-icons/core';
 import { forkJoin } from 'rxjs';
 import { User, UserRole, UserStatus } from '../../../domain/model/user.entity';
 import { IamStore } from '../../../application/iam.store';
-import { CareTeamApi } from '../../../../shift-coordination/infrastructure/care-team-api';
+import { CareTeamApi } from '../../../../shift-coordination/infrastructure/api/care-team-api';
 import { SubscriptionAccessService } from '../../../../subscription-plan-management/application/subscription-access.service';
 
 type RoleFilter = 'ALL' | UserRole;

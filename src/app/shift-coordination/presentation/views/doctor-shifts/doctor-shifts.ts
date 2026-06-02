@@ -2,11 +2,10 @@ import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { NgIcon } from '@ng-icons/core';
-import { AuthenticationStore } from '../../../../iam/application/authentication.store';
-import { IamCatalogApi } from '../../../../iam/infrastructure/apis/iam-catalog-api';
-import { WorkArea } from '../../../../iam/domain/model/work-area.entity';
-import { ShiftRecordApi } from '../../../infrastructure/shift-record-api';
+import { IamStore } from '../../../../iam/application/iam.store';
 import { ShiftRecord, ShiftStatus, ShiftType } from '../../../domain/model/shift-record.entity';
+import { ShiftCoordinationStore } from '../../../application/shift-coordination.store';
+import { AuthenticationStore } from '../../../../iam/application/authentication.store';
 
 @Component({
   selector: 'app-doctor-shifts',
@@ -19,16 +18,31 @@ import { ShiftRecord, ShiftStatus, ShiftType } from '../../../domain/model/shift
   styleUrl: './doctor-shifts.css'
 })
 export class DoctorShifts implements OnInit {
+  private shiftCoordinationStore = inject(ShiftCoordinationStore);
+  private iamStore = inject(IamStore);
   private authenticationStore = inject(AuthenticationStore);
-  private shiftRecordApi = inject(ShiftRecordApi);
-  private catalogApi = inject(IamCatalogApi);
 
-  protected shifts = signal<ShiftRecord[]>([]);
-  protected workAreas = signal<WorkArea[]>([]);
-  protected loading = signal(false);
-  protected errorMessage = signal<string | null>(null);
+  private localErrorMessage = signal<string | null>(null);
 
-  protected doctor = computed(() => this.authenticationStore.currentUser());
+  protected shifts = computed(() =>
+    this.shiftCoordinationStore.shifts()
+  );
+
+  protected doctor = computed(() =>
+    this.authenticationStore.currentUser()
+  );
+
+  protected workAreas = computed(() =>
+    this.iamStore.workAreas()
+  );
+
+  protected loading = computed(() =>
+    this.shiftCoordinationStore.loading() || this.iamStore.loading()
+  );
+
+  protected errorMessage = computed(() =>
+    this.localErrorMessage() ?? this.shiftCoordinationStore.error() ?? this.iamStore.error()
+  );
 
   protected currentShift = computed(() =>
     this.shifts().find(shift => shift.status === 'IN_PROGRESS') ?? null
@@ -60,21 +74,21 @@ export class DoctorShifts implements OnInit {
   );
 
   ngOnInit(): void {
-    this.loadShifts();
+    this.shiftCoordinationStore.loadDoctorShifts();
   }
 
   protected checkIn(shift: ShiftRecord): void {
     if (!shift.isScheduled || this.currentShift()) return;
 
-    this.shiftRecordApi.updateShiftRecordStatus(shift.id, {
-      status: 'IN_PROGRESS',
-      checkInAt: new Date().toISOString()
-    }).subscribe({
-      next: updatedShift => {
-        this.replaceShift(updatedShift);
+    this.localErrorMessage.set(null);
+    this.shiftCoordinationStore.clearError();
+
+    this.shiftCoordinationStore.checkIn(shift).subscribe({
+      next: () => {
+        this.localErrorMessage.set(null);
       },
       error: () => {
-        this.errorMessage.set('shift.doctor.error.check-in-failed');
+        this.localErrorMessage.set('shift.doctor.error.check-in-failed');
       }
     });
   }
@@ -82,15 +96,15 @@ export class DoctorShifts implements OnInit {
   protected checkOut(shift: ShiftRecord): void {
     if (!shift.isInProgress) return;
 
-    this.shiftRecordApi.updateShiftRecordStatus(shift.id, {
-      status: 'COMPLETED',
-      checkOutAt: new Date().toISOString()
-    }).subscribe({
-      next: updatedShift => {
-        this.replaceShift(updatedShift);
+    this.localErrorMessage.set(null);
+    this.shiftCoordinationStore.clearError();
+
+    this.shiftCoordinationStore.checkOut(shift).subscribe({
+      next: () => {
+        this.localErrorMessage.set(null);
       },
       error: () => {
-        this.errorMessage.set('shift.doctor.error.check-out-failed');
+        this.localErrorMessage.set('shift.doctor.error.check-out-failed');
       }
     });
   }
@@ -132,39 +146,5 @@ export class DoctorShifts implements OnInit {
 
   protected formatTotalHours(value: number): string {
     return `${Math.round(value)}h`;
-  }
-
-  private loadShifts(): void {
-    const doctor = this.authenticationStore.currentUser();
-
-    if (!doctor) {
-      this.errorMessage.set('shift.doctor.error.no-session');
-      return;
-    }
-
-    this.loading.set(true);
-
-    this.shiftRecordApi.getShiftRecordsByUserId(doctor.organizationId, doctor.id).subscribe({
-      next: shifts => {
-        this.shifts.set(shifts);
-        this.loading.set(false);
-      },
-      error: () => {
-        this.errorMessage.set('shift.doctor.error.load-failed');
-        this.loading.set(false);
-      }
-    });
-
-    this.catalogApi.getWorkAreasByOrganizationId(doctor.organizationId).subscribe(workAreas => {
-      this.workAreas.set(workAreas);
-    });
-  }
-
-  private replaceShift(updatedShift: ShiftRecord): void {
-    this.shifts.update(shifts =>
-      shifts.map(shift => shift.id === updatedShift.id ? updatedShift : shift)
-    );
-
-    this.errorMessage.set(null);
   }
 }

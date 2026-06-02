@@ -7,7 +7,7 @@ import { NgIcon } from '@ng-icons/core';
 import { AuthenticationStore } from '../../../../iam/application/authentication.store';
 import { UserApi } from '../../../../iam/infrastructure/apis/user-api';
 import { User } from '../../../../iam/domain/model/user.entity';
-import { CareTeamApi } from '../../../../shift-coordination/infrastructure/care-team-api';
+import { CareTeamApi } from '../../../../shift-coordination/infrastructure/api/care-team-api';
 import { CareTeam } from '../../../../shift-coordination/domain/model/care-team.entity';
 import { TeamMember } from '../../../../shift-coordination/domain/model/team-member.entity';
 import { PreventiveActionApi } from '../../../infrastructure/preventive-action-api';

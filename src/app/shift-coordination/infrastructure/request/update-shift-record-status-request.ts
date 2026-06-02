@@ -1,4 +1,4 @@
-import { ShiftStatus } from '../domain/model/shift-record.entity';
+import { ShiftStatus } from '../../domain/model/shift-record.entity';
 
 export interface UpdateShiftRecordStatusRequest {
     status: ShiftStatus;

@@ -610,7 +610,7 @@
       "organizationId": 1,
       "name": "Equipo UCI Norte",
       "workAreaId": 1,
-      "supervisorId": null,
+      "supervisorId": 2,
       "status": "ACTIVE"
     },
     {
