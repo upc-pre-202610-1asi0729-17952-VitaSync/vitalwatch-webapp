@@ -1,10 +1,14 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { forkJoin, map, Observable, of } from 'rxjs';
+import { catchError, forkJoin, map, Observable, of } from 'rxjs';
 import { AuthenticationStore } from '../../iam/application/authentication.store';
 import { Plan } from '../domain/model/plan.entity';
 import { Subscription } from '../domain/model/subscription.entity';
 import { CheckoutSession } from '../domain/model/checkout-session.entity';
-import { SubscriptionPlanApi } from '../infrastructure/subscription-plan-api';
+import {
+    CreateHospitalAdministratorRequest,
+    CreateOrganizationRequest,
+    SubscriptionPlanApi
+} from '../infrastructure/api/subscription-plan-api';
 
 @Injectable({
     providedIn: 'root'
@@ -19,13 +23,15 @@ export class SubscriptionPlanStore {
     private checkoutSessionsSignal = signal<CheckoutSession[]>([]);
     private loadingSignal = signal(false);
     private errorSignal = signal<string | null>(null);
+    private successMessageSignal = signal<string | null>(null);
 
-    plans = computed(() => this.plansSignal());
-    currentPlan = computed(() => this.currentPlanSignal());
-    currentSubscription = computed(() => this.currentSubscriptionSignal());
-    checkoutSessions = computed(() => this.checkoutSessionsSignal());
-    loading = computed(() => this.loadingSignal());
-    error = computed(() => this.errorSignal());
+    readonly plans = computed(() => this.plansSignal());
+    readonly currentPlan = computed(() => this.currentPlanSignal());
+    readonly currentSubscription = computed(() => this.currentSubscriptionSignal());
+    readonly checkoutSessions = computed(() => this.checkoutSessionsSignal());
+    readonly loading = computed(() => this.loadingSignal());
+    readonly error = computed(() => this.errorSignal());
+    readonly successMessage = computed(() => this.successMessageSignal());
 
     loadPlans(): Observable<Plan[]> {
         this.loadingSignal.set(true);
@@ -35,7 +41,14 @@ export class SubscriptionPlanStore {
             map(plans => {
                 this.plansSignal.set(plans);
                 this.loadingSignal.set(false);
+
                 return plans;
+            }),
+            catchError(() => {
+                this.errorSignal.set('subscription.registration.error.load-plans-failed');
+                this.loadingSignal.set(false);
+
+                return of([]);
             })
         );
     }
@@ -46,6 +59,7 @@ export class SubscriptionPlanStore {
         if (!currentUser) {
             this.currentPlanSignal.set(null);
             this.currentSubscriptionSignal.set(null);
+
             return of(null);
         }
 
@@ -63,6 +77,7 @@ export class SubscriptionPlanStore {
                 if (!subscription) {
                     this.currentPlanSignal.set(null);
                     this.loadingSignal.set(false);
+
                     return null;
                 }
 
@@ -72,6 +87,12 @@ export class SubscriptionPlanStore {
                 this.loadingSignal.set(false);
 
                 return plan;
+            }),
+            catchError(() => {
+                this.errorSignal.set('subscription.admin.error.load-failed');
+                this.loadingSignal.set(false);
+
+                return of(null);
             })
         );
     }
@@ -99,6 +120,7 @@ export class SubscriptionPlanStore {
 
         if (!currentUser || !subscription) {
             this.errorSignal.set('subscription.admin.error.no-session');
+
             return of(null);
         }
 
@@ -114,6 +136,7 @@ export class SubscriptionPlanStore {
         }).pipe(
             map(session => {
                 this.checkoutSessionsSignal.update(sessions => [session, ...sessions]);
+
                 this.currentSubscriptionSignal.set(
                     new Subscription({
                         id: subscription.id,
@@ -123,11 +146,53 @@ export class SubscriptionPlanStore {
                         startedAt: subscription.startedAt
                     })
                 );
+
                 this.currentPlanSignal.set(plan);
                 this.loadingSignal.set(false);
+
                 return session;
+            }),
+            catchError(() => {
+                this.errorSignal.set('subscription.admin.error.change-plan-failed');
+                this.loadingSignal.set(false);
+
+                return of(null);
             })
         );
+    }
+
+    registerOrganizationWithAdministrator(request: {
+        plan: Plan;
+        organization: CreateOrganizationRequest;
+        administrator: Omit<CreateHospitalAdministratorRequest, 'organizationId'>;
+    }): Observable<boolean> {
+        this.loadingSignal.set(true);
+        this.errorSignal.set(null);
+        this.successMessageSignal.set(null);
+
+        return this.subscriptionPlanApi.registerOrganizationWithAdministrator(request).pipe(
+            map(() => {
+                this.successMessageSignal.set('subscription.registration.success');
+                this.loadingSignal.set(false);
+
+                return true;
+            }),
+            catchError(() => {
+                this.errorSignal.set('subscription.registration.error.create-failed');
+                this.loadingSignal.set(false);
+
+                return of(false);
+            })
+        );
+    }
+
+    setErrorMessage(message: string | null): void {
+        this.errorSignal.set(message);
+    }
+
+    clearMessages(): void {
+        this.errorSignal.set(null);
+        this.successMessageSignal.set(null);
     }
 
     hasModule(moduleCode: string): boolean {
