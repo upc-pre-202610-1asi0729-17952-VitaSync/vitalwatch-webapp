@@ -13,6 +13,10 @@ import {
   doctorClinicalRiskAssessmentRoutes,
   supervisorClinicalRiskAssessmentRoutes
 } from './clinical-risk-assessment/presentation/clinical-risk-assessment.routes';
+import {
+  doctorStaffRecoveryRoutes,
+  supervisorStaffRecoveryRoutes
+} from './staff-recovery/presentation/staff-recovery.routes';
 
 const iamRoutes = () =>
   import('./iam/presentation/iam.routes')
@@ -133,16 +137,8 @@ export const routes: Routes = [
 
       ...supervisorClinicalRiskAssessmentRoutes,
 
-      {
-        path: 'preventive-actions',
-        canActivate: [moduleAccessGuard],
-        data: {
-          module: 'PREVENTIVE_ACTIONS'
-        },
-        loadComponent: () =>
-          import('./staff-recovery/presentation/views/preventive-actions-management/preventive-actions-management')
-            .then(m => m.PreventiveActionsManagement)
-      },
+      ...supervisorStaffRecoveryRoutes,
+
       {
         path: 'settings',
         loadComponent: () =>
@@ -170,12 +166,8 @@ export const routes: Routes = [
 
       ...doctorShiftCoordinationRoutes,
 
-      {
-        path: 'recovery',
-        loadComponent: () =>
-          import('./staff-recovery/presentation/views/doctor-recovery/doctor-recovery')
-            .then(m => m.DoctorRecovery)
-      },
+      ...doctorStaffRecoveryRoutes,
+
       {
         path: 'settings',
         loadComponent: () =>

@@ -14,7 +14,7 @@ import { RiskAssessment, RiskLevel } from '../../../../clinical-risk-assessment/
 import { ClinicalAlert } from '../../../../clinical-risk-assessment/domain/model/clinical-alert.entity';
 import { VitalSignAnomalyApi } from '../../../../clinical-risk-assessment/infrastructure/api/vital-sign-anomaly-api';
 import { VitalSignAnomaly } from '../../../../clinical-risk-assessment/domain/model/vital-sign-anomaly.entity';
-import { PreventiveActionApi } from '../../../../staff-recovery/infrastructure/preventive-action-api';
+import { PreventiveActionApi } from '../../../../staff-recovery/infrastructure/api/preventive-action-api';
 import { PreventiveAction } from '../../../../staff-recovery/domain/model/preventive-action.entity';
 
 interface StaffReportItem {

@@ -1,4 +1,4 @@
-import { PreventiveActionType } from '../domain/model/preventive-action.entity';
+import { PreventiveActionType } from '../../domain/model/preventive-action.entity';
 
 export interface CreatePreventiveActionRequest {
     organizationId: number;
