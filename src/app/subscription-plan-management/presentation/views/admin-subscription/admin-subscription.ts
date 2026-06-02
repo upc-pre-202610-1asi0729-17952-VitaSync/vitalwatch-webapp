@@ -2,11 +2,9 @@ import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { NgIcon } from '@ng-icons/core';
-import { AuthenticationStore } from '../../../../iam/application/authentication.store';
 import { Plan } from '../../../domain/model/plan.entity';
-import { Subscription } from '../../../domain/model/subscription.entity';
 import { CheckoutSession } from '../../../domain/model/checkout-session.entity';
-import { SubscriptionPlanApi } from '../../../infrastructure/subscription-plan-api';
+import { SubscriptionPlanStore } from '../../../application/subscription-plan.store';
 
 @Component({
   selector: 'app-admin-subscription',
@@ -20,22 +18,33 @@ import { SubscriptionPlanApi } from '../../../infrastructure/subscription-plan-a
   styleUrl: './admin-subscription.css'
 })
 export class AdminSubscription implements OnInit {
-  private authenticationStore = inject(AuthenticationStore);
-  private subscriptionPlanApi = inject(SubscriptionPlanApi);
+  private subscriptionPlanStore = inject(SubscriptionPlanStore);
 
-  protected plans = signal<Plan[]>([]);
-  protected subscription = signal<Subscription | null>(null);
-  protected checkoutSessions = signal<CheckoutSession[]>([]);
-  protected loading = signal(false);
-  protected errorMessage = signal<string | null>(null);
+  private localErrorMessage = signal<string | null>(null);
 
-  protected currentPlan = computed(() => {
-    const subscription = this.subscription();
+  protected plans = computed(() =>
+    this.subscriptionPlanStore.plans()
+  );
 
-    if (!subscription) return null;
+  protected subscription = computed(() =>
+    this.subscriptionPlanStore.currentSubscription()
+  );
 
-    return this.plans().find(plan => plan.id === subscription.planId) ?? null;
-  });
+  protected checkoutSessions = computed(() =>
+    this.subscriptionPlanStore.checkoutSessions()
+  );
+
+  protected loading = computed(() =>
+    this.subscriptionPlanStore.loading()
+  );
+
+  protected errorMessage = computed(() =>
+    this.localErrorMessage() ?? this.subscriptionPlanStore.error()
+  );
+
+  protected currentPlan = computed(() =>
+    this.subscriptionPlanStore.currentPlan()
+  );
 
   protected availablePlans = computed(() => {
     const currentPlan = this.currentPlan();
@@ -48,6 +57,7 @@ export class AdminSubscription implements OnInit {
 
     return sessions.length > 0 ? sessions[0] : null;
   });
+
   protected monthlyCost = computed(() =>
     this.currentPlan()?.price ?? 0
   );
@@ -57,35 +67,19 @@ export class AdminSubscription implements OnInit {
   }
 
   protected changePlan(plan: Plan): void {
-    const currentUser = this.authenticationStore.currentUser();
-    const subscription = this.subscription();
+    this.localErrorMessage.set(null);
 
-    if (!currentUser || !subscription) {
-      this.errorMessage.set('subscription.admin.error.no-session');
-      return;
-    }
-
-    this.loading.set(true);
-    this.errorMessage.set(null);
-
-    this.subscriptionPlanApi.createCompletedCheckoutSession({
-      organizationId: currentUser.organizationId,
-      administratorId: currentUser.id,
-      subscriptionId: subscription.id,
-      planId: plan.id,
-      planCode: plan.code
-    }).subscribe({
+    this.subscriptionPlanStore.changePlan(plan).subscribe({
       next: session => {
-        this.checkoutSessions.update(sessions => [session, ...sessions]);
+        if (!session) {
+          this.localErrorMessage.set('subscription.admin.error.change-plan-failed');
+          return;
+        }
 
-        this.subscriptionPlanApi.getSubscriptionByOrganizationId(currentUser.organizationId).subscribe(updatedSubscription => {
-          this.subscription.set(updatedSubscription);
-          this.loading.set(false);
-        });
+        this.localErrorMessage.set(null);
       },
       error: () => {
-        this.errorMessage.set('subscription.admin.error.change-plan-failed');
-        this.loading.set(false);
+        this.localErrorMessage.set('subscription.admin.error.change-plan-failed');
       }
     });
   }
@@ -108,32 +102,15 @@ export class AdminSubscription implements OnInit {
   }
 
   private loadSubscriptionData(): void {
-    const currentUser = this.authenticationStore.currentUser();
+    this.localErrorMessage.set(null);
 
-    if (!currentUser) {
-      this.errorMessage.set('subscription.admin.error.no-session');
-      return;
-    }
-
-    this.loading.set(true);
-
-    this.subscriptionPlanApi.getPlans().subscribe({
-      next: plans => {
-        this.plans.set(plans);
-        this.loading.set(false);
+    this.subscriptionPlanStore.loadCurrentPlan().subscribe({
+      next: () => {
+        this.subscriptionPlanStore.loadCheckoutSessions();
       },
       error: () => {
-        this.errorMessage.set('subscription.admin.error.load-failed');
-        this.loading.set(false);
+        this.localErrorMessage.set('subscription.admin.error.load-failed');
       }
-    });
-
-    this.subscriptionPlanApi.getSubscriptionByOrganizationId(currentUser.organizationId).subscribe(subscription => {
-      this.subscription.set(subscription);
-    });
-
-    this.subscriptionPlanApi.getCheckoutSessionsByOrganizationId(currentUser.organizationId).subscribe(sessions => {
-      this.checkoutSessions.set(sessions);
     });
   }
 }

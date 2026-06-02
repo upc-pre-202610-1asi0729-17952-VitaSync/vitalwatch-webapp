@@ -1,71 +1,27 @@
-import { computed, inject, Injectable, signal } from '@angular/core';
-import { forkJoin, map, Observable } from 'rxjs';
-import { AuthenticationStore } from '../../iam/application/authentication.store';
+import { computed, inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Plan } from '../domain/model/plan.entity';
-import { Subscription } from '../domain/model/subscription.entity';
-import { SubscriptionPlanApi } from '../infrastructure/subscription-plan-api';
+import { SubscriptionPlanStore } from './subscription-plan.store';
 
 @Injectable({
     providedIn: 'root'
 })
 export class SubscriptionAccessService {
-    private authenticationStore = inject(AuthenticationStore);
-    private subscriptionPlanApi = inject(SubscriptionPlanApi);
+    private subscriptionPlanStore = inject(SubscriptionPlanStore);
 
-    private currentPlanSignal = signal<Plan | null>(null);
-    private currentSubscriptionSignal = signal<Subscription | null>(null);
-
-    currentPlan = computed(() => this.currentPlanSignal());
-    currentSubscription = computed(() => this.currentSubscriptionSignal());
+    currentPlan = computed(() => this.subscriptionPlanStore.currentPlan());
+    currentSubscription = computed(() => this.subscriptionPlanStore.currentSubscription());
 
     loadCurrentPlan(): Observable<Plan | null> {
-        const currentUser = this.authenticationStore.currentUser();
-
-        if (!currentUser) {
-            this.currentPlanSignal.set(null);
-            this.currentSubscriptionSignal.set(null);
-            return new Observable<Plan | null>(subscriber => {
-                subscriber.next(null);
-                subscriber.complete();
-            });
-        }
-
-        return forkJoin({
-            plans: this.subscriptionPlanApi.getPlans(),
-            subscription: this.subscriptionPlanApi.getSubscriptionByOrganizationId(currentUser.organizationId)
-        }).pipe(
-            map(({ plans, subscription }) => {
-                this.currentSubscriptionSignal.set(subscription);
-
-                if (!subscription) {
-                    this.currentPlanSignal.set(null);
-                    return null;
-                }
-
-                const plan = plans.find(item => item.id === subscription.planId) ?? null;
-                this.currentPlanSignal.set(plan);
-
-                return plan;
-            })
-        );
+        return this.subscriptionPlanStore.loadCurrentPlan();
     }
 
     hasModule(moduleCode: string): boolean {
-        const plan = this.currentPlanSignal();
-
-        if (!plan) return false;
-
-        return plan.enabledModules.includes(moduleCode);
-    }
-
-    isUnlimited(value: number | null): boolean {
-        return value === null;
+        return this.subscriptionPlanStore.hasModule(moduleCode);
     }
 
     canUseLimit(limit: number | null, currentUsage: number): boolean {
-        if (limit === null) return true;
-
-        return currentUsage < limit;
+        return this.subscriptionPlanStore.canUseLimit(limit, currentUsage);
     }
 
     getLimitExceededMessage(resource: string): string {
