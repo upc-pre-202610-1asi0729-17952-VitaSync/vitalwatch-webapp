@@ -1100,7 +1100,6 @@
       "role": "Rol",
       "status-label": "Estado",
       "organization": "Organización",
-      "reset": "Restablecer",
       "save": "Guardar cambios",
       "saving": "Guardando...",
       "success": "Los datos de la cuenta se actualizaron correctamente.",

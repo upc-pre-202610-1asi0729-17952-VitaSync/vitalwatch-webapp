@@ -85,13 +85,6 @@ export class AccountSettings implements OnInit {
     });
   }
 
-  protected resetForm(): void {
-    this.loadUserData();
-    this.successMessage.set(null);
-    this.localErrorMessage.set(null);
-    this.iamStore.clearError();
-  }
-
   protected getRoleLabel(role: string): string {
     const labels: Record<string, string> = {
       HOSPITAL_ADMIN: 'settings.account.roles.admin',

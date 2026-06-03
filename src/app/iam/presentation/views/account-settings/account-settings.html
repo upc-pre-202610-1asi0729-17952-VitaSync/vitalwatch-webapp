@@ -132,17 +132,9 @@
             </div>
 
             <div class="form-actions">
-                <button type="button" class="secondary-button" (click)="resetForm()">
-                    <ng-icon name="heroArrowPath" />
-                    <span>{{ 'settings.account.reset' | translate }}</span>
-                </button>
-
-                <button type="submit" class="primary-button" [disabled]="loading()">
-                    <ng-icon name="heroCheckCircle" />
-                    <span>
-                        {{ loading() ? ('settings.account.saving' | translate) : ('settings.account.save' | translate)
-                        }}
-                    </span>
+                <button type="submit" class="primary-button" [disabled]="loading() || form.invalid">
+                    <ng-icon name="heroCheckCircle"></ng-icon>
+                    {{ 'settings.account.save' | translate }}
                 </button>
             </div>
         </form>

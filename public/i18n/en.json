@@ -1113,7 +1113,6 @@
       "role": "Role",
       "status-label": "Status",
       "organization": "Organization",
-      "reset": "Reset",
       "save": "Save changes",
       "saving": "Saving...",
       "success": "Account information was updated successfully.",
