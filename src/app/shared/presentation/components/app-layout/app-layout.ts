@@ -99,6 +99,12 @@ const layoutConfig: Record<UserRole, AppLayoutConfig> = {
         module: 'PREVENTIVE_ACTIONS'
       },
       {
+        label: 'navigation.team-shifts',
+        icon: 'heroCalendarDays',
+        link: '/supervisor/shifts',
+        module: 'SHIFT_MANAGEMENT'
+      },
+      {
         label: 'navigation.settings',
         icon: 'heroCog6Tooth',
         link: '/supervisor/settings'

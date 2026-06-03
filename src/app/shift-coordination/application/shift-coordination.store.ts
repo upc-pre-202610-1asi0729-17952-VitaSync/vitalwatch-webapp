@@ -2,16 +2,20 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { forkJoin, Observable, tap } from 'rxjs';
 import { AuthenticationStore } from '../../iam/application/authentication.store';
 import { IamStore } from '../../iam/application/iam.store';
+import { User } from '../../iam/domain/model/user.entity';
 import { CareTeam } from '../domain/model/care-team.entity';
 import { TeamMember } from '../domain/model/team-member.entity';
-import { ShiftRecord } from '../domain/model/shift-record.entity';
+import { ShiftRecord, ShiftStatus, ShiftType } from '../domain/model/shift-record.entity';
 import { CareTeamApi } from '../infrastructure/api/care-team-api';
 import { ShiftRecordApi } from '../infrastructure/api/shift-record-api';
 import { CreateCareTeamRequest } from '../infrastructure/request/create-care-team-request';
 import { CreateTeamMemberRequest } from '../infrastructure/request/create-team-member-request';
+import { CreateShiftRecordRequest } from '../infrastructure/request/create-shift-record-request';
 import { UpdateCareTeamSupervisorRequest } from '../infrastructure/request/update-care-team-supervisor-request';
 import { UpdateCareTeamStatusRequest } from '../infrastructure/request/update-care-team-status-request';
 import { UpdateShiftRecordStatusRequest } from '../infrastructure/request/update-shift-record-status-request';
+
+export type SupervisorShiftStatusFilter = 'ALL' | ShiftStatus;
 
 @Injectable({
     providedIn: 'root'
@@ -28,6 +32,9 @@ export class ShiftCoordinationStore {
     private loadingSignal = signal(false);
     private errorSignal = signal<string | null>(null);
 
+    private supervisorShiftSearchTermSignal = signal('');
+    private supervisorShiftStatusFilterSignal = signal<SupervisorShiftStatusFilter>('ALL');
+
     teams = computed(() => this.teamsSignal());
     teamMembers = computed(() => this.teamMembersSignal());
     members = computed(() => this.teamMembersSignal());
@@ -38,9 +45,89 @@ export class ShiftCoordinationStore {
     loading = computed(() => this.loadingSignal());
     error = computed(() => this.errorSignal());
 
+    supervisorShiftSearchTerm = computed(() => this.supervisorShiftSearchTermSignal());
+    supervisorShiftStatusFilter = computed(() => this.supervisorShiftStatusFilterSignal());
+
     activeTeams = computed(() =>
         this.teamsSignal().filter(team => team.status === 'ACTIVE')
     );
+
+    assignedSupervisorTeams = computed(() => {
+        const currentUser = this.authenticationStore.currentUser();
+
+        if (!currentUser) return [];
+
+        return this.teamsSignal().filter(team =>
+            team.status === 'ACTIVE' &&
+            team.supervisorId === currentUser.id
+        );
+    });
+
+    assignedSupervisorTeamIds = computed(() =>
+        this.assignedSupervisorTeams().map(team => team.id)
+    );
+
+    assignedSupervisorMemberIds = computed(() =>
+        this.teamMembersSignal()
+            .filter(member => this.assignedSupervisorTeamIds().includes(member.teamId))
+            .map(member => member.userId)
+    );
+
+    assignedSupervisorDoctors = computed(() =>
+        this.iamStore.users().filter(user =>
+            this.assignedSupervisorMemberIds().includes(user.id) &&
+            user.role === 'DOCTOR' &&
+            user.status === 'ACTIVE'
+        )
+    );
+
+    supervisorShiftRecords = computed(() =>
+        this.shiftRecordsSignal()
+            .filter(shift => this.assignedSupervisorMemberIds().includes(shift.userId))
+            .sort((a, b) =>
+                new Date(b.scheduledStart).getTime() - new Date(a.scheduledStart).getTime()
+            )
+    );
+
+    scheduledSupervisorShifts = computed(() =>
+        this.supervisorShiftRecords().filter(shift => shift.status === 'SCHEDULED')
+    );
+
+    inProgressSupervisorShifts = computed(() =>
+        this.supervisorShiftRecords().filter(shift => shift.status === 'IN_PROGRESS')
+    );
+
+    completedSupervisorShifts = computed(() =>
+        this.supervisorShiftRecords().filter(shift => shift.status === 'COMPLETED')
+    );
+
+    cancelledSupervisorShifts = computed(() =>
+        this.supervisorShiftRecords().filter(shift => shift.status === 'CANCELLED')
+    );
+
+    filteredSupervisorShifts = computed(() => {
+        const search = this.supervisorShiftSearchTermSignal().toLowerCase().trim();
+        const status = this.supervisorShiftStatusFilterSignal();
+
+        return this.supervisorShiftRecords().filter(shift => {
+            const doctor = this.getUserById(shift.userId);
+            const workAreaName = this.getWorkAreaName(shift.workAreaId);
+            const teamName = this.getTeamNameByUserId(shift.userId);
+
+            const matchesSearch =
+                search.length === 0 ||
+                doctor?.fullName.toLowerCase().includes(search) ||
+                doctor?.email.toLowerCase().includes(search) ||
+                workAreaName.toLowerCase().includes(search) ||
+                teamName.toLowerCase().includes(search) ||
+                shift.type.toLowerCase().includes(search) ||
+                shift.status.toLowerCase().includes(search);
+
+            const matchesStatus = status === 'ALL' || shift.status === status;
+
+            return matchesSearch && matchesStatus;
+        });
+    });
 
     clearError(): void {
         this.errorSignal.set(null);
@@ -106,6 +193,37 @@ export class ShiftCoordinationStore {
         });
     }
 
+    loadSupervisorShifts(): void {
+        const currentUser = this.authenticationStore.currentUser();
+
+        if (!currentUser) {
+            this.errorSignal.set('shift.supervisor.error.no-session');
+            return;
+        }
+
+        this.loadingSignal.set(true);
+        this.errorSignal.set(null);
+
+        this.iamStore.loadStaffData();
+
+        forkJoin({
+            teams: this.careTeamApi.getCareTeamsByOrganizationId(currentUser.organizationId),
+            members: this.careTeamApi.getTeamMembers(),
+            shifts: this.shiftRecordApi.getShiftRecordsByOrganizationId(currentUser.organizationId)
+        }).subscribe({
+            next: ({ teams, members, shifts }) => {
+                this.teamsSignal.set(teams);
+                this.teamMembersSignal.set(members);
+                this.shiftRecordsSignal.set(shifts);
+                this.loadingSignal.set(false);
+            },
+            error: () => {
+                this.errorSignal.set('shift.supervisor.error.load-failed');
+                this.loadingSignal.set(false);
+            }
+        });
+    }
+
     createTeam(request: CreateCareTeamRequest): Observable<CareTeam> {
         this.loadingSignal.set(true);
         this.errorSignal.set(null);
@@ -118,6 +236,24 @@ export class ShiftCoordinationStore {
                 },
                 error: () => {
                     this.errorSignal.set('shift.teams.error.create-failed');
+                    this.loadingSignal.set(false);
+                }
+            })
+        );
+    }
+
+    createShiftRecord(request: CreateShiftRecordRequest): Observable<ShiftRecord> {
+        this.loadingSignal.set(true);
+        this.errorSignal.set(null);
+
+        return this.shiftRecordApi.createShiftRecord(request).pipe(
+            tap({
+                next: shift => {
+                    this.shiftRecordsSignal.update(shifts => [shift, ...shifts]);
+                    this.loadingSignal.set(false);
+                },
+                error: () => {
+                    this.errorSignal.set('shift.supervisor.error.create-failed');
                     this.loadingSignal.set(false);
                 }
             })
@@ -235,6 +371,23 @@ export class ShiftCoordinationStore {
         );
     }
 
+    cancelSupervisorShift(shift: ShiftRecord): Observable<ShiftRecord> {
+        this.errorSignal.set(null);
+
+        return this.shiftRecordApi.updateShiftRecordStatus(shift.id, {
+            status: 'CANCELLED'
+        }).pipe(
+            tap({
+                next: updatedShift => {
+                    this.updateShiftInState(updatedShift);
+                },
+                error: () => {
+                    this.errorSignal.set('shift.supervisor.error.cancel-failed');
+                }
+            })
+        );
+    }
+
     checkIn(shift: ShiftRecord): Observable<ShiftRecord> {
         this.errorSignal.set(null);
 
@@ -269,6 +422,14 @@ export class ShiftCoordinationStore {
                 }
             })
         );
+    }
+
+    updateSupervisorShiftSearchTerm(value: string): void {
+        this.supervisorShiftSearchTermSignal.set(value);
+    }
+
+    updateSupervisorShiftStatusFilter(value: SupervisorShiftStatusFilter): void {
+        this.supervisorShiftStatusFilterSignal.set(value);
     }
 
     clearSupervisorAssignmentsByUserId(userId: number): Observable<void> {
@@ -338,6 +499,46 @@ export class ShiftCoordinationStore {
         return this.activeTeams().length;
     }
 
+    getUserById(userId: number): User | undefined {
+        return this.iamStore.getUserById(userId);
+    }
+
+    getWorkAreaName(workAreaId?: number): string {
+        return this.iamStore.getWorkAreaName(workAreaId);
+    }
+
+    getTeamNameByUserId(userId: number): string {
+        const membership = this.teamMembersSignal().find(member => member.userId === userId);
+
+        if (!membership) return '—';
+
+        return this.teamsSignal().find(team => team.id === membership.teamId)?.name ?? '—';
+    }
+
+    getShiftTypeLabel(type: ShiftType): string {
+        const labels: Record<ShiftType, string> = {
+            DAY: 'shift.supervisor.type.day',
+            NIGHT: 'shift.supervisor.type.night'
+        };
+
+        return labels[type];
+    }
+
+    getShiftStatusLabel(status: ShiftStatus): string {
+        const labels: Record<ShiftStatus, string> = {
+            SCHEDULED: 'shift.supervisor.status.scheduled',
+            IN_PROGRESS: 'shift.supervisor.status.in-progress',
+            COMPLETED: 'shift.supervisor.status.completed',
+            CANCELLED: 'shift.supervisor.status.cancelled'
+        };
+
+        return labels[status];
+    }
+
+    getShiftStatusClass(status: ShiftStatus): string {
+        return status.toLowerCase().replace('_', '-');
+    }
+
     private updateTeamInState(updatedTeam: CareTeam): void {
         this.teamsSignal.update(teams =>
             teams.map(team =>
@@ -347,10 +548,14 @@ export class ShiftCoordinationStore {
     }
 
     private updateShiftInState(updatedShift: ShiftRecord): void {
-        this.shiftRecordsSignal.update(shifts =>
-            shifts.map(shift =>
+        this.shiftRecordsSignal.update(shifts => {
+            const exists = shifts.some(shift => shift.id === updatedShift.id);
+
+            if (!exists) return [updatedShift, ...shifts];
+
+            return shifts.map(shift =>
                 shift.id === updatedShift.id ? updatedShift : shift
-            )
-        );
+            );
+        });
     }
 }

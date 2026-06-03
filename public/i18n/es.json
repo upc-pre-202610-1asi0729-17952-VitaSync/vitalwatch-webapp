@@ -117,6 +117,7 @@
     "my-vital-signs": "Mis Signos Vitales",
     "my-shifts": "Mis Turnos",
     "my-recovery": "Mi Recuperación",
+    "team-shifts": "Turnos del equipo",
     "sign-out": "Cerrar sesión"
   },
   "onboarding": {
@@ -315,6 +316,69 @@
       "deactivate": "Desactivar",
       "activate": "Activar",
       "delete": "Eliminar"
+    },
+    "supervisor": {
+      "title": "Turnos del equipo",
+      "subtitle-before": "Asigna y gestiona",
+      "subtitle-highlight": "turnos clínicos",
+      "subtitle-after": "para el personal médico bajo tu supervisión.",
+      "new-title": "Nuevo turno",
+      "new-subtitle": "Selecciona un médico asignado y programa un nuevo turno.",
+      "assigned-staff-title": "Personal asignado",
+      "assigned-staff-subtitle": "Médicos disponibles en tus equipos activos.",
+      "staff": "Personal médico",
+      "select-staff": "Selecciona personal",
+      "shift-type": "Tipo de turno",
+      "date": "Fecha",
+      "start-time": "Hora inicio",
+      "end-time": "Hora fin",
+      "create": "Crear turno",
+      "creating": "Creando...",
+      "list-title": "Turnos programados",
+      "list-subtitle": "Turnos asignados al personal bajo tu supervisión.",
+      "search-placeholder": "Buscar por personal, correo, equipo o área...",
+      "cancel": "Cancelar",
+      "closed": "Cerrado",
+      "no-assigned-staff": "Todavía no tienes personal médico asignado.",
+      "empty-title": "No se encontraron turnos",
+      "empty-subtitle": "Crea un turno o ajusta los filtros para ver resultados.",
+      "metrics": {
+        "scheduled": "Programados",
+        "in-progress": "En curso",
+        "completed": "Completados",
+        "cancelled": "Cancelados"
+      },
+      "filters": {
+        "all-statuses": "Todos los estados"
+      },
+      "type": {
+        "day": "Turno día",
+        "night": "Turno noche"
+      },
+      "status": {
+        "scheduled": "Programado",
+        "in-progress": "En curso",
+        "completed": "Completado",
+        "cancelled": "Cancelado"
+      },
+      "table": {
+        "staff": "Personal",
+        "team": "Equipo",
+        "area": "Área",
+        "type": "Tipo",
+        "date": "Fecha",
+        "time": "Horario",
+        "hours": "Horas",
+        "status": "Estado",
+        "actions": "Acciones"
+      },
+      "error": {
+        "no-session": "No se encontró una sesión activa.",
+        "load-failed": "No se pudieron cargar los turnos del equipo.",
+        "create-failed": "No se pudo crear el turno.",
+        "cancel-failed": "No se pudo cancelar el turno.",
+        "doctor-without-area": "El médico seleccionado no tiene un área de trabajo asignada."
+      }
     },
     "doctor": {
       "title": "Mis Turnos",

@@ -10,7 +10,8 @@ import {
 } from './iam/presentation/iam.routes';
 import {
   adminShiftCoordinationRoutes,
-  doctorShiftCoordinationRoutes
+  doctorShiftCoordinationRoutes,
+  supervisorShiftCoordinationRoutes
 } from './shift-coordination/presentation/shift-coordination.routes';
 import {
   adminClinicalRiskAssessmentRoutes,
@@ -102,6 +103,8 @@ export const routes: Routes = [
       },
 
       ...supervisorClinicalRiskAssessmentRoutes,
+
+      ...supervisorShiftCoordinationRoutes,
 
       ...supervisorStaffRecoveryRoutes,
 

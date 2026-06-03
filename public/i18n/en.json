@@ -129,6 +129,7 @@
     "my-vital-signs": "My Vital Signs",
     "my-shifts": "My Shifts",
     "my-recovery": "My Recovery",
+    "team-shifts": "Team shifts",
     "sign-out": "Sign out"
   },
   "onboarding": {
@@ -328,6 +329,69 @@
       "deactivate": "Deactivate",
       "activate": "Activate",
       "delete": "Delete"
+    },
+    "supervisor": {
+      "title": "Team Shifts",
+      "subtitle-before": "Assign and manage",
+      "subtitle-highlight": "clinical shifts",
+      "subtitle-after": "for medical staff under your supervision.",
+      "new-title": "New shift",
+      "new-subtitle": "Select an assigned doctor and schedule a new shift.",
+      "assigned-staff-title": "Assigned staff",
+      "assigned-staff-subtitle": "Doctors available in your active teams.",
+      "staff": "Medical staff",
+      "select-staff": "Select staff",
+      "shift-type": "Shift type",
+      "date": "Date",
+      "start-time": "Start time",
+      "end-time": "End time",
+      "create": "Create shift",
+      "creating": "Creating...",
+      "list-title": "Scheduled shifts",
+      "list-subtitle": "Shifts assigned to your supervised staff.",
+      "search-placeholder": "Search by staff, email, team or area...",
+      "cancel": "Cancel",
+      "closed": "Closed",
+      "no-assigned-staff": "You do not have assigned medical staff yet.",
+      "empty-title": "No shifts found",
+      "empty-subtitle": "Create a shift or adjust the filters to see results.",
+      "metrics": {
+        "scheduled": "Scheduled",
+        "in-progress": "In progress",
+        "completed": "Completed",
+        "cancelled": "Cancelled"
+      },
+      "filters": {
+        "all-statuses": "All statuses"
+      },
+      "type": {
+        "day": "Day shift",
+        "night": "Night shift"
+      },
+      "status": {
+        "scheduled": "Scheduled",
+        "in-progress": "In progress",
+        "completed": "Completed",
+        "cancelled": "Cancelled"
+      },
+      "table": {
+        "staff": "Staff",
+        "team": "Team",
+        "area": "Area",
+        "type": "Type",
+        "date": "Date",
+        "time": "Time",
+        "hours": "Hours",
+        "status": "Status",
+        "actions": "Actions"
+      },
+      "error": {
+        "no-session": "No active session was found.",
+        "load-failed": "Team shifts could not be loaded.",
+        "create-failed": "Shift could not be created.",
+        "cancel-failed": "Shift could not be cancelled.",
+        "doctor-without-area": "The selected doctor does not have a work area assigned."
+      }
     },
     "doctor": {
       "title": "My Shifts",
