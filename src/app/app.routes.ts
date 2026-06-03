@@ -4,6 +4,11 @@ import {
   roleGuard
 } from './iam/application/authentication.guard';
 import {
+  adminIamRoutes,
+  doctorIamRoutes,
+  supervisorIamRoutes
+} from './iam/presentation/iam.routes';
+import {
   adminShiftCoordinationRoutes,
   doctorShiftCoordinationRoutes
 } from './shift-coordination/presentation/shift-coordination.routes';
@@ -17,6 +22,7 @@ import {
   supervisorStaffRecoveryRoutes
 } from './staff-recovery/presentation/staff-recovery.routes';
 import { adminAuditComplianceRoutes } from './audit-compliance/presentation/audit-compliance.routes';
+import { adminSubscriptionPlanManagementRoutes } from './subscription-plan-management/presentation/subscription-plan-management.routes';
 
 const iamRoutes = () =>
   import('./iam/presentation/iam.routes')
@@ -71,36 +77,13 @@ export const routes: Routes = [
 
       ...adminClinicalRiskAssessmentRoutes,
 
-      {
-        path: 'staff',
-        loadComponent: () =>
-          import('./iam/presentation/views/staff-management/staff-management')
-            .then(m => m.StaffManagement)
-      },
+      ...adminIamRoutes,
 
       ...adminShiftCoordinationRoutes,
 
-      {
-        path: 'invitations',
-        loadComponent: () =>
-          import('./iam/presentation/views/invitation-management/invitation-management')
-            .then(m => m.InvitationManagement)
-      },
-      {
-        path: 'subscription',
-        loadComponent: () =>
-          import('./subscription-plan-management/presentation/views/admin-subscription/admin-subscription')
-            .then(m => m.AdminSubscription)
-      },
+      ...adminSubscriptionPlanManagementRoutes,
 
-      ...adminAuditComplianceRoutes,
-
-      {
-        path: 'settings',
-        loadComponent: () =>
-          import('./iam/presentation/views/account-settings/account-settings')
-            .then(m => m.AccountSettings)
-      }
+      ...adminAuditComplianceRoutes
     ]
   },
 
@@ -122,12 +105,7 @@ export const routes: Routes = [
 
       ...supervisorStaffRecoveryRoutes,
 
-      {
-        path: 'settings',
-        loadComponent: () =>
-          import('./iam/presentation/views/account-settings/account-settings')
-            .then(m => m.AccountSettings)
-      }
+      ...supervisorIamRoutes
     ]
   },
 
@@ -151,12 +129,7 @@ export const routes: Routes = [
 
       ...doctorStaffRecoveryRoutes,
 
-      {
-        path: 'settings',
-        loadComponent: () =>
-          import('./iam/presentation/views/account-settings/account-settings')
-            .then(m => m.AccountSettings)
-      }
+      ...doctorIamRoutes
     ]
   },
 
