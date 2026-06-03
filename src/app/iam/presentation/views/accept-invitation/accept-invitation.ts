@@ -1,15 +1,11 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, effect, inject, OnInit, signal } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { MatSelectModule } from '@angular/material/select';
 import { NgIcon } from '@ng-icons/core';
 import { AuthLayout } from '../../../../shared/presentation/components/auth-layout/auth-layout';
-import { InvitationApi } from '../../../infrastructure/api/invitation-api';
-import { IamCatalogApi } from '../../../infrastructure/api/iam-catalog-api';
-import { Invitation } from '../../../domain/model/invitation.entity';
-import { WorkArea } from '../../../domain/model/work-area.entity';
-import { Specialty } from '../../../domain/model/specialty.entity';
+import { IamStore } from '../../../application/iam.store';
 
 @Component({
   selector: 'app-accept-invitation',
@@ -28,14 +24,13 @@ export class AcceptInvitation implements OnInit {
   private formBuilder = inject(NonNullableFormBuilder);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
-  private invitationApi = inject(InvitationApi);
-  private catalogApi = inject(IamCatalogApi);
+  private iamStore = inject(IamStore);
 
-  protected invitation = signal<Invitation | null>(null);
-  protected workAreas = signal<WorkArea[]>([]);
-  protected specialties = signal<Specialty[]>([]);
-  protected loading = signal(false);
-  protected errorMessage = signal<string | null>(null);
+  protected invitation = this.iamStore.registrationInvitation;
+  protected workAreas = this.iamStore.workAreas;
+  protected specialties = this.iamStore.specialties;
+  protected loading = this.iamStore.loading;
+  protected errorMessage = this.iamStore.error;
 
   protected passwordVisible = signal(false);
   protected confirmPasswordVisible = signal(false);
@@ -51,6 +46,14 @@ export class AcceptInvitation implements OnInit {
     confirmPassword: ['', [Validators.required]]
   });
 
+  private invitationEmailSync = effect(() => {
+    const invitation = this.invitation();
+
+    if (!invitation) return;
+
+    this.form.controls.email.setValue(invitation.email);
+  });
+
   protected passwordsDoNotMatch = computed(() => {
     const password = this.form.controls.password.value;
     const confirmPassword = this.form.controls.confirmPassword.value;
@@ -62,19 +65,21 @@ export class AcceptInvitation implements OnInit {
   });
 
   ngOnInit(): void {
-    this.loadInvitation();
+    const token = this.route.snapshot.queryParamMap.get('token');
+
+    this.iamStore.loadInvitationForRegistration(token);
   }
 
   protected acceptInvitation(): void {
     const invitation = this.invitation();
 
     if (!invitation) {
-      this.errorMessage.set('auth.error.invitation-not-found');
+      this.iamStore.setError('auth.error.invitation-not-found');
       return;
     }
 
     if (!invitation.isPending) {
-      this.errorMessage.set('auth.error.invitation-not-available');
+      this.iamStore.setError('auth.error.invitation-not-available');
       return;
     }
 
@@ -88,10 +93,7 @@ export class AcceptInvitation implements OnInit {
       return;
     }
 
-    this.loading.set(true);
-    this.errorMessage.set(null);
-
-    this.invitationApi.acceptInvitation(invitation, {
+    this.iamStore.acceptInvitationRegistration({
       firstName: this.form.controls.firstName.value,
       lastName: this.form.controls.lastName.value,
       phone: this.form.controls.phone.value,
@@ -99,13 +101,10 @@ export class AcceptInvitation implements OnInit {
       specialtyId: this.form.controls.specialtyId.value,
       password: this.form.controls.password.value
     }).subscribe({
-      next: () => {
-        this.loading.set(false);
+      next: acceptedInvitation => {
+        if (!acceptedInvitation) return;
+
         this.router.navigate(['/sign-in']).then();
-      },
-      error: () => {
-        this.loading.set(false);
-        this.errorMessage.set('auth.error.invitation-accept-failed');
       }
     });
   }
@@ -120,57 +119,5 @@ export class AcceptInvitation implements OnInit {
 
   protected goToSignIn(): void {
     this.router.navigate(['/sign-in']).then();
-  }
-
-  private loadInvitation(): void {
-    const token = this.route.snapshot.queryParamMap.get('token');
-
-    if (!token) {
-      this.errorMessage.set('auth.error.invitation-token-missing');
-      return;
-    }
-
-    this.loading.set(true);
-    this.errorMessage.set(null);
-
-    this.invitationApi.getInvitationByToken(token).subscribe({
-      next: invitation => {
-        if (!invitation || !invitation.isPending) {
-          this.errorMessage.set('auth.error.invitation-not-available');
-          this.loading.set(false);
-          return;
-        }
-
-        this.invitation.set(invitation);
-        this.form.controls.email.setValue(invitation.email);
-        this.loadCatalogs(invitation.organizationId);
-      },
-      error: () => {
-        this.errorMessage.set('auth.error.invitation-not-found');
-        this.loading.set(false);
-      }
-    });
-  }
-
-  private loadCatalogs(organizationId: number): void {
-    this.catalogApi.getWorkAreasByOrganizationId(organizationId).subscribe({
-      next: workAreas => {
-        this.workAreas.set(workAreas);
-      },
-      error: () => {
-        this.errorMessage.set('auth.error.catalog-load-failed');
-      }
-    });
-
-    this.catalogApi.getSpecialties().subscribe({
-      next: specialties => {
-        this.specialties.set(specialties);
-        this.loading.set(false);
-      },
-      error: () => {
-        this.errorMessage.set('auth.error.catalog-load-failed');
-        this.loading.set(false);
-      }
-    });
   }
 }

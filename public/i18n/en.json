@@ -28,7 +28,19 @@
       "invitation-token-required": "A valid invitation is required to create an account.",
       "invitation-not-found": "The invitation does not exist or the link is invalid.",
       "invitation-not-available": "This invitation was already used or expired.",
-      "invitation-accept-failed": "The registration could not be completed. Please try again."
+      "invitation-accept-failed": "The registration could not be completed. Please try again.",
+      "invitation-token-missing": "The invitation token is missing.",
+      "catalog-load-failed": "Registration catalogs could not be loaded.",
+      "first-name-required": "First name is required.",
+      "last-name-required": "Last name is required.",
+      "phone-required": "Phone is required.",
+      "confirm-password-required": "Confirm password is required.",
+      "password-minlength": "Password must have at least 6 characters.",
+      "admin-title": "Panel administrativo",
+      "supervisor-title": "Panel del supervisor",
+      "doctor-title": "Panel clínico",
+      "subtitle": "Monitoreo inteligente y gestión de turnos",
+      "content-pending": "Esta sección está en preparación."
     },
     "register-brand-title": "Join the intelligent healthcare platform.",
     "register-brand-description": "Complete your registration to access biometric monitoring and shift management.",
@@ -52,9 +64,19 @@
     "sign-in-link": "Sign in",
     "signing-in": "Signing in...",
     "creating-account": "Creating account...",
-    "invitation-help": "Did you receive an invitation? Open the link sent to your email to create your account."
+    "invitation-help": "Did you receive an invitation? Open the link sent to your email to create your account.",
+    "loading-invitation-title": "Validating invitation",
+    "loading-invitation-message": "Please wait while we verify your invitation link.",
+    "invitation-required-title": "Invitation required",
+    "invitation-required-message": "To create an account, you need to open the invitation link sent by your medical center administrator.",
+    "back-to-sign-in": "Back to sign in"
   },
   "layout": {
+    "admin-title": "Administration panel",
+    "supervisor-title": "Supervisor panel",
+    "doctor-title": "Clinical panel",
+    "subtitle": "Smart monitoring and shift management",
+    "content-pending": "This section is being prepared.",
     "topbar": {
       "greetings": {
         "default": {
@@ -209,7 +231,8 @@
         "email-required": "Email address is required.",
         "email-invalid": "Enter a valid email address.",
         "accepted-cannot-be-deleted": "Accepted invitations cannot be deleted.",
-        "delete-failed": "Invitation could not be deleted."
+        "delete-failed": "Invitation could not be deleted.",
+        "cancel-failed": "Invitation could not be cancelled."
       }
     },
     "staff": {
@@ -297,7 +320,8 @@
         "supervisor-already-assigned": "This supervisor is already assigned to another active team.",
         "update-status-failed": "Team status could not be updated.",
         "inactive-team": "You cannot add members to an inactive team.",
-        "delete-failed": "Team could not be deleted."
+        "delete-failed": "Team could not be deleted.",
+        "cleanup-failed": "Team assignments could not be cleaned up."
       },
       "search-placeholder": "Search by name or area...",
       "all-work-areas": "All areas",
@@ -355,11 +379,18 @@
         "no-session": "No active session was found.",
         "load-failed": "Your shifts could not be loaded.",
         "check-in-failed": "Shift could not be started.",
-        "check-out-failed": "Shift could not be ended."
+        "check-out-failed": "Shift could not be ended.",
+        "update-status-failed": "Shift status could not be updated."
       }
     }
   },
   "clinical": {
+    "common": {
+      "error": {
+        "no-session": "No active session was found.",
+        "load-failed": "Clinical information could not be loaded."
+      }
+    },
     "risk": {
       "low": "Low",
       "moderate": "Moderate",

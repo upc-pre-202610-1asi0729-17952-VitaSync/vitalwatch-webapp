@@ -5,10 +5,9 @@ export interface PlanResponse {
     code: string;
     name: string;
     price: number;
-    billingPeriod: BillingPeriod;
-    description: string;
     currency?: string;
-    descriptionKey?: string;
+    billingPeriod: BillingPeriod;
+    description?: string;
     maxDoctors?: number | null;
     maxSupervisors?: number | null;
     maxTeams?: number | null;

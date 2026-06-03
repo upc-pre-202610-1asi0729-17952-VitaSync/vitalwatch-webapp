@@ -53,11 +53,18 @@
     "signing-in": "Ingresando...",
     "creating-account": "Creando cuenta...",
     "invitation-help": "¿Recibiste una invitación? Abre el enlace enviado a tu correo para crear tu cuenta.",
+    "loading-invitation-title": "Validando invitación",
+    "loading-invitation-message": "Espera un momento mientras verificamos tu enlace de invitación.",
     "invitation-required-title": "Invitación requerida",
     "invitation-required-message": "Para crear una cuenta necesitas abrir el enlace de invitación enviado por el administrador de tu centro médico.",
     "back-to-sign-in": "Volver al inicio de sesión"
   },
   "layout": {
+    "admin-title": "Panel administrativo",
+    "supervisor-title": "Panel del supervisor",
+    "doctor-title": "Panel clínico",
+    "subtitle": "Monitoreo inteligente y gestión de turnos",
+    "content-pending": "Esta sección está en preparación.",
     "topbar": {
       "greetings": {
         "default": {
@@ -212,7 +219,8 @@
         "email-required": "El correo electrónico es obligatorio.",
         "email-invalid": "Ingresa un correo electrónico válido.",
         "accepted-cannot-be-deleted": "No se puede eliminar una invitación aceptada.",
-        "delete-failed": "No se pudo eliminar la invitación."
+        "delete-failed": "No se pudo eliminar la invitación.",
+        "cleanup-failed": "No se pudieron limpiar las asignaciones del equipo."
       }
     },
     "staff": {
@@ -358,11 +366,18 @@
         "no-session": "No se encontró una sesión activa.",
         "load-failed": "No se pudieron cargar tus turnos.",
         "check-in-failed": "No se pudo iniciar el turno.",
-        "check-out-failed": "No se pudo finalizar el turno."
+        "check-out-failed": "No se pudo finalizar el turno.",
+        "update-status-failed": "No se pudo actualizar el estado del turno."
       }
     }
   },
   "clinical": {
+    "common": {
+      "error": {
+        "no-session": "No se encontró una sesión activa.",
+        "load-failed": "No se pudo cargar la información clínica."
+      }
+    },
     "risk": {
       "low": "Bajo",
       "moderate": "Moderado",

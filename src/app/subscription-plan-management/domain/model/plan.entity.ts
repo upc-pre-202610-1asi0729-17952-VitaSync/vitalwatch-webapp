@@ -8,7 +8,6 @@ export class Plan {
     private _currency: string;
     private _billingPeriod: BillingPeriod;
     private _description: string;
-    private _descriptionKey: string;
     private _maxDoctors: number | null;
     private _maxSupervisors: number | null;
     private _maxTeams: number | null;
@@ -29,7 +28,6 @@ export class Plan {
         currency?: string;
         billingPeriod: BillingPeriod;
         description?: string;
-        descriptionKey?: string;
         maxDoctors?: number | null;
         maxSupervisors?: number | null;
         maxTeams?: number | null;
@@ -49,13 +47,12 @@ export class Plan {
         this._currency = props.currency ?? 'USD';
         this._billingPeriod = props.billingPeriod;
         this._description = props.description ?? '';
-        this._descriptionKey = props.descriptionKey ?? '';
         this._maxDoctors = props.maxDoctors ?? null;
         this._maxSupervisors = props.maxSupervisors ?? null;
         this._maxTeams = props.maxTeams ?? null;
         this._maxWorkAreas = props.maxWorkAreas ?? null;
         this._monthlyInvitations = props.monthlyInvitations ?? null;
-        this._dataHistoryDays = props.dataHistoryDays ?? 0;
+        this._dataHistoryDays = props.dataHistoryDays ?? 30;
         this._supportLevel = props.supportLevel ?? 'STANDARD';
         this._recommended = props.recommended ?? false;
         this._featureKeys = props.featureKeys ?? [];
@@ -70,7 +67,6 @@ export class Plan {
     get currency(): string { return this._currency; }
     get billingPeriod(): BillingPeriod { return this._billingPeriod; }
     get description(): string { return this._description; }
-    get descriptionKey(): string { return this._descriptionKey; }
     get maxDoctors(): number | null { return this._maxDoctors; }
     get maxSupervisors(): number | null { return this._maxSupervisors; }
     get maxTeams(): number | null { return this._maxTeams; }
@@ -82,4 +78,8 @@ export class Plan {
     get featureKeys(): string[] { return this._featureKeys; }
     get enabledModules(): string[] { return this._enabledModules; }
     get disabledModules(): string[] { return this._disabledModules; }
+
+    get isEnterprise(): boolean {
+        return this._code === 'enterprise';
+    }
 }

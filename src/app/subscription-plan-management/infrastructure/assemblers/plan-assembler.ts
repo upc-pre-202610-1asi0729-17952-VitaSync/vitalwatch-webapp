@@ -11,7 +11,6 @@ export class PlanAssembler {
             currency: response.currency,
             billingPeriod: response.billingPeriod,
             description: response.description,
-            descriptionKey: response.descriptionKey,
             maxDoctors: response.maxDoctors,
             maxSupervisors: response.maxSupervisors,
             maxTeams: response.maxTeams,

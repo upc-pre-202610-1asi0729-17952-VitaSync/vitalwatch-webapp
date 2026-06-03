@@ -2,10 +2,8 @@ import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { MatSelectModule } from '@angular/material/select';
 import { NgIcon } from '@ng-icons/core';
-import { forkJoin } from 'rxjs';
 import { User, UserRole, UserStatus } from '../../../domain/model/user.entity';
 import { IamStore } from '../../../application/iam.store';
-import { CareTeamApi } from '../../../../shift-coordination/infrastructure/api/care-team-api';
 import { SubscriptionAccessService } from '../../../../subscription-plan-management/application/subscription-access.service';
 
 type RoleFilter = 'ALL' | UserRole;
@@ -23,7 +21,6 @@ type StatusFilter = 'ALL' | UserStatus;
 })
 export class StaffManagement implements OnInit {
   private iamStore = inject(IamStore);
-  private careTeamApi = inject(CareTeamApi);
   private subscriptionAccessService = inject(SubscriptionAccessService);
 
   private localErrorMessage = signal<string | null>(null);
@@ -119,9 +116,8 @@ export class StaffManagement implements OnInit {
       return;
     }
 
-    this.iamStore.updateUserRole(user.id, { role }).subscribe({
-      next: updatedUser => {
-        this.cleanAssignmentsAfterRoleChange(updatedUser);
+    this.iamStore.updateUserRoleWithAssignmentCleanup(user, { role }).subscribe({
+      next: () => {
         this.localErrorMessage.set(null);
       },
       error: () => {
@@ -142,12 +138,8 @@ export class StaffManagement implements OnInit {
       return;
     }
 
-    this.iamStore.updateUserStatus(user.id, { status: nextStatus }).subscribe({
-      next: updatedUser => {
-        if (updatedUser.status === 'INACTIVE') {
-          this.cleanAllAssignments(updatedUser);
-        }
-
+    this.iamStore.updateUserStatusWithAssignmentCleanup(user, { status: nextStatus }).subscribe({
+      next: () => {
         this.localErrorMessage.set(null);
       },
       error: () => {
@@ -208,36 +200,5 @@ export class StaffManagement implements OnInit {
     }
 
     return true;
-  }
-
-  private cleanAssignmentsAfterRoleChange(updatedUser: User): void {
-    if (updatedUser.role === 'SUPERVISOR') {
-      this.careTeamApi.removeMembershipsByUserId(updatedUser.id).subscribe({
-        error: () => {
-          this.localErrorMessage.set('iam.staff.error.cleanup-failed');
-        }
-      });
-
-      return;
-    }
-
-    if (updatedUser.role === 'DOCTOR') {
-      this.careTeamApi.clearSupervisorAssignmentsByUserId(updatedUser.id).subscribe({
-        error: () => {
-          this.localErrorMessage.set('iam.staff.error.cleanup-failed');
-        }
-      });
-    }
-  }
-
-  private cleanAllAssignments(updatedUser: User): void {
-    forkJoin([
-      this.careTeamApi.clearSupervisorAssignmentsByUserId(updatedUser.id),
-      this.careTeamApi.removeMembershipsByUserId(updatedUser.id)
-    ]).subscribe({
-      error: () => {
-        this.localErrorMessage.set('iam.staff.error.cleanup-failed');
-      }
-    });
   }
 }

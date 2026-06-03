@@ -1,5 +1,5 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { forkJoin, Observable, tap } from 'rxjs';
+import { catchError, forkJoin, map, Observable, of, switchMap, tap } from 'rxjs';
 import { AuthenticationStore } from './authentication.store';
 import { User } from '../domain/model/user.entity';
 import { WorkArea } from '../domain/model/work-area.entity';
@@ -8,10 +8,12 @@ import { Invitation } from '../domain/model/invitation.entity';
 import { UserApi } from '../infrastructure/api/user-api';
 import { IamCatalogApi } from '../infrastructure/api/iam-catalog-api';
 import { InvitationApi } from '../infrastructure/api/invitation-api';
+import { CareTeamApi } from '../../shift-coordination/infrastructure/api/care-team-api';
 import { CreateInvitationRequest } from '../infrastructure/request/create-invitation-request';
 import { UpdateUserRoleRequest } from '../infrastructure/request/update-user-role-request';
 import { UpdateUserStatusRequest } from '../infrastructure/request/update-user-status-request';
 import { UpdateUserProfileRequest } from '../infrastructure/request/update-user-profile-request';
+import { AcceptInvitationRequest } from '../infrastructure/request/accept-invitation-request';
 
 @Injectable({
     providedIn: 'root'
@@ -21,11 +23,13 @@ export class IamStore {
     private userApi = inject(UserApi);
     private catalogApi = inject(IamCatalogApi);
     private invitationApi = inject(InvitationApi);
+    private careTeamApi = inject(CareTeamApi);
 
     private usersSignal = signal<User[]>([]);
     private workAreasSignal = signal<WorkArea[]>([]);
     private specialtiesSignal = signal<Specialty[]>([]);
     private invitationsSignal = signal<Invitation[]>([]);
+    private registrationInvitationSignal = signal<Invitation | null>(null);
 
     private loadingSignal = signal(false);
     private errorSignal = signal<string | null>(null);
@@ -34,6 +38,7 @@ export class IamStore {
     workAreas = computed(() => this.workAreasSignal());
     specialties = computed(() => this.specialtiesSignal());
     invitations = computed(() => this.invitationsSignal());
+    registrationInvitation = computed(() => this.registrationInvitationSignal());
 
     loading = computed(() => this.loadingSignal());
     error = computed(() => this.errorSignal());
@@ -128,6 +133,78 @@ export class IamStore {
         });
     }
 
+    loadInvitationForRegistration(token: string | null): void {
+        if (!token) {
+            this.errorSignal.set('auth.error.invitation-token-missing');
+            return;
+        }
+
+        this.loadingSignal.set(true);
+        this.errorSignal.set(null);
+        this.registrationInvitationSignal.set(null);
+
+        this.invitationApi.getInvitationByToken(token).subscribe({
+            next: invitation => {
+                if (!invitation || !invitation.isPending) {
+                    this.errorSignal.set('auth.error.invitation-not-available');
+                    this.loadingSignal.set(false);
+                    return;
+                }
+
+                this.registrationInvitationSignal.set(invitation);
+
+                forkJoin({
+                    workAreas: this.catalogApi.getWorkAreasByOrganizationId(invitation.organizationId),
+                    specialties: this.catalogApi.getSpecialties()
+                }).subscribe({
+                    next: ({ workAreas, specialties }) => {
+                        this.workAreasSignal.set(workAreas);
+                        this.specialtiesSignal.set(specialties);
+                        this.loadingSignal.set(false);
+                    },
+                    error: () => {
+                        this.errorSignal.set('auth.error.catalog-load-failed');
+                        this.loadingSignal.set(false);
+                    }
+                });
+            },
+            error: () => {
+                this.errorSignal.set('auth.error.invitation-not-found');
+                this.loadingSignal.set(false);
+            }
+        });
+    }
+
+    acceptInvitationRegistration(request: AcceptInvitationRequest): Observable<Invitation | null> {
+        const invitation = this.registrationInvitationSignal();
+
+        if (!invitation) {
+            this.errorSignal.set('auth.error.invitation-not-found');
+            return of(null);
+        }
+
+        if (!invitation.isPending) {
+            this.errorSignal.set('auth.error.invitation-not-available');
+            return of(null);
+        }
+
+        this.loadingSignal.set(true);
+        this.errorSignal.set(null);
+
+        return this.invitationApi.acceptInvitation(invitation, request).pipe(
+            tap({
+                next: updatedInvitation => {
+                    this.registrationInvitationSignal.set(updatedInvitation);
+                    this.loadingSignal.set(false);
+                },
+                error: () => {
+                    this.errorSignal.set('auth.error.invitation-accept-failed');
+                    this.loadingSignal.set(false);
+                }
+            })
+        );
+    }
+
     updateUserRole(userId: number, request: UpdateUserRoleRequest): Observable<User> {
         this.loadingSignal.set(true);
         this.errorSignal.set(null);
@@ -146,11 +223,75 @@ export class IamStore {
         );
     }
 
+    updateUserRoleWithAssignmentCleanup(
+        user: User,
+        request: UpdateUserRoleRequest
+    ): Observable<User> {
+        this.loadingSignal.set(true);
+        this.errorSignal.set(null);
+
+        return this.userApi.updateUserRole(user.id, request).pipe(
+            switchMap(updatedUser =>
+                this.cleanAssignmentsAfterRoleChange(updatedUser).pipe(
+                    map(() => updatedUser),
+                    catchError(() => {
+                        this.errorSignal.set('iam.staff.error.cleanup-failed');
+                        return of(updatedUser);
+                    })
+                )
+            ),
+            tap({
+                next: updatedUser => {
+                    this.updateUserInState(updatedUser);
+                    this.loadingSignal.set(false);
+                },
+                error: () => {
+                    this.errorSignal.set('iam.staff.error.update-role-failed');
+                    this.loadingSignal.set(false);
+                }
+            })
+        );
+    }
+
     updateUserStatus(userId: number, request: UpdateUserStatusRequest): Observable<User> {
         this.loadingSignal.set(true);
         this.errorSignal.set(null);
 
         return this.userApi.updateUserStatus(userId, request).pipe(
+            tap({
+                next: updatedUser => {
+                    this.updateUserInState(updatedUser);
+                    this.loadingSignal.set(false);
+                },
+                error: () => {
+                    this.errorSignal.set('iam.staff.error.update-status-failed');
+                    this.loadingSignal.set(false);
+                }
+            })
+        );
+    }
+
+    updateUserStatusWithAssignmentCleanup(
+        user: User,
+        request: UpdateUserStatusRequest
+    ): Observable<User> {
+        this.loadingSignal.set(true);
+        this.errorSignal.set(null);
+
+        return this.userApi.updateUserStatus(user.id, request).pipe(
+            switchMap(updatedUser => {
+                if (updatedUser.status !== 'INACTIVE') {
+                    return of(updatedUser);
+                }
+
+                return this.cleanAllAssignments(updatedUser).pipe(
+                    map(() => updatedUser),
+                    catchError(() => {
+                        this.errorSignal.set('iam.staff.error.cleanup-failed');
+                        return of(updatedUser);
+                    })
+                );
+            }),
             tap({
                 next: updatedUser => {
                     this.updateUserInState(updatedUser);
@@ -296,5 +437,26 @@ export class IamStore {
                 user.id === updatedUser.id ? updatedUser : user
             );
         });
+    }
+
+    private cleanAssignmentsAfterRoleChange(updatedUser: User): Observable<void> {
+        if (updatedUser.role === 'SUPERVISOR') {
+            return this.careTeamApi.removeMembershipsByUserId(updatedUser.id);
+        }
+
+        if (updatedUser.role === 'DOCTOR') {
+            return this.careTeamApi.clearSupervisorAssignmentsByUserId(updatedUser.id);
+        }
+
+        return of(void 0);
+    }
+
+    private cleanAllAssignments(updatedUser: User): Observable<void> {
+        return forkJoin([
+            this.careTeamApi.clearSupervisorAssignmentsByUserId(updatedUser.id),
+            this.careTeamApi.removeMembershipsByUserId(updatedUser.id)
+        ]).pipe(
+            map(() => void 0)
+        );
     }
 }
