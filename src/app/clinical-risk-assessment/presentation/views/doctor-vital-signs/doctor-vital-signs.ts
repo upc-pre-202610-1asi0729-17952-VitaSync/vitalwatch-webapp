@@ -17,7 +17,6 @@ import {
 } from 'ng-apexcharts';
 import { AuthenticationStore } from '../../../../iam/application/authentication.store';
 import { ClinicalRiskStore } from '../../../application/clinical-risk.store';
-import { VitalSignReading } from '../../../domain/model/vital-sign-reading.entity';
 import { RiskLevel } from '../../../domain/model/risk-assessment.entity';
 
 type LineChartOptions = {
@@ -48,6 +47,7 @@ type BarChartOptions = {
 
 @Component({
   selector: 'app-doctor-vital-signs',
+  standalone: true,
   imports: [
     TranslatePipe,
     DatePipe,
@@ -56,6 +56,7 @@ type BarChartOptions = {
   templateUrl: './doctor-vital-signs.html',
   styleUrl: './doctor-vital-signs.css'
 })
+
 export class DoctorVitalSigns implements OnInit {
   private authenticationStore = inject(AuthenticationStore);
   private clinicalRiskStore = inject(ClinicalRiskStore);
