@@ -231,8 +231,7 @@
     margin-top: 8px;
 }
 
-.primary-button,
-.secondary-button {
+.primary-button {
     min-height: 46px;
     padding: 0 16px;
     border-radius: 12px;
@@ -265,17 +264,6 @@
     cursor: not-allowed;
     transform: none;
     box-shadow: none;
-}
-
-.secondary-button {
-    color: #2563eb;
-    border: 1px solid rgba(37, 99, 235, 0.22);
-    background: rgba(37, 99, 235, 0.08);
-}
-
-.secondary-button:hover {
-    transform: translateY(-1px);
-    background: rgba(37, 99, 235, 0.13);
 }
 
 .form-error,
@@ -320,8 +308,7 @@
         flex-direction: column-reverse;
     }
 
-    .primary-button,
-    .secondary-button {
+    .primary-button {
         width: 100%;
     }
 }

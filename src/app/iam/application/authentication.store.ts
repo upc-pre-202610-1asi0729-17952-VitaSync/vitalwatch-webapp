@@ -1,7 +1,7 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthenticationApi } from '../infrastructure/authentication-api';
-import { SignInRequest } from '../infrastructure/sign-in-request';
+import { AuthenticationApi } from '../infrastructure/api/authentication-api';
+import { SignInRequest } from '../infrastructure/request/sign-in-request';
 import { AuthenticationSession } from '../domain/model/authentication-session.entity';
 import { User, UserRole } from '../domain/model/user.entity';
 
@@ -11,6 +11,7 @@ import { User, UserRole } from '../domain/model/user.entity';
 export class AuthenticationStore {
     private authenticationApi = inject(AuthenticationApi);
     private router = inject(Router);
+
 
     private sessionSignal = signal<AuthenticationSession | null>(this.restoreSession());
     private loadingSignal = signal(false);
@@ -39,6 +40,20 @@ export class AuthenticationStore {
                 this.loadingSignal.set(false);
             }
         });
+    }
+
+    updateCurrentUser(user: User): void {
+        const session = this.sessionSignal();
+
+        if (!session) return;
+
+        const updatedSession = new AuthenticationSession({
+            token: session.token,
+            user
+        });
+
+        this.sessionSignal.set(updatedSession);
+        this.persistSession(updatedSession);
     }
 
     private getDefaultRouteByRole(role: UserRole): string {

@@ -53,16 +53,48 @@
     "signing-in": "Ingresando...",
     "creating-account": "Creando cuenta...",
     "invitation-help": "¿Recibiste una invitación? Abre el enlace enviado a tu correo para crear tu cuenta.",
+    "loading-invitation-title": "Validando invitación",
+    "loading-invitation-message": "Espera un momento mientras verificamos tu enlace de invitación.",
     "invitation-required-title": "Invitación requerida",
     "invitation-required-message": "Para crear una cuenta necesitas abrir el enlace de invitación enviado por el administrador de tu centro médico.",
     "back-to-sign-in": "Volver al inicio de sesión"
   },
   "layout": {
-    "admin-title": "Bienvenido, Marcelo",
-    "supervisor-title": "Bienvenida, Claudia",
-    "doctor-title": "Bienvenido, Carlos",
-    "subtitle": "Monitoreo preventivo y gestión operativa del personal médico.",
-    "content-pending": "El contenido de este módulo se implementará en el siguiente avance."
+    "admin-title": "Panel administrativo",
+    "supervisor-title": "Panel del supervisor",
+    "doctor-title": "Panel clínico",
+    "subtitle": "Monitoreo inteligente y gestión de turnos",
+    "content-pending": "Esta sección está en preparación.",
+    "topbar": {
+      "greetings": {
+        "default": {
+          "hello": "Hola, {{name}}. ¿Qué hacemos hoy?",
+          "ready": "{{name}}, tu espacio de trabajo está listo.",
+          "continue": "Buen día, {{name}}. Todo listo para continuar."
+        },
+        "admin": {
+          "manage-today": "Hola, {{name}}. ¿Qué gestionamos hoy?",
+          "review-operation": "{{name}}, veamos cómo marcha la operación.",
+          "panel-ready": "{{name}}, tienes el panel administrativo listo.",
+          "staff-and-reports": "Hola, {{name}}. Revisemos personal, equipos y reportes.",
+          "center-status": "Buen día, {{name}}. Revisemos el estado del centro médico."
+        },
+        "supervisor": {
+          "review-team": "Hola, {{name}}. ¿A quién revisamos hoy?",
+          "alerts-and-risks": "{{name}}, revisemos alertas y riesgos.",
+          "care-team": "Hola, {{name}}. Sigamos cuidando al personal asignado.",
+          "quick-review": "{{name}}, tu equipo necesita una revisión rápida.",
+          "preventive-work": "Buen día, {{name}}. Avancemos con el monitoreo preventivo."
+        },
+        "doctor": {
+          "how-is-shift": "Hola, {{name}}. ¿Cómo va tu jornada?",
+          "review-status": "{{name}}, revisemos tu estado antes de continuar.",
+          "care-rhythm": "Buen día, {{name}}. Cuidemos tu ritmo de trabajo.",
+          "indicators-ready": "Hola, {{name}}. Tus indicadores están listos para revisar.",
+          "recovery-status": "{{name}}, veamos cómo se encuentra tu recuperación."
+        }
+      }
+    }
   },
   "navigation": {
     "admin-menu": "Menú administrativo",
@@ -85,6 +117,7 @@
     "my-vital-signs": "Mis Signos Vitales",
     "my-shifts": "Mis Turnos",
     "my-recovery": "Mi Recuperación",
+    "team-shifts": "Turnos del equipo",
     "sign-out": "Cerrar sesión"
   },
   "onboarding": {
@@ -187,7 +220,8 @@
         "email-required": "El correo electrónico es obligatorio.",
         "email-invalid": "Ingresa un correo electrónico válido.",
         "accepted-cannot-be-deleted": "No se puede eliminar una invitación aceptada.",
-        "delete-failed": "No se pudo eliminar la invitación."
+        "delete-failed": "No se pudo eliminar la invitación.",
+        "cleanup-failed": "No se pudieron limpiar las asignaciones del equipo."
       }
     },
     "staff": {
@@ -283,6 +317,69 @@
       "activate": "Activar",
       "delete": "Eliminar"
     },
+    "supervisor": {
+      "title": "Turnos del equipo",
+      "subtitle-before": "Asigna y gestiona",
+      "subtitle-highlight": "turnos clínicos",
+      "subtitle-after": "para el personal médico bajo tu supervisión.",
+      "new-title": "Nuevo turno",
+      "new-subtitle": "Selecciona un médico asignado y programa un nuevo turno.",
+      "assigned-staff-title": "Personal asignado",
+      "assigned-staff-subtitle": "Médicos disponibles en tus equipos activos.",
+      "staff": "Personal médico",
+      "select-staff": "Selecciona personal",
+      "shift-type": "Tipo de turno",
+      "date": "Fecha",
+      "start-time": "Hora inicio",
+      "end-time": "Hora fin",
+      "create": "Crear turno",
+      "creating": "Creando...",
+      "list-title": "Turnos programados",
+      "list-subtitle": "Turnos asignados al personal bajo tu supervisión.",
+      "search-placeholder": "Buscar por personal, correo, equipo o área...",
+      "cancel": "Cancelar",
+      "closed": "Cerrado",
+      "no-assigned-staff": "Todavía no tienes personal médico asignado.",
+      "empty-title": "No se encontraron turnos",
+      "empty-subtitle": "Crea un turno o ajusta los filtros para ver resultados.",
+      "metrics": {
+        "scheduled": "Programados",
+        "in-progress": "En curso",
+        "completed": "Completados",
+        "cancelled": "Cancelados"
+      },
+      "filters": {
+        "all-statuses": "Todos los estados"
+      },
+      "type": {
+        "day": "Turno día",
+        "night": "Turno noche"
+      },
+      "status": {
+        "scheduled": "Programado",
+        "in-progress": "En curso",
+        "completed": "Completado",
+        "cancelled": "Cancelado"
+      },
+      "table": {
+        "staff": "Personal",
+        "team": "Equipo",
+        "area": "Área",
+        "type": "Tipo",
+        "date": "Fecha",
+        "time": "Horario",
+        "hours": "Horas",
+        "status": "Estado",
+        "actions": "Acciones"
+      },
+      "error": {
+        "no-session": "No se encontró una sesión activa.",
+        "load-failed": "No se pudieron cargar los turnos del equipo.",
+        "create-failed": "No se pudo crear el turno.",
+        "cancel-failed": "No se pudo cancelar el turno.",
+        "doctor-without-area": "El médico seleccionado no tiene un área de trabajo asignada."
+      }
+    },
     "doctor": {
       "title": "Mis Turnos",
       "subtitle-before": "Gestión de turnos asignados para",
@@ -333,11 +430,18 @@
         "no-session": "No se encontró una sesión activa.",
         "load-failed": "No se pudieron cargar tus turnos.",
         "check-in-failed": "No se pudo iniciar el turno.",
-        "check-out-failed": "No se pudo finalizar el turno."
+        "check-out-failed": "No se pudo finalizar el turno.",
+        "update-status-failed": "No se pudo actualizar el estado del turno."
       }
     }
   },
   "clinical": {
+    "common": {
+      "error": {
+        "no-session": "No se encontró una sesión activa.",
+        "load-failed": "No se pudo cargar la información clínica."
+      }
+    },
     "risk": {
       "low": "Bajo",
       "moderate": "Moderado",
@@ -969,6 +1073,15 @@
       "subtitle": "El proceso de pago fue cancelado o no se completó. Puedes volver a intentarlo cuando desees.",
       "go-login": "Volver al inicio",
       "try-again": "Intentar nuevamente"
+    },
+    "limits": {
+      "doctors-exceeded": "Has alcanzado el límite de médicos activos permitido por tu plan.",
+      "supervisors-exceeded": "Has alcanzado el límite de supervisores clínicos permitido por tu plan.",
+      "teams-exceeded": "Has alcanzado el límite de equipos activos permitido por tu plan.",
+      "work-areas-exceeded": "Has alcanzado el límite de áreas de trabajo permitido por tu plan.",
+      "invitations-exceeded": "Has alcanzado el límite de invitaciones mensuales permitido por tu plan.",
+      "module-not-available": "Este módulo no está disponible en tu plan actual.",
+      "generic-exceeded": "Has alcanzado el límite permitido por tu plan."
     }
   },
   "settings": {
@@ -987,7 +1100,6 @@
       "role": "Rol",
       "status-label": "Estado",
       "organization": "Organización",
-      "reset": "Restablecer",
       "save": "Guardar cambios",
       "saving": "Guardando...",
       "success": "Los datos de la cuenta se actualizaron correctamente.",

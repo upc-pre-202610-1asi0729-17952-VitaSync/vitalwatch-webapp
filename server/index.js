@@ -621,5 +621,5 @@ server.post('/api/v1/invitations/send', async (req, res) => {
 server.use('/api/v1', router);
 
 server.listen(PORT, () => {
-    console.log(`VitalWatch fake API running on http://localhost:${PORT}`);
+    console.log(`VitalWatch fake API running on http://localhost:${PORT}/api/v1`);
 });

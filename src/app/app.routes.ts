@@ -3,6 +3,27 @@ import {
   authenticationGuard,
   roleGuard
 } from './iam/application/authentication.guard';
+import {
+  adminIamRoutes,
+  doctorIamRoutes,
+  supervisorIamRoutes
+} from './iam/presentation/iam.routes';
+import {
+  adminShiftCoordinationRoutes,
+  doctorShiftCoordinationRoutes,
+  supervisorShiftCoordinationRoutes
+} from './shift-coordination/presentation/shift-coordination.routes';
+import {
+  adminClinicalRiskAssessmentRoutes,
+  doctorClinicalRiskAssessmentRoutes,
+  supervisorClinicalRiskAssessmentRoutes
+} from './clinical-risk-assessment/presentation/clinical-risk-assessment.routes';
+import {
+  doctorStaffRecoveryRoutes,
+  supervisorStaffRecoveryRoutes
+} from './staff-recovery/presentation/staff-recovery.routes';
+import { adminAuditComplianceRoutes } from './audit-compliance/presentation/audit-compliance.routes';
+import { adminSubscriptionPlanManagementRoutes } from './subscription-plan-management/presentation/subscription-plan-management.routes';
 
 const iamRoutes = () =>
   import('./iam/presentation/iam.routes')
@@ -54,54 +75,16 @@ export const routes: Routes = [
         redirectTo: 'dashboard',
         pathMatch: 'full'
       },
-      {
-        path: 'dashboard',
-        loadComponent: () =>
-          import('./clinical-risk-assessment/presentation/views/admin-dashboard/admin-dashboard')
-            .then(m => m.AdminDashboard)
-      },
-      {
-        path: 'staff',
-        loadComponent: () =>
-          import('./iam/presentation/views/staff-management/staff-management')
-            .then(m => m.StaffManagement)
-      },
-      {
-        path: 'teams',
-        loadComponent: () =>
-          import('./shift-coordination/presentation/views/team-management/team-management')
-            .then(m => m.TeamManagement)
-      },
-      {
-        path: 'invitations',
-        loadComponent: () =>
-          import('./iam/presentation/views/invitation-management/invitation-management')
-            .then(m => m.InvitationManagement)
-      },
-      {
-        path: 'subscription',
-        loadComponent: () =>
-          import('./subscription-plan-management/presentation/views/admin-subscription/admin-subscription')
-            .then(m => m.AdminSubscription)
-      },
-      {
-        path: 'reports',
-        loadComponent: () =>
-          import('./audit-compliance/presentation/views/admin-reports/admin-reports')
-            .then(m => m.AdminReports)
-      },
-      {
-        path: 'audit',
-        loadComponent: () =>
-          import('./audit-compliance/presentation/views/admin-audit/admin-audit')
-            .then(m => m.AdminAudit)
-      },
-      {
-        path: 'settings',
-        loadComponent: () =>
-          import('./iam/presentation/views/account-settings/account-settings')
-            .then(m => m.AccountSettings)
-      }
+
+      ...adminClinicalRiskAssessmentRoutes,
+
+      ...adminIamRoutes,
+
+      ...adminShiftCoordinationRoutes,
+
+      ...adminSubscriptionPlanManagementRoutes,
+
+      ...adminAuditComplianceRoutes
     ]
   },
 
@@ -118,42 +101,14 @@ export const routes: Routes = [
         redirectTo: 'dashboard',
         pathMatch: 'full'
       },
-      {
-        path: 'dashboard',
-        loadComponent: () =>
-          import('./clinical-risk-assessment/presentation/views/supervisor-dashboard/supervisor-dashboard')
-            .then(m => m.SupervisorDashboard)
-      },
-      {
-        path: 'risk-staff',
-        loadComponent: () =>
-          import('./clinical-risk-assessment/presentation/views/supervisor-risk-staff/supervisor-risk-staff')
-            .then(m => m.SupervisorRiskStaff)
-      },
-      {
-        path: 'clinical-alerts',
-        loadComponent: () =>
-          import('./clinical-risk-assessment/presentation/views/supervisor-clinical-alerts/supervisor-clinical-alerts')
-            .then(m => m.SupervisorClinicalAlerts)
-      },
-      {
-        path: 'anomalies',
-        loadComponent: () =>
-          import('./clinical-risk-assessment/presentation/views/supervisor-anomalies/supervisor-anomalies')
-            .then(m => m.SupervisorAnomalies)
-      },
-      {
-        path: 'preventive-actions',
-        loadComponent: () =>
-          import('./staff-recovery/presentation/views/preventive-actions-management/preventive-actions-management')
-            .then(m => m.PreventiveActionsManagement)
-      },
-      {
-        path: 'settings',
-        loadComponent: () =>
-          import('./iam/presentation/views/account-settings/account-settings')
-            .then(m => m.AccountSettings)
-      }
+
+      ...supervisorClinicalRiskAssessmentRoutes,
+
+      ...supervisorShiftCoordinationRoutes,
+
+      ...supervisorStaffRecoveryRoutes,
+
+      ...supervisorIamRoutes
     ]
   },
 
@@ -170,36 +125,14 @@ export const routes: Routes = [
         redirectTo: 'health',
         pathMatch: 'full'
       },
-      {
-        path: 'health',
-        loadComponent: () =>
-          import('./clinical-risk-assessment/presentation/views/doctor-health-dashboard/doctor-health-dashboard')
-            .then(m => m.DoctorHealthDashboard)
-      },
-      {
-        path: 'vital-signs',
-        loadComponent: () =>
-          import('./clinical-risk-assessment/presentation/views/doctor-vital-signs/doctor-vital-signs')
-            .then(m => m.DoctorVitalSigns)
-      },
-      {
-        path: 'shifts',
-        loadComponent: () =>
-          import('./shift-coordination/presentation/views/doctor-shifts/doctor-shifts')
-            .then(m => m.DoctorShifts)
-      },
-      {
-        path: 'recovery',
-        loadComponent: () =>
-          import('./staff-recovery/presentation/views/doctor-recovery/doctor-recovery')
-            .then(m => m.DoctorRecovery)
-      },
-      {
-        path: 'settings',
-        loadComponent: () =>
-          import('./iam/presentation/views/account-settings/account-settings')
-            .then(m => m.AccountSettings)
-      }
+
+      ...doctorClinicalRiskAssessmentRoutes,
+
+      ...doctorShiftCoordinationRoutes,
+
+      ...doctorStaffRecoveryRoutes,
+
+      ...doctorIamRoutes
     ]
   },
 

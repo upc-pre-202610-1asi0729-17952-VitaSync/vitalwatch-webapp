@@ -1,0 +1,239 @@
+<section class="supervisor-shifts-page">
+    <header class="page-header">
+        <div>
+            <h1>{{ 'shift.supervisor.title' | translate }}</h1>
+            <p>
+                {{ 'shift.supervisor.subtitle-before' | translate }}
+                <strong>{{ 'shift.supervisor.subtitle-highlight' | translate }}</strong>
+                {{ 'shift.supervisor.subtitle-after' | translate }}
+            </p>
+        </div>
+    </header>
+
+    @if (errorMessage()) {
+    <div class="error-message">
+        {{ errorMessage()! | translate }}
+    </div>
+    }
+
+    <section class="metrics-grid">
+        <article class="metric-card">
+            <div class="metric-icon blue">
+                <ng-icon name="heroCalendarDays"></ng-icon>
+            </div>
+            <span>{{ 'shift.supervisor.metrics.scheduled' | translate }}</span>
+            <strong>{{ scheduledShifts().length }}</strong>
+        </article>
+
+        <article class="metric-card">
+            <div class="metric-icon orange">
+                <ng-icon name="heroClock"></ng-icon>
+            </div>
+            <span>{{ 'shift.supervisor.metrics.in-progress' | translate }}</span>
+            <strong>{{ inProgressShifts().length }}</strong>
+        </article>
+
+        <article class="metric-card">
+            <div class="metric-icon green">
+                <ng-icon name="heroCheckCircle"></ng-icon>
+            </div>
+            <span>{{ 'shift.supervisor.metrics.completed' | translate }}</span>
+            <strong>{{ completedShifts().length }}</strong>
+        </article>
+
+        <article class="metric-card">
+            <div class="metric-icon red">
+                <ng-icon name="heroXCircle"></ng-icon>
+            </div>
+            <span>{{ 'shift.supervisor.metrics.cancelled' | translate }}</span>
+            <strong>{{ cancelledShifts().length }}</strong>
+        </article>
+    </section>
+
+    <section class="content-grid">
+        <article class="form-card">
+            <div class="section-heading">
+                <h2>{{ 'shift.supervisor.new-title' | translate }}</h2>
+                <p>{{ 'shift.supervisor.new-subtitle' | translate }}</p>
+            </div>
+
+            <form [formGroup]="form" (ngSubmit)="createShift()" class="shift-form">
+                <label>
+                    <span>{{ 'shift.supervisor.staff' | translate }}</span>
+                    <mat-select formControlName="userId">
+                        <mat-option [value]="0">
+                            {{ 'shift.supervisor.select-staff' | translate }}
+                        </mat-option>
+
+                        @for (doctor of assignedDoctors(); track doctor.id) {
+                        <mat-option [value]="doctor.id">
+                            {{ doctor.fullName }} · {{ getTeamName(doctor.id) }}
+                        </mat-option>
+                        }
+                    </mat-select>
+                </label>
+
+                <label>
+                    <span>{{ 'shift.supervisor.shift-type' | translate }}</span>
+                    <mat-select formControlName="type">
+                        @for (type of shiftTypes; track type) {
+                        <mat-option [value]="type">
+                            {{ getShiftTypeLabel(type) | translate }}
+                        </mat-option>
+                        }
+                    </mat-select>
+                </label>
+
+                <div class="form-row">
+                    <label>
+                        <span>{{ 'shift.supervisor.date' | translate }}</span>
+                        <input type="date" formControlName="scheduledDate" />
+                    </label>
+
+                    <label>
+                        <span>{{ 'shift.supervisor.start-time' | translate }}</span>
+                        <input type="time" formControlName="startTime" />
+                    </label>
+
+                    <label>
+                        <span>{{ 'shift.supervisor.end-time' | translate }}</span>
+                        <input type="time" formControlName="endTime" />
+                    </label>
+                </div>
+
+                <button type="submit" class="primary-button"
+                    [disabled]="loading() || form.invalid || form.controls.userId.value === 0">
+                    @if (loading()) {
+                    {{ 'shift.supervisor.creating' | translate }}
+                    } @else {
+                    <ng-icon name="heroPlusCircle"></ng-icon>
+                    {{ 'shift.supervisor.create' | translate }}
+                    }
+                </button>
+            </form>
+        </article>
+
+        <article class="doctors-card">
+            <div class="section-heading">
+                <h2>{{ 'shift.supervisor.assigned-staff-title' | translate }}</h2>
+                <p>{{ 'shift.supervisor.assigned-staff-subtitle' | translate }}</p>
+            </div>
+
+            <div class="doctor-list">
+                @for (doctor of assignedDoctors(); track doctor.id) {
+                <div class="doctor-item">
+                    <div class="avatar">
+                        {{ doctor.initials }}
+                    </div>
+
+                    <div>
+                        <strong>{{ doctor.fullName }}</strong>
+                        <span>{{ doctor.email }}</span>
+                        <small>{{ getTeamName(doctor.id) }} · {{ getWorkAreaName(doctor.workAreaId) }}</small>
+                    </div>
+                </div>
+                } @empty {
+                <div class="empty-state compact">
+                    {{ 'shift.supervisor.no-assigned-staff' | translate }}
+                </div>
+                }
+            </div>
+        </article>
+    </section>
+
+    <section class="table-card">
+        <div class="table-header">
+            <div class="section-heading">
+                <h2>{{ 'shift.supervisor.list-title' | translate }}</h2>
+                <p>{{ 'shift.supervisor.list-subtitle' | translate }}</p>
+            </div>
+
+            <div class="filters">
+                <input type="text" [placeholder]="'shift.supervisor.search-placeholder' | translate"
+                    (input)="updateSearchTerm($event)" />
+
+                <mat-select [value]="statusFilter()" (valueChange)="updateStatusFilter($event)">
+                    <mat-option value="ALL">
+                        {{ 'shift.supervisor.filters.all-statuses' | translate }}
+                    </mat-option>
+                    <mat-option value="SCHEDULED">
+                        {{ 'shift.supervisor.status.scheduled' | translate }}
+                    </mat-option>
+                    <mat-option value="IN_PROGRESS">
+                        {{ 'shift.supervisor.status.in-progress' | translate }}
+                    </mat-option>
+                    <mat-option value="COMPLETED">
+                        {{ 'shift.supervisor.status.completed' | translate }}
+                    </mat-option>
+                    <mat-option value="CANCELLED">
+                        {{ 'shift.supervisor.status.cancelled' | translate }}
+                    </mat-option>
+                </mat-select>
+            </div>
+        </div>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>{{ 'shift.supervisor.table.staff' | translate }}</th>
+                        <th>{{ 'shift.supervisor.table.team' | translate }}</th>
+                        <th>{{ 'shift.supervisor.table.area' | translate }}</th>
+                        <th>{{ 'shift.supervisor.table.type' | translate }}</th>
+                        <th>{{ 'shift.supervisor.table.date' | translate }}</th>
+                        <th>{{ 'shift.supervisor.table.time' | translate }}</th>
+                        <th>{{ 'shift.supervisor.table.hours' | translate }}</th>
+                        <th>{{ 'shift.supervisor.table.status' | translate }}</th>
+                        <th>{{ 'shift.supervisor.table.actions' | translate }}</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @for (shift of filteredShifts(); track shift.id) {
+                    <tr>
+                        <td>
+                            <div class="staff-cell">
+                                <strong>{{ getDoctorName(shift.userId) }}</strong>
+                                <span>{{ getDoctorEmail(shift.userId) }}</span>
+                            </div>
+                        </td>
+                        <td>{{ getTeamName(shift.userId) }}</td>
+                        <td>{{ getWorkAreaName(shift.workAreaId) }}</td>
+                        <td>{{ getShiftTypeLabel(shift.type) | translate }}</td>
+                        <td>{{ shift.scheduledStart | date: 'yyyy-MM-dd' }}</td>
+                        <td>
+                            {{ shift.scheduledStart | date: 'HH:mm' }}
+                            -
+                            {{ shift.scheduledEnd | date: 'HH:mm' }}
+                        </td>
+                        <td>{{ getShiftHours(shift) }}</td>
+                        <td>
+                            <span class="status-pill" [class]="getShiftStatusClass(shift.status)">
+                                {{ getShiftStatusLabel(shift.status) | translate }}
+                            </span>
+                        </td>
+                        <td>
+                            @if (shift.isScheduled) {
+                            <button class="danger-button" type="button" (click)="cancelShift(shift)">
+                                {{ 'shift.supervisor.cancel' | translate }}
+                            </button>
+                            } @else {
+                            <span class="muted-text">{{ 'shift.supervisor.closed' | translate }}</span>
+                            }
+                        </td>
+                    </tr>
+                    } @empty {
+                    <tr>
+                        <td colspan="9">
+                            <div class="empty-state">
+                                <strong>{{ 'shift.supervisor.empty-title' | translate }}</strong>
+                                <span>{{ 'shift.supervisor.empty-subtitle' | translate }}</span>
+                            </div>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+</section>

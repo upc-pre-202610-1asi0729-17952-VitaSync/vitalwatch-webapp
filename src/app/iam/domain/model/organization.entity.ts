@@ -1,6 +1,3 @@
-/**
- * Represents a medical organization registered in VitalWatch.
- */
 export class Organization {
     private _id: number;
     private _name: string;

@@ -216,7 +216,7 @@
       "id": 1,
       "organizationId": 1,
       "firstName": "Marcelo",
-      "lastName": "Administrador",
+      "lastName": "Mauricio",
       "email": "admin@vitalwatch.com",
       "password": "admin123",
       "role": "HOSPITAL_ADMIN",
@@ -973,6 +973,116 @@
       "status": "COMPLETED",
       "createdAt": "2026-05-29T23:30:57.541Z",
       "id": 4
+    },
+    {
+      "organizationId": 1,
+      "administratorId": 1,
+      "subscriptionId": 1,
+      "planId": 1,
+      "planCode": "basic",
+      "status": "COMPLETED",
+      "createdAt": "2026-05-30T03:06:48.610Z",
+      "id": 5
+    },
+    {
+      "organizationId": 1,
+      "administratorId": 1,
+      "subscriptionId": 1,
+      "planId": 2,
+      "planCode": "professional",
+      "status": "COMPLETED",
+      "createdAt": "2026-05-31T03:03:36.116Z",
+      "id": 6
+    },
+    {
+      "organizationId": 1,
+      "administratorId": 1,
+      "subscriptionId": 1,
+      "planId": 1,
+      "planCode": "basic",
+      "status": "COMPLETED",
+      "createdAt": "2026-05-31T03:18:43.395Z",
+      "id": 7
+    },
+    {
+      "organizationId": 1,
+      "administratorId": 1,
+      "subscriptionId": 1,
+      "planId": 3,
+      "planCode": "enterprise",
+      "status": "COMPLETED",
+      "createdAt": "2026-05-31T03:19:27.840Z",
+      "id": 8
+    },
+    {
+      "organizationId": 1,
+      "administratorId": 1,
+      "subscriptionId": 1,
+      "planId": 2,
+      "planCode": "professional",
+      "status": "COMPLETED",
+      "createdAt": "2026-05-31T03:19:43.053Z",
+      "id": 9
+    },
+    {
+      "organizationId": 1,
+      "administratorId": 1,
+      "subscriptionId": 1,
+      "planId": 3,
+      "planCode": "enterprise",
+      "status": "COMPLETED",
+      "createdAt": "2026-05-31T03:19:58.802Z",
+      "id": 10
+    },
+    {
+      "organizationId": 1,
+      "administratorId": 1,
+      "subscriptionId": 1,
+      "planId": 2,
+      "planCode": "professional",
+      "status": "COMPLETED",
+      "createdAt": "2026-05-31T03:20:12.607Z",
+      "id": 11
+    },
+    {
+      "organizationId": 1,
+      "administratorId": 1,
+      "subscriptionId": 1,
+      "planId": 1,
+      "planCode": "basic",
+      "status": "COMPLETED",
+      "createdAt": "2026-05-31T03:39:25.689Z",
+      "id": 12
+    },
+    {
+      "organizationId": 1,
+      "administratorId": 1,
+      "subscriptionId": 1,
+      "planId": 2,
+      "planCode": "professional",
+      "status": "COMPLETED",
+      "createdAt": "2026-05-31T03:41:33.094Z",
+      "id": 13
+    },
+    {
+      "organizationId": 1,
+      "administratorId": 1,
+      "subscriptionId": 1,
+      "planId": 1,
+      "planCode": "basic",
+      "status": "COMPLETED",
+      "createdAt": "2026-06-02T00:12:04.569Z",
+      "id": 14
+    },
+    {
+      "organizationId": 1,
+      "administratorId": 1,
+      "subscriptionId": 1,
+      "planId": 2,
+      "planCode": "professional",
+      "status": "COMPLETED",
+      "createdAt": "2026-06-02T00:12:10.384Z",
+      "id": 15
     }
   ],
   "riskAssessments": [
@@ -3980,6 +4090,18 @@
       "scheduledEnd": "2026-05-29T07:00:00.000Z",
       "checkInAt": null,
       "checkOutAt": null
+    },
+    {
+      "organizationId": 1,
+      "userId": 3,
+      "workAreaId": 1,
+      "type": "NIGHT",
+      "scheduledStart": "2026-05-30T19:00:00.000Z",
+      "scheduledEnd": "2026-05-31T07:00:00.000Z",
+      "status": "SCHEDULED",
+      "checkInAt": null,
+      "checkOutAt": null,
+      "id": 84
     }
   ],
   "auditLogs": [

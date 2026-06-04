@@ -2,7 +2,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { NgIcon } from '@ng-icons/core';
-import { SubscriptionPlanApi } from '../../../infrastructure/subscription-plan-api';
+import { SubscriptionPlanApi } from '../../../infrastructure/api/subscription-plan-api';
 
 @Component({
   selector: 'app-checkout-success',

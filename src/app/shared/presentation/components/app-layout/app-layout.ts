@@ -1,9 +1,10 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, OnInit } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { Sidebar, SidebarMenuItem, SidebarProfile } from '../sidebar/sidebar';
 import { Topbar } from '../topbar/topbar';
 import { AuthenticationStore } from '../../../../iam/application/authentication.store';
 import { UserRole } from '../../../../iam/domain/model/user.entity';
+import { SubscriptionAccessService } from '../../../../subscription-plan-management/application/subscription-access.service';
 
 interface AppLayoutConfig {
   title: string;
@@ -18,14 +19,49 @@ const layoutConfig: Record<UserRole, AppLayoutConfig> = {
     subtitle: 'layout.subtitle',
     menuTitle: 'navigation.admin-menu',
     menuItems: [
-      { label: 'navigation.general-summary', icon: 'heroSquares2x2', link: '/admin/dashboard', exact: true },
-      { label: 'navigation.staff', icon: 'heroUsers', link: '/admin/staff' },
-      { label: 'navigation.teams', icon: 'heroUserGroup', link: '/admin/teams' },
-      { label: 'navigation.invitations', icon: 'heroEnvelope', link: '/admin/invitations' },
-      { label: 'navigation.subscription', icon: 'heroCreditCard', link: '/admin/subscription' },
-      { label: 'navigation.reports', icon: 'heroDocumentText', link: '/admin/reports' },
-      { label: 'navigation.audit', icon: 'heroShieldCheck', link: '/admin/audit' },
-      { label: 'navigation.settings', icon: 'heroCog6Tooth', link: '/admin/settings' }
+      {
+        label: 'navigation.general-summary',
+        icon: 'heroSquares2x2',
+        link: '/admin/dashboard',
+        exact: true
+      },
+      {
+        label: 'navigation.staff',
+        icon: 'heroUsers',
+        link: '/admin/staff'
+      },
+      {
+        label: 'navigation.teams',
+        icon: 'heroUserGroup',
+        link: '/admin/teams'
+      },
+      {
+        label: 'navigation.invitations',
+        icon: 'heroEnvelope',
+        link: '/admin/invitations'
+      },
+      {
+        label: 'navigation.subscription',
+        icon: 'heroCreditCard',
+        link: '/admin/subscription'
+      },
+      {
+        label: 'navigation.reports',
+        icon: 'heroDocumentText',
+        link: '/admin/reports',
+        module: 'ADMIN_REPORTS'
+      },
+      {
+        label: 'navigation.audit',
+        icon: 'heroShieldCheck',
+        link: '/admin/audit',
+        module: 'ADMIN_AUDIT'
+      },
+      {
+        label: 'navigation.settings',
+        icon: 'heroCog6Tooth',
+        link: '/admin/settings'
+      }
     ]
   },
 
@@ -34,12 +70,45 @@ const layoutConfig: Record<UserRole, AppLayoutConfig> = {
     subtitle: 'layout.subtitle',
     menuTitle: 'navigation.supervisor-menu',
     menuItems: [
-      { label: 'navigation.shift-summary', icon: 'heroSquares2x2', link: '/supervisor/dashboard', exact: true },
-      { label: 'navigation.risk-staff', icon: 'heroExclamationTriangle', link: '/supervisor/risk-staff' },
-      { label: 'navigation.clinical-alerts', icon: 'heroBell', link: '/supervisor/clinical-alerts' },
-      { label: 'navigation.anomalies', icon: 'heroBolt', link: '/supervisor/anomalies' },
-      { label: 'navigation.preventive-actions', icon: 'heroClipboardDocumentCheck', link: '/supervisor/preventive-actions' },
-      { label: 'navigation.settings', icon: 'heroCog6Tooth', link: '/supervisor/settings' }
+      {
+        label: 'navigation.shift-summary',
+        icon: 'heroSquares2x2',
+        link: '/supervisor/dashboard',
+        exact: true
+      },
+      {
+        label: 'navigation.risk-staff',
+        icon: 'heroExclamationTriangle',
+        link: '/supervisor/risk-staff'
+      },
+      {
+        label: 'navigation.clinical-alerts',
+        icon: 'heroBell',
+        link: '/supervisor/clinical-alerts'
+      },
+      {
+        label: 'navigation.anomalies',
+        icon: 'heroBolt',
+        link: '/supervisor/anomalies',
+        module: 'VITAL_SIGN_ANOMALIES'
+      },
+      {
+        label: 'navigation.preventive-actions',
+        icon: 'heroClipboardDocumentCheck',
+        link: '/supervisor/preventive-actions',
+        module: 'PREVENTIVE_ACTIONS'
+      },
+      {
+        label: 'navigation.team-shifts',
+        icon: 'heroCalendarDays',
+        link: '/supervisor/shifts',
+        module: 'SHIFT_MANAGEMENT'
+      },
+      {
+        label: 'navigation.settings',
+        icon: 'heroCog6Tooth',
+        link: '/supervisor/settings'
+      }
     ]
   },
 
@@ -48,11 +117,33 @@ const layoutConfig: Record<UserRole, AppLayoutConfig> = {
     subtitle: 'layout.subtitle',
     menuTitle: 'navigation.clinical-menu',
     menuItems: [
-      { label: 'navigation.my-health-status', icon: 'heroSquares2x2', link: '/doctor/health', exact: true },
-      { label: 'navigation.my-vital-signs', icon: 'heroBolt', link: '/doctor/vital-signs' },
-      { label: 'navigation.my-shifts', icon: 'heroCalendarDays', link: '/doctor/shifts' },
-      { label: 'navigation.my-recovery', icon: 'heroHeart', link: '/doctor/recovery' },
-      { label: 'navigation.settings', icon: 'heroCog6Tooth', link: '/doctor/settings' }
+      {
+        label: 'navigation.my-health-status',
+        icon: 'heroSquares2x2',
+        link: '/doctor/health',
+        exact: true
+      },
+      {
+        label: 'navigation.my-vital-signs',
+        icon: 'heroBolt',
+        link: '/doctor/vital-signs'
+      },
+      {
+        label: 'navigation.my-shifts',
+        icon: 'heroCalendarDays',
+        link: '/doctor/shifts'
+      },
+      {
+        label: 'navigation.my-recovery',
+        icon: 'heroHeart',
+        link: '/doctor/recovery',
+        module: 'DOCTOR_RECOVERY'
+      },
+      {
+        label: 'navigation.settings',
+        icon: 'heroCog6Tooth',
+        link: '/doctor/settings'
+      }
     ]
   }
 };
@@ -73,9 +164,14 @@ const avatarColors: Record<UserRole, string> = {
   templateUrl: './app-layout.html',
   styleUrl: './app-layout.css'
 })
-export class AppLayout {
+export class AppLayout implements OnInit {
   private router = inject(Router);
   private authenticationStore = inject(AuthenticationStore);
+  private subscriptionAccessService = inject(SubscriptionAccessService);
+
+  ngOnInit(): void {
+    this.subscriptionAccessService.loadCurrentPlan().subscribe();
+  }
 
   protected config = computed(() => {
     const role = this.authenticationStore.currentUser()?.role ?? this.resolveRoleFromUrl();

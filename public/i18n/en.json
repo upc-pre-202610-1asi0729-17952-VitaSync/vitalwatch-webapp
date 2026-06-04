@@ -28,7 +28,19 @@
       "invitation-token-required": "A valid invitation is required to create an account.",
       "invitation-not-found": "The invitation does not exist or the link is invalid.",
       "invitation-not-available": "This invitation was already used or expired.",
-      "invitation-accept-failed": "The registration could not be completed. Please try again."
+      "invitation-accept-failed": "The registration could not be completed. Please try again.",
+      "invitation-token-missing": "The invitation token is missing.",
+      "catalog-load-failed": "Registration catalogs could not be loaded.",
+      "first-name-required": "First name is required.",
+      "last-name-required": "Last name is required.",
+      "phone-required": "Phone is required.",
+      "confirm-password-required": "Confirm password is required.",
+      "password-minlength": "Password must have at least 6 characters.",
+      "admin-title": "Panel administrativo",
+      "supervisor-title": "Panel del supervisor",
+      "doctor-title": "Panel clínico",
+      "subtitle": "Monitoreo inteligente y gestión de turnos",
+      "content-pending": "Esta sección está en preparación."
     },
     "register-brand-title": "Join the intelligent healthcare platform.",
     "register-brand-description": "Complete your registration to access biometric monitoring and shift management.",
@@ -52,14 +64,49 @@
     "sign-in-link": "Sign in",
     "signing-in": "Signing in...",
     "creating-account": "Creating account...",
-    "invitation-help": "Did you receive an invitation? Open the link sent to your email to create your account."
+    "invitation-help": "Did you receive an invitation? Open the link sent to your email to create your account.",
+    "loading-invitation-title": "Validating invitation",
+    "loading-invitation-message": "Please wait while we verify your invitation link.",
+    "invitation-required-title": "Invitation required",
+    "invitation-required-message": "To create an account, you need to open the invitation link sent by your medical center administrator.",
+    "back-to-sign-in": "Back to sign in"
   },
   "layout": {
-    "admin-title": "Welcome, Marcelo",
-    "supervisor-title": "Welcome, Claudia",
-    "doctor-title": "Welcome, Carlos",
-    "subtitle": "Preventive monitoring and operational management of medical staff.",
-    "content-pending": "This module content will be implemented in the next iteration."
+    "admin-title": "Administration panel",
+    "supervisor-title": "Supervisor panel",
+    "doctor-title": "Clinical panel",
+    "subtitle": "Smart monitoring and shift management",
+    "content-pending": "This section is being prepared.",
+    "topbar": {
+      "greetings": {
+        "default": {
+          "hello": "Hi, {{name}}. What should we do today?",
+          "ready": "{{name}}, your workspace is ready.",
+          "continue": "Good day, {{name}}. Everything is ready to continue."
+        },
+        "admin": {
+          "manage-today": "Hi, {{name}}. What should we manage today?",
+          "review-operation": "{{name}}, let's see how operations are going.",
+          "panel-ready": "{{name}}, your admin panel is ready.",
+          "staff-and-reports": "Hi, {{name}}. Let's review staff, teams and reports.",
+          "center-status": "Good day, {{name}}. Let's review the medical center status."
+        },
+        "supervisor": {
+          "review-team": "Hi, {{name}}. Who should we review today?",
+          "alerts-and-risks": "{{name}}, let's review alerts and risks.",
+          "care-team": "Hi, {{name}}. Let's keep caring for your assigned staff.",
+          "quick-review": "{{name}}, your team needs a quick review.",
+          "preventive-work": "Good day, {{name}}. Let's continue preventive monitoring."
+        },
+        "doctor": {
+          "how-is-shift": "Hi, {{name}}. How is your shift going?",
+          "review-status": "{{name}}, let's review your status before continuing.",
+          "care-rhythm": "Good day, {{name}}. Let's take care of your work rhythm.",
+          "indicators-ready": "Hi, {{name}}. Your indicators are ready to review.",
+          "recovery-status": "{{name}}, let's check your recovery status."
+        }
+      }
+    }
   },
   "navigation": {
     "admin-menu": "Administrative menu",
@@ -82,6 +129,7 @@
     "my-vital-signs": "My Vital Signs",
     "my-shifts": "My Shifts",
     "my-recovery": "My Recovery",
+    "team-shifts": "Team shifts",
     "sign-out": "Sign out"
   },
   "onboarding": {
@@ -184,7 +232,8 @@
         "email-required": "Email address is required.",
         "email-invalid": "Enter a valid email address.",
         "accepted-cannot-be-deleted": "Accepted invitations cannot be deleted.",
-        "delete-failed": "Invitation could not be deleted."
+        "delete-failed": "Invitation could not be deleted.",
+        "cancel-failed": "Invitation could not be cancelled."
       }
     },
     "staff": {
@@ -272,13 +321,77 @@
         "supervisor-already-assigned": "This supervisor is already assigned to another active team.",
         "update-status-failed": "Team status could not be updated.",
         "inactive-team": "You cannot add members to an inactive team.",
-        "delete-failed": "Team could not be deleted."
+        "delete-failed": "Team could not be deleted.",
+        "cleanup-failed": "Team assignments could not be cleaned up."
       },
       "search-placeholder": "Search by name or area...",
       "all-work-areas": "All areas",
       "deactivate": "Deactivate",
       "activate": "Activate",
       "delete": "Delete"
+    },
+    "supervisor": {
+      "title": "Team Shifts",
+      "subtitle-before": "Assign and manage",
+      "subtitle-highlight": "clinical shifts",
+      "subtitle-after": "for medical staff under your supervision.",
+      "new-title": "New shift",
+      "new-subtitle": "Select an assigned doctor and schedule a new shift.",
+      "assigned-staff-title": "Assigned staff",
+      "assigned-staff-subtitle": "Doctors available in your active teams.",
+      "staff": "Medical staff",
+      "select-staff": "Select staff",
+      "shift-type": "Shift type",
+      "date": "Date",
+      "start-time": "Start time",
+      "end-time": "End time",
+      "create": "Create shift",
+      "creating": "Creating...",
+      "list-title": "Scheduled shifts",
+      "list-subtitle": "Shifts assigned to your supervised staff.",
+      "search-placeholder": "Search by staff, email, team or area...",
+      "cancel": "Cancel",
+      "closed": "Closed",
+      "no-assigned-staff": "You do not have assigned medical staff yet.",
+      "empty-title": "No shifts found",
+      "empty-subtitle": "Create a shift or adjust the filters to see results.",
+      "metrics": {
+        "scheduled": "Scheduled",
+        "in-progress": "In progress",
+        "completed": "Completed",
+        "cancelled": "Cancelled"
+      },
+      "filters": {
+        "all-statuses": "All statuses"
+      },
+      "type": {
+        "day": "Day shift",
+        "night": "Night shift"
+      },
+      "status": {
+        "scheduled": "Scheduled",
+        "in-progress": "In progress",
+        "completed": "Completed",
+        "cancelled": "Cancelled"
+      },
+      "table": {
+        "staff": "Staff",
+        "team": "Team",
+        "area": "Area",
+        "type": "Type",
+        "date": "Date",
+        "time": "Time",
+        "hours": "Hours",
+        "status": "Status",
+        "actions": "Actions"
+      },
+      "error": {
+        "no-session": "No active session was found.",
+        "load-failed": "Team shifts could not be loaded.",
+        "create-failed": "Shift could not be created.",
+        "cancel-failed": "Shift could not be cancelled.",
+        "doctor-without-area": "The selected doctor does not have a work area assigned."
+      }
     },
     "doctor": {
       "title": "My Shifts",
@@ -330,11 +443,18 @@
         "no-session": "No active session was found.",
         "load-failed": "Your shifts could not be loaded.",
         "check-in-failed": "Shift could not be started.",
-        "check-out-failed": "Shift could not be ended."
+        "check-out-failed": "Shift could not be ended.",
+        "update-status-failed": "Shift status could not be updated."
       }
     }
   },
   "clinical": {
+    "common": {
+      "error": {
+        "no-session": "No active session was found.",
+        "load-failed": "Clinical information could not be loaded."
+      }
+    },
     "risk": {
       "low": "Low",
       "moderate": "Moderate",
@@ -966,6 +1086,15 @@
       "subtitle": "The payment process was cancelled or was not completed. You can try again whenever you want.",
       "go-login": "Back to sign in",
       "try-again": "Try again"
+    },
+    "limits": {
+      "doctors-exceeded": "You have reached the active doctors limit allowed by your plan.",
+      "supervisors-exceeded": "You have reached the clinical supervisors limit allowed by your plan.",
+      "teams-exceeded": "You have reached the active teams limit allowed by your plan.",
+      "work-areas-exceeded": "You have reached the work areas limit allowed by your plan.",
+      "invitations-exceeded": "You have reached the monthly invitations limit allowed by your plan.",
+      "module-not-available": "This module is not available in your current plan.",
+      "generic-exceeded": "You have reached the limit allowed by your plan."
     }
   },
   "settings": {
@@ -984,7 +1113,6 @@
       "role": "Role",
       "status-label": "Status",
       "organization": "Organization",
-      "reset": "Reset",
       "save": "Save changes",
       "saving": "Saving...",
       "success": "Account information was updated successfully.",

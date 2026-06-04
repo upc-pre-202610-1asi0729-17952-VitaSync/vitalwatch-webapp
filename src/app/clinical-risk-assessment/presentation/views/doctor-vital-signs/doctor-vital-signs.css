@@ -35,17 +35,18 @@
     margin-bottom: 24px;
 }
 
-.chart-card {
+.chart-card,
+.bar-chart-card,
+.records-card {
     padding: 24px;
 }
 
 .bar-chart-card {
-    padding: 24px;
     margin-bottom: 24px;
 }
 
 .chart-header {
-    margin-bottom: 22px;
+    margin-bottom: 18px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -65,80 +66,18 @@
     font-weight: 800;
 }
 
-.chart-container {
+.apex-chart-wrapper {
     width: 100%;
-    overflow-x: auto;
+    min-height: 300px;
 }
 
-.line-chart,
-.bar-chart {
+.heart-rate-chart-wrapper {
+    min-height: 360px;
+}
+
+.apex-chart-wrapper apx-chart {
+    display: block;
     width: 100%;
-    min-width: 620px;
-    height: auto;
-}
-
-.chart-axis {
-    stroke: #dbe3ef;
-    stroke-width: 2;
-}
-
-.chart-grid-line {
-    stroke: #e8eef7;
-    stroke-width: 1;
-}
-
-.threshold-line {
-    stroke: #ef4444;
-    stroke-width: 2;
-    stroke-dasharray: 7 7;
-    opacity: 0.8;
-}
-
-.chart-line {
-    fill: none;
-    stroke-width: 4;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-}
-
-.cortisol-line {
-    stroke: #7c3aed;
-}
-
-.hrv-line {
-    stroke: #11c7c7;
-}
-
-.chart-dot {
-    fill: #ffffff;
-    stroke-width: 4;
-}
-
-.cortisol-dot {
-    stroke: #7c3aed;
-}
-
-.hrv-dot {
-    stroke: #11c7c7;
-}
-
-.chart-y-label,
-.chart-x-label {
-    fill: #8b9abb;
-    font-size: 0.76rem;
-    font-weight: 800;
-}
-
-.heart-rate-bar {
-    fill: #11c7c7;
-}
-
-.heart-rate-bar.high {
-    fill: #ef4444;
-}
-
-.records-card {
-    padding: 24px;
 }
 
 .records-header {
@@ -317,6 +256,24 @@
     text-align: center;
 }
 
+:host ::ng-deep .apexcharts-tooltip {
+    border: 1px solid #dbe3ef !important;
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12) !important;
+    border-radius: 12px !important;
+}
+
+:host ::ng-deep .apexcharts-tooltip-title {
+    color: #0b1b2b !important;
+    background: #f6f9fd !important;
+    border-bottom: 1px solid #dbe3ef !important;
+    font-weight: 900 !important;
+}
+
+:host ::ng-deep .apexcharts-xaxis-label,
+:host ::ng-deep .apexcharts-yaxis-label {
+    font-family: inherit !important;
+}
+
 @media (max-width: 1180px) {
     .charts-grid {
         grid-template-columns: 1fr;
@@ -340,19 +297,16 @@
         padding: 20px;
     }
 
-    .line-chart,
-    .bar-chart {
-        min-width: 560px;
+    .apex-chart-wrapper {
+        min-height: 280px;
+    }
+
+    .heart-rate-chart-wrapper {
+        min-height: 330px;
     }
 }
 
 @media (max-width: 560px) {
-
-    .line-chart,
-    .bar-chart {
-        min-width: 520px;
-    }
-
     .records-table {
         min-width: 900px;
     }
