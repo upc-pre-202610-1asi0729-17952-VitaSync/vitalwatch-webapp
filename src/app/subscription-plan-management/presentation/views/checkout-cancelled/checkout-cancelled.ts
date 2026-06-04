@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { NgIcon } from '@ng-icons/core';
 
@@ -14,9 +14,11 @@ import { NgIcon } from '@ng-icons/core';
 })
 export class CheckoutCancelled {
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
   protected tryAgain(): void {
-    this.router.navigate(['/register-organization', 'professional']);
+    const planCode = this.route.snapshot.queryParamMap.get('plan') ?? 'professional';
+    this.router.navigate(['/register-organization', planCode]);
   }
 
   protected goToSignIn(): void {

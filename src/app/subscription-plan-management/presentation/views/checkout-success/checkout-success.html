@@ -10,6 +10,18 @@
             {{ 'subscription.checkoutSuccess.subtitle' | translate }}
         </p>
 
+        @if (checkingPayment()) {
+        <p>Validando el pago con Stripe...</p>
+        }
+
+        @if (activationMessage()) {
+        <p class="form-success">{{ activationMessage() }}</p>
+        }
+
+        @if (activationError()) {
+        <p class="form-error">{{ activationError() }}</p>
+        }
+
         <button type="button" class="primary-button" (click)="goToSignIn()">
             {{ 'subscription.checkoutSuccess.go-login' | translate }}
         </button>

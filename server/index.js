@@ -1,7 +1,9 @@
 require('dotenv').config({ path: 'server/.env' });
 
 const crypto = require('crypto');
+const express = require('express');
 const jsonServer = require('json-server');
+const Stripe = require('stripe');
 const { Resend } = require('resend');
 
 const server = jsonServer.create();
@@ -12,10 +14,14 @@ const resend = process.env.RESEND_API_KEY
     ? new Resend(process.env.RESEND_API_KEY)
     : null;
 
+
+const stripe = process.env.STRIPE_SECRET_KEY
+    ? Stripe(process.env.STRIPE_SECRET_KEY)
+    : null;
+
 const PORT = 3000;
 
 server.use(middlewares);
-server.use(jsonServer.bodyParser);
 
 function generateToken() {
     return `inv-${crypto.randomUUID()}`;
@@ -110,6 +116,358 @@ function buildInvitationEmail({ email, role, invitationLink, organizationName })
     </html>
   `;
 }
+
+
+function getBillingInterval(plan) {
+    return plan.billingPeriod === 'yearly' ? 'year' : 'month';
+}
+
+function getStripeObjectId(value) {
+    if (!value) return null;
+    return typeof value === 'string' ? value : value.id;
+}
+
+function activateSubscriptionFromCheckoutSession(session) {
+    const db = router.db;
+    const metadata = session.metadata ?? {};
+
+    const organizationId = Number(metadata.organizationId);
+    const administratorId = Number(metadata.administratorId);
+    const subscriptionId = Number(metadata.subscriptionId);
+    const checkoutSessionId = Number(metadata.checkoutSessionId);
+
+    if (!organizationId || !administratorId || !subscriptionId || !checkoutSessionId) {
+        return {
+            activated: false,
+            reason: 'Missing metadata in Stripe session.'
+        };
+    }
+
+    const now = new Date().toISOString();
+
+    const stripeSubscriptionId = getStripeObjectId(session.subscription);
+    const stripeCustomerId = getStripeObjectId(session.customer);
+
+    db.get('organizations')
+        .find({ id: organizationId })
+        .assign({
+            status: 'ACTIVE',
+            activatedAt: now
+        })
+        .write();
+
+    db.get('users')
+        .find({ id: administratorId })
+        .assign({
+            status: 'ACTIVE',
+            activatedAt: now
+        })
+        .write();
+
+    db.get('subscriptions')
+        .find({ id: subscriptionId })
+        .assign({
+            status: 'ACTIVE',
+            startedAt: now,
+            stripeSubscriptionId,
+            stripeCustomerId
+        })
+        .write();
+
+    db.get('checkoutSessions')
+        .find({ id: checkoutSessionId })
+        .assign({
+            status: 'COMPLETED',
+            stripeSessionId: session.id,
+            stripeSubscriptionId,
+            stripeCustomerId,
+            completedAt: now
+        })
+        .write();
+
+    return {
+        activated: true,
+        organizationId,
+        administratorId,
+        subscriptionId,
+        checkoutSessionId
+    };
+}
+
+server.post('/api/v1/billing/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
+    if (!stripe) {
+        return res.status(500).json({
+            message: 'STRIPE_SECRET_KEY is not configured.'
+        });
+    }
+
+    const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
+    if (!webhookSecret) {
+        return res.status(500).json({
+            message: 'STRIPE_WEBHOOK_SECRET is not configured.'
+        });
+    }
+
+    const signature = req.headers['stripe-signature'];
+
+    let event;
+
+    try {
+        event = stripe.webhooks.constructEvent(req.body, signature, webhookSecret);
+    } catch (error) {
+        console.error('Stripe webhook signature error:', error.message);
+
+        return res.status(400).send(`Webhook Error: ${error.message}`);
+    }
+
+    try {
+        if (event.type === 'checkout.session.completed') {
+            const session = event.data.object;
+
+            if (session.payment_status === 'paid') {
+                const result = activateSubscriptionFromCheckoutSession(session);
+                console.log('Stripe subscription activated:', result);
+            }
+        }
+
+        if (event.type === 'checkout.session.expired') {
+            const session = event.data.object;
+            const checkoutSessionId = Number(session.metadata?.checkoutSessionId);
+
+            if (checkoutSessionId) {
+                router.db
+                    .get('checkoutSessions')
+                    .find({ id: checkoutSessionId })
+                    .assign({
+                        status: 'FAILED',
+                        failedAt: new Date().toISOString()
+                    })
+                    .write();
+            }
+        }
+
+        return res.json({ received: true });
+
+    } catch (error) {
+        console.error('Stripe webhook handling error:', error);
+
+        return res.status(500).json({
+            message: error.message ?? 'Unexpected webhook error.'
+        });
+    }
+});
+
+server.use(jsonServer.bodyParser);
+
+server.post('/api/v1/billing/create-checkout-session', async (req, res) => {
+    let localCheckoutSession = null;
+
+    try {
+        if (!stripe) {
+            return res.status(500).json({
+                message: 'STRIPE_SECRET_KEY is not configured.'
+            });
+        }
+
+        const { planCode, organization, administrator } = req.body;
+
+        if (!planCode || !organization || !administrator) {
+            return res.status(400).json({
+                message: 'planCode, organization and administrator are required.'
+            });
+        }
+
+        const db = router.db;
+
+        const plan = db.get('plans')
+            .find({ code: planCode })
+            .value();
+
+        if (!plan) {
+            return res.status(404).json({
+                message: 'Plan not found.'
+            });
+        }
+
+        const existingUser = db.get('users')
+            .find({ email: administrator.email })
+            .value();
+
+        if (existingUser) {
+            return res.status(409).json({
+                message: 'Ya existe un usuario registrado con este correo.'
+            });
+        }
+
+        const now = new Date().toISOString();
+
+        const createdOrganization = db.get('organizations')
+            .insert({
+                name: organization.name,
+                ruc: organization.ruc,
+                address: organization.address,
+                phone: organization.phone,
+                planId: plan.id,
+                status: 'INACTIVE',
+                createdAt: now
+            })
+            .write();
+
+        const createdAdministrator = db.get('users')
+            .insert({
+                organizationId: createdOrganization.id,
+                firstName: administrator.firstName,
+                lastName: administrator.lastName,
+                email: administrator.email,
+                password: administrator.password,
+                phone: administrator.phone,
+                role: 'HOSPITAL_ADMIN',
+                status: 'PENDING',
+                createdAt: now
+            })
+            .write();
+
+        const createdSubscription = db.get('subscriptions')
+            .insert({
+                organizationId: createdOrganization.id,
+                planId: plan.id,
+                status: 'PENDING',
+                startedAt: null,
+                createdAt: now
+            })
+            .write();
+
+        localCheckoutSession = db.get('checkoutSessions')
+            .insert({
+                organizationId: createdOrganization.id,
+                administratorId: createdAdministrator.id,
+                subscriptionId: createdSubscription.id,
+                planId: plan.id,
+                planCode: plan.code,
+                status: 'PENDING',
+                createdAt: now
+            })
+            .write();
+
+        const appPublicUrl = process.env.APP_PUBLIC_URL || 'http://localhost:4200';
+
+        const metadata = {
+            organizationId: String(createdOrganization.id),
+            administratorId: String(createdAdministrator.id),
+            subscriptionId: String(createdSubscription.id),
+            checkoutSessionId: String(localCheckoutSession.id),
+            planId: String(plan.id),
+            planCode: plan.code
+        };
+
+        const stripeSession = await stripe.checkout.sessions.create({
+            mode: 'subscription',
+            payment_method_types: ['card'],
+            customer_email: createdAdministrator.email,
+            client_reference_id: String(localCheckoutSession.id),
+            line_items: [
+                {
+                    price_data: {
+                        currency: (plan.currency ?? 'USD').toLowerCase(),
+                        unit_amount: Math.round(Number(plan.price) * 100),
+                        recurring: {
+                            interval: getBillingInterval(plan)
+                        },
+                        product_data: {
+                            name: `VitalWatch ${plan.name}`,
+                            description: plan.description ?? plan.descriptionKey ?? ''
+                        }
+                    },
+                    quantity: 1
+                }
+            ],
+            metadata,
+            subscription_data: {
+                metadata
+            },
+            success_url: `${appPublicUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url: `${appPublicUrl}/checkout/cancelled?plan=${plan.code}`
+        });
+
+        db.get('checkoutSessions')
+            .find({ id: localCheckoutSession.id })
+            .assign({
+                stripeSessionId: stripeSession.id,
+                stripeUrl: stripeSession.url
+            })
+            .write();
+
+        return res.status(201).json({
+            checkoutUrl: stripeSession.url,
+            stripeSessionId: stripeSession.id,
+            organizationId: createdOrganization.id,
+            administratorId: createdAdministrator.id,
+            subscriptionId: createdSubscription.id,
+            checkoutSessionId: localCheckoutSession.id
+        });
+
+    } catch (error) {
+        console.error('Stripe checkout error:', error);
+
+        if (localCheckoutSession?.id) {
+            router.db
+                .get('checkoutSessions')
+                .find({ id: localCheckoutSession.id })
+                .assign({
+                    status: 'FAILED',
+                    failedAt: new Date().toISOString(),
+                    errorMessage: error.message ?? 'Stripe checkout error'
+                })
+                .write();
+        }
+
+        return res.status(500).json({
+            message: error.message ?? 'Unexpected error while creating checkout session.'
+        });
+    }
+});
+
+server.get('/api/v1/billing/checkout-session-status', async (req, res) => {
+    try {
+        if (!stripe) {
+            return res.status(500).json({
+                message: 'STRIPE_SECRET_KEY is not configured.'
+            });
+        }
+
+        const sessionId = req.query.session_id;
+
+        if (!sessionId) {
+            return res.status(400).json({
+                message: 'session_id is required.'
+            });
+        }
+
+        const session = await stripe.checkout.sessions.retrieve(sessionId);
+
+        let activation = null;
+
+        if (session.status === 'complete' && session.payment_status === 'paid') {
+            activation = activateSubscriptionFromCheckoutSession(session);
+        }
+
+        return res.json({
+            stripeSessionId: session.id,
+            status: session.status,
+            paymentStatus: session.payment_status,
+            activated: activation?.activated ?? false
+        });
+
+    } catch (error) {
+        console.error('Stripe session status error:', error);
+
+        return res.status(500).json({
+            message: error.message ?? 'Unexpected error while checking checkout session.'
+        });
+    }
+});
+
 
 server.post('/api/v1/invitations/send', async (req, res) => {
     try {

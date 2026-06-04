@@ -6,7 +6,11 @@ import { BillingPeriod, Plan } from '../domain/model/plan.entity';
 import { Subscription, SubscriptionStatus } from '../domain/model/subscription.entity';
 import { CheckoutSession, CheckoutSessionStatus } from '../domain/model/checkout-session.entity';
 import { UpdateSubscriptionPlanRequest } from './update-subscription-plan-request';
-
+import {
+  CheckoutSessionStatusResponse,
+  CreateOrganizationCheckoutRequest,
+  CreateOrganizationCheckoutResponse
+} from './create-organization-checkout-request';
 interface PlanResource {
   id: number;
   code: string;
@@ -98,13 +102,38 @@ export class SubscriptionPlanApi {
   private checkoutSessionsUrl = `${environment.platformProviderApiBaseUrl}${environment.checkoutSessionsEndpointPath}`;
   private organizationsUrl = `${environment.platformProviderApiBaseUrl}${environment.organizationsEndpointPath}`;
   private usersUrl = `${environment.platformProviderApiBaseUrl}${environment.usersEndpointPath}`;
+  private createOrganizationCheckoutSessionUrl =`${environment.platformProviderApiBaseUrl}/billing/create-checkout-session`;
+  private checkoutSessionStatusUrl = `${environment.platformProviderApiBaseUrl}/billing/checkout-session-status`;
+  
+  
+  
+  createOrganizationCheckoutSession(
+    request: CreateOrganizationCheckoutRequest
+    ): Observable<CreateOrganizationCheckoutResponse> {
+    return this.http.post<CreateOrganizationCheckoutResponse>(
+    this.createOrganizationCheckoutSessionUrl,
+    request
+    );}
 
+getCheckoutSessionStatus(
+  stripeSessionId: string
+): Observable<CheckoutSessionStatusResponse> {
+  return this.http.get<CheckoutSessionStatusResponse>(
+    `${this.checkoutSessionStatusUrl}?session_id=${encodeURIComponent(stripeSessionId)}`
+  );
+}
+  
+  
   getPlans(): Observable<Plan[]> {
+
+
     return this.http
       .get<PlanResource[]>(this.plansUrl)
       .pipe(
         map(resources => resources.map(resource => this.toPlan(resource)))
       );
+
+      
   }
 
   getSubscriptionByOrganizationId(organizationId: number): Observable<Subscription | null> {

@@ -62,45 +62,63 @@ export class OrganizationRegistration implements OnInit {
             return;
         }
 
-        if (this.form.invalid) {
-            this.form.markAllAsTouched();
-            return;
-        }
+if (this.form.invalid) {
+    this.form.markAllAsTouched();
+
+    const invalidFields = Object.entries(this.form.controls)
+        .filter(([_, control]) => control.invalid)
+        .map(([fieldName]) => fieldName);
+
+    console.warn('Campos inválidos:', invalidFields);
+
+    this.errorMessage.set(
+        `Completa correctamente estos campos: ${invalidFields.join(', ')}`
+    );
+
+    return;
+}
 
         this.loading.set(true);
         this.errorMessage.set(null);
         this.successMessage.set(null);
 
-        this.subscriptionPlanApi.registerOrganizationWithAdministrator({
-            plan,
-            organization: {
-                name: this.form.controls.organizationName.value,
-                ruc: this.form.controls.ruc.value,
-                address: this.form.controls.address.value,
-                phone: this.form.controls.organizationPhone.value,
-                planId: plan.id
-            },
-            administrator: {
-                firstName: this.form.controls.firstName.value,
-                lastName: this.form.controls.lastName.value,
-                email: this.form.controls.email.value,
-                password: this.form.controls.password.value,
-                phone: this.form.controls.phone.value
-            }
-        }).subscribe({
-            next: () => {
-                this.successMessage.set('subscription.registration.success');
-                this.loading.set(false);
+        this.subscriptionPlanApi.createOrganizationCheckoutSession({
+    planCode: plan.code,
+    organization: {
+        name: this.form.controls.organizationName.value,
+        ruc: this.form.controls.ruc.value,
+        address: this.form.controls.address.value,
+        phone: this.form.controls.organizationPhone.value
+    },
+    administrator: {
+        firstName: this.form.controls.firstName.value,
+        lastName: this.form.controls.lastName.value,
+        email: this.form.controls.email.value,
+        password: this.form.controls.password.value,
+        phone: this.form.controls.phone.value
+    }
+}).subscribe({
+    next: response => {
+        this.successMessage.set('subscription.registration.success');
 
-                setTimeout(() => {
-                    this.router.navigate(['/sign-in']);
-                }, 900);
-            },
-            error: () => {
-                this.errorMessage.set('subscription.registration.error.create-failed');
-                this.loading.set(false);
-            }
-        });
+        if (!response.checkoutUrl) {
+            this.errorMessage.set('subscription.registration.error.create-failed');
+            this.loading.set(false);
+            return;
+        }
+
+        window.location.href = response.checkoutUrl;
+    },
+    error: error => {
+        if (error.status === 409) {
+            this.errorMessage.set('Ya existe un usuario registrado con este correo.');
+        } else {
+            this.errorMessage.set('subscription.registration.error.create-failed');
+        }
+
+        this.loading.set(false);
+    }
+});
     }
 
     protected goToSignIn(): void {
