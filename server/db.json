@@ -209,15 +209,6 @@
       "phone": "+51 988 888 888",
       "status": "ACTIVE",
       "planId": 3
-    },
-    {
-      "name": "Clínica Waza",
-      "ruc": "20600000000",
-      "address": "Av. Waza 131",
-      "phone": "988888888",
-      "planId": 2,
-      "status": "ACTIVE",
-      "id": 3
     }
   ],
   "users": [
@@ -591,17 +582,6 @@
       "specialtyId": 2,
       "role": "DOCTOR",
       "status": "ACTIVE"
-    },
-    {
-      "firstName": "Waza",
-      "lastName": "Papu",
-      "email": "wazapapuxd123@gmail.com",
-      "password": "waza123",
-      "phone": "999999999",
-      "organizationId": 3,
-      "role": "HOSPITAL_ADMIN",
-      "status": "ACTIVE",
-      "id": 30
     }
   ],
   "careTeams": [

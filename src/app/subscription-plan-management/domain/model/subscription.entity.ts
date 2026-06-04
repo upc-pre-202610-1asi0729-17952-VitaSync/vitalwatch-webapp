@@ -1,4 +1,4 @@
-export type SubscriptionStatus = 'ACTIVE' | 'PAST_DUE' | 'CANCELLED';
+export type SubscriptionStatus = 'PENDING' | 'ACTIVE' | 'PAST_DUE' | 'CANCELLED';
 
 export class Subscription {
     private _id: number;

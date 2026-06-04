@@ -64,17 +64,17 @@ export class OrganizationRegistration implements OnInit {
 
         if (this.form.invalid) {
             this.form.markAllAsTouched();
+            this.subscriptionPlanStore.setErrorMessage('subscription.registration.error.create-failed');
             return;
         }
 
-        this.subscriptionPlanStore.registerOrganizationWithAdministrator({
-            plan,
+        this.subscriptionPlanStore.createOrganizationCheckoutSession({
+            planCode: plan.code,
             organization: {
                 name: this.form.controls.organizationName.value,
                 ruc: this.form.controls.ruc.value,
                 address: this.form.controls.address.value,
-                phone: this.form.controls.organizationPhone.value,
-                planId: plan.id
+                phone: this.form.controls.organizationPhone.value
             },
             administrator: {
                 firstName: this.form.controls.firstName.value,
@@ -83,12 +83,10 @@ export class OrganizationRegistration implements OnInit {
                 password: this.form.controls.password.value,
                 phone: this.form.controls.phone.value
             }
-        }).subscribe(success => {
-            if (!success) return;
+        }).subscribe(response => {
+            if (!response?.checkoutUrl) return;
 
-            setTimeout(() => {
-                this.router.navigate(['/sign-in']);
-            }, 900);
+            window.location.href = response.checkoutUrl;
         });
     }
 

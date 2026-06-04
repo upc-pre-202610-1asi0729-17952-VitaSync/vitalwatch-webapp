@@ -6,6 +6,8 @@ import { Subscription } from '../domain/model/subscription.entity';
 import { CheckoutSession } from '../domain/model/checkout-session.entity';
 import {
     CreateHospitalAdministratorRequest,
+    CreateOrganizationCheckoutRequest,
+    CreateOrganizationCheckoutResponse,
     CreateOrganizationRequest,
     SubscriptionPlanApi
 } from '../infrastructure/api/subscription-plan-api';
@@ -33,6 +35,41 @@ export class SubscriptionPlanStore {
     readonly error = computed(() => this.errorSignal());
     readonly successMessage = computed(() => this.successMessageSignal());
 
+    
+createOrganizationCheckoutSession(
+    request: CreateOrganizationCheckoutRequest
+): Observable<CreateOrganizationCheckoutResponse | null> {
+    this.loadingSignal.set(true);
+    this.errorSignal.set(null);
+    this.successMessageSignal.set(null);
+
+    return this.subscriptionPlanApi.createOrganizationCheckoutSession(request).pipe(
+        map(response => {
+            this.successMessageSignal.set('subscription.registration.success');
+            this.loadingSignal.set(false);
+
+            return response;
+        }),
+        catchError(error => {
+            console.error('CREATE CHECKOUT SESSION ERROR:', error);
+
+            if (error.status === 409) {
+                this.errorSignal.set('Ya existe un usuario registrado con este correo.');
+            } else {
+                this.errorSignal.set(
+                    error.error?.message ??
+                    error.message ??
+                    'subscription.registration.error.create-failed'
+                );
+            }
+
+            this.loadingSignal.set(false);
+
+            return of(null);
+        })
+    );
+}
+    
     loadPlans(): Observable<Plan[]> {
         this.loadingSignal.set(true);
         this.errorSignal.set(null);
