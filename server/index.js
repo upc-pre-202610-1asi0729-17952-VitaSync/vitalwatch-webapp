@@ -236,14 +236,49 @@ server.post('/api/v1/billing/webhook', express.raw({ type: 'application/json' })
             const checkoutSessionId = Number(session.metadata?.checkoutSessionId);
 
             if (checkoutSessionId) {
-                router.db
-                    .get('checkoutSessions')
+                const db = router.db;
+                const now = new Date().toISOString();
+
+                const checkoutSession = db.get('checkoutSessions')
                     .find({ id: checkoutSessionId })
-                    .assign({
-                        status: 'FAILED',
-                        failedAt: new Date().toISOString()
-                    })
-                    .write();
+                    .value();
+
+                if (checkoutSession && checkoutSession.status !== 'COMPLETED') {
+                    db.get('checkoutSessions')
+                        .find({ id: checkoutSession.id })
+                        .assign({
+                            status: 'FAILED',
+                            failedAt: now,
+                            cancelledAt: now
+                        })
+                        .write();
+
+                    db.get('subscriptions')
+                        .find({ id: checkoutSession.subscriptionId })
+                        .assign({
+                            status: 'CANCELLED',
+                            cancelledAt: now
+                        })
+                        .write();
+
+                    db.get('users')
+                        .find({ id: checkoutSession.administratorId })
+                        .assign({
+                            status: 'INACTIVE',
+                            registrationStatus: 'CANCELLED',
+                            cancelledAt: now
+                        })
+                        .write();
+
+                    db.get('organizations')
+                        .find({ id: checkoutSession.organizationId })
+                        .assign({
+                            status: 'INACTIVE',
+                            registrationStatus: 'CANCELLED',
+                            cancelledAt: now
+                        })
+                        .write();
+                }
             }
         }
 
@@ -291,7 +326,10 @@ server.post('/api/v1/billing/create-checkout-session', async (req, res) => {
         }
 
         const existingUser = db.get('users')
-            .find({ email: administrator.email })
+            .find(user =>
+                user.email === administrator.email &&
+                user.registrationStatus !== 'CANCELLED'
+            )
             .value();
 
         if (existingUser) {
@@ -387,7 +425,7 @@ server.post('/api/v1/billing/create-checkout-session', async (req, res) => {
                 metadata
             },
             success_url: `${appPublicUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
-            cancel_url: `${appPublicUrl}/checkout/cancelled?plan=${plan.code}`
+            cancel_url: `${appPublicUrl}/checkout/cancelled?plan=${plan.code}&checkoutSessionId=${localCheckoutSession.id}`
         });
 
         db.get('checkoutSessions')
@@ -468,6 +506,83 @@ server.get('/api/v1/billing/checkout-session-status', async (req, res) => {
     }
 });
 
+server.post('/api/v1/billing/cancel-checkout-session', (req, res) => {
+    try {
+        const checkoutSessionId = Number(req.body.checkoutSessionId);
+
+        if (!checkoutSessionId) {
+            return res.status(400).json({
+                message: 'checkoutSessionId is required.'
+            });
+        }
+
+        const db = router.db;
+
+        const checkoutSession = db.get('checkoutSessions')
+            .find({ id: checkoutSessionId })
+            .value();
+
+        if (!checkoutSession) {
+            return res.status(404).json({
+                message: 'Checkout session not found.'
+            });
+        }
+
+        if (checkoutSession.status === 'COMPLETED') {
+            return res.status(409).json({
+                message: 'This checkout session is already completed.'
+            });
+        }
+
+        const now = new Date().toISOString();
+
+        db.get('checkoutSessions')
+            .find({ id: checkoutSession.id })
+            .assign({
+                status: 'FAILED',
+                cancelledAt: now
+            })
+            .write();
+
+        db.get('subscriptions')
+            .find({ id: checkoutSession.subscriptionId })
+            .assign({
+                status: 'CANCELLED',
+                cancelledAt: now
+            })
+            .write();
+
+        db.get('users')
+            .find({ id: checkoutSession.administratorId })
+            .assign({
+                status: 'INACTIVE',
+                registrationStatus: 'CANCELLED',
+                cancelledAt: now
+            })
+            .write();
+
+        db.get('organizations')
+            .find({ id: checkoutSession.organizationId })
+            .assign({
+                status: 'INACTIVE',
+                registrationStatus: 'CANCELLED',
+                cancelledAt: now
+            })
+            .write();
+
+        return res.json({
+            cancelled: true,
+            checkoutSessionId: checkoutSession.id
+        });
+
+    } catch (error) {
+        console.error('Cancel checkout session error:', error);
+
+        return res.status(500).json({
+            message: error.message ?? 'Unexpected error while cancelling checkout session.'
+        });
+    }
+});
 
 server.post('/api/v1/invitations/send', async (req, res) => {
     try {
@@ -482,14 +597,14 @@ server.post('/api/v1/invitations/send', async (req, res) => {
         const db = router.db;
         const parsedOrganizationId = Number(organizationId);
 
-        const existingUser = db.get('users')
-            .find({
-                organizationId: parsedOrganizationId,
-                email
-            })
-            .value();
+        const existingActiveOrPendingUser = db.get('users')
+            .filter(user =>
+                user.email === administrator.email &&
+                user.status !== 'CANCELLED'
+            )
+            .value()[0];
 
-        if (existingUser) {
+        if (existingActiveOrPendingUser) {
             return res.status(409).json({
                 message: 'Ya existe un usuario registrado con este correo.'
             });

@@ -83,6 +83,9 @@ export class SubscriptionPlanApi {
     private checkoutSessionStatusUrl =
         `${environment.platformProviderApiBaseUrl}/billing/checkout-session-status`;
 
+    private cancelCheckoutSessionUrl =
+        `${environment.platformProviderApiBaseUrl}/billing/cancel-checkout-session`;
+
     createOrganizationCheckoutSession(
         request: CreateOrganizationCheckoutRequest
     ): Observable<CreateOrganizationCheckoutResponse> {
@@ -97,6 +100,13 @@ export class SubscriptionPlanApi {
     ): Observable<CheckoutSessionStatusResponse> {
         return this.http.get<CheckoutSessionStatusResponse>(
             `${this.checkoutSessionStatusUrl}?session_id=${encodeURIComponent(stripeSessionId)}`
+        );
+    }
+
+    cancelCheckoutSession(checkoutSessionId: number): Observable<{ cancelled: boolean; checkoutSessionId: number }> {
+        return this.http.post<{ cancelled: boolean; checkoutSessionId: number }>(
+            this.cancelCheckoutSessionUrl,
+            { checkoutSessionId }
         );
     }
 
