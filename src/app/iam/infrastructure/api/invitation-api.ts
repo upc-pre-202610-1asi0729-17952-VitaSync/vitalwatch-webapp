@@ -40,17 +40,8 @@ export class InvitationApi {
   }
 
   createInvitation(request: CreateInvitationRequest): Observable<Invitation> {
-    const payload: Omit<InvitationResource, 'id'> = {
-      organizationId: request.organizationId,
-      email: request.email,
-      role: request.role,
-      status: 'PENDING',
-      token: crypto.randomUUID(),
-      createdAt: new Date().toISOString()
-    };
-
     return this.http
-      .post<InvitationResource>(this.invitationsUrl, payload)
+      .post<InvitationResource>(`${this.invitationsUrl}/send`, request)
       .pipe(
         map(response => InvitationAssembler.toEntity(response))
       );
