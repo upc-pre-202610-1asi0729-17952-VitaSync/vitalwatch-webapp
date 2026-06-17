@@ -2,6 +2,49 @@
   width: min(100%, 520px);
 }
 
+.landing-back-button {
+  position: fixed;
+  top: 28px;
+  left: calc(43% + 28px);
+  z-index: 100;
+
+  width: 52px;
+  height: 52px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 16px;
+  border: 1px solid rgba(219, 231, 255, 0.95);
+  background: #ffffff;
+
+  color: #2563eb;
+  text-decoration: none;
+
+  box-shadow: 0 14px 34px rgba(37, 99, 235, 0.14);
+  transition: all 0.2s ease;
+}
+
+.landing-back-button ng-icon {
+  width: 22px;
+  height: 22px;
+  font-size: 22px;
+  color: currentColor;
+}
+
+.landing-back-button:hover {
+  color: #ffffff;
+  background: #2563eb;
+  border-color: #2563eb;
+  transform: translateY(-1px);
+  box-shadow: 0 18px 38px rgba(37, 99, 235, 0.24);
+}
+
+.landing-back-button:active {
+  transform: translateY(0);
+}
+
 .auth-card {
   width: 100%;
   padding: 42px;
@@ -142,6 +185,13 @@
 }
 
 @media (max-width: 640px) {
+  .landing-back-button {
+    top: 24px;
+    left: 24px;
+    width: 48px;
+    height: 48px;
+  }
+
   .auth-card {
     padding: 28px 20px;
   }

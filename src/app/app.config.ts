@@ -4,6 +4,7 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
 import { provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { provideIcons } from '@ng-icons/core';
+import { heroArrowLeft } from '@ng-icons/heroicons/outline';
 import {
   heroEnvelope,
   heroLockClosed,
@@ -58,6 +59,7 @@ export const appConfig: ApplicationConfig = {
       fallbackLang: 'es'
     }),
     provideIcons({
+      heroArrowLeft,
       heroEnvelope,
       heroLockClosed,
       heroEye,
