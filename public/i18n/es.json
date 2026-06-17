@@ -895,6 +895,11 @@
   },
   "subscription": {
     "plans": {
+      "names": {
+        "basic": "Basic",
+        "professional": "Professional",
+        "enterprise": "Enterprise"
+      },
       "basic": {
         "description": "Plan esencial para clínicas pequeñas que necesitan monitoreo, gestión de personal y control básico de riesgos."
       },
@@ -914,118 +919,7 @@
           "doctor-health": "Vista de salud del médico",
           "shift-management": "Gestión de turnos",
           "email-invitations": "Invitaciones por correo"
-        },
-        "basic": {
-          "doctors": "Hasta 30 médicos activos",
-          "supervisors": "Hasta 6 supervisores clínicos",
-          "teams": "Hasta 6 equipos clínicos activos",
-          "work-areas": "Hasta 6 áreas de trabajo",
-          "invitations": "Hasta 80 invitaciones mensuales",
-          "risk-assessment": "Evaluación básica de riesgo",
-          "clinical-alerts": "Alertas clínicas esenciales",
-          "reports": "Reportes básicos",
-          "history": "Historial de datos de 45 días",
-          "support": "Soporte estándar"
-        },
-        "professional": {
-          "doctors": "Hasta 120 médicos activos",
-          "supervisors": "Hasta 25 supervisores clínicos",
-          "teams": "Hasta 25 equipos clínicos activos",
-          "work-areas": "Hasta 15 áreas de trabajo",
-          "invitations": "Hasta 350 invitaciones mensuales",
-          "admin-dashboard": "Dashboard administrativo completo",
-          "staff-management": "Gestión completa de personal",
-          "team-management": "Gestión completa de equipos",
-          "risk-assessment": "Evaluación avanzada de riesgo",
-          "clinical-alerts": "Alertas clínicas completas",
-          "anomalies": "Detección de anomalías biométricas",
-          "preventive-actions": "Acciones preventivas",
-          "doctor-recovery": "Seguimiento de recuperación del médico",
-          "reports": "Reportes administrativos completos",
-          "audit": "Auditoría del sistema",
-          "history": "Historial de datos de 180 días",
-          "support": "Soporte prioritario"
-        },
-        "enterprise": {
-          "doctors": "Médicos ilimitados",
-          "supervisors": "Supervisores ilimitados",
-          "teams": "Equipos clínicos ilimitados",
-          "work-areas": "Áreas de trabajo ilimitadas",
-          "invitations": "Invitaciones ilimitadas",
-          "multi-site": "Multi-sede",
-          "admin-dashboard": "Dashboard administrativo avanzado",
-          "staff-management": "Gestión completa de personal",
-          "team-management": "Gestión avanzada de equipos",
-          "vital-signs": "Monitoreo completo de signos vitales",
-          "risk-assessment": "Evaluación avanzada de riesgo",
-          "clinical-alerts": "Alertas clínicas completas",
-          "anomalies": "Detección de anomalías biométricas",
-          "preventive-actions": "Acciones preventivas",
-          "doctor-recovery": "Seguimiento de recuperación del médico",
-          "shift-management": "Gestión completa de turnos",
-          "reports": "Reportes avanzados",
-          "audit": "Auditoría completa",
-          "history": "Historial extendido de 2 años",
-          "integrations": "Integraciones externas",
-          "api": "API empresarial",
-          "hospital-systems": "Integración con sistemas hospitalarios",
-          "payment-gateways": "Integración con pasarelas de pago",
-          "data-export": "Exportación avanzada de datos",
-          "custom-setup": "Configuración personalizada",
-          "support": "Soporte dedicado",
-          "implementation": "Asistencia de implementación"
         }
-      }
-    },
-    "admin": {
-      "title": "Suscripción",
-      "subtitle-before": "Gestiona el",
-      "subtitle-highlight": "plan activo",
-      "subtitle-after": "del centro médico.",
-      "current-title": "Plan actual",
-      "current-subtitle": "Información de la suscripción activa del centro médico.",
-      "available-title": "Planes disponibles",
-      "available-subtitle": "Puedes simular un cambio de plan para la demo.",
-      "history-title": "Historial de pagos",
-      "history-subtitle": "Sesiones de checkout registradas para la organización.",
-      "active-plan": "Plan activo",
-      "plan-code": "Código del plan",
-      "started-at": "Inicio",
-      "last-checkout": "Último pago",
-      "change-plan": "Cambiar plan",
-      "no-subscription": "No se encontró una suscripción activa.",
-      "no-available-plans": "No hay otros planes disponibles.",
-      "no-history": "No hay historial de pagos registrado.",
-      "metrics": {
-        "current-plan": "Plan actual",
-        "status": "Estado",
-        "monthly-cost": "Costo mensual",
-        "checkout-history": "Pagos registrados"
-      },
-      "billing": {
-        "monthly": "mes",
-        "yearly": "año"
-      },
-      "status": {
-        "active": "Activo",
-        "past-due": "Pago pendiente",
-        "cancelled": "Cancelado"
-      },
-      "checkout-status": {
-        "completed": "Completado",
-        "pending": "Pendiente",
-        "failed": "Fallido"
-      },
-      "table": {
-        "date": "Fecha",
-        "plan": "Plan",
-        "status": "Estado",
-        "session": "Sesión"
-      },
-      "error": {
-        "no-session": "No se encontró una sesión activa.",
-        "load-failed": "No se pudo cargar la suscripción.",
-        "change-plan-failed": "No se pudo cambiar el plan."
       }
     },
     "registration": {
@@ -1049,10 +943,15 @@
       "phone": "Teléfono",
       "password": "Contraseña",
       "first-name-placeholder": "Ej: Marcelo",
-      "last-name-placeholder": "Ej: Administrador",
+      "last-name-placeholder": "Ej: Ramírez",
       "email-placeholder": "admin@hospital.com",
-      "phone-placeholder": "+51 999 999 999",
+      "phone-placeholder": "999 999 999",
       "password-placeholder": "Mínimo 6 caracteres",
+      "confirm-password": "Confirmar contraseña",
+      "confirm-password-placeholder": "Repite tu contraseña",
+      "toggle-password": "Mostrar u ocultar contraseña",
+      "toggle-confirm-password": "Mostrar u ocultar confirmación de contraseña",
+      "back-landing": "Volver a la landing",
       "back-login": "Volver al inicio de sesión",
       "pay-and-create": "Pagar y crear cuenta",
       "processing": "Procesando...",
@@ -1060,28 +959,9 @@
       "error": {
         "plan-not-found": "No se encontró el plan seleccionado.",
         "load-plans-failed": "No se pudieron cargar los planes.",
-        "create-failed": "No se pudo completar el registro de la organización."
+        "create-failed": "No se pudo completar el registro de la organización.",
+        "passwords-mismatch": "Las contraseñas no coinciden."
       }
-    },
-    "checkoutSuccess": {
-      "title": "Pago completado",
-      "subtitle": "El centro médico y la cuenta administradora fueron creados correctamente. Ya puedes iniciar sesión con las credenciales registradas.",
-      "go-login": "Ir al inicio de sesión"
-    },
-    "checkoutCancelled": {
-      "title": "Pago cancelado",
-      "subtitle": "El proceso de pago fue cancelado o no se completó. Puedes volver a intentarlo cuando desees.",
-      "go-login": "Volver al inicio",
-      "try-again": "Intentar nuevamente"
-    },
-    "limits": {
-      "doctors-exceeded": "Has alcanzado el límite de médicos activos permitido por tu plan.",
-      "supervisors-exceeded": "Has alcanzado el límite de supervisores clínicos permitido por tu plan.",
-      "teams-exceeded": "Has alcanzado el límite de equipos activos permitido por tu plan.",
-      "work-areas-exceeded": "Has alcanzado el límite de áreas de trabajo permitido por tu plan.",
-      "invitations-exceeded": "Has alcanzado el límite de invitaciones mensuales permitido por tu plan.",
-      "module-not-available": "Este módulo no está disponible en tu plan actual.",
-      "generic-exceeded": "Has alcanzado el límite permitido por tu plan."
     }
   },
   "settings": {

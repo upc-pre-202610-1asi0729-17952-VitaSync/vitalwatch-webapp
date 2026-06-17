@@ -41,8 +41,67 @@
     margin: 18px 0 0;
     color: #363b46;
     font-size: 0.9rem;
-
 }
+
+/* Back button */
+
+.landing-back-button {
+    position: fixed;
+    top: 28px;
+    left: 28px;
+    z-index: 100;
+
+    width: 52px;
+    height: 52px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 16px;
+    border: 1px solid rgba(219, 231, 255, 0.95);
+    background: #ffffff;
+
+    color: #2563eb;
+    text-decoration: none;
+
+    box-shadow: 0 14px 34px rgba(37, 99, 235, 0.14);
+    transition: all 0.2s ease;
+}
+
+.landing-back-button ng-icon {
+    width: 24px;
+    height: 24px;
+    font-size: 24px;
+    color: currentColor;
+}
+
+::ng-deep .landing-back-button ng-icon svg {
+    stroke-width: 2.6;
+}
+
+.landing-back-button:hover {
+    color: #ffffff;
+    background: #2563eb;
+    border-color: #2563eb;
+    transform: translateY(-1px);
+    box-shadow: 0 18px 38px rgba(37, 99, 235, 0.24);
+}
+
+.landing-back-button:active {
+    transform: translateY(0);
+}
+
+/* Language switcher wrapper */
+
+.registration-language-switcher {
+    position: fixed;
+    top: 28px;
+    right: 28px;
+    z-index: 100;
+}
+
+/* Plan summary */
 
 .plan-summary {
     margin-bottom: 26px;
@@ -71,7 +130,7 @@
 
 .plan-summary p {
     margin: 8px 0 0;
-    color: #667085;
+    color: #e8f3ff;
 }
 
 .plan-summary strong {
@@ -85,6 +144,8 @@
     color: #f2f9fc;
     font-size: 0.9rem;
 }
+
+/* Form */
 
 .registration-form {
     display: grid;
@@ -121,6 +182,7 @@
 }
 
 .field input {
+    width: 100%;
     min-height: 54px;
     padding: 0 16px;
     border: 1px solid #d7e0ec;
@@ -140,6 +202,137 @@
 .field input::placeholder {
     color: #b8c6d8;
 }
+
+/* Phone with +51 prefix */
+
+.phone-control {
+    min-height: 54px;
+    display: flex;
+    align-items: center;
+    border: 1px solid #d7e0ec;
+    border-radius: 14px;
+    background: #ffffff;
+    overflow: hidden;
+    transition: all 0.2s ease;
+}
+
+.phone-control:focus-within {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+}
+
+.phone-prefix {
+    height: 54px;
+    padding: 0 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #2563eb;
+    background: rgba(37, 99, 235, 0.08);
+    border-right: 1px solid #d7e0ec;
+    font-weight: 900;
+    white-space: nowrap;
+}
+
+.phone-control input {
+    min-height: 52px;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.phone-control input:focus {
+    border: 0;
+    box-shadow: none;
+}
+
+/* Password input with eye button */
+
+.password-control {
+    min-height: 54px;
+    display: flex;
+    align-items: center;
+    border: 1px solid #d7e0ec;
+    border-radius: 14px;
+    background: #ffffff;
+    overflow: hidden;
+    transition: all 0.2s ease;
+}
+
+.password-control:focus-within {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+}
+
+.password-control.invalid {
+    border-color: #ef4444;
+    box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1);
+}
+
+.password-control input {
+    min-height: 52px;
+    flex: 1;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.password-control input:focus {
+    border: 0;
+    box-shadow: none;
+}
+
+.password-toggle {
+    width: 54px;
+    height: 54px;
+    border: 0;
+    background: transparent;
+    color: #64748b;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: color 0.2s ease, background 0.2s ease;
+}
+
+.password-toggle:hover {
+    color: #2563eb;
+    background: rgba(37, 99, 235, 0.08);
+}
+
+.password-toggle ng-icon {
+    font-size: 21px;
+}
+
+/* Messages */
+
+.form-error,
+.form-success {
+    display: block;
+    margin-bottom: 16px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 800;
+}
+
+.form-error {
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.1);
+}
+
+.form-success {
+    color: #10b981;
+    background: rgba(16, 185, 129, 0.1);
+}
+
+.field-error {
+    color: #ef4444;
+    font-size: 0.78rem;
+    font-weight: 800;
+}
+
+/* Actions */
 
 .actions {
     display: flex;
@@ -186,29 +379,31 @@
     background: rgba(37, 99, 235, 0.08);
 }
 
-.form-error,
-.form-success {
-    display: block;
-    margin-bottom: 16px;
-    padding: 12px 14px;
-    border-radius: 12px;
-    font-size: 0.8rem;
-    font-weight: 800;
+.secondary-button:hover {
+    background: rgba(37, 99, 235, 0.14);
 }
 
-.form-error {
-    color: #ef4444;
-    background: rgba(239, 68, 68, 0.1);
-}
-
-.form-success {
-    color: #10b981;
-    background: rgba(16, 185, 129, 0.1);
-}
+/* Responsive */
 
 @media (max-width: 720px) {
+    .registration-page {
+        padding: 88px 16px 32px;
+    }
+
     .registration-card {
         padding: 24px;
+    }
+
+    .landing-back-button {
+        top: 20px;
+        left: 20px;
+        width: 48px;
+        height: 48px;
+    }
+
+    .registration-language-switcher {
+        top: 20px;
+        right: 20px;
     }
 
     .form-row {
@@ -218,6 +413,10 @@
     .plan-summary,
     .actions {
         flex-direction: column;
+    }
+
+    .plan-summary {
+        align-items: flex-start;
     }
 
     .primary-button,

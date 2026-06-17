@@ -1,4 +1,13 @@
 <section class="registration-page">
+    <a class="landing-back-button" href="https://vitalwatch.space"
+        [attr.aria-label]="'subscription.registration.back-landing' | translate">
+        <ng-icon name="heroArrowLeft" />
+    </a>
+
+    <div class="registration-language-switcher">
+        <app-language-switcher />
+    </div>
+
     <article class="registration-card">
         <div class="header">
             <span>{{ 'subscription.registration.badge' | translate }}</span>
@@ -10,8 +19,8 @@
         <section class="plan-summary">
             <div>
                 <span>{{ 'subscription.registration.selected-plan' | translate }}</span>
-                <h2>{{ plan.name }}</h2>
-                <p>{{ plan.description }}</p>
+                <h2>{{ ('subscription.plans.names.' + plan.code) | translate }}</h2>
+                <p>{{ ('subscription.plans.' + plan.code + '.description') | translate }}</p>
             </div>
 
             <strong>
@@ -42,14 +51,20 @@
                 <div class="form-row">
                     <div class="field">
                         <label>{{ 'subscription.registration.ruc' | translate }}</label>
-                        <input type="text" formControlName="ruc" maxlength="11"
+                        <input type="text" inputmode="numeric" formControlName="ruc" maxlength="11"
+                            (input)="normalizeRucInput()"
                             [placeholder]="'subscription.registration.ruc-placeholder' | translate">
                     </div>
 
                     <div class="field">
                         <label>{{ 'subscription.registration.organization-phone' | translate }}</label>
-                        <input type="text" formControlName="organizationPhone"
-                            [placeholder]="'subscription.registration.phone-placeholder' | translate">
+
+                        <div class="phone-control">
+                            <span class="phone-prefix">+51</span>
+                            <input type="text" inputmode="numeric" formControlName="organizationPhone" maxlength="9"
+                                (input)="normalizePhoneInput('organizationPhone')"
+                                [placeholder]="'subscription.registration.phone-placeholder' | translate">
+                        </div>
                     </div>
                 </div>
 
@@ -86,15 +101,53 @@
 
                     <div class="field">
                         <label>{{ 'subscription.registration.phone' | translate }}</label>
-                        <input type="text" formControlName="phone"
-                            [placeholder]="'subscription.registration.phone-placeholder' | translate">
+
+                        <div class="phone-control">
+                            <span class="phone-prefix">+51</span>
+                            <input type="text" inputmode="numeric" formControlName="phone" maxlength="9"
+                                (input)="normalizePhoneInput('phone')"
+                                [placeholder]="'subscription.registration.phone-placeholder' | translate">
+                        </div>
                     </div>
                 </div>
 
-                <div class="field">
-                    <label>{{ 'subscription.registration.password' | translate }}</label>
-                    <input type="password" formControlName="password"
-                        [placeholder]="'subscription.registration.password-placeholder' | translate">
+                <div class="form-row">
+                    <div class="field">
+                        <label>{{ 'subscription.registration.password' | translate }}</label>
+
+                        <div class="password-control">
+                            <input [type]="passwordVisible() ? 'text' : 'password'" formControlName="password"
+                                [placeholder]="'subscription.registration.password-placeholder' | translate">
+
+                            <button type="button" class="password-toggle"
+                                [attr.aria-label]="'subscription.registration.toggle-password' | translate"
+                                (click)="togglePasswordVisibility()">
+                                <ng-icon [name]="passwordVisible() ? 'heroEyeSlash' : 'heroEye'" />
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label>{{ 'subscription.registration.confirm-password' | translate }}</label>
+
+                        <div class="password-control" [class.invalid]="passwordsDoNotMatch()">
+                            <input [type]="confirmPasswordVisible() ? 'text' : 'password'"
+                                formControlName="confirmPassword"
+                                [placeholder]="'subscription.registration.confirm-password-placeholder' | translate">
+
+                            <button type="button" class="password-toggle"
+                                [attr.aria-label]="'subscription.registration.toggle-confirm-password' | translate"
+                                (click)="toggleConfirmPasswordVisibility()">
+                                <ng-icon [name]="confirmPasswordVisible() ? 'heroEyeSlash' : 'heroEye'" />
+                            </button>
+                        </div>
+
+                        @if (passwordsDoNotMatch()) {
+                        <small class="field-error">
+                            {{ 'subscription.registration.error.passwords-mismatch' | translate }}
+                        </small>
+                        }
+                    </div>
                 </div>
             </section>
 
