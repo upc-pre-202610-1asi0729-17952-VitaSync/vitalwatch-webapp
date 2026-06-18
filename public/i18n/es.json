@@ -922,6 +922,51 @@
         }
       }
     },
+    "admin": {
+      "title": "Gestión de suscripción",
+      "subtitle-before": "Administra el",
+      "subtitle-highlight": "plan activo",
+      "subtitle-after": "de tu centro médico.",
+      "current-title": "Suscripción actual",
+      "current-subtitle": "Detalle del plan activo y estado de facturación.",
+      "available-title": "Planes disponibles",
+      "available-subtitle": "Cambia o actualiza el plan de tu organización.",
+      "history-title": "Historial de pagos",
+      "history-subtitle": "Revisa las sesiones de pago y cambios de plan realizados.",
+      "active-plan": "Plan activo",
+      "plan-code": "Código del plan",
+      "started-at": "Fecha de inicio",
+      "last-checkout": "Último pago",
+      "change-plan": "Cambiar plan",
+      "metrics": {
+        "current-plan": "Plan actual",
+        "status": "Estado",
+        "monthly-cost": "Costo mensual",
+        "checkout-history": "Pagos realizados"
+      },
+      "status": {
+        "active": "Activo",
+        "inactive": "Inactivo",
+        "pending": "Pendiente",
+        "cancelled": "Cancelado"
+      },
+      "billing": {
+        "monthly": "mensual",
+        "yearly": "anual"
+      },
+      "table": {
+        "date": "Fecha",
+        "plan": "Plan",
+        "status": "Estado",
+        "session": "Sesión"
+      },
+      "checkout-status": {
+        "completed": "Completado",
+        "pending": "Pendiente",
+        "failed": "Fallido",
+        "cancelled": "Cancelado"
+      }
+    },
     "registration": {
       "badge": "Registro de organización",
       "title": "Crear centro médico",
