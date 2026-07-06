@@ -1,33 +1,32 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, Observable, switchMap, throwError } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { AuthenticationSession } from '../../domain/model/authentication-session.entity';
 import { SignInRequest } from '../request/sign-in-request';
 import { AuthenticationUserResource } from '../responses/authentication-response';
 import { AuthenticationAssembler } from '../assemblers/authentication-assembler';
+import { UserResponse } from '../responses/user-response';
+import { UserAssembler } from '../assemblers/user-assembler';
+import { User } from '../../domain/model/user.entity';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthenticationApi {
   private http = inject(HttpClient);
 
-  private usersUrl = `${environment.platformProviderApiBaseUrl}${environment.usersEndpointPath}`;
+  private authenticationUrl = `${environment.platformProviderApiBaseUrl}/authentication`;
 
   signIn(request: SignInRequest): Observable<AuthenticationSession> {
     return this.http
-      .get<AuthenticationUserResource[]>(
-        `${this.usersUrl}?email=${request.email}&password=${request.password}`
-      )
-      .pipe(
-        switchMap(users => {
-          if (users.length === 0) {
-            return throwError(() => new Error('Invalid credentials'));
-          }
+      .post<AuthenticationUserResource>(`${this.authenticationUrl}/sign-in`, request)
+      .pipe(map((response) => AuthenticationAssembler.toSession(response)));
+  }
 
-          return [AuthenticationAssembler.toSession(users[0])];
-        })
-      );
+  getAuthenticatedUser(): Observable<User> {
+    return this.http
+      .get<UserResponse>(`${this.authenticationUrl}/me`)
+      .pipe(map((response) => UserAssembler.toEntity(response)));
   }
 }

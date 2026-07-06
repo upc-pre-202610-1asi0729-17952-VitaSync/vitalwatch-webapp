@@ -1,6 +1,6 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { provideIcons } from '@ng-icons/core';
@@ -42,21 +42,22 @@ import {
   heroInformationCircle,
   heroSparkles,
   heroArrowPath,
-  heroUserCircle
+  heroUserCircle,
 } from '@ng-icons/heroicons/outline';
 
 import { routes } from './app.routes';
+import { authTokenInterceptor } from './shared/infrastructure/http/auth-token.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideHttpClient(withFetch()),
+    provideHttpClient(withFetch(), withInterceptors([authTokenInterceptor])),
     provideTranslateService({
       loader: provideTranslateHttpLoader({
         prefix: './i18n/',
-        suffix: '.json'
+        suffix: '.json',
       }),
-      fallbackLang: 'es'
+      fallbackLang: 'es',
     }),
     provideIcons({
       heroArrowLeft,
@@ -96,8 +97,8 @@ export const appConfig: ApplicationConfig = {
       heroInformationCircle,
       heroSparkles,
       heroArrowPath,
-      heroUserCircle
+      heroUserCircle,
     }),
-    provideRouter(routes)
-  ]
+    provideRouter(routes),
+  ],
 };
