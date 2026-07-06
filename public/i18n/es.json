@@ -965,6 +965,14 @@
         "pending": "Pendiente",
         "failed": "Fallido",
         "cancelled": "Cancelado"
+      },
+      "no-history": "No hay historial de pagos registrado.",
+      "no-subscription": "No hay una suscripción activa.",
+      "no-available-plans": "No hay otros planes disponibles.",
+      "error": {
+        "load-failed": "No se pudo cargar la información de suscripción.",
+        "change-plan-failed": "No se pudo actualizar el plan.",
+        "no-session": "No se encontró una sesión activa para cambiar el plan."
       }
     },
     "registration": {

@@ -1038,6 +1038,14 @@
         "pending": "Pending",
         "failed": "Failed",
         "cancelled": "Cancelled"
+      },
+      "no-history": "There is no payment history yet.",
+      "no-subscription": "There is no active subscription.",
+      "no-available-plans": "There are no other plans available.",
+      "error": {
+        "load-failed": "Subscription information could not be loaded.",
+        "change-plan-failed": "The plan could not be updated.",
+        "no-session": "No active session was found to change the plan."
       }
     },
     "registration": {

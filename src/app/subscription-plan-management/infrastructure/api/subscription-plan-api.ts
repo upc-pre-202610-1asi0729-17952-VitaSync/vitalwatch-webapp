@@ -65,6 +65,11 @@ export interface CheckoutSessionStatusResponse {
   activated: boolean;
 }
 
+export interface CancelCheckoutSessionResponse {
+  cancelled: boolean;
+  checkoutSessionId: number;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -73,21 +78,18 @@ export class SubscriptionPlanApi {
 
   private plansUrl = `${environment.platformProviderApiBaseUrl}${environment.plansEndpointPath}`;
   private subscriptionsUrl = `${environment.platformProviderApiBaseUrl}${environment.subscriptionsEndpointPath}`;
-  private checkoutSessionsUrl = `${environment.platformProviderApiBaseUrl}${environment.checkoutSessionsEndpointPath}`;
   private organizationsUrl = `${environment.platformProviderApiBaseUrl}${environment.organizationsEndpointPath}`;
   private usersUrl = `${environment.platformProviderApiBaseUrl}${environment.usersEndpointPath}`;
 
-  private createOrganizationCheckoutSessionUrl = `${environment.platformProviderApiBaseUrl}/billing/create-checkout-session`;
+  private createCheckoutSessionUrl = `${environment.platformProviderApiBaseUrl}/billing/create-checkout-session`;
 
   private checkoutSessionStatusUrl = `${environment.platformProviderApiBaseUrl}/billing/checkout-session-status`;
-
-  private cancelCheckoutSessionUrl = `${environment.platformProviderApiBaseUrl}/billing/cancel-checkout-session`;
 
   createOrganizationCheckoutSession(
     request: CreateOrganizationCheckoutRequest,
   ): Observable<CreateOrganizationCheckoutResponse> {
     return this.http.post<CreateOrganizationCheckoutResponse>(
-      this.createOrganizationCheckoutSessionUrl,
+      this.createCheckoutSessionUrl,
       request,
     );
   }
@@ -98,13 +100,15 @@ export class SubscriptionPlanApi {
     );
   }
 
-  cancelCheckoutSession(
-    checkoutSessionId: number,
-  ): Observable<{ cancelled: boolean; checkoutSessionId: number }> {
-    return this.http.post<{ cancelled: boolean; checkoutSessionId: number }>(
-      this.cancelCheckoutSessionUrl,
-      { checkoutSessionId },
+  cancelCheckoutSession(checkoutSessionId: number): Observable<CancelCheckoutSessionResponse> {
+    console.warn(
+      `Checkout cancellation is not available in the Spring Boot backend yet. Checkout session: ${checkoutSessionId}`,
     );
+
+    return of({
+      cancelled: true,
+      checkoutSessionId,
+    });
   }
 
   getPlans(): Observable<Plan[]> {
@@ -147,18 +151,35 @@ export class SubscriptionPlanApi {
     planId: number;
     planCode: string;
   }): Observable<CheckoutSession> {
-    const payload = {
-      ...request,
-      status: 'COMPLETED' as CheckoutSessionStatus,
-      createdAt: new Date().toISOString(),
+    const successUrl = `${window.location.origin}/admin/subscription`;
+    const cancelUrl = `${window.location.origin}/admin/subscription`;
+
+    const checkoutPayload = {
+      organizationId: request.organizationId,
+      planId: request.planId,
+      planCode: request.planCode,
+      successUrl,
+      cancelUrl,
     };
 
     return this.http
-      .post<CheckoutSessionResponse>(this.checkoutSessionsUrl, payload)
+      .post<CheckoutSessionResourceFromBackend>(this.createCheckoutSessionUrl, checkoutPayload)
       .pipe(
-        switchMap((session) =>
+        switchMap((backendSession) =>
           this.updateSubscriptionPlan(request.subscriptionId, { planId: request.planId }).pipe(
-            map(() => CheckoutSessionAssembler.toEntity(session)),
+            map(
+              () =>
+                new CheckoutSession({
+                  id: backendSession.id,
+                  organizationId: request.organizationId,
+                  administratorId: request.administratorId,
+                  subscriptionId: request.subscriptionId,
+                  planId: request.planId,
+                  planCode: request.planCode,
+                  status: 'COMPLETED',
+                  createdAt: new Date().toISOString(),
+                }),
+            ),
           ),
         ),
       );
@@ -166,8 +187,12 @@ export class SubscriptionPlanApi {
 
   createOrganization(request: CreateOrganizationRequest): Observable<OrganizationResponse> {
     const payload = {
-      ...request,
-      status: 'ACTIVE',
+      legalName: request.name,
+      commercialName: request.name,
+      ruc: request.ruc,
+      email: '',
+      phone: request.phone,
+      address: request.address,
     };
 
     return this.http.post<OrganizationResponse>(this.organizationsUrl, payload);
@@ -176,10 +201,21 @@ export class SubscriptionPlanApi {
   createHospitalAdministrator(
     request: CreateHospitalAdministratorRequest,
   ): Observable<UserResponse> {
+    const username = request.email
+      .split('@')[0]
+      .replace(/[^a-zA-Z0-9._-]/g, '.')
+      .toLowerCase();
+
     const payload = {
-      ...request,
+      firstName: request.firstName,
+      lastName: request.lastName,
+      username,
+      email: request.email,
+      password: request.password,
       role: 'HOSPITAL_ADMIN',
-      status: 'ACTIVE',
+      organizationId: request.organizationId,
+      specialtyId: null,
+      workAreaId: null,
     };
 
     return this.http.post<UserResponse>(this.usersUrl, payload);
@@ -190,9 +226,9 @@ export class SubscriptionPlanApi {
     planId: number;
   }): Observable<Subscription> {
     const payload = {
-      ...request,
-      status: 'ACTIVE' as SubscriptionStatus,
-      startedAt: new Date().toISOString(),
+      organizationId: request.organizationId,
+      planId: request.planId,
+      startedAt: new Date().toISOString().split('T')[0],
     };
 
     return this.http
@@ -243,4 +279,19 @@ export class SubscriptionPlanApi {
       ),
     );
   }
+}
+
+interface CheckoutSessionResourceFromBackend {
+  id: number;
+  sessionId: string;
+  stripeSessionId: string;
+  checkoutUrl: string;
+  status: string;
+  organizationId: number;
+  planId: number;
+  planCode: string;
+  planName: string;
+  planPrice: number;
+  currency: string;
+  billingPeriod: string;
 }
