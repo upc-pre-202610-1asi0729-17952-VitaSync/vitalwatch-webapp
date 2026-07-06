@@ -71,7 +71,9 @@ export class InvitationApi {
       firstName: request.firstName,
       lastName: request.lastName,
       username,
-      password: request.password
+      password: request.password,
+      workAreaId: request.workAreaId,
+      specialtyId: request.specialtyId,
     };
 
     return this.http
