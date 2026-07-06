@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { Sidebar, SidebarMenuItem, SidebarProfile } from '../sidebar/sidebar';
 import { Topbar } from '../topbar/topbar';
@@ -23,46 +23,46 @@ const layoutConfig: Record<UserRole, AppLayoutConfig> = {
         label: 'navigation.general-summary',
         icon: 'heroSquares2x2',
         link: '/admin/dashboard',
-        exact: true
+        exact: true,
       },
       {
         label: 'navigation.staff',
         icon: 'heroUsers',
-        link: '/admin/staff'
+        link: '/admin/staff',
       },
       {
         label: 'navigation.teams',
         icon: 'heroUserGroup',
-        link: '/admin/teams'
+        link: '/admin/teams',
       },
       {
         label: 'navigation.invitations',
         icon: 'heroEnvelope',
-        link: '/admin/invitations'
+        link: '/admin/invitations',
       },
       {
         label: 'navigation.subscription',
         icon: 'heroCreditCard',
-        link: '/admin/subscription'
+        link: '/admin/subscription',
       },
       {
         label: 'navigation.reports',
         icon: 'heroDocumentText',
         link: '/admin/reports',
-        module: 'ADMIN_REPORTS'
+        module: 'ADMIN_REPORTS',
       },
       {
         label: 'navigation.audit',
         icon: 'heroShieldCheck',
         link: '/admin/audit',
-        module: 'ADMIN_AUDIT'
+        module: 'ADMIN_AUDIT',
       },
       {
         label: 'navigation.settings',
         icon: 'heroCog6Tooth',
-        link: '/admin/settings'
-      }
-    ]
+        link: '/admin/settings',
+      },
+    ],
   },
 
   SUPERVISOR: {
@@ -74,42 +74,42 @@ const layoutConfig: Record<UserRole, AppLayoutConfig> = {
         label: 'navigation.shift-summary',
         icon: 'heroSquares2x2',
         link: '/supervisor/dashboard',
-        exact: true
+        exact: true,
       },
       {
         label: 'navigation.risk-staff',
         icon: 'heroExclamationTriangle',
-        link: '/supervisor/risk-staff'
+        link: '/supervisor/risk-staff',
       },
       {
         label: 'navigation.clinical-alerts',
         icon: 'heroBell',
-        link: '/supervisor/clinical-alerts'
+        link: '/supervisor/clinical-alerts',
       },
       {
         label: 'navigation.anomalies',
         icon: 'heroBolt',
         link: '/supervisor/anomalies',
-        module: 'VITAL_SIGN_ANOMALIES'
+        module: 'VITAL_SIGN_ANOMALIES',
       },
       {
         label: 'navigation.preventive-actions',
         icon: 'heroClipboardDocumentCheck',
         link: '/supervisor/preventive-actions',
-        module: 'PREVENTIVE_ACTIONS'
+        module: 'PREVENTIVE_ACTIONS',
       },
       {
         label: 'navigation.team-shifts',
         icon: 'heroCalendarDays',
         link: '/supervisor/shifts',
-        module: 'SHIFT_MANAGEMENT'
+        module: 'SHIFT_MANAGEMENT',
       },
       {
         label: 'navigation.settings',
         icon: 'heroCog6Tooth',
-        link: '/supervisor/settings'
-      }
-    ]
+        link: '/supervisor/settings',
+      },
+    ],
   },
 
   DOCTOR: {
@@ -121,53 +121,51 @@ const layoutConfig: Record<UserRole, AppLayoutConfig> = {
         label: 'navigation.my-health-status',
         icon: 'heroSquares2x2',
         link: '/doctor/health',
-        exact: true
+        exact: true,
       },
       {
         label: 'navigation.my-vital-signs',
         icon: 'heroBolt',
-        link: '/doctor/vital-signs'
+        link: '/doctor/vital-signs',
       },
       {
         label: 'navigation.my-shifts',
         icon: 'heroCalendarDays',
-        link: '/doctor/shifts'
+        link: '/doctor/shifts',
       },
       {
         label: 'navigation.my-recovery',
         icon: 'heroHeart',
         link: '/doctor/recovery',
-        module: 'DOCTOR_RECOVERY'
+        module: 'DOCTOR_RECOVERY',
       },
       {
         label: 'navigation.settings',
         icon: 'heroCog6Tooth',
-        link: '/doctor/settings'
-      }
-    ]
-  }
+        link: '/doctor/settings',
+      },
+    ],
+  },
 };
 
 const avatarColors: Record<UserRole, string> = {
   HOSPITAL_ADMIN: '#2563eb',
   SUPERVISOR: '#7c3aed',
-  DOCTOR: '#11c7c7'
+  DOCTOR: '#11c7c7',
 };
 
 @Component({
   selector: 'app-app-layout',
-  imports: [
-    Sidebar,
-    Topbar,
-    RouterOutlet
-  ],
+  imports: [Sidebar, Topbar, RouterOutlet],
   templateUrl: './app-layout.html',
-  styleUrl: './app-layout.css'
+  styleUrl: './app-layout.css',
 })
 export class AppLayout implements OnInit {
   private router = inject(Router);
   private authenticationStore = inject(AuthenticationStore);
   private subscriptionAccessService = inject(SubscriptionAccessService);
+
+  protected isMobileSidebarOpen = signal(false);
 
   ngOnInit(): void {
     this.subscriptionAccessService.loadCurrentPlan().subscribe();
@@ -186,7 +184,7 @@ export class AppLayout implements OnInit {
         fullName: 'Usuario VitalWatch',
         email: 'usuario@vitalwatch.com',
         initials: 'VW',
-        avatarColor: '#2563eb'
+        avatarColor: '#2563eb',
       };
     }
 
@@ -194,11 +192,20 @@ export class AppLayout implements OnInit {
       fullName: user.fullName,
       email: user.email,
       initials: user.initials,
-      avatarColor: avatarColors[user.role]
+      avatarColor: avatarColors[user.role],
     };
   });
 
+  protected toggleMobileSidebar(): void {
+    this.isMobileSidebarOpen.update((isOpen) => !isOpen);
+  }
+
+  protected closeMobileSidebar(): void {
+    this.isMobileSidebarOpen.set(false);
+  }
+
   protected signOut(): void {
+    this.closeMobileSidebar();
     this.authenticationStore.signOut();
   }
 

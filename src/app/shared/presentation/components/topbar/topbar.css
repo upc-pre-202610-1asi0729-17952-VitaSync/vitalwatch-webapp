@@ -1,53 +1,164 @@
 .topbar {
-    width: 100%;
-    min-width: 0;
-    min-height: 76px;
-    padding: 14px 28px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 18px;
-    background: #ffffff;
-    border-bottom: 1px solid #dbe3ef;
-    box-sizing: border-box;
-    overflow: visible;
+  width: 100%;
+  min-width: 0;
+  min-height: 76px;
+  padding: 14px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  background: #ffffff;
+  border-bottom: 1px solid #dbe3ef;
+  box-sizing: border-box;
+}
+
+.topbar-main {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.menu-toggle-button {
+  display: none;
+  width: 42px;
+  height: 42px;
+  border: 0;
+  border-radius: 12px;
+  background: #eef3fb;
+  color: #0A296B;
+  font-size: 1.4rem;
+  font-weight: 900;
+  line-height: 1;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.menu-toggle-button:hover {
+  background: #e0e8f7;
 }
 
 .topbar-title {
-    min-width: 0;
-    flex: 1;
-    overflow: visible;
+  min-width: 0;
+  flex: 1;
 }
 
 .topbar-title h1 {
-    margin: 0;
-    padding-bottom: 3px;
-    max-width: 100%;
-    color: #4a4f54;
-    font-size: 1.55rem;
-    font-weight: 700;
-    line-height: 1.35;
-    letter-spacing: -0.045em;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  margin: 0;
+  padding-bottom: 3px;
+  max-width: 100%;
+  color: #4a4f54;
+  font-size: clamp(1.1rem, 2vw, 1.55rem);
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: -0.045em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .topbar-actions {
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    gap: 12px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
 }
 
-@media (max-width: 760px) {
-    .topbar {
-        min-height: 70px;
-        padding: 12px 18px;
-    }
+/* Cuando se reduce el ancho útil, por ejemplo al abrir DevTools */
+@media (max-width: 1180px) {
+  .topbar {
+    min-height: 72px;
+    padding: 12px 22px;
+    gap: 14px;
+  }
 
-    .topbar-title h1 {
-        font-size: 1.2rem;
-        line-height: 1.35;
-    }
+  .menu-toggle-button {
+    display: grid;
+    place-items: center;
+  }
+
+  .topbar-title h1 {
+    font-size: clamp(1rem, 2.6vw, 1.25rem);
+    line-height: 1.28;
+  }
+}
+
+/* Tablet / pantallas medianas */
+@media (max-width: 720px) {
+  .topbar {
+    align-items: center;
+    padding: 10px 14px;
+    gap: 12px;
+  }
+
+  .topbar-main {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .topbar-title h1 {
+    font-size: 1rem;
+  }
+
+  .topbar-actions {
+    flex-shrink: 0;
+  }
+}
+
+/* Celular */
+@media (max-width: 560px) {
+  .topbar {
+    padding: 10px 12px;
+    gap: 10px;
+  }
+
+  .topbar-main {
+    gap: 10px;
+  }
+
+  .menu-toggle-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 11px;
+    font-size: 1.35rem;
+  }
+
+  .topbar-title h1 {
+    font-size: 1rem;
+  }
+
+  .topbar-actions {
+    transform: scale(0.92);
+    transform-origin: right center;
+  }
+}
+
+/* Celular muy angosto */
+@media (max-width: 420px) {
+  .topbar {
+    gap: 8px;
+    padding: 9px 10px;
+  }
+
+  .topbar-main {
+    gap: 8px;
+  }
+
+  .menu-toggle-button {
+    width: 38px;
+    height: 38px;
+    font-size: 1.25rem;
+  }
+
+  .topbar-title h1 {
+    max-width: 100%;
+    font-size: 0.92rem;
+  }
+
+  .topbar-actions {
+    transform: scale(0.84);
+    transform-origin: right center;
+  }
 }

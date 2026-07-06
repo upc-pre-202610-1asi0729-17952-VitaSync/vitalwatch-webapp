@@ -1,12 +1,36 @@
 <div class="app-shell">
-    <app-sidebar [profile]="profile()" [menuTitle]="config().menuTitle" [menuItems]="config().menuItems"
-        (signOut)="signOut()" />
+  <div class="desktop-sidebar">
+    <app-sidebar
+      [profile]="profile()"
+      [menuTitle]="config().menuTitle"
+      [menuItems]="config().menuItems"
+      (signOut)="signOut()" />
+  </div>
 
-    <main class="main-shell">
-        <app-topbar />
+  <button
+    type="button"
+    class="mobile-sidebar-backdrop"
+    [class.open]="isMobileSidebarOpen()"
+    aria-label="Cerrar menú"
+    (click)="closeMobileSidebar()">
+  </button>
 
-        <section class="page-content">
-            <router-outlet />
-        </section>
-    </main>
+  <div
+    class="mobile-sidebar-panel"
+    [class.open]="isMobileSidebarOpen()"
+    (click)="closeMobileSidebar()">
+    <app-sidebar
+      [profile]="profile()"
+      [menuTitle]="config().menuTitle"
+      [menuItems]="config().menuItems"
+      (signOut)="signOut()" />
+  </div>
+
+  <main class="main-shell">
+    <app-topbar (menuToggle)="toggleMobileSidebar()" />
+
+    <section class="page-content">
+      <router-outlet />
+    </section>
+  </main>
 </div>

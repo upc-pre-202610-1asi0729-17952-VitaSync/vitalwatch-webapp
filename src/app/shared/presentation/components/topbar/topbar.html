@@ -1,9 +1,19 @@
 <header class="topbar">
-    <div class="topbar-title">
-        <h1>{{ greetingKey() | translate:greetingParams() }}</h1>
-    </div>
+  <div class="topbar-main">
+    <button
+      type="button"
+      class="menu-toggle-button"
+      aria-label="Abrir menú"
+      (click)="openMenu()">
+      ☰
+    </button>
 
-    <div class="topbar-actions">
-        <app-language-switcher />
+    <div class="topbar-title">
+      <h1>{{ greetingKey() | translate:greetingParams() }}</h1>
     </div>
+  </div>
+
+  <div class="topbar-actions">
+    <app-language-switcher />
+  </div>
 </header>

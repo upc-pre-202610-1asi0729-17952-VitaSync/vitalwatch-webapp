@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, EventEmitter, inject, OnInit, Output, signal } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { AuthenticationStore } from '../../../../iam/application/authentication.store';
 import { LanguageSwitcher } from '../language-switcher/language-switcher';
@@ -7,24 +7,21 @@ type UserRole = 'HOSPITAL_ADMIN' | 'SUPERVISOR' | 'DOCTOR';
 
 @Component({
   selector: 'app-topbar',
-  imports: [
-    TranslatePipe,
-    LanguageSwitcher
-  ],
+  imports: [TranslatePipe, LanguageSwitcher],
   templateUrl: './topbar.html',
-  styleUrl: './topbar.css'
+  styleUrl: './topbar.css',
 })
 export class Topbar implements OnInit {
   private authenticationStore = inject(AuthenticationStore);
 
-  protected currentUser = computed(() =>
-    this.authenticationStore.currentUser()
-  );
+  @Output() menuToggle = new EventEmitter<void>();
+
+  protected currentUser = computed(() => this.authenticationStore.currentUser());
 
   protected greetingKey = signal('layout.topbar.greetings.default.hello');
 
   protected greetingParams = computed(() => ({
-    name: this.currentUser()?.firstName ?? this.currentUser()?.fullName ?? 'usuario'
+    name: this.currentUser()?.firstName ?? this.currentUser()?.fullName ?? 'usuario',
   }));
 
   private readonly adminGreetingKeys = [
@@ -32,7 +29,7 @@ export class Topbar implements OnInit {
     'layout.topbar.greetings.admin.review-operation',
     'layout.topbar.greetings.admin.panel-ready',
     'layout.topbar.greetings.admin.staff-and-reports',
-    'layout.topbar.greetings.admin.center-status'
+    'layout.topbar.greetings.admin.center-status',
   ];
 
   private readonly supervisorGreetingKeys = [
@@ -40,7 +37,7 @@ export class Topbar implements OnInit {
     'layout.topbar.greetings.supervisor.alerts-and-risks',
     'layout.topbar.greetings.supervisor.care-team',
     'layout.topbar.greetings.supervisor.quick-review',
-    'layout.topbar.greetings.supervisor.preventive-work'
+    'layout.topbar.greetings.supervisor.preventive-work',
   ];
 
   private readonly doctorGreetingKeys = [
@@ -48,17 +45,21 @@ export class Topbar implements OnInit {
     'layout.topbar.greetings.doctor.review-status',
     'layout.topbar.greetings.doctor.care-rhythm',
     'layout.topbar.greetings.doctor.indicators-ready',
-    'layout.topbar.greetings.doctor.recovery-status'
+    'layout.topbar.greetings.doctor.recovery-status',
   ];
 
   private readonly fallbackGreetingKeys = [
     'layout.topbar.greetings.default.hello',
     'layout.topbar.greetings.default.ready',
-    'layout.topbar.greetings.default.continue'
+    'layout.topbar.greetings.default.continue',
   ];
 
   ngOnInit(): void {
     this.setRandomGreeting();
+  }
+
+  protected openMenu(): void {
+    this.menuToggle.emit();
   }
 
   private setRandomGreeting(): void {
@@ -77,7 +78,7 @@ export class Topbar implements OnInit {
     const greetings: Record<UserRole, string[]> = {
       HOSPITAL_ADMIN: this.adminGreetingKeys,
       SUPERVISOR: this.supervisorGreetingKeys,
-      DOCTOR: this.doctorGreetingKeys
+      DOCTOR: this.doctorGreetingKeys,
     };
 
     return greetings[role] ?? this.fallbackGreetingKeys;
