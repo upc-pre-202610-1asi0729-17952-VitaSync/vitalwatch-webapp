@@ -1,6 +1,6 @@
 import { UserRole } from './user.entity';
 
-export type InvitationStatus = 'PENDING' | 'ACCEPTED' | 'CANCELLED' | 'EXPIRED';
+export type InvitationStatus = 'PENDING' | 'SENT' | 'ACCEPTED' | 'CANCELLED' | 'EXPIRED';
 
 export class Invitation {
     private _id: number;
@@ -58,6 +58,6 @@ export class Invitation {
     }
 
     get isPending(): boolean {
-        return this._status === 'PENDING';
+        return this._status === 'PENDING' || this._status === 'SENT';
     }
 }

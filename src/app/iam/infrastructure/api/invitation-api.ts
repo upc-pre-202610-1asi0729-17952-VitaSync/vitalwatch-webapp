@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, Observable, switchMap } from 'rxjs';
+import { catchError, map, Observable, of } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { Invitation } from '../../domain/model/invitation.entity';
 import { InvitationResource } from '../responses/invitation-response';
@@ -29,13 +29,12 @@ export class InvitationApi {
 
   getInvitationByToken(token: string): Observable<Invitation | null> {
     return this.http
-      .get<InvitationResource[]>(`${this.invitationsUrl}?token=${token}`)
+      .get<InvitationResource>(
+        `${this.invitationsUrl}/by-token/${encodeURIComponent(token)}`
+      )
       .pipe(
-        map(responses =>
-          responses.length > 0
-            ? InvitationAssembler.toEntity(responses[0])
-            : null
-        )
+        map(response => InvitationAssembler.toEntity(response)),
+        catchError(() => of(null))
       );
   }
 
@@ -62,26 +61,33 @@ export class InvitationApi {
   }
 
   acceptInvitation(invitation: Invitation, request: AcceptInvitationRequest): Observable<Invitation> {
-    const userPayload = {
-      organizationId: invitation.organizationId,
+    const username = invitation.email
+      .split('@')[0]
+      .replace(/[^a-zA-Z0-9._-]/g, '.')
+      .toLowerCase();
+
+    const payload = {
+      token: invitation.token,
       firstName: request.firstName,
       lastName: request.lastName,
-      email: invitation.email,
-      password: request.password,
-      phone: request.phone,
-      workAreaId: request.workAreaId,
-      specialtyId: request.specialtyId,
-      role: invitation.role,
-      status: 'ACTIVE'
+      username,
+      password: request.password
     };
 
-    return this.http.post(this.usersUrl, userPayload).pipe(
-      switchMap(() =>
-        this.http.patch<InvitationResource>(`${this.invitationsUrl}/${invitation.id}`, {
-          status: 'ACCEPTED'
-        })
-      ),
-      map(response => InvitationAssembler.toEntity(response))
-    );
+    return this.http
+      .post(`${this.invitationsUrl}/accept`, payload)
+      .pipe(
+        map(() =>
+          new Invitation({
+            id: invitation.id,
+            organizationId: invitation.organizationId,
+            email: invitation.email,
+            role: invitation.role,
+            status: 'ACCEPTED',
+            token: invitation.token,
+            createdAt: invitation.createdAt
+          })
+        )
+      );
   }
 }
