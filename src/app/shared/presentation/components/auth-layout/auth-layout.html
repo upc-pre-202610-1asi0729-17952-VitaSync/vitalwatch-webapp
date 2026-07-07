@@ -14,40 +14,7 @@
           {{ (variant === 'register' ? 'auth.register-brand-description' : 'auth.brand-description') | translate }}
         </p>
       </div>
-
-      <div class="demo-card">
-        <p class="demo-title">
-          {{ (variant === 'register' ? 'auth.invited-emails-title' : 'auth.demo-title') | translate }}
-        </p>
-
-        @if (variant === 'register') {
-        <div class="demo-row">
-          <span>nuevo.medico&#64;vitalwatch.com</span>
-        </div>
-
-        <div class="demo-row">
-          <span>nuevo.supervisor&#64;vitalwatch.com</span>
-        </div>
-        } @else {
-        <div class="demo-row">
-          <span>admin&#64;vitalwatch.com</span>
-          <strong>admin123</strong>
-        </div>
-
-        <div class="demo-row">
-          <span>supervisor&#64;vitalwatch.com</span>
-          <strong>supervisor123</strong>
-        </div>
-
-        <div class="demo-row">
-          <span>doctor&#64;vitalwatch.com</span>
-          <strong>doctor123</strong>
-        </div>
-        }
-      </div>
-
     </div>
-
   </section>
 
   <section class="form-panel">

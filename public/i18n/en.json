@@ -5,7 +5,6 @@
   "auth": {
     "brand-title": "We care for those who care.",
     "brand-description": "Smart biometric monitoring and shift management to prevent medical burnout.",
-    "demo-title": "Demo credentials",
     "welcome": "Welcome back",
     "subtitle": "Sign in to access the platform",
     "email": "Email address",
@@ -44,7 +43,6 @@
     },
     "register-brand-title": "Join the intelligent healthcare platform.",
     "register-brand-description": "Complete your registration to access biometric monitoring and shift management.",
-    "invited-emails-title": "Invited emails",
     "register-title": "Create account",
     "register-subtitle": "Complete your registration to access monitoring and shift management.",
     "first-name": "First name",

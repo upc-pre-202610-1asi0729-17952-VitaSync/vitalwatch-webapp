@@ -5,7 +5,6 @@
   "auth": {
     "brand-title": "Cuidamos a quienes cuidan.",
     "brand-description": "Monitoreo biométrico inteligente y gestión de turnos para prevenir el agotamiento médico.",
-    "demo-title": "Credenciales demo",
     "welcome": "Bienvenido de nuevo",
     "subtitle": "Inicia sesión para acceder a la plataforma",
     "email": "Correo electrónico",
@@ -32,7 +31,6 @@
     },
     "register-brand-title": "Únete a la plataforma de salud inteligente.",
     "register-brand-description": "Completa tu registro para acceder al monitoreo biométrico y gestión de turnos.",
-    "invited-emails-title": "Correos invitados",
     "register-title": "Crear cuenta",
     "register-subtitle": "Completa tu registro para acceder al monitoreo y gestión de turnos.",
     "first-name": "Nombre",
