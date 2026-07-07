@@ -1,23 +1,41 @@
-<section class="result-page">
-    <article class="result-card">
-        <div class="result-icon warning">
-            <ng-icon name="heroExclamationTriangle" />
-        </div>
+<section class="checkout-result-page">
+  <article class="checkout-result-card">
+    <div class="checkout-result-icon cancelled">
+      <ng-icon name="heroExclamationTriangle" />
+    </div>
 
-        <h1>{{ 'subscription.checkoutCancelled.title' | translate }}</h1>
+    <h1 class="checkout-result-title">
+      {{ 'subscription.checkoutCancelled.title' | translate }}
+    </h1>
 
-        <p>
-            {{ 'subscription.checkoutCancelled.subtitle' | translate }}
-        </p>
+    <p class="checkout-result-subtitle">
+      {{ 'subscription.checkoutCancelled.subtitle' | translate }}
+    </p>
 
-        <div class="actions">
-            <button type="button" class="secondary-button" (click)="goToSignIn()">
-                {{ 'subscription.checkoutCancelled.go-login' | translate }}
-            </button>
+    <p class="checkout-result-message">
+      {{ 'subscription.checkoutCancelled.message' | translate }}
+    </p>
 
-            <button type="button" class="primary-button" (click)="tryAgain()">
-                {{ 'subscription.checkoutCancelled.try-again' | translate }}
-            </button>
-        </div>
-    </article>
+    @if (cancellingRegistration()) {
+      <p class="checkout-result-status">
+        {{ 'subscription.checkoutCancelled.cancelling' | translate }}
+      </p>
+    }
+
+    <div class="checkout-result-actions">
+      <button
+        type="button"
+        class="checkout-result-button secondary"
+        (click)="goToSignIn()">
+        {{ 'subscription.checkoutCancelled.go-login' | translate }}
+      </button>
+
+      <button
+        type="button"
+        class="checkout-result-button cancelled"
+        (click)="tryAgain()">
+        {{ 'subscription.checkoutCancelled.try-again' | translate }}
+      </button>
+    </div>
+  </article>
 </section>

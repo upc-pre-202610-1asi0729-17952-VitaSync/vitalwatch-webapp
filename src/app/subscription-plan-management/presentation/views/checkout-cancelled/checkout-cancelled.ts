@@ -7,12 +7,9 @@ import { SubscriptionPlanApi } from '../../../infrastructure/api/subscription-pl
 
 @Component({
   selector: 'app-checkout-cancelled',
-  imports: [
-    TranslatePipe,
-    NgIcon
-  ],
+  imports: [TranslatePipe, NgIcon],
   templateUrl: './checkout-cancelled.html',
-  styleUrl: './checkout-cancelled.css'
+  styleUrl: './checkout-cancelled.css',
 })
 export class CheckoutCancelled implements OnInit {
   private router = inject(Router);
@@ -22,25 +19,20 @@ export class CheckoutCancelled implements OnInit {
   protected cancellingRegistration = signal(false);
 
   ngOnInit(): void {
-    const checkoutSessionId = Number(
-      this.route.snapshot.queryParamMap.get('checkoutSessionId')
-    );
-
-    console.log('checkoutSessionId recibido:', checkoutSessionId);
+    const checkoutSessionId = Number(this.route.snapshot.queryParamMap.get('checkoutSessionId'));
 
     if (!checkoutSessionId) return;
 
     this.cancellingRegistration.set(true);
 
     this.subscriptionPlanApi.cancelCheckoutSession(checkoutSessionId).subscribe({
-      next: response => {
-        console.log('Cancelación exitosa:', response);
+      next: () => {
         this.cancellingRegistration.set(false);
       },
-      error: error => {
+      error: (error) => {
         console.error('CANCEL CHECKOUT SESSION ERROR:', error);
         this.cancellingRegistration.set(false);
-      }
+      },
     });
   }
 

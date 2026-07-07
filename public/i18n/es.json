@@ -920,6 +920,22 @@
         }
       }
     },
+    "checkoutSuccess": {
+      "title": "Pago recibido correctamente",
+      "subtitle": "Tu suscripción está siendo activada",
+      "message": "Tu pago fue recibido. La activación puede tardar unos segundos.",
+      "go-login": "Ir al inicio de sesión",
+      "go-dashboard": "Ir al panel principal"
+    },
+    "checkoutCancelled": {
+      "title": "Pago cancelado",
+      "subtitle": "No se completó el cambio de plan",
+      "message": "El proceso de pago fue cancelado. Puedes volver a intentarlo cuando desees.",
+      "cancelling": "Cancelando registro pendiente...",
+      "go-login": "Ir al inicio de sesión",
+      "go-subscription": "Volver a suscripción",
+      "try-again": "Intentar nuevamente"
+    },
     "admin": {
       "title": "Gestión de suscripción",
       "subtitle-before": "Administra el",

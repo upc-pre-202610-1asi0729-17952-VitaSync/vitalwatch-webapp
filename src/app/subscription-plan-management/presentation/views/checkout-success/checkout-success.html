@@ -1,29 +1,26 @@
-<section class="result-page">
-    <article class="result-card">
-        <div class="result-icon success">
-            <ng-icon name="heroCheckCircle" />
-        </div>
+<div class="checkout-result-page">
+  <div class="checkout-result-card">
+    <div class="checkout-result-icon success">
+      <span>✓</span>
+    </div>
 
-        <h1>{{ 'subscription.checkoutSuccess.title' | translate }}</h1>
+    <h1 class="checkout-result-title">
+      {{ 'subscription.checkoutSuccess.title' | translate }}
+    </h1>
 
-        <p>
-            {{ 'subscription.checkoutSuccess.subtitle' | translate }}
-        </p>
+    <p class="checkout-result-subtitle">
+      {{ 'subscription.checkoutSuccess.subtitle' | translate }}
+    </p>
 
-        @if (checkingPayment()) {
-        <p>Validando el pago con Stripe...</p>
-        }
+    <p class="checkout-result-message">
+      {{ 'subscription.checkoutSuccess.message' | translate }}
+    </p>
 
-        @if (activationMessage()) {
-        <p class="form-success">{{ activationMessage() }}</p>
-        }
-
-        @if (activationError()) {
-        <p class="form-error">{{ activationError() }}</p>
-        }
-
-        <button type="button" class="primary-button" (click)="goToSignIn()">
-            {{ 'subscription.checkoutSuccess.go-login' | translate }}
-        </button>
-    </article>
-</section>
+    <button
+      type="button"
+      class="checkout-result-button success"
+      (click)="goToLogin()">
+      {{ 'subscription.checkoutSuccess.go-login' | translate }}
+    </button>
+  </div>
+</div>

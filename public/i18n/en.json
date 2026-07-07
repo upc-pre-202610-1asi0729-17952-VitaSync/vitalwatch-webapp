@@ -1088,14 +1088,19 @@
       }
     },
     "checkoutSuccess": {
-      "title": "Payment completed",
-      "subtitle": "The medical center and administrator account were created successfully. You can now sign in with the registered credentials.",
-      "go-login": "Go to sign in"
+      "title": "Payment received successfully",
+      "subtitle": "Your subscription is being activated",
+      "message": "Your payment was received. Activation may take a few seconds.",
+      "go-login": "Go to sign in",
+      "go-dashboard": "Go to dashboard"
     },
     "checkoutCancelled": {
       "title": "Payment cancelled",
-      "subtitle": "The payment process was cancelled or was not completed. You can try again whenever you want.",
-      "go-login": "Back to sign in",
+      "subtitle": "The plan change was not completed",
+      "message": "The payment process was cancelled. You can try again whenever you want.",
+      "cancelling": "Cancelling pending registration...",
+      "go-login": "Go to sign in",
+      "go-subscription": "Back to subscription",
       "try-again": "Try again"
     },
     "limits": {
