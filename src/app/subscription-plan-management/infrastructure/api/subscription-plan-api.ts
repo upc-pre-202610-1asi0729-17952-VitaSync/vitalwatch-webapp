@@ -123,9 +123,19 @@ export class SubscriptionPlanApi {
     return this.http
       .get<SubscriptionResponse[]>(`${this.subscriptionsUrl}/organization/${organizationId}`)
       .pipe(
-        map((responses) =>
-          responses.length > 0 ? SubscriptionAssembler.toEntity(responses[0]) : null,
-        ),
+        map(responses => {
+          if (!responses.length) return null;
+
+          const activeSubscriptions = responses
+            .filter(response => response.status === 'ACTIVE')
+            .sort((first, second) => second.id - first.id);
+
+          const selectedSubscription =
+            activeSubscriptions[0] ??
+            [...responses].sort((first, second) => second.id - first.id)[0];
+
+          return SubscriptionAssembler.toEntity(selectedSubscription);
+        })
       );
   }
 
