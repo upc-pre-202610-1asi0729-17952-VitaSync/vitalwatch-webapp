@@ -176,7 +176,7 @@ export class ShiftCoordinationStore {
         this.loadingSignal.set(true);
         this.errorSignal.set(null);
 
-        this.iamStore.loadStaffData();
+      this.iamStore.loadCatalogData();
 
         this.shiftRecordApi.getShiftRecordsByUserId(
             currentUser.organizationId,

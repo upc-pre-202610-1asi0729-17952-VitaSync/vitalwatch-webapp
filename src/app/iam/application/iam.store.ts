@@ -110,6 +110,33 @@ export class IamStore {
         });
     }
 
+  loadCatalogData(): void {
+    const currentUser = this.authenticationStore.currentUser();
+
+    if (!currentUser) {
+      this.errorSignal.set('iam.staff.error.no-session');
+      return;
+    }
+
+    this.loadingSignal.set(true);
+    this.errorSignal.set(null);
+
+    forkJoin({
+      workAreas: this.catalogApi.getWorkAreasByOrganizationId(currentUser.organizationId),
+      specialties: this.catalogApi.getSpecialties()
+    }).subscribe({
+      next: ({ workAreas, specialties }) => {
+        this.workAreasSignal.set(workAreas);
+        this.specialtiesSignal.set(specialties);
+        this.loadingSignal.set(false);
+      },
+      error: () => {
+        this.errorSignal.set('auth.error.catalog-load-failed');
+        this.loadingSignal.set(false);
+      }
+    });
+  }
+
     loadInvitations(): void {
         const currentUser = this.authenticationStore.currentUser();
 

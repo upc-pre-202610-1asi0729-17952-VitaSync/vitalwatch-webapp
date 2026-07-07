@@ -8,13 +8,9 @@ import { User } from '../../../domain/model/user.entity';
 
 @Component({
   selector: 'app-account-settings',
-  imports: [
-    ReactiveFormsModule,
-    TranslatePipe,
-    NgIcon
-  ],
+  imports: [ReactiveFormsModule, TranslatePipe, NgIcon],
   templateUrl: './account-settings.html',
-  styleUrl: './account-settings.css'
+  styleUrl: './account-settings.css',
 })
 export class AccountSettings implements OnInit {
   private formBuilder = inject(NonNullableFormBuilder);
@@ -27,25 +23,22 @@ export class AccountSettings implements OnInit {
 
   protected successMessage = signal<string | null>(null);
 
-  protected loading = computed(() =>
-    this.localLoading() || this.iamStore.loading()
-  );
+  protected loading = computed(() => this.localLoading() || this.iamStore.loading());
 
-  protected errorMessage = computed(() =>
-    this.localErrorMessage() ?? this.iamStore.error()
-  );
+  protected errorMessage = computed(() => this.localErrorMessage() ?? this.iamStore.error());
 
-  protected currentUser = computed(() =>
-    this.savedUser() ?? this.authenticationStore.currentUser()
+  protected currentUser = computed(
+    () => this.savedUser() ?? this.authenticationStore.currentUser(),
   );
 
   protected form = this.formBuilder.group({
     firstName: ['', [Validators.required]],
     lastName: ['', [Validators.required]],
-    email: ['', [Validators.required, Validators.email]]
+    email: ['', [Validators.required, Validators.email]],
   });
 
   ngOnInit(): void {
+    this.iamStore.clearError();
     this.loadUserData();
   }
 
@@ -67,29 +60,31 @@ export class AccountSettings implements OnInit {
     this.localErrorMessage.set(null);
     this.iamStore.clearError();
 
-    this.iamStore.updateUserProfile(user.id, {
-      firstName: this.form.controls.firstName.value,
-      lastName: this.form.controls.lastName.value,
-      email: this.form.controls.email.value
-    }).subscribe({
-      next: updatedUser => {
-        this.savedUser.set(updatedUser);
-        this.authenticationStore.updateCurrentUser(updatedUser);
-        this.successMessage.set('settings.account.success');
-        this.localLoading.set(false);
-      },
-      error: () => {
-        this.localErrorMessage.set('settings.account.error.update-failed');
-        this.localLoading.set(false);
-      }
-    });
+    this.iamStore
+      .updateUserProfile(user.id, {
+        firstName: this.form.controls.firstName.value,
+        lastName: this.form.controls.lastName.value,
+        email: this.form.controls.email.value,
+      })
+      .subscribe({
+        next: (updatedUser) => {
+          this.savedUser.set(updatedUser);
+          this.authenticationStore.updateCurrentUser(updatedUser);
+          this.successMessage.set('settings.account.success');
+          this.localLoading.set(false);
+        },
+        error: () => {
+          this.localErrorMessage.set('settings.account.error.update-failed');
+          this.localLoading.set(false);
+        },
+      });
   }
 
   protected getRoleLabel(role: string): string {
     const labels: Record<string, string> = {
       HOSPITAL_ADMIN: 'settings.account.roles.admin',
       SUPERVISOR: 'settings.account.roles.supervisor',
-      DOCTOR: 'settings.account.roles.doctor'
+      DOCTOR: 'settings.account.roles.doctor',
     };
 
     return labels[role] ?? role;
@@ -99,7 +94,7 @@ export class AccountSettings implements OnInit {
     const labels: Record<string, string> = {
       ACTIVE: 'settings.account.status.active',
       INACTIVE: 'settings.account.status.inactive',
-      PENDING: 'settings.account.status.pending'
+      PENDING: 'settings.account.status.pending',
     };
 
     return labels[status] ?? status;
@@ -120,7 +115,7 @@ export class AccountSettings implements OnInit {
     this.form.setValue({
       firstName: user.firstName,
       lastName: user.lastName,
-      email: user.email
+      email: user.email,
     });
   }
 }

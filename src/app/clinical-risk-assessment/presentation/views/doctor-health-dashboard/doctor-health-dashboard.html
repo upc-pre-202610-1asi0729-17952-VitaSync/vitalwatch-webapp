@@ -102,7 +102,7 @@
         </div>
 
         <div class="recommendations-list">
-            @for (recommendation of recommendations(); track recommendation) {
+          @for (recommendation of recommendations(); track $index) {
             <div class="recommendation-item">
                 <div class="recommendation-icon">
                     <ng-icon name="heroCheckCircle" />
