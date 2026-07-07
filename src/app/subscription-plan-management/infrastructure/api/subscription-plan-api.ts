@@ -90,9 +90,18 @@ export class SubscriptionPlanApi {
   createOrganizationCheckoutSession(
     request: CreateOrganizationCheckoutRequest,
   ): Observable<CreateOrganizationCheckoutResponse> {
+    const successUrl = `${window.location.origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`;
+    const cancelUrl = `${window.location.origin}/checkout/cancelled?plan=${encodeURIComponent(request.planCode)}`;
+
+    const payload = {
+      ...request,
+      successUrl,
+      cancelUrl,
+    };
+
     return this.http.post<CreateOrganizationCheckoutResponse>(
       this.createCheckoutSessionUrl,
-      request,
+      payload,
     );
   }
 
@@ -123,11 +132,11 @@ export class SubscriptionPlanApi {
     return this.http
       .get<SubscriptionResponse[]>(`${this.subscriptionsUrl}/organization/${organizationId}`)
       .pipe(
-        map(responses => {
+        map((responses) => {
           if (!responses.length) return null;
 
           const activeSubscriptions = responses
-            .filter(response => response.status === 'ACTIVE')
+            .filter((response) => response.status === 'ACTIVE')
             .sort((first, second) => second.id - first.id);
 
           const selectedSubscription =
@@ -135,18 +144,16 @@ export class SubscriptionPlanApi {
             [...responses].sort((first, second) => second.id - first.id)[0];
 
           return SubscriptionAssembler.toEntity(selectedSubscription);
-        })
+        }),
       );
   }
 
   getCheckoutSessionsByOrganizationId(organizationId: number): Observable<CheckoutSession[]> {
     return this.http
-      .get<CheckoutSessionResponse[]>(
-        `${this.checkoutSessionsUrl}?organizationId=${organizationId}`
-      )
-      .pipe(
-        map(responses => CheckoutSessionAssembler.toEntities(responses))
-      );
+      .get<
+        CheckoutSessionResponse[]
+      >(`${this.checkoutSessionsUrl}?organizationId=${organizationId}`)
+      .pipe(map((responses) => CheckoutSessionAssembler.toEntities(responses)));
   }
 
   updateSubscriptionPlan(
