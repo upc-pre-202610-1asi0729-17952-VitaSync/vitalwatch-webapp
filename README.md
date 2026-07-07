@@ -1,220 +1,101 @@
 # VitalWatch WebApp
 
-VitalWatch WebApp is an Angular-based healthcare platform designed to support medical centers in monitoring staff fatigue, managing clinical teams, coordinating shifts, tracking biometric indicators, and preventing medical burnout through risk assessment and preventive recovery actions.
+VitalWatch WebApp is the Angular frontend for the VitalWatch Platform, a hospital fatigue-monitoring system designed to help healthcare organizations supervise medical staff, evaluate clinical risk, manage shifts, track recovery actions, and review operational activity.
 
-The project follows a **Domain-Driven Design (DDD)** and **Clean Architecture** approach, organizing the application by bounded contexts and separating responsibilities across domain, application, infrastructure, and presentation layers.
+This frontend is integrated with the VitalWatch Spring Boot backend.
 
 ---
 
-## Main Features
+## Project Information
 
-- Authentication and role-based access control.
-- Hospital administrator, clinical supervisor, and doctor dashboards.
-- Staff management by organization.
-- Invitation-based user registration.
-- Clinical team creation and member assignment.
-- Shift coordination for doctors and supervisors.
-- Supervisor shift assignment for assigned medical staff.
-- Doctor shift check-in and check-out.
-- Fatigue and clinical risk assessment.
-- Vital signs monitoring.
-- Clinical alerts and biometric anomaly review.
-- Preventive recovery actions.
-- Subscription and plan management.
-- Audit logs and administrative reports.
-- Internationalization support for English and Spanish.
+```txt
+Project: VitalWatch WebApp
+Frontend: Angular
+Backend: Spring Boot
+Local frontend URL: http://localhost:4200
+Local backend URL: http://localhost:8080/api/v1
+```
 
 ---
 
 ## Tech Stack
 
-- Angular
-- TypeScript
-- Angular Material
-- RxJS
-- Signals
-- JSON Server
-- Node.js
-- ngx-translate
-- DDD / Clean Architecture
+```txt
+Angular
+TypeScript
+Angular Material
+RxJS
+Ngx Translate
+Ng Icons
+ApexCharts
+SCSS/CSS
+```
 
 ---
 
-## Project Architecture
+## Backend Integration
 
-The project is organized by bounded contexts:
+The frontend is connected to the real VitalWatch backend through the API base URL configured in:
 
 ```txt
-src/app/
-├── audit-compliance/
-├── clinical-risk-assessment/
-├── iam/
-├── shift-coordination/
-├── staff-recovery/
-├── subscription-plan-management/
-└── shared/
+src/environments/environment.development.ts
 ```
 
-Each bounded context follows this structure:
+Development API URL:
 
 ```txt
-bounded-context/
-├── application/
-│   └── bounded-context.store.ts
-├── domain/
-│   └── model/
-├── infrastructure/
-│   ├── api/
-│   ├── request/
-│   ├── responses/
-│   └── assemblers/
-└── presentation/
-    ├── bounded-context.routes.ts
-    └── views/
+http://localhost:8080/api/v1
 ```
 
----
-
-## Bounded Contexts
-
-### IAM
-
-Handles authentication, session management, invitations, user roles, staff management, account settings, and registration through invitation links.
-
-### Subscription & Plan Management
-
-Handles available plans, organization registration, administrator account creation, subscription status, checkout sessions, and module access control by plan.
-
-### Shift Coordination
-
-Handles clinical teams, team members, shift records, doctor attendance, supervisor shift assignment, and shift status updates.
-
-### Clinical Risk Assessment
-
-Handles fatigue levels, risk assessments, vital sign readings, clinical alerts, and biometric anomalies.
-
-### Staff Recovery
-
-Handles preventive actions assigned by supervisors and recovery tracking for doctors.
-
-### Audit & Compliance
-
-Handles audit logs, administrative reports, traceability, and operational indicators.
+The backend must be running before testing protected modules such as dashboards, staff management, teams, subscriptions, clinical alerts, shifts, and recovery actions.
 
 ---
 
-## User Roles
-
-The application supports three main roles:
+## Main Integrated Modules
 
 ```txt
-HOSPITAL_ADMIN
-SUPERVISOR
-DOCTOR
-```
-
-### Hospital Administrator
-
-Can manage staff, invitations, teams, subscription, reports, audit logs, and general organization data.
-
-### Clinical Supervisor
-
-Can review assigned staff, clinical alerts, anomalies, preventive actions, and assign shifts to doctors under their supervision.
-
-### Doctor
-
-Can review personal health status, vital signs, assigned shifts, and recovery actions.
-
----
-
-## Demo Credentials
-
-You can use the following demo accounts when running the local mock API:
-
-```txt
-Administrator
-Email: admin@vitalwatch.com
-Password: admin123
-
-Supervisor
-Email: supervisor@vitalwatch.com
-Password: supervisor123
-
-Doctor
-Email: doctor@vitalwatch.com
-Password: doctor123
+Authentication
+Admin Dashboard
+Staff Management
+Team Management
+Invitations
+Subscriptions
+Supervisor Dashboard
+Clinical Alerts
+Vital Sign Anomalies
+Preventive Actions
+Shift Management
+Doctor Health Dashboard
+Doctor Vital Signs
+Doctor Shifts
+Doctor Recovery
+Audit / Reports
+Settings
 ```
 
 ---
 
-## Prerequisites
+## Local Setup
 
-Make sure you have installed:
-
-- Node.js
-- npm
-- Angular CLI
-
-You can check your versions with:
-
-```bash
-node -v
-npm -v
-ng version
-```
-
----
-
-## Installation
-
-Clone the repository:
-
-```bash
-git clone <repository-url>
-cd vitalwatch-webapp
-```
-
-Install dependencies:
+### 1. Install dependencies
 
 ```bash
 npm install
 ```
 
----
-
-## Running the Mock API
-
-The project uses JSON Server as a local mock backend.
-
-Start the mock API:
+### 2. Run development server
 
 ```bash
-npm run mock
+npm start
 ```
 
-The API will run on:
-
-```txt
-http://localhost:3000
-```
-
-The mock database is located at:
-
-```txt
-server/db.json
-```
-
----
-
-## Running the Angular App
-
-Start the Angular development server:
+or:
 
 ```bash
-npm run start
+ng serve
 ```
 
-The app will run on:
+The app will be available at:
 
 ```txt
 http://localhost:4200
@@ -222,88 +103,93 @@ http://localhost:4200
 
 ---
 
-## Development Workflow
-
-Recommended workflow:
-
-```bash
-npm run mock
-npm run start
-```
-
-Use one terminal for the mock API and another terminal for the Angular app.
-
----
-
 ## Build
 
-To compile the application for production:
+To verify that the project compiles correctly:
 
 ```bash
 npm run build
 ```
 
-The production-ready files will be generated inside:
+The build output will be generated in the Angular output directory.
+
+---
+
+## Backend Setup
+
+Before running the frontend, start the backend from the Spring Boot project:
+
+```powershell
+cd C:\Users\JYONE\GitHub\vitalwatch-platform
+.\mvnw.cmd spring-boot:run
+```
+
+Swagger should be available at:
 
 ```txt
-dist/
+http://localhost:8080/api/v1/swagger-ui.html
 ```
 
 ---
 
-## Tests
+## Test Users
 
-To run unit tests:
+Use these users for local testing:
 
-```bash
-ng test
+### Hospital Administrator
+
+```txt
+Email: johan.admin@vitalwatch.pe
+Password: 123456789
 ```
 
-This verifies that the Angular testing setup works correctly and that the main application component can be created without dependency errors.
+### Supervisor
+
+```txt
+Email: luis.supervisor@vitalwatch.pe
+Password: 123456789
+```
+
+Alternative supervisor:
+
+```txt
+Email: andrea.supervisor@vitalwatch.pe
+Password: 123456789
+```
+
+### Doctor
+
+```txt
+Email: mateo.doctor@vitalwatch.pe
+Password: 123456789
+```
+
+Alternative doctors:
+
+```txt
+Email: camila.doctor@vitalwatch.pe
+Password: 123456789
+
+Email: valeria.doctor@vitalwatch.pe
+Password: 123456789
+```
 
 ---
 
-## Internationalization
+## Role-Based Routes
 
-The project supports English and Spanish translations.
-
-Translation files are located at:
-
-```txt
-src/assets/i18n/en.json
-src/assets/i18n/es.json
-```
-
----
-
-## Main Routes
-
-### Public Routes
-
-```txt
-/sign-in
-/accept-invitation
-/register-organization/basic
-/register-organization/professional
-/register-organization/enterprise
-/checkout/success
-/checkout/cancelled
-```
-
-### Administrator Routes
+### Admin
 
 ```txt
 /admin/dashboard
 /admin/staff
-/admin/invitations
 /admin/teams
+/admin/invitations
 /admin/subscription
-/admin/reports
-/admin/audit
 /admin/settings
 ```
 
-### Supervisor Routes
+### Supervisor
 
 ```txt
 /supervisor/dashboard
@@ -315,7 +201,7 @@ src/assets/i18n/es.json
 /supervisor/settings
 ```
 
-### Doctor Routes
+### Doctor
 
 ```txt
 /doctor/health
@@ -327,18 +213,208 @@ src/assets/i18n/es.json
 
 ---
 
-## Project Status
+## Important Backend Endpoints Used
 
-VitalWatch WebApp currently includes a complete frontend prototype with local mock data and modular architecture by bounded context. The application is ready to be connected to a real backend API while preserving the current DDD-based structure.
+### Authentication
+
+```txt
+POST /authentication/sign-in
+GET  /authentication/me
+```
+
+### Staff and Organizations
+
+```txt
+GET   /users
+GET   /users/{userId}
+PATCH /users/{userId}
+
+GET /organizations
+GET /workAreas
+GET /specialties
+```
+
+### Invitations
+
+```txt
+GET  /invitations
+GET  /invitations/by-token/{token}
+POST /invitations/send
+POST /invitations/accept
+```
+
+### Subscriptions and Billing
+
+```txt
+GET   /plans
+GET   /subscriptions/organization/{organizationId}
+PATCH /subscriptions/{subscriptionId}
+
+POST /billing/create-checkout-session
+GET  /billing/checkout-session-status
+POST /billing/activate-checkout-session
+
+GET /checkoutSessions?organizationId={organizationId}
+```
+
+### Shift Coordination
+
+```txt
+GET    /careTeams
+POST   /careTeams
+PATCH  /careTeams/{careTeamId}
+DELETE /careTeams/{careTeamId}
+
+GET    /teamMembers
+POST   /teamMembers
+DELETE /teamMembers/{teamMemberId}
+
+GET   /shiftRecords
+POST  /shiftRecords
+PATCH /shiftRecords/{shiftRecordId}
+```
+
+### Clinical Risk Assessment
+
+```txt
+GET   /riskAssessments
+GET   /clinicalAlerts
+PATCH /clinicalAlerts/{clinicalAlertId}
+
+GET   /vitalSignReadings
+GET   /vitalSignAnomalies
+PATCH /vitalSignAnomalies/{vitalSignAnomalyId}
+```
+
+### Staff Recovery
+
+```txt
+GET   /preventiveActions
+POST  /preventiveActions
+PATCH /preventiveActions/{preventiveActionId}
+```
 
 ---
 
-## Author
+## IoT Simulation
 
+The backend includes a clinical simulation endpoint that generates wearable biometric readings for doctors.
+
+Manual simulation endpoint:
+
+```txt
+POST /clinicalSimulation/tick?organizationId=1
+```
+
+This may generate:
+
+```txt
+Vital sign readings
+Risk assessments
+Clinical alerts
+Vital sign anomalies
+```
+
+After running the simulation several times, refresh the supervisor or doctor dashboards to see updated clinical data.
+
+---
+
+## Notes About Billing
+
+The current frontend is connected to the backend billing flow using simulated checkout sessions.
+
+Stripe real checkout is not enabled yet.
+
+Current flow:
+
+```txt
+POST /billing/create-checkout-session
+PATCH /subscriptions/{subscriptionId}
+GET /checkoutSessions?organizationId={organizationId}
+```
+
+Pending future improvement:
+
+```txt
+Real Stripe Checkout
+Stripe webhook
+Stripe payment status validation
+```
+
+Stripe secret keys must be configured only in the backend, never in Angular.
+
+---
+
+## Development Workflow
+
+The project uses a Git workflow based on:
+
+```txt
+master  -> stable branch
+develop -> integration branch
+feature/* or fix/* -> working branches
+```
+
+Recommended workflow:
+
+```bash
+git switch develop
+git pull origin develop
+git switch -c feature/example-branch
+```
+
+After finishing changes:
+
+```bash
+npm run build
+git status
+git add .
+git commit -m "type(scope): clear message"
+git push -u origin feature/example-branch
+```
+
+Then merge into `develop`.
+
+---
+
+## Conventional Commits Used
+
+Examples:
+
+```txt
+feat(iam): connect authentication to spring boot api
+fix(billing): align subscription page with backend contract
+fix(layout): improve responsive app shell navigation
+fix(iam): avoid staff loading on doctor views
+chore(auth): remove demo content from auth screens
+docs(frontend): document backend integration setup
+```
+
+---
+
+## Final Validation Checklist
+
+Before merging `develop` into `master`, verify:
+
+```txt
+npm run build passes
+Login works for admin, supervisor, and doctor
+No visible demo credentials remain
+Admin staff management works
+Admin team management works
+Admin invitations work
+Admin subscription page works
+Supervisor modules remain visible after refresh
+Supervisor alerts, anomalies, preventive actions, and shifts load correctly
+Doctor health, vital signs, shifts, and recovery pages load correctly
+No important red errors appear in the browser Network tab
+```
+
+---
+
+## Authors
+
+```txt
 VitalWatch Team
-
----
-
-## License
-
-This project is licensed under the MIT License.
+Universidad Peruana de Ciencias Aplicadas
+```
