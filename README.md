@@ -416,5 +416,5 @@ No important red errors appear in the browser Network tab
 
 ```txt
 VitalWatch Team
-Universidad Peruana de Ciencias Aplicadas
+Students from Universidad Peruana de Ciencias Aplicadas
 ```
