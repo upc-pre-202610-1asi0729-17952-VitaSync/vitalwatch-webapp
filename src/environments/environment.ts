@@ -1,6 +1,6 @@
 export const environment = {
     production: true,
-    platformProviderApiBaseUrl: 'https://mock-api-vitalwatch.azurewebsites.net/api/v1',
+  platformProviderApiBaseUrl: 'https://vitalwatch-platform.onrender.com/api/v1',
     plansEndpointPath: '/plans',
     organizationsEndpointPath: '/organizations',
     usersEndpointPath: '/users',
