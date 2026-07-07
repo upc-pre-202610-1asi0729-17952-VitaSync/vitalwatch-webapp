@@ -377,6 +377,14 @@ Then merge into `develop`.
 
 ---
 
+## Current Project Status
+
+The VitalWatch WebApp is currently integrated with the Spring Boot backend for local development. The main role-based modules for administrator, supervisor and doctor users are connected to backend endpoints and can be tested using the local API.
+
+The application is focused on validating the core workflow of the platform, including authentication, staff management, team management, subscriptions, clinical monitoring, shift coordination and recovery actions.
+
+Some production features, such as real Stripe checkout, production database configuration and full deployment validation, are considered future improvements.
+
 ## Conventional Commits Used
 
 Examples:
