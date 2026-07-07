@@ -7,6 +7,7 @@ import {
   adminIamRoutes,
   doctorIamRoutes,
   supervisorIamRoutes
+  
 } from './iam/presentation/iam.routes';
 import {
   adminShiftCoordinationRoutes,
@@ -25,6 +26,7 @@ import {
 import { adminAuditComplianceRoutes } from './audit-compliance/presentation/audit-compliance.routes';
 import { adminSubscriptionPlanManagementRoutes } from './subscription-plan-management/presentation/subscription-plan-management.routes';
 
+// Carga diferida de las rutas públicas relacionadas con autenticación.
 const iamRoutes = () =>
   import('./iam/presentation/iam.routes')
     .then(m => m.iamRoutes);
@@ -43,11 +45,13 @@ export const routes: Routes = [
     redirectTo: 'sign-in',
     pathMatch: 'full'
   },
+  // Rutas públicas del módulo IAM, como inicio de sesión y aceptación de invitaciones.
 
   {
     path: '',
     loadChildren: iamRoutes
   },
+  // Rutas públicas del proceso de onboarding, registro de organización y pago.
 
   {
     path: 'onboarding',
