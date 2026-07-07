@@ -85,6 +85,8 @@ export class SubscriptionPlanApi {
 
   private checkoutSessionStatusUrl = `${environment.platformProviderApiBaseUrl}/billing/checkout-session-status`;
 
+  private checkoutSessionsUrl = `${environment.platformProviderApiBaseUrl}/checkoutSessions`;
+
   createOrganizationCheckoutSession(
     request: CreateOrganizationCheckoutRequest,
   ): Observable<CreateOrganizationCheckoutResponse> {
@@ -128,11 +130,13 @@ export class SubscriptionPlanApi {
   }
 
   getCheckoutSessionsByOrganizationId(organizationId: number): Observable<CheckoutSession[]> {
-    console.warn(
-      `Checkout session history is not available in the Spring Boot backend yet. Organization: ${organizationId}`,
-    );
-
-    return of([]);
+    return this.http
+      .get<CheckoutSessionResponse[]>(
+        `${this.checkoutSessionsUrl}?organizationId=${organizationId}`
+      )
+      .pipe(
+        map(responses => CheckoutSessionAssembler.toEntities(responses))
+      );
   }
 
   updateSubscriptionPlan(
