@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import {
@@ -13,11 +13,13 @@ import {
   ApexTooltip,
   ApexXAxis,
   ApexYAxis,
-  NgApexchartsModule
+  NgApexchartsModule,
 } from 'ng-apexcharts';
+
 import { AuthenticationStore } from '../../../../iam/application/authentication.store';
 import { ClinicalRiskStore } from '../../../application/clinical-risk.store';
 import { RiskLevel } from '../../../domain/model/risk-assessment.entity';
+import { VitalSignReading } from '../../../domain/model/vital-sign-reading.entity';
 
 type LineChartOptions = {
   series: ApexAxisChartSeries;
@@ -48,273 +50,166 @@ type BarChartOptions = {
 @Component({
   selector: 'app-doctor-vital-signs',
   standalone: true,
-  imports: [
-    TranslatePipe,
-    DatePipe,
-    NgApexchartsModule
-  ],
+  imports: [TranslatePipe, DatePipe, NgApexchartsModule],
   templateUrl: './doctor-vital-signs.html',
-  styleUrl: './doctor-vital-signs.css'
+  styleUrl: './doctor-vital-signs.css',
 })
-
-export class DoctorVitalSigns implements OnInit {
+export class DoctorVitalSigns implements OnInit, OnDestroy {
   private authenticationStore = inject(AuthenticationStore);
   private clinicalRiskStore = inject(ClinicalRiskStore);
 
   private localErrorMessage = signal<string | null>(null);
+  private refreshTimerId: ReturnType<typeof setInterval> | null = null;
 
-  protected doctor = computed(() =>
-    this.authenticationStore.currentUser()
+  protected readonly refreshIntervalSeconds = 10;
+  protected readonly chartWindowSize = 20;
+  protected readonly tableWindowSize = 10;
+
+  protected doctor = computed(() => this.authenticationStore.currentUser());
+
+  protected readings = computed(() => this.clinicalRiskStore.vitalSignReadings());
+
+  protected loading = computed(() => this.clinicalRiskStore.loading());
+
+  protected errorMessage = computed(
+    () => this.localErrorMessage() ?? this.clinicalRiskStore.error(),
   );
 
-  protected readings = computed(() =>
-    this.clinicalRiskStore.vitalSignReadings()
-  );
+  protected chartReadings = computed(() => this.getRecentReadings(this.chartWindowSize));
 
-  protected loading = computed(() =>
-    this.clinicalRiskStore.loading()
-  );
-
-  protected errorMessage = computed(() =>
-    this.localErrorMessage() ?? this.clinicalRiskStore.error()
-  );
-
-  protected chartReadings = computed(() =>
-    [...this.readings()].slice(0, 7).reverse()
-  );
-
-  protected tableReadings = computed(() =>
-    [...this.readings()].slice(0, 7)
-  );
+  protected tableReadings = computed(() => this.getRecentReadings(this.tableWindowSize).reverse());
 
   protected cortisolChartOptions = computed<LineChartOptions>(() => {
     const readings = this.chartReadings();
+    const cortisolValues = readings.map((reading) => reading.cortisolLevel);
 
     return {
       series: [
         {
           name: 'Cortisol',
-          data: readings.map(reading => reading.cortisolLevel)
-        }
+          data: cortisolValues,
+        },
       ],
       chart: {
         type: 'line',
         height: 300,
         toolbar: { show: false },
         zoom: { enabled: false },
-        fontFamily: 'inherit'
+        fontFamily: 'inherit',
       },
       colors: ['#7c3aed'],
       stroke: {
         curve: 'smooth',
         width: 4,
-        lineCap: 'round'
+        lineCap: 'round',
       },
       markers: {
         size: 5,
         strokeWidth: 3,
         strokeColors: '#ffffff',
         colors: ['#7c3aed'],
-        hover: { size: 7 }
+        hover: { size: 7 },
       },
       dataLabels: { enabled: false },
-      grid: {
-        borderColor: '#e8eef7',
-        strokeDashArray: 0,
-        xaxis: { lines: { show: false } },
-        yaxis: { lines: { show: true } }
-      },
-      xaxis: {
-        categories: readings.map(reading => this.formatChartDay(reading.recordedAt)),
-        axisBorder: {
-          show: true,
-          color: '#dbe3ef'
-        },
-        axisTicks: { show: false },
-        labels: {
-          style: {
-            colors: '#8b9abb',
-            fontSize: '13px',
-            fontWeight: 800
-          }
-        }
-      },
-      yaxis: {
-        min: 350,
-        max: 650,
-        tickAmount: 3,
-        labels: {
-          style: {
-            colors: '#8b9abb',
-            fontSize: '13px',
-            fontWeight: 800
-          },
-          formatter: (value: number) => `${Math.round(value)}`
-        }
-      },
-      tooltip: {
-        y: {
-          formatter: (value: number) => `${value} nmol/L`
-        }
-      }
+      grid: this.buildGrid(),
+      xaxis: this.buildCleanXAxis(readings),
+      yaxis: this.buildDynamicYAxis(cortisolValues, 350, 650, 3, 10),
+      tooltip: this.buildTooltip(readings, (value) => `${Math.round(value)} nmol/L`),
     };
   });
 
   protected hrvChartOptions = computed<LineChartOptions>(() => {
     const readings = this.chartReadings();
+    const hrvValues = readings.map((reading) => reading.hrv);
 
     return {
       series: [
         {
           name: 'HRV',
-          data: readings.map(reading => reading.hrv)
-        }
+          data: hrvValues,
+        },
       ],
       chart: {
         type: 'line',
         height: 300,
         toolbar: { show: false },
         zoom: { enabled: false },
-        fontFamily: 'inherit'
+        fontFamily: 'inherit',
       },
       colors: ['#11c7c7'],
       stroke: {
         curve: 'smooth',
         width: 4,
-        lineCap: 'round'
+        lineCap: 'round',
       },
       markers: {
         size: 5,
         strokeWidth: 3,
         strokeColors: '#ffffff',
         colors: ['#11c7c7'],
-        hover: { size: 7 }
+        hover: { size: 7 },
       },
       dataLabels: { enabled: false },
-      grid: {
-        borderColor: '#e8eef7',
-        strokeDashArray: 0,
-        xaxis: { lines: { show: false } },
-        yaxis: { lines: { show: true } }
-      },
-      xaxis: {
-        categories: readings.map(reading => this.formatChartDay(reading.recordedAt)),
-        axisBorder: {
-          show: true,
-          color: '#dbe3ef'
-        },
-        axisTicks: { show: false },
-        labels: {
-          style: {
-            colors: '#8b9abb',
-            fontSize: '13px',
-            fontWeight: 800
-          }
-        }
-      },
-      yaxis: {
-        min: 15,
-        max: 45,
-        tickAmount: 3,
-        labels: {
-          style: {
-            colors: '#8b9abb',
-            fontSize: '13px',
-            fontWeight: 800
-          },
-          formatter: (value: number) => `${Math.round(value)}`
-        }
-      },
-      tooltip: {
-        y: {
-          formatter: (value: number) => `${value} ms`
-        }
-      }
+      grid: this.buildGrid(),
+      xaxis: this.buildCleanXAxis(readings),
+      yaxis: this.buildDynamicYAxis(hrvValues, 15, 75, 4, 5),
+      tooltip: this.buildTooltip(readings, (value) => `${Math.round(value)} ms`),
     };
   });
 
   protected heartRateChartOptions = computed<BarChartOptions>(() => {
     const readings = this.chartReadings();
+    const heartRateValues = readings.map((reading) => reading.heartRate);
 
     return {
       series: [
         {
           name: 'BPM',
-          data: readings.map(reading => {
+          data: readings.map((reading, index) => {
             const riskLevel = this.getHeartRateRiskLevel(reading.heartRate);
 
             return {
-              x: this.formatChartDay(reading.recordedAt),
+              x: `${index + 1}`,
               y: reading.heartRate,
-              fillColor: this.getHeartRateColor(riskLevel)
+              fillColor: this.getHeartRateColor(riskLevel),
             };
-          }) as any
-        }
+          }) as any,
+        },
       ],
       chart: {
         type: 'bar',
         height: 360,
         toolbar: { show: false },
         zoom: { enabled: false },
-        fontFamily: 'inherit'
+        fontFamily: 'inherit',
       },
       colors: ['#11c7c7'],
       plotOptions: {
         bar: {
           borderRadius: 10,
           columnWidth: '42%',
-          distributed: false
-        }
+          distributed: false,
+        },
       },
       dataLabels: { enabled: false },
       fill: { opacity: 1 },
-      grid: {
-        borderColor: '#e8eef7',
-        strokeDashArray: 0,
-        xaxis: { lines: { show: false } },
-        yaxis: { lines: { show: true } }
-      },
-      xaxis: {
-        axisBorder: {
-          show: true,
-          color: '#dbe3ef'
-        },
-        axisTicks: { show: false },
-        labels: {
-          style: {
-            colors: '#8b9abb',
-            fontSize: '14px',
-            fontWeight: 900
-          }
-        }
-      },
-      yaxis: {
-        min: 40,
-        max: 120,
-        tickAmount: 4,
-        labels: {
-          style: {
-            colors: '#8b9abb',
-            fontSize: '14px',
-            fontWeight: 900
-          },
-          formatter: (value: number) => `${Math.round(value)}`
-        }
-      },
-      tooltip: {
-        y: {
-          formatter: (value: number) => {
-            const riskLevel = this.getHeartRateRiskLevel(value);
-
-            return `${value} bpm · ${riskLevel}`;
-          }
-        }
-      }
+      grid: this.buildGrid(),
+      xaxis: this.buildHeartRateXAxis(readings),
+      yaxis: this.buildDynamicYAxis(heartRateValues, 40, 130, 4, 8),
+      tooltip: this.buildTooltip(readings, (value) => {
+        const riskLevel = this.getHeartRateRiskLevel(value);
+        return `${Math.round(value)} bpm · ${riskLevel}`;
+      }),
     };
   });
 
   ngOnInit(): void {
     this.loadVitalSigns();
+    this.startAutoRefresh();
+  }
+
+  ngOnDestroy(): void {
+    this.stopAutoRefresh();
   }
 
   protected getFatigueRiskLevel(fatigueLevel: number): RiskLevel {
@@ -330,7 +225,7 @@ export class DoctorVitalSigns implements OnInit {
       LOW: 'clinical.risk.low',
       MODERATE: 'clinical.risk.moderate',
       HIGH: 'clinical.risk.high',
-      CRITICAL: 'clinical.risk.critical'
+      CRITICAL: 'clinical.risk.critical',
     };
 
     return labels[riskLevel];
@@ -362,6 +257,30 @@ export class DoctorVitalSigns implements OnInit {
     this.clinicalRiskStore.loadVitalSignReadingsForCurrentDoctor();
   }
 
+  private startAutoRefresh(): void {
+    this.stopAutoRefresh();
+
+    this.refreshTimerId = setInterval(() => {
+      if (document.hidden) return;
+
+      this.loadVitalSigns();
+    }, this.refreshIntervalSeconds * 1000);
+  }
+
+  private stopAutoRefresh(): void {
+    if (!this.refreshTimerId) return;
+
+    clearInterval(this.refreshTimerId);
+    this.refreshTimerId = null;
+  }
+
+  private getRecentReadings(limit: number): VitalSignReading[] {
+    return [...this.readings()]
+      .filter((reading) => Boolean(reading.recordedAt))
+      .sort((a, b) => new Date(a.recordedAt).getTime() - new Date(b.recordedAt).getTime())
+      .slice(-limit);
+  }
+
   private getHeartRateRiskLevel(heartRate: number): RiskLevel {
     if (heartRate >= 120) return 'CRITICAL';
     if (heartRate >= 110) return 'HIGH';
@@ -375,18 +294,150 @@ export class DoctorVitalSigns implements OnInit {
       LOW: '#11c7c7',
       MODERATE: '#f59e0b',
       HIGH: '#f97316',
-      CRITICAL: '#ef4444'
+      CRITICAL: '#ef4444',
     };
 
     return colors[riskLevel];
   }
 
-  private formatChartDay(value: string): string {
-    const date = new Date(value);
-    const weekday = date
-      .toLocaleDateString('es-PE', { weekday: 'short' })
-      .replace('.', '');
+  private buildGrid(): ApexGrid {
+    return {
+      borderColor: '#e8eef7',
+      strokeDashArray: 0,
+      xaxis: { lines: { show: false } },
+      yaxis: { lines: { show: true } },
+    };
+  }
 
-    return `${weekday.charAt(0).toUpperCase()}${weekday.slice(1)} ${date.getDate()}`;
+  private buildCleanXAxis(readings: VitalSignReading[]): ApexXAxis {
+    return {
+      categories: readings.map((_, index) => `${index + 1}`),
+      axisBorder: {
+        show: true,
+        color: '#dbe3ef',
+      },
+      axisTicks: { show: false },
+      labels: {
+        show: false,
+      },
+      tooltip: {
+        enabled: false,
+      },
+    };
+  }
+
+  private buildHeartRateXAxis(readings: VitalSignReading[]): ApexXAxis {
+    const visibleLabelStep = Math.max(1, Math.ceil(readings.length / 6));
+
+    return {
+      categories: readings.map((_, index) => `${index + 1}`),
+      axisBorder: {
+        show: true,
+        color: '#dbe3ef',
+      },
+      axisTicks: { show: false },
+      labels: {
+        show: true,
+        rotate: 0,
+        trim: false,
+        hideOverlappingLabels: true,
+        style: {
+          colors: '#8b9abb',
+          fontSize: '12px',
+          fontWeight: 800,
+        },
+        formatter: (value: string) => {
+          const index = Number(value) - 1;
+
+          if (!Number.isInteger(index) || !readings[index]) return '';
+
+          const shouldShowLabel =
+            index === 0 || index === readings.length - 1 || index % visibleLabelStep === 0;
+
+          return shouldShowLabel ? this.formatAxisTime(readings[index].recordedAt) : '';
+        },
+      },
+      tooltip: {
+        enabled: false,
+      },
+    };
+  }
+
+  private buildTooltip(
+    readings: VitalSignReading[],
+    yFormatter: (value: number) => string,
+  ): ApexTooltip {
+    const fullTimeLabels = readings.map((reading) => this.formatTooltipTime(reading.recordedAt));
+
+    return {
+      x: {
+        formatter: (_value: number, options?: any) =>
+          fullTimeLabels[options?.dataPointIndex ?? 0] ?? '',
+      },
+      y: {
+        formatter: (value: number) => yFormatter(value),
+      },
+    };
+  }
+
+  private buildDynamicYAxis(
+    values: number[],
+    fallbackMin: number,
+    fallbackMax: number,
+    tickAmount: number,
+    minimumPadding: number,
+  ): ApexYAxis {
+    const numericValues = values.filter((value) => Number.isFinite(value));
+
+    if (!numericValues.length) {
+      return this.buildYAxis(fallbackMin, fallbackMax, tickAmount);
+    }
+
+    let minValue = Math.min(...numericValues);
+    let maxValue = Math.max(...numericValues);
+
+    if (minValue === maxValue) {
+      minValue -= minimumPadding;
+      maxValue += minimumPadding;
+    }
+
+    const padding = Math.max((maxValue - minValue) * 0.15, minimumPadding);
+    const min = Math.max(0, Math.floor(minValue - padding));
+    const max = Math.ceil(maxValue + padding);
+
+    return this.buildYAxis(min, max, tickAmount);
+  }
+
+  private buildYAxis(min: number, max: number, tickAmount: number): ApexYAxis {
+    return {
+      min,
+      max,
+      tickAmount,
+      labels: {
+        style: {
+          colors: '#8b9abb',
+          fontSize: '13px',
+          fontWeight: 800,
+        },
+        formatter: (value: number) => `${Math.round(value)}`,
+      },
+    };
+  }
+
+  private formatAxisTime(value: string): string {
+    return new Intl.DateTimeFormat('es-PE', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    }).format(new Date(value));
+  }
+
+  private formatTooltipTime(value: string): string {
+    return new Intl.DateTimeFormat('es-PE', {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+    }).format(new Date(value));
   }
 }
