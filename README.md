@@ -92,7 +92,7 @@ npm start
 or:
 
 ```bash
-ng serve
+ng serve --o
 ```
 
 The app will be available at:
