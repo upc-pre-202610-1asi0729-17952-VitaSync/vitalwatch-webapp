@@ -1,144 +1,148 @@
 <section class="page-header">
-    <h1>{{ 'clinical.vitalSigns.title' | translate }}</h1>
+  <h1>{{ 'clinical.vitalSigns.title' | translate }}</h1>
 
-    <p>
-        {{ 'clinical.vitalSigns.subtitle-before' | translate }}
-        <strong>{{ 'clinical.vitalSigns.subtitle-highlight' | translate }}</strong>
-        {{ 'clinical.vitalSigns.subtitle-after' | translate }}
-    </p>
+  <p>
+    {{ 'clinical.vitalSigns.subtitle-before' | translate }}
+    <strong>{{ 'clinical.vitalSigns.subtitle-highlight' | translate }}</strong>
+    {{ 'clinical.vitalSigns.subtitle-after' | translate }}
+  </p>
+
+  <span class="auto-refresh-pill">
+        {{ 'clinical.vitalSigns.auto-refresh' | translate:{ seconds: refreshIntervalSeconds } }}
+    </span>
 </section>
 
 @if (errorMessage()) {
-<small class="form-error">{{ errorMessage()! | translate }}</small>
+  <small class="form-error">{{ errorMessage()! | translate }}</small>
 }
 
 <section class="charts-grid">
-    <article class="content-card chart-card">
-        <div class="chart-header">
-            <h2>{{ 'clinical.vitalSigns.cortisol-chart-title' | translate }}</h2>
-            <span>{{ 'clinical.vitalSigns.cortisol-unit' | translate }}</span>
-        </div>
+  <article class="content-card chart-card">
+    <div class="chart-header">
+      <h2>{{ 'clinical.vitalSigns.cortisol-chart-title' | translate }}</h2>
+      <span>{{ 'clinical.vitalSigns.cortisol-unit' | translate }}</span>
+    </div>
 
-        <div class="apex-chart-wrapper">
-            <apx-chart [series]="cortisolChartOptions().series" [chart]="cortisolChartOptions().chart"
-                [xaxis]="cortisolChartOptions().xaxis" [yaxis]="cortisolChartOptions().yaxis"
-                [stroke]="cortisolChartOptions().stroke" [markers]="cortisolChartOptions().markers"
-                [dataLabels]="cortisolChartOptions().dataLabels" [grid]="cortisolChartOptions().grid"
-                [tooltip]="cortisolChartOptions().tooltip" [colors]="cortisolChartOptions().colors">
-            </apx-chart>
-        </div>
-    </article>
+    <div class="apex-chart-wrapper">
+      <apx-chart [series]="cortisolChartOptions().series" [chart]="cortisolChartOptions().chart"
+                 [xaxis]="cortisolChartOptions().xaxis" [yaxis]="cortisolChartOptions().yaxis"
+                 [stroke]="cortisolChartOptions().stroke" [markers]="cortisolChartOptions().markers"
+                 [dataLabels]="cortisolChartOptions().dataLabels" [grid]="cortisolChartOptions().grid"
+                 [tooltip]="cortisolChartOptions().tooltip" [colors]="cortisolChartOptions().colors">
+      </apx-chart>
+    </div>
+  </article>
 
-    <article class="content-card chart-card">
-        <div class="chart-header">
-            <h2>{{ 'clinical.vitalSigns.hrv-chart-title' | translate }}</h2>
-            <span>{{ 'clinical.vitalSigns.hrv-unit' | translate }}</span>
-        </div>
+  <article class="content-card chart-card">
+    <div class="chart-header">
+      <h2>{{ 'clinical.vitalSigns.hrv-chart-title' | translate }}</h2>
+      <span>{{ 'clinical.vitalSigns.hrv-unit' | translate }}</span>
+    </div>
 
-        <div class="apex-chart-wrapper">
-            <apx-chart [series]="hrvChartOptions().series" [chart]="hrvChartOptions().chart"
-                [xaxis]="hrvChartOptions().xaxis" [yaxis]="hrvChartOptions().yaxis" [stroke]="hrvChartOptions().stroke"
-                [markers]="hrvChartOptions().markers" [dataLabels]="hrvChartOptions().dataLabels"
-                [grid]="hrvChartOptions().grid" [tooltip]="hrvChartOptions().tooltip"
-                [colors]="hrvChartOptions().colors">
-            </apx-chart>
-        </div>
-    </article>
+    <div class="apex-chart-wrapper">
+      <apx-chart [series]="hrvChartOptions().series" [chart]="hrvChartOptions().chart"
+                 [xaxis]="hrvChartOptions().xaxis" [yaxis]="hrvChartOptions().yaxis" [stroke]="hrvChartOptions().stroke"
+                 [markers]="hrvChartOptions().markers" [dataLabels]="hrvChartOptions().dataLabels"
+                 [grid]="hrvChartOptions().grid" [tooltip]="hrvChartOptions().tooltip"
+                 [colors]="hrvChartOptions().colors">
+      </apx-chart>
+    </div>
+  </article>
 </section>
 
 <section class="content-card bar-chart-card">
-    <div class="chart-header">
-        <h2>{{ 'clinical.vitalSigns.heart-rate-chart-title' | translate }}</h2>
-        <span>{{ 'clinical.vitalSigns.heart-rate-unit' | translate }}</span>
-    </div>
+  <div class="chart-header">
+    <h2>{{ 'clinical.vitalSigns.heart-rate-chart-title' | translate }}</h2>
+    <span>{{ 'clinical.vitalSigns.heart-rate-unit' | translate }}</span>
+  </div>
 
-    <div class="apex-chart-wrapper heart-rate-chart-wrapper">
-        <apx-chart [series]="heartRateChartOptions().series" [chart]="heartRateChartOptions().chart"
-            [xaxis]="heartRateChartOptions().xaxis" [yaxis]="heartRateChartOptions().yaxis"
-            [plotOptions]="heartRateChartOptions().plotOptions" [dataLabels]="heartRateChartOptions().dataLabels"
-            [grid]="heartRateChartOptions().grid" [tooltip]="heartRateChartOptions().tooltip"
-            [fill]="heartRateChartOptions().fill" [colors]="heartRateChartOptions().colors">
-        </apx-chart>
-    </div>
+  <div class="apex-chart-wrapper heart-rate-chart-wrapper">
+    <apx-chart [series]="heartRateChartOptions().series" [chart]="heartRateChartOptions().chart"
+               [xaxis]="heartRateChartOptions().xaxis" [yaxis]="heartRateChartOptions().yaxis"
+               [plotOptions]="heartRateChartOptions().plotOptions" [dataLabels]="heartRateChartOptions().dataLabels"
+               [grid]="heartRateChartOptions().grid" [tooltip]="heartRateChartOptions().tooltip"
+               [fill]="heartRateChartOptions().fill" [colors]="heartRateChartOptions().colors">
+    </apx-chart>
+  </div>
 </section>
 
 <section class="content-card records-card">
-    <div class="records-header">
-        <div>
-            <h2>{{ 'clinical.vitalSigns.records-title' | translate }}</h2>
-            <p>{{ 'clinical.vitalSigns.records-subtitle' | translate }}</p>
-        </div>
-
-        <span class="period-pill">{{ 'clinical.vitalSigns.last-seven-days' | translate }}</span>
+  <div class="records-header">
+    <div>
+      <h2>{{ 'clinical.vitalSigns.records-title' | translate }}</h2>
+      <p>{{ 'clinical.vitalSigns.records-subtitle' | translate }}</p>
     </div>
 
-    <div class="records-table-wrapper">
-        <table class="records-table">
-            <thead>
-                <tr>
-                    <th>{{ 'clinical.vitalSigns.table.date' | translate }}</th>
-                    <th>{{ 'clinical.vitalSigns.table.shift' | translate }}</th>
-                    <th>{{ 'clinical.vitalSigns.table.cortisol' | translate }}</th>
-                    <th>{{ 'clinical.vitalSigns.table.hrv' | translate }}</th>
-                    <th>{{ 'clinical.vitalSigns.table.heart-rate' | translate }}</th>
-                    <th>{{ 'clinical.vitalSigns.table.fatigue' | translate }}</th>
-                    <th>{{ 'clinical.vitalSigns.table.status' | translate }}</th>
-                </tr>
-            </thead>
+    <span class="period-pill">{{ 'clinical.vitalSigns.recent-readings' | translate }}</span>
+  </div>
 
-            <tbody>
-                @for (reading of tableReadings(); track reading.id) {
-                @let riskLevel = getFatigueRiskLevel(reading.fatigueLevel);
+  <div class="records-table-wrapper">
+    <table class="records-table">
+      <thead>
+      <tr>
+        <th>{{ 'clinical.vitalSigns.table.date' | translate }}</th>
+        <th>{{ 'clinical.vitalSigns.table.shift' | translate }}</th>
+        <th>{{ 'clinical.vitalSigns.table.cortisol' | translate }}</th>
+        <th>{{ 'clinical.vitalSigns.table.hrv' | translate }}</th>
+        <th>{{ 'clinical.vitalSigns.table.heart-rate' | translate }}</th>
+        <th>{{ 'clinical.vitalSigns.table.fatigue' | translate }}</th>
+        <th>{{ 'clinical.vitalSigns.table.status' | translate }}</th>
+      </tr>
+      </thead>
 
-                <tr>
-                    <td>{{ reading.recordedAt | date:'yyyy-MM-dd' }}</td>
+      <tbody>
+        @for (reading of tableReadings(); track reading.id) {
+          @let riskLevel = getFatigueRiskLevel(reading.fatigueLevel);
 
-                    <td>{{ getShiftLabel(reading.recordedAt) | translate }}</td>
+          <tr>
+            <td>{{ reading.recordedAt | date:'yyyy-MM-dd HH:mm:ss' }}</td>
 
-                    <td>
-                        <strong [class.alert-value]="reading.cortisolLevel >= 550">
-                            {{ reading.cortisolLevel }} nmol/L
-                        </strong>
-                    </td>
+            <td>{{ getShiftLabel(reading.recordedAt) | translate }}</td>
 
-                    <td>
-                        <strong [class.alert-value]="reading.hrv < 25">
-                            {{ reading.hrv }} ms
-                        </strong>
-                    </td>
+            <td>
+              <strong [class.alert-value]="reading.cortisolLevel >= 550">
+                {{ reading.cortisolLevel }} nmol/L
+              </strong>
+            </td>
 
-                    <td>
-                        <strong [class.alert-value]="reading.heartRate >= 105">
-                            {{ reading.heartRate }} bpm
-                        </strong>
-                    </td>
+            <td>
+              <strong [class.alert-value]="reading.hrv < 25">
+                {{ reading.hrv }} ms
+              </strong>
+            </td>
 
-                    <td>
-                        <div class="fatigue-cell">
-                            <div class="fatigue-track">
-                                <div class="fatigue-fill" [class]="getRiskClass(riskLevel)"
-                                    [style.width.%]="reading.fatigueLevel">
-                                </div>
-                            </div>
+            <td>
+              <strong [class.alert-value]="reading.heartRate >= 105">
+                {{ reading.heartRate }} bpm
+              </strong>
+            </td>
 
-                            <span>{{ reading.fatigueLevel }}%</span>
-                        </div>
-                    </td>
+            <td>
+              <div class="fatigue-cell">
+                <div class="fatigue-track">
+                  <div class="fatigue-fill" [class]="getRiskClass(riskLevel)"
+                       [style.width.%]="reading.fatigueLevel">
+                  </div>
+                </div>
 
-                    <td>
+                <span>{{ reading.fatigueLevel }}%</span>
+              </div>
+            </td>
+
+            <td>
                         <span class="risk-pill" [class]="getRiskClass(riskLevel)">
                             {{ getRiskLabel(riskLevel) | translate }}
                         </span>
-                    </td>
-                </tr>
-                } @empty {
-                <tr>
-                    <td colspan="7">
-                        <p class="empty-state">{{ 'clinical.vitalSigns.no-readings' | translate }}</p>
-                    </td>
-                </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="7">
+              <p class="empty-state">{{ 'clinical.vitalSigns.no-readings' | translate }}</p>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
 </section>

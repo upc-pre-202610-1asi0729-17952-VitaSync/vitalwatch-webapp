@@ -662,15 +662,15 @@
       "title": "My Vital Signs",
       "subtitle-before": "History of",
       "subtitle-highlight": "cortisol",
-      "subtitle-after": ", HRV and heart rate from the last 7 days.",
-      "cortisol-chart-title": "Cortisol — 7 days",
+      "subtitle-after": ", HRV and heart rate with recent wearable readings.",
+      "cortisol-chart-title": "Cortisol — recent readings",
       "cortisol-unit": "nmol/L · Threshold: 550 nmol/L",
-      "hrv-chart-title": "HRV — 7 days",
+      "hrv-chart-title": "HRV — recent readings",
       "hrv-unit": "ms · Minimum threshold: 25 ms",
-      "heart-rate-chart-title": "Average Heart Rate — 7 days",
-      "heart-rate-unit": "bpm per shift",
-      "records-title": "Historical records",
-      "records-subtitle": "Biometric readings recorded during recent shifts.",
+      "heart-rate-chart-title": "Heart rate — recent readings",
+      "heart-rate-unit": "bpm per reading",
+      "records-title": "Recent readings",
+      "records-subtitle": "Biometric readings updated from wearable monitoring.",
       "last-seven-days": "Last 7 days",
       "table": {
         "date": "Date",
@@ -690,7 +690,9 @@
       "error": {
         "no-session": "No active session was found.",
         "load-failed": "Your vital signs could not be loaded."
-      }
+      },
+      "recent-readings": "Recent readings",
+      "auto-refresh": "Auto refresh every {{seconds}} s"
     }
   },
   "staffRecovery": {
